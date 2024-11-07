@@ -1,0 +1,28 @@
+.pfRiskButtons{
+  color: #ffffff !important;
+  background-color: #2f6870 !important;
+}
+.pfRiskheading{
+  /* font-family :Roboto; */
+  color: #000000;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.pfRiskSubHeading{
+  color:#797979;
+  font-size: 0.81rem;
+  font-weight: 400;
+}
+
+.labelHeading{
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.labelSubHeading{
+  color: #2F6870;
+  font-size: 0.81rem;
+  font-weight: 500;
+}

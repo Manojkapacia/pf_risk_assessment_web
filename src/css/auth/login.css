@@ -1,0 +1,13 @@
+input.form-control::placeholder {
+    color: #D2D2D2; 
+    font-size: 0.9rem;
+  }
+
+.loremText{
+    color: #2F6870;
+    background-color: #797979;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
