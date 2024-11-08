@@ -1,7 +1,7 @@
 import '../../App.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import pfRiskImage from '../../images/pfRiskAssessment.png';
+import pfRiskImage from '../../images/pf-risk-analyzer.png';
 
 function OtpComponent() {
 
