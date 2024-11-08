@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/auth/login.css';
 import '../../App.css';
-import pfRiskImage from '../../images/pf-risk-analyzer.png';
+import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { useNavigate } from 'react-router-dom';
 import ValidationError from '../common/validate-error';
 import ToastMessage from '../common/toast-message';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import MESSAGES from '../constants/messages'
 
 function LoginComponent() {
     const [uan, setUan] = useState('');
@@ -23,17 +24,17 @@ function LoginComponent() {
 
     const validateUan = (value) => {
         const uanPattern = /^[0-9]{12}$/;
-        if (!value) return 'UAN is required.';
-        if (!uanPattern.test(value)) return 'UAN must be a 12-digit number.';
+        if (!value) return MESSAGES.required.requiredField('UAN');
+        if (!uanPattern.test(value)) return MESSAGES.error.uanInvalidLength;
         return '';
     };
 
     const validatePassword = (password) => {
-        if (!password) return 'Password is required.';
-        if (password.length < 8) return 'Password must be at least 8 characters long.';
-        if (!/[A-Z]/.test(password)) return 'Password must contain at least one uppercase letter.';
-        if (!/[a-z]/.test(password)) return 'Password must contain at least one lowercase letter.';
-        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return 'Password must contain at least one special character.';
+        if (!password) return MESSAGES.required.requiredField('Password');
+        if (password.length < 8) return MESSAGES.error.password.length;
+        if (!/[A-Z]/.test(password)) return MESSAGES.error.password.upperCase;
+        if (!/[a-z]/.test(password)) return MESSAGES.error.password.lowerCase;
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return MESSAGES.error.password.specialCharacter;
         return ''; // No error
     };
 
@@ -72,7 +73,7 @@ function LoginComponent() {
 
     return (
         <div className="container-fluid d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-            {showSuccessToast && <ToastMessage message="OTP Sent Successfully!" type="success" />}
+            {showSuccessToast && <ToastMessage message={MESSAGES.success.otpSent} type="success" />}
             <div className="row w-100 mx-2 align-items-center">
                 <div className="col-lg-1"></div>
                 <div className="col-lg-4 d-flex justify-content-center">
@@ -142,7 +143,6 @@ function LoginComponent() {
                             <div className="col-8">
                                 <button type="submit" className="btn col-12 pfRiskButtons" disabled={!isFormValid}>
                                     Continue
-                                    {/* <Link className="text-decoration-none nav-link" to="/otpAssessment">Continue</Link> */}
                                 </button>
                             </div>
                         </div>

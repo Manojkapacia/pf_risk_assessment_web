@@ -26,3 +26,14 @@
   font-size: 0.81rem;
   font-weight: 500;
 }
+
+.logo-container {
+  position: fixed;
+  left: 20px; 
+  z-index: 1000; 
+}
+
+.logo {
+  width: 90px; 
+  height: auto;
+}
