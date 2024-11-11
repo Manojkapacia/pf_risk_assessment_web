@@ -37,3 +37,15 @@
   width: 90px; 
   height: auto;
 }
+
+.success {
+  color: green
+}
+
+.error {
+  color: red
+}
+
+.pending {
+  color: #ff9800
+}
