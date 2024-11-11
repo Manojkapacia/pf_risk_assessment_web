@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginComponent from './components/auth/login';
 import OtpComponent from './components/auth/otp-verification';
 import SearchComponent from './components/common/search';
+// import ServiceHistory from './components/services-history/service-history'
 import Logo from './components/common/logo';
 
 function App() {
   return (
     <Router>
       <Logo />
+      {/* <serviceHistory></serviceHistory> */}
       <Routes>
         <Route path="/" element={<LoginComponent />} />
         <Route path="/otpAssessment" element={<OtpComponent />} />

@@ -1,0 +1,64 @@
+.uanNumber{
+    font-weight: 300;
+    font-size: 0.80rem;
+}
+
+.uanNumberDigit{
+    font-weight: 600;
+    font-size: 0.80rem;
+}
+
+.timeDuration{
+    font-weight: 400;
+    font-size: 0.72rem;
+    color: #757575;
+}
+
+.dropdownLabel{
+    font-weight: 400;
+    font-size: 0.93rem;
+}
+
+.dropdownSublabel{
+    font-weight: 300;
+    font-size: 0.93rem;
+}
+
+.large-checkbox {
+    transform: scale(1.5); 
+}
+
+.checkboxLabel{
+    color:#4C4C4C;
+    font-weight: 400;
+    font-size: 0.93rem;
+}
+
+.incorrectButton{
+    border: 1px solid !important;
+    border-color:  #2D565D !important;
+    color: #2D565D !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+}
+
+.correctButton{
+    background-color: #2D565D !important;
+    color: white !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+}
+
+.btn.incorrectButton:hover {
+    background-color: #2D565D !important;
+    color: white !important;
+}
+.sideBar::-webkit-scrollbar {
+    width: 0.2rem;
+}
+  
+.sideBar::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 0.1rem;
+}
+  

@@ -59,25 +59,25 @@ function OtpComponent() {
     };
 
     return (
-        <div className="container-fluid d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+        <div className="container-fluid">
             {showToast && <ToastMessage message={toastMessage} type={toastType} />}
-            <div className="row w-100 mx-2 align-items-center">
-                <div className="col-lg-1"></div>
-                <div className="col-lg-4 d-flex justify-content-center">
-                    <img src={pfRiskImage} alt="Risk Assessment" style={{ maxHeight: "450px", width: "100%" }} />
+            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+                <div className="col-lg-4 offset-lg-1 mt-5 mt-sm-0">
+                    <img src={pfRiskImage} alt="Risk Assessment" style={{ height: "22rem", width: "100%" }} />
                 </div>
-                <div className="col-lg-7 d-flex flex-column justify-content-center align-items-center">
-                    <div className="pfRiskheading">PF Risk Assessment</div>
-                    <div className='pfRiskSubHeading'>
+                <div className="col-lg-7">
+                    <div className="pfRiskheading text-center">PF Risk Assessment</div>
+                    <div className='pfRiskSubHeading text-center'>
                         Check if your PF is at risk of getting stuck
                     </div>
-                    <div className="labelHeading mt-5">
-                        Enter OTP send to your EPF registered number
-                    </div>
-                    <form className="w-100 d-flex flex-column align-items-center" onSubmit={handleSubmit}>
-                        <div className="row mt-4 w-100 justify-content-center">
-                            <div className="col-12 col-md-6">
-                                <div className="d-flex justify-content-center">
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="row mt-2">
+                            <div className="col-sm-8 col-md-6 offset-md-3">
+                                <div className="labelHeading mt-5 pt-3">
+                                    Enter OTP send to your EPF registered number
+                                </div>
+                                <div className="d-flex ">
                                     {otp.map((_, index) => (
                                         <input
                                             key={index}
@@ -85,7 +85,6 @@ function OtpComponent() {
                                             type="text"
                                             maxLength="1"
                                             className="form-control text-center mx-1 mt-3"
-                                            style={{ width: "3.6rem", height: "3.6rem" }}
                                             value={otp[index]}
                                             onChange={(e) => handleOtpChange(e.target, index)}
                                             onKeyDown={(e) => handleBackspace(e, index)}
@@ -101,12 +100,10 @@ function OtpComponent() {
                             </div>
                         </div>
 
-                        <div className="row mt-4 w-100 justify-content-center">
-                            <div className="col-12 col-md-6">
-                                <button
-                                    type="submit"
-                                    className="btn col-12 pfRiskButtons"
-                                    >
+                        <div className="row mt-5 pt-4">
+                            <div className="col-md-6 col-sm-8 offset-md-3">
+                                <button type="submit"
+                                    className="btn w-100 pfRiskButtons">
                                     Start Assessment
                                 </button>
                             </div>
