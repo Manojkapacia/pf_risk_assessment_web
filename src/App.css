@@ -49,3 +49,7 @@
 .pending {
   color: #ff9800
 }
+
+.smaller-icon {
+  font-size: 0.7rem!important;
+}
