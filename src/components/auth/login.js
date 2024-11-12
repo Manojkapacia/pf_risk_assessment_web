@@ -75,8 +75,8 @@ function LoginComponent() {
         <div className="container-fluid">
             {showSuccessToast && <ToastMessage message={MESSAGES.success.otpSent} type="success" />}
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-4 offset-lg-1 mt-5 mt-sm-0">
-                    <img src={pfRiskImage} alt="Risk Assessment" style={{ height: "22rem", width: "100%" }} />
+                <div className="col-lg-4 col-md-9 offset-lg-1 mt-2 mt-lg-0">
+                    <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskAssessmentImage'/>
                 </div>
                 <div className="col-lg-7">
                     <div className="pfRiskheading text-center">PF Risk Assessment</div>
@@ -110,7 +110,7 @@ function LoginComponent() {
                                 </div>
                             </div>
                         </div>
-                        <div className="row mt-3">
+                        <div className="row mt-lg-3">
                             <div className="col-md-8 offset-md-2">
                                 <div className="labelHeading">Password:</div>
                                 <div className="position-relative">
@@ -138,7 +138,7 @@ function LoginComponent() {
                         </div>
 
 
-                        <div className="row mt-4">
+                        <div className="row my-2 mt-lg-4">
                             <div className="col-md-8 offset-md-2">
                                 <button type="submit" className="btn col-12 pfRiskButtons" disabled={!isFormValid}>
                                     Continue

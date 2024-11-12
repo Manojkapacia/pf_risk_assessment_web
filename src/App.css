@@ -38,6 +38,13 @@
   height: 3.1rem;
 }
 
+@media only screen and (max-width: 770px) {
+  .logo {
+    width: 4rem; 
+    height: 2.5rem;
+  }
+}
+
 .success {
   color: green
 }
@@ -50,6 +57,17 @@
   color: #ff9800
 }
 
+.pfRiskAssessmentImage{
+  height: 22rem;
+   width: 100% 
+}
+
+@media only screen and (max-width: 770px) {
+ .pfRiskAssessmentImage{
+   height: 16.5rem;
+   width: 100% 
+ }
+}
 .smaller-icon {
   font-size: 0.7rem!important;
 }
