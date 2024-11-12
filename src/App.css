@@ -71,3 +71,9 @@
 .smaller-icon {
   font-size: 0.7rem!important;
 }
+
+.back-arrow{
+  color: #000;
+  font-size: 1rem;
+  font-weight: 500;
+}

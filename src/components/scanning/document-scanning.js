@@ -3,10 +3,12 @@ import '../../css/scanning/doc-scan.css';
 import CircularProgress from '../common/circular-progress'
 import { BsCheck2Circle, BsClock, BsExclamationOctagon, BsExclamationCircle, BsChevronCompactRight } from "react-icons/bs";
 import { toTitleCase } from '../common/titlecase';
+import ScanResult from '../scanning/scan-result'
 
 const DocumentScanning = () => {
     const [progress, setProgress] = useState(0);
     const [isProcessing, setIsProcessing] = useState(true);
+    const [isViewingResult, setIsViewingResult] = useState(false);
 
     const tasks = [
         { taskName: 'Service History Scan', status: 'success', issuesCount: 0 },
@@ -37,6 +39,13 @@ const DocumentScanning = () => {
     const taskIndex = Math.floor(progress / (100 / tasks.length));
     const currentTask = tasks[taskIndex] || tasks[tasks.length - 1];
 
+    const viewScanResult = () => {
+        setIsViewingResult(true)
+    }
+
+    const handleScanResultBack  = () => {
+        setIsViewingResult(false)
+    }
     return (
         <div className="container-fluid d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
             <div className="row w-100 mx-2 align-items-center">
@@ -69,49 +78,56 @@ const DocumentScanning = () => {
                         </div>
                     }
                 </div>
-                <div className="col-lg-7 d-flex flex-column justify-content-center align-items-center">
-                    <h3>{isProcessing ? "Scanning Your PF" : "Scan Complete"}</h3>
-                    {isProcessing && <p className="text-center">Lorem ipsum dolor sit amet consectetur. Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.</p>}
-                    <div className="tasks">
-                        {tasks.map((task, index) => (
-                            <div key={index} className="task">                                
-                                {task.status === 'success' && 
-                                <div>
-                                    <span className='d-flex flex-start align-items-center'><BsCheck2Circle className='success smaller-icon'/> &nbsp;{task.taskName}</span>
-                                    <span className="success issue-count">No Issue Found</span>
+                {!isViewingResult &&
+                    <div className="col-lg-7 d-flex flex-column justify-content-center align-items-center">
+                        <h3>{isProcessing ? "Scanning Your PF" : "Scan Complete"}</h3>
+                        {isProcessing && <p className="text-center">Lorem ipsum dolor sit amet consectetur. Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.</p>}
+                        <div className="tasks">
+                            {tasks.map((task, index) => (
+                                <div key={index} className="task">                                
+                                    {task.status === 'success' && 
+                                    <div>
+                                        <span className='d-flex flex-start align-items-center'><BsCheck2Circle className='success smaller-icon'/> &nbsp;{task.taskName}</span>
+                                        <span className="success issue-count">No Issue Found</span>
+                                    </div>
+                                    }
+                                    {task.status === 'error' && task.issuesCount > 1 && 
+                                        <div className='d-flex justify-content-between align-items-center w-100'>
+                                            <span className=''>
+                                                <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon'/> &nbsp;{task.taskName}</span>
+                                                <span className="error issue-count">2 Critical Issues Found</span>
+                                            </span>
+                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon error' onClick={viewScanResult}/>}
+                                        </div>
+                                    }
+                                    {task.status === 'error' && task.issuesCount <= 1 && 
+                                        <div className='d-flex justify-content-between align-items-center w-100'>
+                                            <span>
+                                                <span className='d-flex align-items-center'><BsExclamationCircle className='pending smaller-icon'/> &nbsp;{task.taskName}</span>
+                                                <span className="pending issue-count">1 Medium Issues Found</span>
+                                            </span>                                        
+                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon pending' onClick={viewScanResult}/>}
+                                        </div>
+                                    }
+                                    {task.status === 'pending' && 
+                                    <>
+                                        <span className='d-flex flex-start align-items-center'><BsClock className='smaller-icon'/> &nbsp;{task.taskName}</span>
+                                        <span className="pending">{toTitleCase(task.status)}</span>
+                                    </>
+                                    }
                                 </div>
-                                }
-                                {task.status === 'error' && task.issuesCount > 1 && 
-                                    <div className='d-flex justify-content-between align-items-center w-100'>
-                                        <span className=''>
-                                            <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon'/> &nbsp;{task.taskName}</span>
-                                            <span className="error issue-count">2 Critical Issues Found</span>
-                                        </span>
-                                        <BsChevronCompactRight className='chevron-icon error'/>
-                                    </div>
-                                }
-                                {task.status === 'error' && task.issuesCount <= 1 && 
-                                    <div className='d-flex justify-content-between align-items-center w-100'>
-                                        <span>
-                                            <span className='d-flex align-items-center'><BsExclamationCircle className='pending smaller-icon'/> &nbsp;{task.taskName}</span>
-                                            <span className="pending issue-count">1 Medium Issues Found</span>
-                                        </span>                                        
-                                        <BsChevronCompactRight className='chevron-icon pending'/>
-                                    </div>
-                                }
-                                {task.status === 'pending' && 
-                                <>
-                                    <span className='d-flex flex-start align-items-center'><BsClock className='smaller-icon'/> &nbsp;{task.taskName}</span>
-                                    <span className="pending">{toTitleCase(task.status)}</span>
-                                </>
-                                }
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
+                }
+                {isViewingResult &&
+                    <div className="col-lg-7 d-flex flex-column justify-content-center align-items-center">
+                        <ScanResult backButtonClicked={handleScanResultBack }/>
+                    </div>
+                }
             </div>
         </div>
     );
 };
-
+  
 export default DocumentScanning;

@@ -148,6 +148,7 @@
 
 .chevron-icon {
     margin-left: auto;
+    cursor: pointer;
 }
 
 /* Responsive */
