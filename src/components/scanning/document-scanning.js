@@ -50,7 +50,7 @@ const DocumentScanning = () => {
         <div className="container-fluid d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
             <div className="row w-100 mx-2 align-items-center">
                 <div className="col-lg-1"></div>
-                <div className="col-lg-4 d-flex justify-content-center">
+                <div className="col-lg-4 d-flex mt-5 justify-content-center">
                     {isProcessing && <div className="progress-card">
                         <div className="progress-details">
                             <h2 className="fw-bold">{currentTask.taskName}</h2>
