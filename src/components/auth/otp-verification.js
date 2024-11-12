@@ -2,6 +2,7 @@ import '../../App.css';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
+import '../../css/auth/otp-verification.css'
 import ToastMessage from '../common/toast-message';
 import MESSAGES from '../constants/messages'
 
@@ -62,8 +63,8 @@ function OtpComponent() {
         <div className="container-fluid">
             {showToast && <ToastMessage message={toastMessage} type={toastType} />}
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-4 offset-lg-1 mt-5 mt-sm-0">
-                    <img src={pfRiskImage} alt="Risk Assessment" style={{ height: "22rem", width: "100%" }} />
+                <div className="col-lg-4 col-md-9 offset-lg-1 mt-2 mt-lg-0">
+                    <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskAssessmentImage'/>
                 </div>
                 <div className="col-lg-7">
                     <div className="pfRiskheading text-center">PF Risk Assessment</div>
@@ -74,7 +75,7 @@ function OtpComponent() {
                     <form onSubmit={handleSubmit}>
                         <div className="row mt-2">
                             <div className="col-sm-8 col-md-6 offset-md-3">
-                                <div className="labelHeading mt-5 pt-3">
+                                <div className="labelHeading mt-4 mt-lg-5 pt-lg-3">
                                     Enter OTP send to your EPF registered number
                                 </div>
                                 <div className="d-flex ">
@@ -100,7 +101,7 @@ function OtpComponent() {
                             </div>
                         </div>
 
-                        <div className="row mt-5 pt-4">
+                        <div className="row mt-4 mb-2 mt-lg-5 pt-lg-4">
                             <div className="col-md-6 col-sm-8 offset-md-3">
                                 <button type="submit"
                                     className="btn w-100 pfRiskButtons">

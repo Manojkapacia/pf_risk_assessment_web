@@ -27,7 +27,7 @@ const DocumentScanning = () => {
         <div className="container-fluid d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
             <div className="row w-100 mx-2 align-items-center">
                 <div className="col-lg-1"></div>
-                <div className="col-lg-4 d-flex justify-content-center">
+                <div className="col-lg-4 mt-5 mt-lg-0 d-flex justify-content-center">
                     <div className="progress-card">
                         <div className="progress-details">
                             <h2 className="fw-bold">Checking DOE & DOJ</h2>
@@ -40,7 +40,7 @@ const DocumentScanning = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-lg-7 d-flex flex-column justify-content-center align-items-center">
+                <div className="col-lg-7 mb-2 d-flex flex-column justify-content-center align-items-center">
                     <h3>Scanning Your PF</h3>
                     <p className="text-center">Lorem ipsum dolor sit amet consectetur. Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.</p>
                     <div className="tasks">
