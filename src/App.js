@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginComponent from './components/auth/login';
 import OtpComponent from './components/auth/otp-verification';
 import SearchComponent from './components/common/search';
-// import ServiceHistory from './components/services-history/service-history'
+import ServiceHistory from './components/services-history/service-history';
+import SelectOrganization from './components/services-history/select-organization'
 import Logo from './components/common/logo';
 import DocumentScanning from './components/scanning/document-scanning';
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
     </Router>
+    
   );
 }
 

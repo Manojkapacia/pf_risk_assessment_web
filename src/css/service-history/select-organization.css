@@ -1,0 +1,52 @@
+.continueButton{
+    background-color: #2F6870;
+    color: #ffffff;
+}
+
+.selectDigit{
+    font-weight: 300;
+    font-size: 0.80rem;
+}
+
+.selectDigit{
+    font-weight: 600;
+    font-size: 0.80rem;
+}
+
+.selectTime{
+    font-weight: 400;
+    font-size: 0.72rem;
+    color: #757575;
+    background-color: #9B9B9B33;
+    border-radius: 0.2rem;
+}
+.selectHeading{
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.selectsideBar::-webkit-scrollbar {
+    width: 0.2rem;
+}
+  
+.selectsideBar::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 0.1rem;
+}
+
+.checkboxText{
+    font-size: 0.85rem;
+    font-weight: 400;
+}
+
+.selectImage{
+    width: 100%;
+    height: 22rem;
+}
+
+@media only screen and (max-width: 770px) {
+    .selectImage {
+      width: 100%; 
+      height: 16.5rem;
+    }
+  }

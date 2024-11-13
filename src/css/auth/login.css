@@ -10,3 +10,15 @@ input.form-control::placeholder {
     font-size: 0.75rem;
     font-weight: 400;
 }
+
+.pfRiskLoginImage{
+  height: 22rem;
+   width: 100% 
+}
+
+@media only screen and (max-width: 770px) {
+ .pfRiskLoginImage{
+   height: 12.5rem;
+   width: 100% 
+ }
+}

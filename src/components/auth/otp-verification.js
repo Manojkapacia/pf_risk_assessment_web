@@ -63,7 +63,7 @@ function OtpComponent() {
         <div className="container-fluid">
             {showToast && <ToastMessage message={toastMessage} type={toastType} />}
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-4 col-md-9 offset-lg-1 mt-2 mt-lg-0">
+                <div className="col-lg-4 col-md-8 offset-lg-1 mt-2 mt-lg-0">
                     <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskAssessmentImage'/>
                 </div>
                 <div className="col-lg-7">
@@ -73,9 +73,9 @@ function OtpComponent() {
                     </div>
 
                     <form onSubmit={handleSubmit}>
-                        <div className="row mt-2">
+                        <div className="row">
                             <div className="col-sm-8 col-md-6 offset-md-3">
-                                <div className="labelHeading mt-4 mt-lg-5 pt-lg-3">
+                                <div className="labelHeading mt-2 mt-lg-5 pt-lg-3">
                                     Enter OTP send to your EPF registered number
                                 </div>
                                 <div className="d-flex ">
@@ -85,7 +85,7 @@ function OtpComponent() {
                                             id={`otp-input-${index}`}
                                             type="text"
                                             maxLength="1"
-                                            className="form-control text-center mx-1 mt-3"
+                                            className="form-control text-center mx-1 mt-2"
                                             value={otp[index]}
                                             onChange={(e) => handleOtpChange(e.target, index)}
                                             onKeyDown={(e) => handleBackspace(e, index)}
@@ -93,7 +93,7 @@ function OtpComponent() {
                                     ))}
                                 </div>
                                 <a
-                                    className="text-decoration-none labelSubHeading mt-3 float-end"
+                                    className="text-decoration-none labelSubHeading mt-2 float-end"
                                     href="https://chatgpt.com"
                                     onClick={(e) => { e.preventDefault(); }}>
                                     Resend OTP
@@ -101,7 +101,7 @@ function OtpComponent() {
                             </div>
                         </div>
 
-                        <div className="row mt-4 mb-2 mt-lg-5 pt-lg-4">
+                        <div className="row my-2 mt-lg-5 pt-lg-4">
                             <div className="col-md-6 col-sm-8 offset-md-3">
                                 <button type="submit"
                                     className="btn w-100 pfRiskButtons">
