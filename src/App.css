@@ -5,7 +5,7 @@
 .pfRiskheading{
   /* font-family :Roboto; */
   color: #000000;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
 }
 
@@ -64,12 +64,6 @@
 
 .smaller-icon {
   font-size: 0.7rem!important;
-}
-
-.back-arrow{
-  color: #000;
-  font-size: 1rem;
-  font-weight: 500;
 }
 
 .cursor-pointer {
