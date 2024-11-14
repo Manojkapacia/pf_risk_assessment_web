@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../css/scanning/doc-scan.css';
+import '../../App.css';
 import CircularProgress from '../common/circular-progress'
 import { BsCheck2Circle, BsClock, BsExclamationOctagon, BsExclamationCircle, BsChevronCompactRight } from "react-icons/bs";
 import { toTitleCase } from '../common/titlecase';
@@ -43,77 +44,91 @@ const DocumentScanning = () => {
         setIsViewingResult(true)
     }
 
-    const handleScanResultBack  = () => {
+    const handleScanResultBack = () => {
         setIsViewingResult(false)
     }
     return (
-        <div className="container-fluid d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-            <div className="row w-100 mx-2 align-items-center">
-                <div className="col-lg-1"></div>
-                <div className="col-lg-4 d-flex mt-5 justify-content-center">
-                    {isProcessing && <div className="progress-card">
-                        <div className="progress-details">
-                            <h2 className="fw-bold">{currentTask.taskName}</h2>
-                            <p>Checking {currentTask.taskName.toLowerCase()} details</p>
+        <div className="container-fluid">
+            <div className="row mx-sm-2 d-flex justify-content-center align-items-center vh-100">
+                <div className="col-lg-4 offset-lg-1 mt-5 mt-lg-0">
+                    {isProcessing && <div className="row mx-0 progress-card d-flex justify-content-center align-items-center">
+                        <div className="col-7">
+                            <div className="progress-details">
+                                <span className="fw-boldHeading">{currentTask.taskName}</span><br></br>
+                                <span className='subText'>Checking {currentTask.taskName.toLowerCase()} details</span>
+                            </div>
                         </div>
-                        <div className="progress-bar">
-                            <div className="progress-circle">
-                                <CircularProgress progress={progress}/>
+                        <div className="col-5">
+                            <div className="progress-bar float-end">
+                                <div className="progress-circle">
+                                    <CircularProgress progress={progress} />
+                                </div>
                             </div>
                         </div>
                     </div>}
-                    {!isProcessing && 
-                        <div className="progress-card-scan-done">
-                            <div className="progress-details-scan-done">
-                                <p>Your PF is at</p>
-                                <h1>HIGH RISK</h1>
-                                <p>of getting stuck</p>
+                    {!isProcessing &&
+                        <div className="row mx-1 py-3 progress-card-scan-done d-flex justify-content-center align-items-center">
+                            <div className="col-7">
+                                <div className="progress-details-scan-done">
+                                    <span className='progressText'>Your PF is at</span><br></br>
+                                    <span className='progressHeading'>HIGH RISK</span><br></br>
+                                    <span className='progressText'>of getting stuck</span>
+                                </div>
+
                             </div>
-                            <div className="scan-done-para">
-                                <BsExclamationOctagon className="bigger-icon" />
+                            <div className="col-5">
+                                <div className="scan-done-para float-end">
+                                    <BsExclamationOctagon className="bigger-icon" />
+                                </div>
                             </div>
-                            <p className="warning-message">
-                                Solving these issues will take <span style={{'color': '#fff', fontWeight: 'bold'}}>2 months</span> or more. <span className="act-now">Act Now!</span>
-                            </p>
+
+                            <span className="warning-message mt-1" style={{ fontSize: '0.95rem' }}>
+                                Solving these issues will take <span
+                                    className='months'>2 months</span> or more.<br></br>
+                                <span className="act-now">Act Now!</span>
+                            </span>
                         </div>
                     }
                 </div>
+
                 {!isViewingResult &&
-                    <div className="col-lg-7 d-flex flex-column justify-content-center align-items-center">
-                        <h3>{isProcessing ? "Scanning Your PF" : "Scan Complete"}</h3>
-                        {isProcessing && <p className="text-center">Lorem ipsum dolor sit amet consectetur. Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.</p>}
+                    <div className="col-lg-7">
+                        <h3 className="text-center">{isProcessing ? "Scanning Your PF" : "Scan Complete"}</h3>
+                        {isProcessing && <p className="text-center">Lorem ipsum dolor sit amet consectetur.
+                            Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
+                            Lorem rhoncus vitae ullamcorper non.</p>}
                         <div className="tasks">
                             {tasks.map((task, index) => (
-                                <div key={index} className="task">                                
-                                    {task.status === 'success' && 
-                                    <div>
-                                        <span className='d-flex flex-start align-items-center'><BsCheck2Circle className='success smaller-icon'/> &nbsp;{task.taskName}</span>
-                                        <span className="success issue-count">No Issue Found</span>
-                                    </div>
+                                <div key={index} className="task">
+                                    {task.status === 'success' &&
+                                        <div>
+                                            <span className='d-flex flex-start align-items-center'><BsCheck2Circle className='success smaller-icon' /> &nbsp;{task.taskName}</span>
+                                            <span className="success issue-count">No Issue Found</span>
+                                        </div>
                                     }
-                                    {task.status === 'error' && task.issuesCount > 1 && 
+                                    {task.status === 'error' && task.issuesCount > 1 &&
                                         <div className='d-flex justify-content-between align-items-center w-100'>
                                             <span className=''>
-                                                <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon'/> &nbsp;{task.taskName}</span>
+                                                <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon' /> &nbsp;{task.taskName}</span>
                                                 <span className="error issue-count">2 Critical Issues Found</span>
                                             </span>
-                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon error' onClick={viewScanResult}/>}
+                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon error' onClick={viewScanResult} />}
                                         </div>
                                     }
-                                    {task.status === 'error' && task.issuesCount <= 1 && 
+                                    {task.status === 'error' && task.issuesCount <= 1 &&
                                         <div className='d-flex justify-content-between align-items-center w-100'>
                                             <span>
-                                                <span className='d-flex align-items-center'><BsExclamationCircle className='pending smaller-icon'/> &nbsp;{task.taskName}</span>
+                                                <span className='d-flex align-items-center'><BsExclamationCircle className='pending smaller-icon' /> &nbsp;{task.taskName}</span>
                                                 <span className="pending issue-count">1 Medium Issues Found</span>
-                                            </span>                                        
-                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon pending' onClick={viewScanResult}/>}
+                                            </span>
+                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon pending' onClick={viewScanResult} />}
                                         </div>
                                     }
-                                    {task.status === 'pending' && 
-                                    <>
-                                        <span className='d-flex flex-start align-items-center'><BsClock className='smaller-icon'/> &nbsp;{task.taskName}</span>
-                                        <span className="pending">{toTitleCase(task.status)}</span>
-                                    </>
+                                    {task.status === 'pending' &&
+                                        <>
+                                            <span className='d-flex flex-start align-items-center'><BsClock className='smaller-icon' /> &nbsp;{task.taskName}</span>
+                                            <span className="pending">{toTitleCase(task.status)}</span>
+                                        </>
                                     }
                                 </div>
                             ))}
@@ -129,5 +144,5 @@ const DocumentScanning = () => {
         </div>
     );
 };
-  
+
 export default DocumentScanning;

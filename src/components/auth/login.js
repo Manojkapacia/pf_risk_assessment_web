@@ -75,16 +75,16 @@ function LoginComponent() {
         <div className="container-fluid">
             {showSuccessToast && <ToastMessage message={MESSAGES.success.otpSent} type="success" />}
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-4 col-md-9 offset-lg-1 mt-2 mt-lg-0">
-                    <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskAssessmentImage'/>
+                <div className="col-lg-4 col-md-8 offset-lg-1 mt-2 mt-lg-0">
+                    <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage'/>
                 </div>
                 <div className="col-lg-7">
                     <div className="pfRiskheading text-center">PF Risk Assessment</div>
-                    <div className="pfRiskSubHeading text-center mb-4">
+                    <div className="pfRiskSubHeading text-center">
                         Check if your PF is at risk of getting stuck
                     </div>
                     <form onSubmit={handleSubmit}>
-                        <div className="row mt-4">
+                        <div className="row mt-2 mt-lg-4">
                             <div className="col-md-8 offset-md-2">
                                 <div className="d-flex justify-content-between">
                                     <div className="labelHeading">UAN number:</div>

@@ -58,10 +58,10 @@ function ServiceHistory() {
     return (
         <div className="container-fluid">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-4 offset-lg-1">
+                <div className="col-lg-4 col-md-8 offset-lg-1">
                     <div className='row'>
-                        <div className='col-md-12 mt-5 mt-sm-0'>
-                            <img src={serchHistoryImg} alt="Service History" style={{ height: "22rem", width: "100%" }} />
+                        <div className='col-md-12 mt-2 mt-sm-0'>
+                            <img src={serchHistoryImg} alt="Service History" className='serviceImage' />
                         </div>
                     </div>
 
@@ -76,7 +76,7 @@ function ServiceHistory() {
 
                 {/* Second column  */}
 
-                <div className="col-lg-5 offset-lg-1">
+                <div className="col-lg-5 col-md-8 offset-lg-1">
                     <div className='row'>
                         <div className="pfRiskheading text-center">Please Confirm Service History</div>
                     </div>
@@ -142,7 +142,7 @@ function ServiceHistory() {
                         </div>
                     </div>
 
-                    <div className='row mt-4'>
+                    <div className='row my-3 mt-lg-5'>
                         <div className='col-md-6 col-sm-6'>
                             <button className='btn incorrectButton w-100'>This is incorrect</button>
                         </div>
