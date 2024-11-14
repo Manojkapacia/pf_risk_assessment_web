@@ -3,8 +3,11 @@ import '../../css/service-history/service-history.css';
 import '../../css/service-history/select-organization.css';
 // import React, { useState } from 'react';
 import serchHistoryImg from '../../assets/images/serch_history.png';
+import { useNavigate } from 'react-router-dom';
 
 function SelectOrganization() {
+    const navigate = useNavigate()
+    
     return (
         <div className="container-fluid">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
@@ -91,7 +94,7 @@ function SelectOrganization() {
 
                     <div className='row mt-4'>
                         <div className='col-md-12 my-3 my-lg-0'>
-                            <button className='btn correctButton w-100'>This is correct</button>
+                            <button className='btn correctButton w-100' onClick={() => navigate("/doc-scan")}>This is correct</button>
                         </div>
                     </div>
                 </div>

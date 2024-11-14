@@ -18,6 +18,8 @@ function App() {
         <Route path="/otpAssessment" element={<OtpComponent />} />
         <Route path="/search" element={<SearchComponent />} />
         <Route path="/doc-scan" element={<DocumentScanning />} />
+        <Route path="/service-history" element={<ServiceHistory />} />
+        <Route path="/select-organization" element={<SelectOrganization />} />
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
     </Router>

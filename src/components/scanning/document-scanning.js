@@ -47,6 +47,7 @@ const DocumentScanning = () => {
     const handleScanResultBack = () => {
         setIsViewingResult(false)
     }
+    
     return (
         <div className="container-fluid">
             <div className="row mx-sm-2 d-flex justify-content-center align-items-center vh-100">
@@ -112,7 +113,7 @@ const DocumentScanning = () => {
                                                 <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon' /> &nbsp;{task.taskName}</span>
                                                 <span className="error issue-count">2 Critical Issues Found</span>
                                             </span>
-                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon error' onClick={viewScanResult} />}
+                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon error cursor-pointer' onClick={viewScanResult} />}
                                         </div>
                                     }
                                     {task.status === 'error' && task.issuesCount <= 1 &&
@@ -121,7 +122,7 @@ const DocumentScanning = () => {
                                                 <span className='d-flex align-items-center'><BsExclamationCircle className='pending smaller-icon' /> &nbsp;{task.taskName}</span>
                                                 <span className="pending issue-count">1 Medium Issues Found</span>
                                             </span>
-                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon pending' onClick={viewScanResult} />}
+                                            {!isProcessing && <BsChevronCompactRight className='chevron-icon pending cursor-pointer' onClick={viewScanResult} />}
                                         </div>
                                     }
                                     {task.status === 'pending' &&
