@@ -62,12 +62,6 @@
    width: 90% 
 }
 
-@media only screen and (max-width: 770px) {
- .pfRiskAssessmentImage{
-   height: 16.5rem;
-   width: 90% 
- }
-}
 .smaller-icon {
   font-size: 0.7rem!important;
 }
@@ -76,4 +70,15 @@
   color: #000;
   font-size: 1rem;
   font-weight: 500;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 770px) {
+  .pfRiskAssessmentImage{
+    height: 16.5rem;
+    width: 90%; 
+  }
 }

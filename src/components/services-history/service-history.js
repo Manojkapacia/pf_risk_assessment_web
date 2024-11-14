@@ -1,25 +1,16 @@
 import '../../App.css';
 import '../../css/service-history/service-history.css';
 import React, { useState } from 'react';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-// import { useNavigate } from 'react-router-dom';
 import serchHistoryImg from '../../assets/images/serch_history.png';
-// import ToastMessage from '../common/toast-message';
-// import MESSAGES from '../constants/messages'
-
-// let isOpen =true;
+import { useNavigate } from 'react-router-dom';
+import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
 
 function ServiceHistory() {
-
-    const [isOpen, setIsOpen] = useState(null);
-
-    const toggleDropdown = () => setIsOpen(!isOpen);
-
-
-    // State to keep track of the selected item
+    const [isOpen, setIsOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(null);
 
-    // Sample data for list items and details
+    const navigate = useNavigate();
+
     const listItems = [
         {
             id: 1, title: "Morningstar India Private Limited", details: {
@@ -49,10 +40,9 @@ function ServiceHistory() {
 
     // Function to toggle the dropdown for a specific item
     const handleItemClick = (index) => {
-
         // If the same item is clicked, close the dropdown
         setActiveIndex(activeIndex === index ? null : index);
-        // {toggleDropdown()}
+        setIsOpen(activeIndex === index ? false : true)
     };
 
     return (
@@ -100,7 +90,7 @@ function ServiceHistory() {
                                                 onClick={() => handleItemClick(index)}
                                             >
                                                 {item.title}
-                                                <span className={`ms-2 ${isOpen ? 'bi bi-chevron-up' : 'bi bi-chevron-down'}`} style={{ marginLeft: 'auto' }}></span><br></br>
+                                                <span className='ms-2' style={{marginLeft: 'auto'}}>{isOpen && activeIndex === index ? <BsChevronCompactDown /> : <BsChevronCompactUp />}</span><br></br>
 
                                                 <span className='timeDuration'>
                                                     12/05/15 - 15/10/20
@@ -144,10 +134,10 @@ function ServiceHistory() {
 
                     <div className='row my-3 mt-lg-5'>
                         <div className='col-md-6 col-sm-6'>
-                            <button className='btn incorrectButton w-100'>This is incorrect</button>
+                            <button className='btn incorrectButton w-100' onClick={() => navigate("/select-organization")}>This is incorrect</button>
                         </div>
                         <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                            <button className='btn correctButton w-100'>This is correct</button>
+                            <button className='btn correctButton w-100' onClick={() => navigate("/doc-scan")}>This is correct</button>
                         </div>
                     </div>
                 </div>

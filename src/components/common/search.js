@@ -6,7 +6,7 @@ function SearchComponent() {
     const navigate = useNavigate();
 
     setTimeout(() => {
-        navigate("/doc-scan");
+        navigate("/service-history");
     }, 2000);
 
     return (
