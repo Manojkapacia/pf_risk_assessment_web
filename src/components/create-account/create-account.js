@@ -1,8 +1,11 @@
 import "../../App.css";
 import "../../css/create-account/create-account.css";
 import createAccount from "../../assets/images/createAccount.png"
+import { useNavigate } from "react-router-dom";
 
 function CreateAccount() {
+    const navigate = useNavigate()
+    
     return (
         <div className="container-fluid">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
@@ -32,7 +35,7 @@ function CreateAccount() {
                                     placeholder="Please enter your full name"
                                     required />
 
-                                <button type="submit" className="btn my-2 mt-lg-5 col-12 pfRiskButtons">
+                                <button type="submit" className="btn my-2 mt-lg-5 col-12 pfRiskButtons" onClick={() => navigate("/create-account-otp")}>
                                     Continue
                                 </button>
                             </div>

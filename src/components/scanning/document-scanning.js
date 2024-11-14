@@ -5,11 +5,14 @@ import CircularProgress from '../common/circular-progress'
 import { BsCheck2Circle, BsClock, BsExclamationOctagon, BsExclamationCircle, BsChevronCompactRight } from "react-icons/bs";
 import { toTitleCase } from '../common/titlecase';
 import ScanResult from '../scanning/scan-result'
+import { useNavigate } from 'react-router-dom';
 
 const DocumentScanning = () => {
     const [progress, setProgress] = useState(0);
     const [isProcessing, setIsProcessing] = useState(true);
     const [isViewingResult, setIsViewingResult] = useState(false);
+
+    const navigate = useNavigate()
 
     const tasks = [
         { taskName: 'Service History Scan', status: 'success', issuesCount: 0 },
@@ -134,6 +137,14 @@ const DocumentScanning = () => {
                                 </div>
                             ))}
                         </div>
+                        {!isProcessing && <div className="row my-2 mt-lg-4">
+                            <p className="text-center fw-bold">Lorem ipsum dolor sit amet consectetur.</p>  
+                            <div className="col-md-10 offset-md-1">
+                                <button type="submit" className="btn col-12 pfRiskButtons" onClick={() => navigate("/create-account")}>
+                                    Resolve My PF Issues
+                                </button>
+                            </div>
+                        </div>}
                     </div>
                 }
                 {isViewingResult &&
