@@ -64,7 +64,7 @@ function OtpComponent() {
             {showToast && <ToastMessage message={toastMessage} type={toastType} />}
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
                 <div className="col-lg-4 col-md-8 offset-lg-1 mt-2 mt-lg-0">
-                    <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskAssessmentImage'/>
+                    <img src={pfRiskImage} alt="OTP Assessment" className='otpAssessmentImage'/>
                 </div>
                 <div className="col-lg-7">
                     <div className="pfRiskheading text-center">PF Risk Assessment</div>

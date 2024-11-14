@@ -1,0 +1,16 @@
+.accountImage{
+    height: 22rem;
+     width: 90% 
+  }
+  
+  @media only screen and (max-width: 770px) {
+   .accountImage{
+     height: 11.9rem;
+     width: 90% 
+   }
+  }
+
+  input.form-control::placeholder {
+    color: #D2D2D2; 
+    font-size: 0.9rem;
+  }

@@ -98,7 +98,7 @@ const DocumentScanning = () => {
                         {isProcessing && <p className="text-center">Lorem ipsum dolor sit amet consectetur.
                             Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
                             Lorem rhoncus vitae ullamcorper non.</p>}
-                        <div className="tasks">
+                        <div className="tasks mb-2 mb-md-0">
                             {tasks.map((task, index) => (
                                 <div key={index} className="task">
                                     {task.status === 'success' &&

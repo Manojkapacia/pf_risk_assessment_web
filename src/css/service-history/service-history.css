@@ -10,12 +10,12 @@
 
 .serviceImage{
     height: 22rem;
-    width: 100%;
+    width: 90%;
 }
 
 @media only screen and (max-width: 770px) {
     .serviceImage {
-      width: 100%; 
+      width: 90%; 
       height: 16.5rem;
     }
   }
