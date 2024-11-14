@@ -1,11 +1,11 @@
-.otpAssessmentImage{
+.accountImage{
     height: 22rem;
      width: 90% 
   }
   
   @media only screen and (max-width: 770px) {
-   .otpAssessmentImage{
-     height: 16.5rem;
+   .accountImage{
+     height: 12.5rem;
      width: 90% 
    }
   }

@@ -59,13 +59,13 @@
 
 .pfRiskAssessmentImage{
   height: 22rem;
-   width: 100% 
+   width: 90% 
 }
 
 @media only screen and (max-width: 770px) {
  .pfRiskAssessmentImage{
    height: 16.5rem;
-   width: 100% 
+   width: 90% 
  }
 }
 .smaller-icon {
