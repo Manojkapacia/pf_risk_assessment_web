@@ -8,6 +8,7 @@ import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
 function ServiceHistory() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(null);
+    const [isChecked, setIsChecked] = useState(false);
 
     const navigate = useNavigate();
 
@@ -43,6 +44,14 @@ function ServiceHistory() {
         // If the same item is clicked, close the dropdown
         setActiveIndex(activeIndex === index ? null : index);
         setIsOpen(activeIndex === index ? false : true)
+    };
+
+    const handleCheckboxChange = (e) => {
+        setIsChecked(e.target.checked); // Update the state based on checkbox value
+    };
+    
+    const handleSave = () => {
+        console.log("Checkbox Value:", isChecked);
     };
 
     return (
@@ -123,7 +132,7 @@ function ServiceHistory() {
                             </div>
 
                             <div className="form-check mt-4 ps-0 d-flex justify-content-start">
-                                <input className="large-checkbox me-3" type="checkbox" value="" />
+                                <input className="large-checkbox me-3" type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
                                 <div className="form-check-label checkboxLabel">
                                     Still working here
                                 </div>

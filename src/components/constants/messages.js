@@ -22,6 +22,9 @@ const MESSAGES = {
     required: {
         requiredField: (type) => `${type} is required.`,
     },
+    api: {
+        baseUrl: 'http://localhost:3001/'
+    }
 };
 
 export default MESSAGES;
