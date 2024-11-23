@@ -5,12 +5,15 @@ import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import '../../css/auth/otp-verification.css'
 import ToastMessage from '../common/toast-message';
 import MESSAGES from '../constants/messages'
+import Loader from '../common/loader';
+import { post } from '../common/api';
 
 function OtpComponent() {
     const [otp, setOtp] = useState(Array(6).fill(""));
     const [showToast, setShowToast] = useState(false);
-    const [toastType, setToastType] = useState('success');
+    const [toastType, setToastType] = useState('');
     const [toastMessage, setToastMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -39,19 +42,36 @@ function OtpComponent() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+        setToastType('')
+        setToastMessage('')
 
         // Check if all OTP fields are filled
         const isOtpValid = otp.every((digit) => digit !== "");
-
         if (isOtpValid) {
-            setShowToast(true);
-            setToastType('success')
-            setToastMessage(MESSAGES.success.otpVerified)
-            setTimeout(() => {
-                navigate("/search");
-            }, 2000);
+            try {
+                setLoading(true)
+                await post('auth/submit-otp',{otp: otp.join('')});
+                setShowToast(true);
+                setToastType('success')
+                setLoading(false)
+                setToastMessage(MESSAGES.success.otpVerified)
+                setTimeout(() => {
+                    navigate("/search");
+                }, 2000);
+            } catch (error) {
+                setShowToast(true);
+                setLoading(false)
+                setToastType('error')
+                setToastMessage(error.message)
+
+                setTimeout(() => {
+                    setShowToast(false);
+                    setToastType('')
+                    setToastMessage('')
+                }, 3000)
+            }   
         } else {
             setShowToast(true);
             setToastType('error')
@@ -60,60 +80,71 @@ function OtpComponent() {
     };
 
     return (
-        <div className="container-fluid">
-            {showToast && <ToastMessage message={toastMessage} type={toastType} />}
-            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-4 col-md-8 offset-lg-1 mt-2 mt-lg-0">
-                    <img src={pfRiskImage} alt="OTP Assessment" className='otpAssessmentImage'/>
-                </div>
-                <div className="col-lg-7">
-                    <div className="pfRiskheading text-center">PF Risk Assessment</div>
-                    <div className='pfRiskSubHeading text-center'>
-                        Check if your PF is at risk of getting stuck
+        <>
+            {loading && (
+                <Loader
+                type="dots"
+                size="large"
+                color="#28a745"
+                message="Verifying OTP, please wait..."
+                overlay={true}
+                />
+            )} 
+            <div className="container-fluid">
+                {showToast && <ToastMessage message={toastMessage} type={toastType} />}
+                <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+                    <div className="col-lg-4 col-md-8 offset-lg-1 mt-2 mt-lg-0">
+                        <img src={pfRiskImage} alt="OTP Assessment" className='otpAssessmentImage'/>
                     </div>
-
-                    <form onSubmit={handleSubmit}>
-                        <div className="row">
-                            <div className="col-sm-8 col-md-6 offset-md-3">
-                                <div className="labelHeading mt-2 mt-lg-5 pt-lg-3">
-                                    Enter OTP send to your EPF registered number
-                                </div>
-                                <div className="d-flex ">
-                                    {otp.map((_, index) => (
-                                        <input
-                                            key={index}
-                                            id={`otp-input-${index}`}
-                                            type="text"
-                                            maxLength="1"
-                                            className="form-control text-center mx-1 mt-2"
-                                            value={otp[index]}
-                                            onChange={(e) => handleOtpChange(e.target, index)}
-                                            onKeyDown={(e) => handleBackspace(e, index)}
-                                        />
-                                    ))}
-                                </div>
-                                <a
-                                    className="text-decoration-none labelSubHeading mt-2 float-end"
-                                    href="https://chatgpt.com"
-                                    onClick={(e) => { e.preventDefault(); }}>
-                                    Resend OTP
-                                </a>
-                            </div>
+                    <div className="col-lg-7">
+                        <div className="pfRiskheading text-center">PF Risk Assessment</div>
+                        <div className='pfRiskSubHeading text-center'>
+                            Check if your PF is at risk of getting stuck
                         </div>
 
-                        <div className="row my-2 mt-lg-5 pt-lg-4">
-                            <div className="col-md-6 col-sm-8 offset-md-3">
-                                <button type="submit"
-                                    className="btn w-100 pfRiskButtons">
-                                    Start Assessment
-                                </button>
+                        <form onSubmit={handleSubmit}>
+                            <div className="row">
+                                <div className="col-sm-8 col-md-6 offset-md-3">
+                                    <div className="labelHeading mt-2 mt-lg-5 pt-lg-3">
+                                        Enter OTP send to your EPF registered number
+                                    </div>
+                                    <div className="d-flex ">
+                                        {otp.map((_, index) => (
+                                            <input
+                                                key={index}
+                                                id={`otp-input-${index}`}
+                                                type="text"
+                                                maxLength="1"
+                                                className="form-control text-center mx-1 mt-2"
+                                                value={otp[index]}
+                                                onChange={(e) => handleOtpChange(e.target, index)}
+                                                onKeyDown={(e) => handleBackspace(e, index)}
+                                            />
+                                        ))}
+                                    </div>
+                                    <a
+                                        className="text-decoration-none labelSubHeading mt-2 float-end"
+                                        href="https://chatgpt.com"
+                                        onClick={(e) => { e.preventDefault(); }}>
+                                        Resend OTP
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </form>
 
+                            <div className="row my-2 mt-lg-5 pt-lg-4">
+                                <div className="col-md-6 col-sm-8 offset-md-3">
+                                    <button type="submit"
+                                        className="btn w-100 pfRiskButtons">
+                                        Start Assessment
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
