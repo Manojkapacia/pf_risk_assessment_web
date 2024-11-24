@@ -16,7 +16,11 @@ export const login = async (uan, password) => {
     const response = await apiClient.post('auth/login', { uan, password });
     return response.data;
   } catch (error) {
+    if (error.response && error.response.status === 400) {
+      return { message: MESSAGES.error.invalidUanPassword, status: 400 };
+    }
     console.error('Login failed:', error);
+    // Re-throw for other error cases
     throw error;
   }
 };

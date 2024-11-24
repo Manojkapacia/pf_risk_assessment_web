@@ -9,20 +9,22 @@ import Logo from './components/common/logo';
 import DocumentScanning from './components/scanning/document-scanning';
 import CreateAccount from './components/create-account/create-account';
 import OtpCreateAccount from './components/create-account/otp-create-account'
+import AuthGuard from "./components/guards/auth-guard";
+import GuestGuard from "./components/guards/guest-guard";
 
 function App() {
   return (
     <Router>
       <Logo />
       <Routes>
-        <Route path="/" element={<LoginComponent />} />
-        <Route path="/otpAssessment" element={<OtpComponent />} />
-        <Route path="/search" element={<SearchComponent />} />
-        <Route path="/doc-scan" element={<DocumentScanning />} />
-        <Route path="/service-history" element={<ServiceHistory />} />
-        <Route path="/select-organization" element={<SelectOrganization />} />
-        <Route path="/create-account" element={<CreateAccount />} />
-        <Route path="/create-account-otp" element={<OtpCreateAccount />} />
+        <Route path="/" element={<GuestGuard><LoginComponent /></GuestGuard>} />
+        <Route path="/otpAssessment" element={<GuestGuard><OtpComponent /></GuestGuard>} />
+        <Route path="/search" element={<AuthGuard><SearchComponent /></AuthGuard>} />
+        <Route path="/doc-scan" element={<AuthGuard><DocumentScanning /></AuthGuard>} />
+        <Route path="/service-history" element={<AuthGuard><ServiceHistory /></AuthGuard>} />
+        <Route path="/select-organization" element={<AuthGuard><SelectOrganization /></AuthGuard>} />
+        <Route path="/create-account" element={<AuthGuard><CreateAccount /></AuthGuard>} />
+        <Route path="/create-account-otp" element={<AuthGuard><OtpCreateAccount /></AuthGuard>} />
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
     </Router>

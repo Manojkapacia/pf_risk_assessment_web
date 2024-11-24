@@ -12,7 +12,8 @@ const MESSAGES = {
             upperCase: "Password must contain at least one uppercase letter.",
             lowerCase: "Password must contain at least one lowercase letter.",
             specialCharacter: "Password must contain at least one special character."
-        }
+        },
+        invalidUanPassword: 'Either UAN or Password is incorrect'
     },
     labels: {
         otp: "Enter OTP",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../../css/auth/login.css';
 import '../../App.css';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
@@ -11,100 +11,93 @@ import Loader from '../common/loader';
 import { login } from '../common/api';
 
 function LoginComponent() {
-    const [uan, setUan] = useState('');
-    const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState({ uan: '', password: '' });
+    const [formData, setFormData] = useState({ uan: "", password: "" });
+    const [errors, setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [message, setMessage] = useState({type: '', message: ''});
+    const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Check if the form is valid
-        setIsFormValid(!errors.uan && !errors.password && uan && password);
-    }, [errors, uan, password]);
+        setIsFormValid(Object.values(errors).every((err) => !err) && formData.uan && formData.password);
+    }, [errors, formData]);
 
-    const validateUan = (value) => {
-        const uanPattern = /^[0-9]{12}$/;
-        if (!value) return MESSAGES.required.requiredField('UAN');
-        if (!uanPattern.test(value)) return MESSAGES.error.uanInvalidLength;
-        return '';
+    const validateField = useCallback((field, value) => {
+        if (field === "uan") {
+            const uanPattern = /^[0-9]{12}$/;
+            if (!value) return MESSAGES.required.requiredField("UAN");
+            if (!uanPattern.test(value)) return MESSAGES.error.uanInvalidLength;
+        }
+
+        if (field === "password") {
+            if (!value) return MESSAGES.required.requiredField("Password");
+            if (value.length < 8) return MESSAGES.error.password.length;
+            if (!/[A-Z]/.test(value)) return MESSAGES.error.password.upperCase;
+            if (!/[a-z]/.test(value)) return MESSAGES.error.password.lowerCase;
+            if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) return MESSAGES.error.password.specialCharacter;
+        }
+
+        return "";
+    }, []);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+        setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
     };
 
-    const validatePassword = (password) => {
-        if (!password) return MESSAGES.required.requiredField('Password');
-        if (password.length < 8) return MESSAGES.error.password.length;
-        if (!/[A-Z]/.test(password)) return MESSAGES.error.password.upperCase;
-        if (!/[a-z]/.test(password)) return MESSAGES.error.password.lowerCase;
-        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return MESSAGES.error.password.specialCharacter;
-        return ''; // No error
-    };
-
-    const handleUanChange = (e) => {
-        const value = e.target.value;
-        setUan(value);
-        setErrors((prevErrors) => ({ ...prevErrors, uan: validateUan(value) }));
-    };
-
-    const handlePasswordChange = (e) => {
-        const value = e.target.value;
-        setPassword(value);
-        setErrors((prevErrors) => ({ ...prevErrors, password: validatePassword(value) }));
-    };
-
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage({type: '', message: ''})
-        const uanError = validateUan(uan);
-        const passwordError = validatePassword(password);
+        const newErrors = {
+            uan: validateField("uan", formData.uan),
+            password: validateField("password", formData.password),
+        };
+        setErrors(newErrors);
 
-        if (!uanError && !passwordError) {
+        if (Object.values(newErrors).every((err) => !err)) {
             try {
-                setLoading(true)
-                await login(uan, password);
-                setIsFormValid(true); 
-                setMessage({type: 'success', message: MESSAGES.success.otpSent})
-                setLoading(false)
-                setTimeout(() => {
-                    navigate("/otpAssessment");
-                }, 2000);
-            } catch (error) {
-                setLoading(false)
-                setMessage({type: 'error', message: error.message})
-                setTimeout(() => {
-                    setMessage({ type: '', message: '' });
-                }, 3000); 
+                setLoading(true);
+                const result = await login(formData.uan, formData.password);
+                setLoading(false);
 
-            }            
-        } else {
-            setErrors({ uan: uanError, password: passwordError });
+                if (result.status === 400) {
+                    setMessage({ type: "error", content: result.message });
+                    setTimeout(() => setMessage({ type: "", content: "" }), 2500);
+                } else {
+                    setMessage({ type: "success", content: MESSAGES.success.otpSent });
+                    setTimeout(() => {
+                        navigate("/otpAssessment", { state: { uan: formData.uan } });
+                    }, 2000);
+                }
+            } catch (error) {
+                setLoading(false);
+                setMessage({ type: "error", content: error.message });
+                setTimeout(() => setMessage({ type: "", content: "" }), 3000);
+            }
         }
     };
 
-    // Toggle password visibility
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
+    const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+
 
     return (
         <>
             {loading && (
                 <Loader
-                type="dots"
-                size="large"
-                color="#28a745"
-                message="Checking credentials, please wait..."
-                overlay={true}
+                    type="dots"
+                    size="large"
+                    color="#28a745"
+                    message="Checking credentials, please wait..."
+                    overlay={true}
                 />
-            )}        
+            )}
             <div className="container-fluid">
-                {message.type === 'success' && <ToastMessage message={message.message} type="success" />}
-                {message.type === 'error' && <ToastMessage message={message.message} type="error" />}
+                {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
                     <div className="col-lg-4 col-md-8 offset-lg-1 mt-2 mt-lg-0">
-                        <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage'/>
+                        <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
                     </div>
                     <div className="col-lg-7">
                         <div className="pfRiskheading text-center">PF Risk Assessment</div>
@@ -122,14 +115,10 @@ function LoginComponent() {
                                         className="form-control mt-2"
                                         type="text"
                                         placeholder="Enter your 12 digit UAN number"
-                                        value={uan}
-                                        onChange={handleUanChange}
-                                        onInput={(e) => {
-                                            e.target.value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
-                                            if (e.target.value.length > 12) {
-                                                e.target.value = e.target.value.slice(0, 12); // Limit to 12 digits
-                                            }
-                                        }}
+                                        name="uan"
+                                        value={formData.uan}
+                                        onChange={handleInputChange}
+                                        maxLength={12}
                                         required
                                     />
                                     <ValidationError message={errors.uan} />
@@ -146,16 +135,18 @@ function LoginComponent() {
                                             className="form-control mt-2"
                                             type={showPassword ? "text" : "password"}
                                             placeholder="Enter your EPFO password"
-                                            value={password}
-                                            onChange={handlePasswordChange}
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleInputChange}
                                             required
                                         />
                                         <span
                                             className="position-absolute top-50 end-0 translate-middle-y me-3"
                                             style={{ cursor: 'pointer', zIndex: 1 }}
                                             onClick={togglePasswordVisibility}
+                                            aria-label="Toggle password visibility"
                                         >
-                                            {!showPassword ? <FaEyeSlash /> : <FaEye />}
+                                            {showPassword ? <FaEye /> : <FaEyeSlash />}
                                         </span>
                                     </div>
                                     <ValidationError message={errors.password} />
