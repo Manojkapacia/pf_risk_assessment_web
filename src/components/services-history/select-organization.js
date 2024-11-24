@@ -1,13 +1,38 @@
 import '../../App.css';
 import '../../css/service-history/service-history.css';
 import '../../css/service-history/select-organization.css';
-// import React, { useState } from 'react';
+import React, { useState } from 'react';
 import serchHistoryImg from '../../assets/images/serch_history.png';
 import { useNavigate } from 'react-router-dom';
 
 function SelectOrganization() {
-    const navigate = useNavigate()
-    
+    const navigate = useNavigate();
+    const [selectedId, setSelectedId] = useState(null);
+
+    const checkboxes = [
+        {
+            id: 1, label: "Morningstar India Private Limited",
+            checked: false, joiningDate: '12/05/15', currentWorking: 'Still working here'
+        },
+        {
+            id: 2, label: "Morningstar India Private Limited",
+            checked: false, joiningDate: '12/05/15', currentWorking: 'Still working here'
+        },
+        {
+            id: 3, label: "Morningstar India Private Limited",
+            checked: false, joiningDate: '12/05/15', currentWorking: 'Still working here'
+        },
+        {
+            id: 4, label: "Morningstar India Private Limited",
+            checked: false, joiningDate: '12/05/15', currentWorking: 'Still working here'
+        },
+    ];
+
+    // Handle checkbox change
+    const handleCheckboxChange = (id) => {
+        setSelectedId(id === selectedId ? null : id);
+    };
+
     return (
         <div className="container-fluid">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
@@ -44,57 +69,32 @@ function SelectOrganization() {
                     <div className="row mt-4">
                         <div className="col-md-8 offset-md-2">
                             <div className="overflow-auto selectsideBar" style={{ maxHeight: '15rem' }}>
-                                <ul className='list-group ms-4' >
-                                    <li><span className='selectHeading'>Morningstar India Private Limited</span><br></br>
-                                        <span className='selectTime px-2'>12/05/15 </span>
-                                        <div className="form-check mt-2 ps-0 d-flex justify-content-start">
-                                            <input className="large-checkbox me-3" type="checkbox" value="" />
-                                            <div className="form-check-label checkboxText">
-                                                Still working here
-                                            </div>
+                                <form>
+                                    {checkboxes.map((checkbox) => (
+                                        <div key={checkbox.id}>
+                                            <ul className='list-group ms-4' >
+                                                <li><span className='selectHeading'>{checkbox.label}</span><br></br>
+                                                    <span className='selectTime px-2'>{checkbox.joiningDate} </span>
+                                                    <div className="form-check mt-2 ps-0 d-flex justify-content-start">
+                                                        <input className="large-checkbox me-3" type="checkbox" value=""
+                                                            checked={selectedId === checkbox.id} onChange={() => handleCheckboxChange(checkbox.id)} />
+                                                        <div className="form-check-label checkboxText">
+                                                            {checkbox.currentWorking}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </div>
-                                    </li>
-
-                                    <li><span className='selectHeading'>Morningstar India Private Limited</span><br></br>
-                                        <span className='timeDuration px-2'>12/05/15 </span>
-                                        <div className="form-check mt-2 ps-0 d-flex justify-content-start">
-                                            <input className="large-checkbox me-3" type="checkbox" value="" />
-                                            <div className="form-check-label checkboxText">
-                                                Still working here
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li><span className='selectHeading'>Morningstar India Private Limited</span><br></br>
-                                        <span className='timeDuration px-2'>12/05/15 </span>
-                                        <div className="form-check mt-2 ps-0 d-flex justify-content-start">
-                                            <input className="large-checkbox me-3" type="checkbox" value="" />
-                                            <div className="form-check-label checkboxText">
-                                                Still working here
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li><span className='selectHeading'>Morningstar India Private Limited</span><br></br>
-                                        <span className='timeDuration px-2'>12/05/15 </span>
-                                        <div className="form-check mt-2 ps-0 d-flex justify-content-start">
-                                            <input className="large-checkbox me-3" type="checkbox" value="" />
-                                            <div className="form-check-label checkboxText">
-                                                Still working here
-                                            </div>
-                                        </div>
-                                    </li>
-                               
-                                </ul>
-
+                                    ))}
+                                </form>
                             </div>
-
                         </div>
                     </div>
 
                     <div className='row mt-4'>
                         <div className='col-md-12 my-3 my-lg-0'>
-                            <button className='btn correctButton w-100' onClick={() => navigate("/doc-scan")}>This is correct</button>
+                            <button className='btn correctButton w-100' onClick={() => navigate("/doc-scan")}>
+                                {selectedId ? 'Continue' : "Not working in any of these"}</button>
                         </div>
                     </div>
                 </div>

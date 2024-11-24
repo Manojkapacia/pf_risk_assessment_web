@@ -96,8 +96,8 @@ const DocumentScanning = () => {
                 </div>
 
                 {!isViewingResult &&
-                    <div className="col-lg-7">
-                        <h3 className="text-center">{isProcessing ? "Scanning Your PF" : "Scan Complete"}</h3>
+                    <div className="col-lg-7 mt-3">
+                        <div className="pfRiskheading text-center">{isProcessing ? "Scanning Your PF" : "Scan Complete"}</div>
                         {isProcessing && <p className="text-center">Lorem ipsum dolor sit amet consectetur.
                             Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
                             Lorem rhoncus vitae ullamcorper non.</p>}
