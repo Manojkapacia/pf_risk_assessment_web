@@ -11,6 +11,11 @@ import CreateAccount from './components/create-account/create-account';
 import OtpCreateAccount from './components/create-account/otp-create-account'
 import AuthGuard from "./components/guards/auth-guard";
 import GuestGuard from "./components/guards/guest-guard";
+import ActivateUan from './components/static/activate-uan';
+import DonotKnowUan from './components/static/donot-know-uan';
+import EpfoDown from './components/static/epfo-down';
+import ForgotPassword from './components/static/forgot-password';
+import WelcomeBack from  './components/static/welcome-back';
 
 function App() {
   return (
@@ -25,6 +30,11 @@ function App() {
         <Route path="/select-organization" element={<AuthGuard><SelectOrganization /></AuthGuard>} />
         <Route path="/create-account" element={<AuthGuard><CreateAccount /></AuthGuard>} />
         <Route path="/create-account-otp" element={<AuthGuard><OtpCreateAccount /></AuthGuard>} />
+        <Route path="/activate-uan" element={<GuestGuard><ActivateUan /></GuestGuard>} />
+        <Route path="/donot-know-uan" element={<GuestGuard><DonotKnowUan /></GuestGuard>} />
+        <Route path="/epfo-down" element={<GuestGuard><EpfoDown /></GuestGuard>} />
+        <Route path="/forgot-password" element={<GuestGuard><ForgotPassword /></GuestGuard>} />
+        <Route path="/welcome-back" element={<GuestGuard><WelcomeBack /></GuestGuard>} />
         <Route path="*" element={<h2>404 - Page Not Found</h2>} />
       </Routes>
     </Router>
