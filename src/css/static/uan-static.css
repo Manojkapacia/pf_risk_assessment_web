@@ -1,0 +1,88 @@
+.backAssesment{
+    color: #407BFF;
+    font-size: 0.80rem;
+    font-weight: 600;
+}
+
+.labelHeading{
+    font-size: 1.5rem;
+    font-weight: 600; 
+}
+
+.labelText{
+    font-size: 0.80rem;
+    font-weight: 400;
+    color: #797979;
+}
+
+.iconSet{
+    background-color:#BEBEBE;
+    border-radius:0.2rem;
+    color: #ffffff;
+}
+
+.iconHeading{
+    font-size: 0.80rem;
+    font-weight: 400;
+    color: #000000;
+}
+
+.form-check-input.custom-radio {
+    border: 2px solid black;
+    /* border-radius: 50%;  */
+    height: 0.8rem;
+    width: 0.8rem;    
+  }
+
+.iconSubHeading{
+    font-size: 0.80rem;
+    font-weight: 300;
+    color:#2D2D2D;
+}
+
+.epfoButton{
+    background-color: #2F6870;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.epfoLabel{
+    color:#FF4059;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.epfoFormlabel{
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.requestButton{
+    background-color: #000000;
+    color: #ffffff;
+    border-radius: 2rem;
+    border: none;
+}
+
+.welcomeButton{
+    background-color:#2F6870;
+    color: #ffffff;
+    border-radius: 0.3rem;
+}
+.welcomeLabel{
+    font-size: 2rem;
+    font-weight: 400;
+}
+.textClasses{
+    line-height: 1.2;
+}
+
+@media (min-width: 750px) {
+    .custom-col {
+      height: 100vh;
+    }
+  }
