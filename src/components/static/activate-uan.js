@@ -3,10 +3,14 @@ import '../../App.css';
 import '../../css/static/uan-static.css';
 import { useNavigate } from 'react-router-dom';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
-import { Link,ThreeDots,Tablet,ArrowClockwise,Mouse  } from "react-bootstrap-icons";
+import { Link,ThreeDots,Tablet,ArrowClockwise } from "react-bootstrap-icons";
 
 const ActivateUan = () => {
     const navigate = useNavigate();
+
+    const goToEpfoPortal = () => {
+        window.open("https://passbook.epfindia.gov.in/MemberPassBook/login", "_blank");
+    }
 
     return (
         <div className="container-fluid">
@@ -84,7 +88,7 @@ const ActivateUan = () => {
                                 </div>
                             </div>
                             <div className="buttonClass mt-md-3 d-flex justify-content-center align-items-center" style={{ height: '5.3rem' }}>
-                                <button className='epfoButton w-100 py-2' onClick={() => navigate("/epfo-down")}>Go to  EPFO Portal</button>
+                                <button className='epfoButton w-100 py-2' onClick={goToEpfoPortal}>Go to EPFO Portal</button>
                             </div>
                         </div>
                     </div>

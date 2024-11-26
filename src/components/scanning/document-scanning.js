@@ -33,28 +33,31 @@ const DocumentScanning = () => {
         try {
             const dataToSend = {
                 userEmpHistoryCorrect: type && type.toLowerCase() === 'correct',
-                userStillWorkingInOrganization: selectedOrg ? true : false,
-                currentOrganizationMemberId: selectedOrg ? selectedOrg?.details["Member Id"] : "",
+                userStillWorkingInOrganization: !!selectedOrg,
+                currentOrganizationMemberId: selectedOrg?.details?.["Member Id"] || "",
             };
+
             const response = await post('withdrawability-check', dataToSend);
             if (response.status === 401) {
-                setLoading(false); 
-                localStorage.clear()
+                setLoading(false);
+                localStorage.clear();
                 navigate('/');
-            } 
+                return;
+            }
+
             setCategories(response || []); // Ensure categories is always an array
 
-            if (Array.isArray(response) && response.length) { 
+            if (Array.isArray(response) && response.length) {
                 const totals = response.reduce((acc, category) => {
-                    acc.totalSuccess += category.totalSuccess;
-                    acc.totalCritical += category.totalCritical;
-                    acc.totalMedium += category.totalMedium;
+                    acc.totalSuccess += category.totalSuccess || 0;
+                    acc.totalCritical += category.totalCritical || 0;
+                    acc.totalMedium += category.totalMedium || 0;
                     return acc;
                 }, { totalSuccess: 0, totalCritical: 0, totalMedium: 0 });
                 setTotalCounts(totals);
             }
 
-            setIsFetched(true);  // Flag to ensure fetch is only called once
+            setIsFetched(true); // Mark as fetched
         } catch (error) {
             console.error("Error fetching data:", error);
             setMessage({ type: "error", content: error.message });
@@ -64,40 +67,41 @@ const DocumentScanning = () => {
     };
 
     useEffect(() => {
-        localStorage.setItem("current_page", "doc-scan")
-        fetchReport();
-    }, []);
+        localStorage.setItem("current_page", "doc-scan");
+        if (!isFetched) {
+            fetchReport();
+        }
+    }, [isFetched]); // Depend only on isFetched
 
     useEffect(() => {
-        if (categories.length === 0) return; // Exit early if no categories
+        if (categories.length === 0) return;
 
-        // Start progress and processing logic
         const timeoutId = setTimeout(() => {
             const interval = setInterval(() => {
                 setProgress((prev) => {
                     if (prev < 100) {
                         return prev + 1;
                     } else {
-                        setIsProcessing(false); // Stop processing once complete
-                        clearInterval(interval); // Stop the interval
+                        setIsProcessing(false);
+                        clearInterval(interval);
                         return prev;
                     }
                 });
-            }, 100); // Adjust speed as needed
+            }, 100);
 
-            return () => clearInterval(interval); // Clean up on unmount
+            return () => clearInterval(interval);
         }, 500);
 
-        return () => clearTimeout(timeoutId); // Clean up on unmount
+        return () => clearTimeout(timeoutId);
     }, [categories]);
 
     useEffect(() => {
         if (categories.length === 0 || progress === 0) return;
-        // Determine the current category index
+
         const categoryIndex = Math.floor(progress / (100 / categories.length));
         setCurrentCategory(categories[categoryIndex] || categories[categories.length - 1]);
     }, [progress, categories]);
-
+    
     const viewScanResult = (category) => {
         setIsViewingResult(true);
         setCurrentViewResultCategory(category)

@@ -8,6 +8,10 @@ import { Link ,ChatSquareDots,Key,PersonCheck,Clipboard,CreditCard  } from "reac
 const ForgotPassword = () => {
     const navigate = useNavigate();
 
+    const goToEpfoPortal = () => {
+        window.open("https://passbook.epfindia.gov.in/MemberPassBook/login", "_blank");
+    }
+
     return (
         <div className="container-fluid">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
@@ -118,7 +122,7 @@ const ForgotPassword = () => {
                     </div>
                     <div className='row my-2 my-lg-3'>
                         <div className='col-md-6 offset-md-3'>
-                            <button className='epfoButton w-100 py-2'  onClick={() => navigate("/epfo-down")}>Go to  EPFO Portal</button>
+                            <button className='epfoButton w-100 py-2'  onClick={goToEpfoPortal}>Go to EPFO Portal</button>
                         </div>
                     </div>
                 </div>
