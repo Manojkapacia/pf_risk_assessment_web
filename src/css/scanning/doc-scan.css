@@ -41,14 +41,25 @@
     font-weight: 300;
 }
 
-.progress-card-scan-done {
+.progress-card-scan-done-critical {
     border-radius: 1rem;
     background: linear-gradient(135deg, #ff5a5f 40%, #e84148 60%);
     color: white;
     height: 17rem;
-    /* width: 100%; */
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
-    /* flex-wrap: wrap; */
+}
+
+.progress-card-scan-done-medium {
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #c2bb4fe6 40%, #dac712 60%);
+    color: white;
+    height: 17rem;
+}
+
+.progress-card-scan-done-success {
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #62b177 40%, #29940b 60%) ;
+    color: white;
+    height: 17rem;
 }
 
 .progressText {

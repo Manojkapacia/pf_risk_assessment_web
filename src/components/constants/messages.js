@@ -13,7 +13,8 @@ const MESSAGES = {
             lowerCase: "Password must contain at least one lowercase letter.",
             specialCharacter: "Password must contain at least one special character."
         },
-        invalidUanPassword: 'Either UAN or Password is incorrect'
+        invalidUanPassword: 'Either UAN or Password is incorrect',
+        unauthorized: 'Session Expired! Please login again'
     },
     labels: {
         otp: "Enter OTP",
@@ -24,7 +25,8 @@ const MESSAGES = {
         requiredField: (type) => `${type} is required.`,
     },
     api: {
-        baseUrl: 'http://localhost:3001/'
+        baseUrl: 'http://localhost:3001/',
+        baseUrlRuleEngine: 'http://localhost:3004/'
     }
 };
 

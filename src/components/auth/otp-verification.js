@@ -68,7 +68,7 @@ function OtpComponent() {
                 localStorage.setItem("user_uan", uan);
 
                 timeoutRef.current = setTimeout(() => {
-                    navigate("/search");
+                    navigate("/service-history");
                 }, 2000);
             } catch (error) {
                 setToastType('error');

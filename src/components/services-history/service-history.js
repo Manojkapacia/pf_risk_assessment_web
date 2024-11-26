@@ -1,58 +1,59 @@
 import '../../App.css';
 import '../../css/service-history/service-history.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import serchHistoryImg from '../../assets/images/serch_history.png';
 import { useNavigate } from 'react-router-dom';
 import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
+import SearchComponent from '../common/search';
+import { get } from '../common/api';
+import { ConvertPeriod } from '../common/date-convertor';
 
 function ServiceHistory() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(null);
-    const [isChecked, setIsChecked] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // Track loading state
+    const [listItems, setListItems] = useState([]); // Store API data
+    const [uan, setUan] = useState('')
 
     const navigate = useNavigate();
 
-    const listItems = [
-        {
-            id: 1, title: "Morningstar India Private Limited", details: {
-                Member_Id: '65456465', NCP_Days: '5 Days', Joining_Date: '23ed Dec 2014',
-                Exit_Date: '11th july 2018'
+    // Function to fetch data
+    const fetchData = async () => {
+        try {
+            const response = await get('auth/data?filter=serviceHistory');
+            if (response.status === 401) {
+                setIsLoading(false); 
+                localStorage.clear()
+                navigate('/');
+            } else {
+                setListItems(response.serviceHistory.history);
             }
-        },
-        {
-            id: 2, title: "Morningstar India Private Limited", details: {
-                Member_Id: '65456465', NCP_Days: '5 Days', Joining_Date: '23ed Dec 2014',
-                Exit_Date: '11th july 2018'
-            }
-        },
-        {
-            id: 3, title: "Morningstar India Private Limited", details: {
-                Member_Id: '65456465', NCP_Days: '5 Days', Joining_Date: '23ed Dec 2014',
-                Exit_Date: '11th july 2018'
-            }
-        },
-        {
-            id: 4, title: "Morningstar India Private Limited", details: {
-                Member_Id: '65456465', NCP_Days: '5 Days', Joining_Date: '23ed Dec 2014',
-                Exit_Date: '11th july 2018'
-            }
-        },
-    ];
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setIsLoading(false); // Stop showing the loading screen
+        }
+    };
 
-    // Function to toggle the dropdown for a specific item
+    useEffect(() => {
+        localStorage.setItem("current_page", "service-history")
+        setUan(localStorage.getItem('user_uan'))
+        fetchData(); // Call API when component loads
+    }, []);
+
     const handleItemClick = (index) => {
-        // If the same item is clicked, close the dropdown
         setActiveIndex(activeIndex === index ? null : index);
-        setIsOpen(activeIndex === index ? false : true)
+        setIsOpen(activeIndex === index ? false : true);
     };
 
-    const handleCheckboxChange = (e) => {
-        setIsChecked(e.target.checked); // Update the state based on checkbox value
+    const handleButtonClick = (type) => {
+        console.log(type)
+        navigate("/select-organization", { state: {listItems, uan, type}})
     };
-    
-    const handleSave = () => {
-        console.log("Checkbox Value:", isChecked);
-    };
+
+    if (isLoading) {
+        return <SearchComponent />;
+    }
 
     return (
         <div className="container-fluid">
@@ -69,7 +70,7 @@ function ServiceHistory() {
                     </div>
 
                     <div className='row mt-1'>
-                        <div className='uanNumberDigit text-center'>123654789365</div>
+                        <div className='uanNumberDigit text-center'>{uan}</div>
                     </div>
                 </div>
 
@@ -91,18 +92,18 @@ function ServiceHistory() {
                             <div className="overflow-auto sideBar" style={{ maxHeight: '15rem' }}>
                                 <ul className='list-group' >
                                     {listItems.map((item, index) => (
-                                        <React.Fragment key={item.id}>
+                                        <React.Fragment key={index}>
                                             {/* List Item */}
                                             <li
                                                 className="list-group-item collapsHeading"
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => handleItemClick(index)}
                                             >
-                                                {item.title}
-                                                <span className='ms-2' style={{marginLeft: 'auto'}}>{isOpen && activeIndex === index ? <BsChevronCompactDown /> : <BsChevronCompactUp />}</span><br></br>
+                                                {item.company}
+                                                <span className='ms-2' style={{ marginLeft: 'auto' }}>{isOpen && activeIndex === index ? <BsChevronCompactDown /> : <BsChevronCompactUp />}</span><br></br>
 
                                                 <span className='timeDuration'>
-                                                    12/05/15 - 15/10/20
+                                                    {ConvertPeriod(item.period)}
                                                 </span>
                                             </li>
 
@@ -117,10 +118,10 @@ function ServiceHistory() {
                                                             <span className='dropdownLabel'>Exit Date :</span><br></br>
                                                         </div>
                                                         <div className="col-6">
-                                                            <span className='dropdownSublabel'>{item.details.Member_Id}</span><br></br>
-                                                            <span className='dropdownSublabel'>{item.details.NCP_Days}</span><br></br>
-                                                            <span className='dropdownSublabel'>{item.details.Joining_Date}</span><br></br>
-                                                            <span className='dropdownSublabel'>{item.details.Exit_Date}</span><br></br>
+                                                            <span className='dropdownSublabel'>{item.details['Member Id']}</span><br></br>
+                                                            <span className='dropdownSublabel'>{item.details['NCP Days']}</span><br></br>
+                                                            <span className='dropdownSublabel'>{item.details['Joining Date']}</span><br></br>
+                                                            <span className='dropdownSublabel'>{item.details['Exit Date']}</span><br></br>
                                                         </div>
 
                                                     </div>
@@ -130,23 +131,15 @@ function ServiceHistory() {
                                     ))}
                                 </ul>
                             </div>
-
-                            <div className="form-check mt-4 ps-0 d-flex justify-content-start">
-                                <input className="large-checkbox me-3" type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
-                                <div className="form-check-label checkboxLabel">
-                                    Still working here
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 
                     <div className='row my-3 mt-lg-5'>
                         <div className='col-md-6 col-sm-6'>
-                            <button className='btn incorrectButton w-100' onClick={() => navigate("/select-organization")}>This is incorrect</button>
+                            <button className='btn incorrectButton w-100' onClick={() => handleButtonClick('incorrect')}>This is incorrect</button>
                         </div>
                         <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                            <button className='btn correctButton w-100' onClick={() => navigate("/doc-scan")}>This is correct</button>
+                            <button className='btn correctButton w-100' onClick={() => handleButtonClick('correct')}>This is correct</button>
                         </div>
                     </div>
                 </div>

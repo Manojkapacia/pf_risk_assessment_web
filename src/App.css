@@ -70,6 +70,10 @@
   cursor: pointer;
 }
 
+.font-small {
+  font-size: 0.9rem;
+}
+
 @media only screen and (max-width: 770px) {
   .pfRiskAssessmentImage{
     height: 16.5rem;

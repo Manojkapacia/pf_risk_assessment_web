@@ -1,37 +1,37 @@
 import '../../App.css';
 import '../../css/service-history/service-history.css';
 import '../../css/service-history/select-organization.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import serchHistoryImg from '../../assets/images/serch_history.png';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ConvertPeriod } from '../common/date-convertor';
 
 function SelectOrganization() {
+    const location = useLocation();
     const navigate = useNavigate();
-    const [selectedId, setSelectedId] = useState(null);
 
-    const checkboxes = [
-        {
-            id: 1, label: "Morningstar India Private Limited",
-            checked: false, joiningDate: '12/05/15', currentWorking: 'Still working here'
-        },
-        {
-            id: 2, label: "Morningstar India Private Limited",
-            checked: false, joiningDate: '12/05/15', currentWorking: 'Still working here'
-        },
-        {
-            id: 3, label: "Morningstar India Private Limited",
-            checked: false, joiningDate: '12/05/15', currentWorking: 'Still working here'
-        },
-        {
-            id: 4, label: "Morningstar India Private Limited",
-            checked: false, joiningDate: '12/05/15', currentWorking: 'Still working here'
-        },
-    ];
+    const [selectedId, setSelectedId] = useState(null);
+    const { listItems, uan, type } = location.state || {};
+    
+    useEffect(() => {
+        localStorage.setItem("current_page", "select-organization")
+    }, []);
+
+    // Ensure listItems is an array before applying map
+    const updatedListItems = listItems ? listItems.map(item => ({
+        ...item,
+        checked: false
+    })) : [];
 
     // Handle checkbox change
     const handleCheckboxChange = (id) => {
         setSelectedId(id === selectedId ? null : id);
     };
+
+    const generateReportClick = () => {
+        const selectedOrg = selectedId !== null ? updatedListItems[selectedId] : null;
+        navigate("/doc-scan", { state: { selectedOrg, uan, type }})
+    }
 
     return (
         <div className="container-fluid">
@@ -48,7 +48,7 @@ function SelectOrganization() {
                     </div>
 
                     <div className='row mt-1'>
-                        <div className='selectDigit text-center'>123654789365</div>
+                        <div className='selectDigit text-center'>{uan}</div>
                     </div>
                 </div>
 
@@ -70,16 +70,16 @@ function SelectOrganization() {
                         <div className="col-md-8 offset-md-2">
                             <div className="overflow-auto selectsideBar" style={{ maxHeight: '15rem' }}>
                                 <form>
-                                    {checkboxes.map((checkbox) => (
-                                        <div key={checkbox.id}>
+                                    {updatedListItems.map((item, index) => (
+                                        <div key={index}>
                                             <ul className='list-group ms-4' >
-                                                <li><span className='selectHeading'>{checkbox.label}</span><br></br>
-                                                    <span className='selectTime px-2'>{checkbox.joiningDate} </span>
+                                                <li><span className='selectHeading'>{item.company}</span><br></br>
+                                                    <span className='selectTime px-2'>{ConvertPeriod(item.period)}</span>
                                                     <div className="form-check mt-2 ps-0 d-flex justify-content-start">
                                                         <input className="large-checkbox me-3" type="checkbox" value=""
-                                                            checked={selectedId === checkbox.id} onChange={() => handleCheckboxChange(checkbox.id)} />
+                                                            checked={selectedId === index} onChange={() => handleCheckboxChange(index)} />
                                                         <div className="form-check-label checkboxText">
-                                                            {checkbox.currentWorking}
+                                                            Still working here
                                                         </div>
                                                     </div>
                                                 </li>
@@ -93,8 +93,8 @@ function SelectOrganization() {
 
                     <div className='row mt-4'>
                         <div className='col-md-12 my-3 my-lg-0'>
-                            <button className='btn correctButton w-100' onClick={() => navigate("/doc-scan")}>
-                                {selectedId ? 'Continue' : "Not working in any of these"}</button>
+                            <button className='btn correctButton w-100' onClick={generateReportClick}>
+                                {selectedId !== null ? 'Continue' : "Not working in any of these"}</button>
                         </div>
                     </div>
                 </div>

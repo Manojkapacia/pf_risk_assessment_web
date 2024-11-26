@@ -25,24 +25,15 @@ export const login = async (uan, password) => {
   }
 };
 
-// Interceptor to attach the session cookie to every request
-apiClient.interceptors.request.use((config) => {
-  const sessionCookie = localStorage.getItem('sessionCookie');
-
-  if (sessionCookie) {
-    // Add the session cookie to the Authorization or Cookie header
-    config.headers['Authorization'] = sessionCookie; // Replace with 'Cookie' if required by the server
-  }
-
-  return config;
-});
-
 // Function to make GET requests
 export const get = async (endpoint) => {
   try {
     const response = await apiClient.get(endpoint);
     return response.data; // Return the API response data
   } catch (error) {
+    if (error.response && error.response.status === 401) {
+      return { message: MESSAGES.error.unauthorized, status: 401 };
+    }
     console.error('GET request failed:', error);
     throw error;
   }
@@ -54,6 +45,9 @@ export const post = async (endpoint, data) => {
     const response = await apiClient.post(endpoint, data);
     return response.data; // Return the API response data
   } catch (error) {
+    if (error.response && error.response.status === 401) {
+      return { message: MESSAGES.error.unauthorized, status: 401 };
+    }
     console.error('POST request failed:', error);
     throw error;
   }
@@ -65,6 +59,9 @@ export const put = async (endpoint, data) => {
     const response = await apiClient.put(endpoint, data);
     return response.data; // Return the API response data
   } catch (error) {
+    if (error.response && error.response.status === 401) {
+      return { message: MESSAGES.error.unauthorized, status: 401 };
+    }
     console.error('PUT request failed:', error);
     throw error;
   }
@@ -76,6 +73,9 @@ export const del = async (endpoint) => {
     const response = await apiClient.delete(endpoint);
     return response.data; // Return the API response data
   } catch (error) {
+    if (error.response && error.response.status === 401) {
+      return { message: MESSAGES.error.unauthorized, status: 401 };
+    }
     console.error('DELETE request failed:', error);
     throw error;
   }
