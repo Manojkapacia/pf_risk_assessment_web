@@ -109,7 +109,8 @@ function LoginComponent() {
                                 <div className="col-md-8 offset-md-2">
                                     <div className="d-flex justify-content-between">
                                         <div className="labelHeading">UAN number:</div>
-                                        <div className="labelSubHeading text-end">Activate UAN</div>
+                                        <div className="labelSubHeading text-end" style={{cursor:'pointer'}}
+                                        onClick={() => navigate("/activate-uan")}>Activate UAN</div>
                                     </div>
                                     <input
                                         className="form-control mt-2"
@@ -122,7 +123,8 @@ function LoginComponent() {
                                         required
                                     />
                                     <ValidationError message={errors.uan} />
-                                    <div className="text-end labelSubHeading mt-2">
+                                    <div className="text-end labelSubHeading mt-2"style={{cursor:'pointer'}}
+                                        onClick={() => navigate("/donot-know-uan")}>
                                         I don't know my UAN
                                     </div>
                                 </div>
@@ -150,7 +152,8 @@ function LoginComponent() {
                                         </span>
                                     </div>
                                     <ValidationError message={errors.password} />
-                                    <div className="text-end labelSubHeading mt-2">
+                                    <div className="text-end labelSubHeading mt-2" style={{cursor:'pointer'}}
+                                        onClick={() => navigate("/forgot-password")}>
                                         Forgot Password?
                                     </div>
                                 </div>
