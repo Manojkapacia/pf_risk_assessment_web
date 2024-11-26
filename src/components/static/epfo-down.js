@@ -6,13 +6,12 @@ import { Telephone } from "react-bootstrap-icons";
 
 const EpfoDown = () => {
     return (
-        <div className="container">
-            <div className="row mx-2">
-                <div className="col-md-4 col-lg-4 offset-lg-1 mt-2 mt-md-0 
-                d-flex justify-content-center align-items-center custom-col">
+        <div className="container-fluid">
+            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+                <div className="col-md-4 col-lg-4 offset-lg-1 mt-2 mt-md-0">
                     <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
                 </div>
-                <div className="col-md-8 col-lg-7 mt-md-4 mt-lg-5 mb-md-3">
+                <div className="col-md-8 col-lg-7">
                     <div className='row'>
                         <div className='col-md-9'>
                             <span className='epfoLabel'>Oops! Looks like EPF servers are down,</span><br></br>
@@ -21,7 +20,7 @@ const EpfoDown = () => {
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='col-md-10 offset-md-1'>
+                        <div className='col-md-9 offset-md-1'>
                             <div className='row'>
                                 <div className='col-md-6'>
                                     <label className='epfoFormlabel'>Name</label>

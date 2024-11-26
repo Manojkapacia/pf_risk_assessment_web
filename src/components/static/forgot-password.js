@@ -1,20 +1,23 @@
 import React from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
+import { useNavigate } from 'react-router-dom';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { Link ,ChatSquareDots,Key,PersonCheck,Clipboard,CreditCard  } from "react-bootstrap-icons";
 
 const ForgotPassword = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="container-fluid">
-            <div className="row mx-2">
-                <div className="col-lg-4 col-md-4 offset-lg-1 mt-2 mt-md-0 
-                d-flex justify-content-center align-items-center custom-col">
+            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+                <div className="col-lg-4 col-md-4 offset-lg-1 mt-2 mt-md-0">
                     <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
                 </div>
-                <div className="col-md-8 col-lg-6 mt-md-3 mt-lg-5">
+                <div className="col-md-8 col-lg-6">
                     <div className="row">
-                        <div className='col-md-12 text-end backAssesment'>Back to Assessment</div>
+                        <div className='col-md-12 text-end backAssesment'style={{cursor:'pointer'}}
+                                onClick={() => navigate("/")}>Back to Assessment</div>
                     </div>
                     <div className="row">
                         <span className='labelHeading' style={{ lineHeight: '1.2' }}>Follow the steps below to reset your password</span>
@@ -115,7 +118,7 @@ const ForgotPassword = () => {
                     </div>
                     <div className='row my-2 my-lg-3'>
                         <div className='col-md-6 offset-md-3'>
-                            <button className='epfoButton w-100 py-2'>Go to  EPFO Portal</button>
+                            <button className='epfoButton w-100 py-2'  onClick={() => navigate("/epfo-down")}>Go to  EPFO Portal</button>
                         </div>
                     </div>
                 </div>

@@ -1,20 +1,23 @@
 import React from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
+import { useNavigate } from 'react-router-dom';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { Link,ThreeDots,Tablet,ArrowClockwise,Mouse  } from "react-bootstrap-icons";
 
 const ActivateUan = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="container-fluid">
-            <div className="row mx-2">
-                <div className="col-md-4 col-lg-4 offset-lg-1 mt-2 mt-md-0 
-                d-flex justify-content-center align-items-center custom-col">
+            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+                <div className="col-md-4 col-lg-4 offset-lg-1 mt-2 mt-md-0">
                     <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
                 </div>
-                <div className="col-md-8 col-lg-6 mt-md-4 mt-lg-5 mb-md-3">
+                <div className="col-md-8 col-lg-6">
                     <div className="row">
-                        <div className='col-md-12 text-end backAssesment'>Back to Assessment</div>
+                        <div className='col-md-12 text-end backAssesment' style={{cursor:'pointer'}}
+                                onClick={() => navigate("/")}>Back to Assessment</div>
                     </div>
                     <div className="row">
                         <div className='col-md-6'>
@@ -81,7 +84,7 @@ const ActivateUan = () => {
                                 </div>
                             </div>
                             <div className="buttonClass mt-md-3 d-flex justify-content-center align-items-center" style={{ height: '5.3rem' }}>
-                                <button className='epfoButton w-100 py-2 '>Go to  EPFO Portal</button>
+                                <button className='epfoButton w-100 py-2' onClick={() => navigate("/epfo-down")}>Go to  EPFO Portal</button>
                             </div>
                         </div>
                     </div>

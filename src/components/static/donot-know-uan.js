@@ -1,20 +1,23 @@
 import React from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
+import { useNavigate } from 'react-router-dom';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { ChatSquareDots, Telephone } from "react-bootstrap-icons";
 
 const DonotKnowUan = () => {
+    const navigate = useNavigate();
+
     return (
         <div className="container-fliud">
-            <div className="row mx-2">
-                <div className="col-md-4  offset-md-1 mt-3 mt-md-0 
-                d-flex align-items-center justify-content-center custom-col">
+            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+                <div className="col-md-4  offset-md-1 mt-2 mt-md-0">
                     <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
                 </div>
-                <div className="col-md-6 mt-md-4 mb-2 mb-md-3">
+                <div className="col-md-6">
                     <div className="row">
-                        <div className='col-md-12 text-end backAssesment'>Back to Assessment</div>
+                        <div className='col-md-11 text-end backAssesment'style={{cursor:'pointer'}}
+                                onClick={() => navigate("/")}>Back to Assessment</div>
                     </div>
                     <div className="row">
                         <span className='labelHeading'>Know Your UAN</span><br></br>
