@@ -27,6 +27,13 @@
     color: #000000;
 }
 
+.form-check-input.custom-radio {
+    border: 2px solid black;
+    /* border-radius: 50%;  */
+    height: 0.8rem;
+    width: 0.8rem;    
+  }
+
 .iconSubHeading{
     font-size: 0.80rem;
     font-weight: 300;
@@ -49,6 +56,11 @@
     line-height: 1.2;
 }
 
+.epfoFormlabel{
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
 .requestButton{
     background-color: #000000;
     color: #ffffff;
@@ -65,3 +77,12 @@
     font-size: 2rem;
     font-weight: 400;
 }
+.textClasses{
+    line-height: 1.2;
+}
+
+@media (min-width: 750px) {
+    .custom-col {
+      height: 100vh;
+    }
+  }
