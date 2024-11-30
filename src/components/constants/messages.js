@@ -6,6 +6,7 @@ const MESSAGES = {
     },
     error: {
         invalidOtp: "The OTP entered is invalid. Please try again.",
+        correctEmail:"Please enter the currect email",
         uanInvalidLength: "UAN must be a 12-digit number.",        
         password: {
             length: "Password must be at least 8 characters long.",
