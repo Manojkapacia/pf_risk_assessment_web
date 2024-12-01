@@ -7,19 +7,19 @@ function Profile({ jsonData, onBack }) {
             <div className="row">
                 <div className="col-md-8 offset-md-2 mt-5">
 
-                    <div class="card mt-3">
+                    <div className="card mt-3">
                         <div className="d-flex justify-content-between align-items-center mt-2 ms-2">
                             {/* <button className="btn" style={{
                                 color: '#ffffff',
                                 backgroundColor: '#2f6870'
                             }} onClick={onBack}>Back</button> */}
-                            <button className="btn p-0 d-flex align-items-center"  onClick={onBack}>
+                            <button className="btn p-0 d-flex align-items-center" onClick={onBack}>
                                 <ArrowLeft size={20} className="me-1" /> Back
                             </button>
                             <h3 className="text-center flex-grow-1">Profile</h3>
                             <div style={{ width: '3.1rem' }}></div>
                         </div>
-                        <div class="card-body">
+                        <div className="card-body">
                             <p><strong>UAN:</strong> {jsonData.data.profile.UAN}</p>
                             <p><strong>Full Name:</strong> {jsonData.data.profile.fullName}</p>
                             <p><strong>Phone:</strong> {jsonData.data.profile.phone}</p>

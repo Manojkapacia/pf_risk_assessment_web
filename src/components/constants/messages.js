@@ -3,10 +3,11 @@ const MESSAGES = {
     success: {
         otpSent: "OTP has been sent successfully.",
         otpVerified: "OTP has been verified successfully.",
+        loginSuccess: "Logged in successfully"
     },
     error: {
         invalidOtp: "The OTP entered is invalid. Please try again.",
-        correctEmail:"Please enter the currect email",
+        correctEmail:"Please enter the correct email",
         uanInvalidLength: "UAN must be a 12-digit number.",        
         password: {
             length: "Password must be at least 8 characters long.",
@@ -15,7 +16,8 @@ const MESSAGES = {
             specialCharacter: "Password must contain at least one special character."
         },
         invalidUanPassword: 'Either UAN or Password is incorrect',
-        unauthorized: 'Session Expired! Please login again'
+        unauthorized: 'Session Expired! Please login again',
+        invalidOpnLogin: 'Invalid Credentails'
     },
     labels: {
         otp: "Enter OTP",
@@ -26,7 +28,8 @@ const MESSAGES = {
         requiredField: (type) => `${type} is required.`,
     },
     api: {
-        baseUrl: 'https://uat.finright.in/'
+        // baseUrl: 'https://uat.finright.in/'
+        baseUrl: 'http://localhost:3001'
     }
 };
 

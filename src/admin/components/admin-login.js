@@ -7,31 +7,20 @@ import ValidationError from '../../components/common/validate-error';
 import ToastMessage from '../../components/common/toast-message';
 import MESSAGES from '../../components/constants/messages';
 import Loader from '../../components/common/loader';
-// import { login } from '../../components/common/api';
-import staticData from '../helper/raw-data.json';
+import { adminLogin } from "../../components/common/api";
 
 function AdminLogin() {
-
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [errors,setErrors] = useState({});
-    const [,setError] = useState();
     const [isFormValid, setIsFormValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [message] = useState({ type: "", content: "" });
-    const [loading] = useState(false);
+    const [message, setMessage] = useState({ type: "", content: "" });
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
-    const [showModal, setShowModal] = useState(false);
-
     useEffect(() => {
         setIsFormValid(Object.values(errors).every((err) => !err) && formData.email && formData.password);
-        
-        const timer = setTimeout(() => {
-            setShowModal(false);
-          }, 700);
-      
-          return () => clearTimeout(timer);
     }, [errors, formData]);
 
     const validateField = useCallback((field, value) => {
@@ -65,43 +54,35 @@ function AdminLogin() {
             password: validateField("password", formData.password),
         };
 
-          if (formData.email === staticData.userData.email &&
-            formData.password === staticData.userData.password
-          ) {
-            navigate("/user-details"); 
-          } 
-          else {
-            // Show error message
-            setShowModal(true)
-            setError("Invalid email or password.");
-          }
-
         setErrors(newErrors);
 
-        // if (Object.values(newErrors).every((err) => !err)) {
-        //     try {
-        //         setLoading(true);
-        //         const result = await login(formData.email, formData.password);
-        //         setLoading(false);
+        if (Object.values(newErrors).every((err) => !err)) {
+            try {
+                setLoading(true);
+                const result = await adminLogin('/auth/admin-login', formData);
+                setLoading(false);
 
-        //         if (result.status === 400) {
-        //             setMessage({ type: "error", content: result.message });
-        //             setTimeout(() => setMessage({ type: "", content: "" }), 2500);
-        //         } else {
-        //             setMessage({ type: "success", content: MESSAGES.success.otpSent });
-        //             setTimeout(() => {
-        //                 // navigate("/otpAssessment", { state: { uan: formData.uan } });
-        //             }, 2000);
-        //         }
-        //     } catch (error) {
-        //         setLoading(false);
-        //         setMessage({ type: "error", content: error.message });
-        //         setTimeout(() => setMessage({ type: "", content: "" }), 3000);
-        //     }
-        // }
+                if (result.status === 400) {
+                    setMessage({ type: "error", content: result.message });
+                    setTimeout(() => setMessage({ type: "", content: "" }), 2500);
+                } else {
+                    setMessage({ type: "success", content: MESSAGES.success.loginSuccess });
+                    localStorage.setItem("admin_logged_in", "yes");
+                    setTimeout(() => {
+                        navigate("/operation/view-details");
+                    }, 2000);
+                }
+            } catch (error) {
+                console.log(error)
+                setLoading(false);
+                setMessage({ type: "error", content: error.message });
+                setTimeout(() => setMessage({ type: "", content: "" }), 3000);
+            }
+        }
     };
 
     const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+
     return (
         <>
             {loading && (
@@ -119,7 +100,7 @@ function AdminLogin() {
                     <div className="col-md-5">
                         <div className="pfRiskheading text-center">PF Risk Assessment</div>
                         <div className="pfRiskSubHeading text-center">
-                            Check if your PF is at risk of getting stuck
+                            Operation Login
                         </div>
 
                         <form onSubmit={handleSubmit}
@@ -166,7 +147,6 @@ function AdminLogin() {
                                     <ValidationError message={errors.password} />
                                 </div>
                             </div>
-                            {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
                             <div className="row my-2 mt-lg-4">
                                 <div className="col-md-12">
                                     <button type="submit" className="btn col-12 pfRiskButtons" disabled={!isFormValid}>
@@ -178,24 +158,6 @@ function AdminLogin() {
 
                     </div>
                 </div>
-
-                {showModal && (
-                    <div
-                        className="modal show d-block"
-                        tabIndex="-1"
-                        role="dialog"
-                        style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-                    >
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-body my-4 text-center">
-                                    <strong style={{ color: "red" }}>Please Enter the Currect Email 
-                                        and Password</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
         </>
     );

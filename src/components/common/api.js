@@ -1,5 +1,6 @@
 import axios from 'axios';
 import MESSAGES from '../constants/messages';
+import staticData from '../../helper/admin-login.json';
 
 // Create an Axios instance with default configurations
 const apiClient = axios.create({
@@ -20,6 +21,26 @@ export const login = async (uan, password) => {
       return { message: MESSAGES.error.invalidUanPassword, status: 400 };
     }
     console.error('Login failed:', error);
+    // Re-throw for other error cases
+    throw error;
+  }
+};
+
+// Function to handle admin login
+export const adminLogin = async (endpoint, data) => {
+  try {
+    // const response = await apiClient.post(endpoint, data);
+    // return response.data;
+    if(data.email === staticData.email && data.password === staticData.password) {
+      return { message: MESSAGES.error.loginSuccess, status: 200 };
+    } else {
+      return { message: MESSAGES.error.invalidOpnLogin, status: 400 };
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      return { message: MESSAGES.error.invalidUanPassword, status: 400 };
+    }
+    console.error('Admin Login failed:', error);
     // Re-throw for other error cases
     throw error;
   }
