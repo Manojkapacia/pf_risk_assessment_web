@@ -47,7 +47,6 @@ function ServiceHistory() {
     };
 
     const handleButtonClick = (type) => {
-        console.log(type)
         navigate("/select-organization", { state: {listItems, uan, type}})
     };
 

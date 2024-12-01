@@ -66,7 +66,7 @@ function LoginComponent() {
                     setMessage({ type: "error", content: result.message });
                     setTimeout(() => setMessage({ type: "", content: "" }), 2500);
                 } else {
-                    setMessage({ type: "success", content: MESSAGES.success.otpSent });
+                    setMessage({ type: "success", content: result.message });
                     setTimeout(() => {
                         navigate("/otpAssessment", { state: { uan: formData.uan } });
                     }, 2000);
