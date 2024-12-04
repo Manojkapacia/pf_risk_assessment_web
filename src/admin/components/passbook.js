@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { ArrowLeft } from 'react-bootstrap-icons';
 
 const PFPassbook = ({ jsonData, onBack }) => {
+    console.log("data passbook", jsonData);
+    return;
+
     let data = jsonData.data.passbooks.MHBAN01266700000011534;
-
     const [selectedYear, setSelectedYear] = useState("");
-
+    console.log("data passbook", data);
+    
     // Handle select change
     const handleYearChange = (event) => {
         setSelectedYear(event.target.value);

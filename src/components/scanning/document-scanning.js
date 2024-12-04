@@ -19,7 +19,7 @@ const DocumentScanning = () => {
     const [currentCategory, setCurrentCategory] = useState([])
     const [loading, setLoading] = useState(false);
     const [currentViewResultCategory, setCurrentViewResultCategory] = useState(null);
-    const [totalCount, setTotalCounts] = useState({totalSuccess: 0, totalCritical: 0, totalMedium: 0});
+    const [totalCount, setTotalCounts] = useState({ totalSuccess: 0, totalCritical: 0, totalMedium: 0 });
     const [isFetched, setIsFetched] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
 
@@ -101,12 +101,12 @@ const DocumentScanning = () => {
         const categoryIndex = Math.floor(progress / (100 / categories.length));
         setCurrentCategory(categories[categoryIndex] || categories[categories.length - 1]);
     }, [progress, categories]);
-    
+
     const viewScanResult = (category) => {
         setIsViewingResult(true);
         setCurrentViewResultCategory(category)
     };
-    
+
     const handleScanResultBack = () => {
         setIsViewingResult(false);
         setCurrentViewResultCategory(null)
@@ -126,7 +126,7 @@ const DocumentScanning = () => {
             {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="container-fluid">
                 <div className="row mx-sm-2 d-flex justify-content-center align-items-center vh-100">
-                    <div className="col-lg-4 offset-lg-1 mt-5 mt-lg-0">
+                    <div className="col-lg-4 col-md-8 mt-5 mt-lg-0">
                         {isProcessing && <div className="row mx-0 progress-card d-flex justify-content-center align-items-center">
                             <div className="col-7">
                                 <div className="progress-details">
@@ -206,13 +206,18 @@ const DocumentScanning = () => {
 
                     {!isViewingResult &&
                         <div className="col-lg-7 mt-3">
-                            <div className="pfRiskheading text-center">{isProcessing ? "Scanning Your PF" : "Scan Complete"}</div>
-                            {isProcessing && <p className="text-center">Lorem ipsum dolor sit amet consectetur.
-                                Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
-                                Lorem rhoncus vitae ullamcorper non.</p>}
+                            <div className='row'>
+                                <div className='col-md-8 offset-md-2'>
+                                    <div className="pfRiskheading text-center">{isProcessing ? "Scanning Your PF" : "Scan Complete"}</div>
+                                    {isProcessing && <p className="pfRiskSubHeading text-center">Lorem ipsum dolor sit amet consectetur.
+                                        Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
+                                        Lorem rhoncus vitae ullamcorper non. fgdgf</p>}
+                                </div>
+                            </div>
+
                             <div className="tasks mb-2 mb-md-0">
                                 {categories && categories.map((category, index) => (
-                                    <div key={index} className="task">                                        
+                                    <div key={index} className="task">
                                         {/* When processing is ongoing for current category */}
                                         {isProcessing && currentCategory?.category === category.category && (
                                             <>
@@ -256,7 +261,7 @@ const DocumentScanning = () => {
                                                     <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon' /> &nbsp;{category.category}</span>
                                                     <span className="error issue-count">{category.totalCritical} Critical Issues Found</span>
                                                 </span>
-                                                {<BsChevronCompactRight className='chevron-icon error cursor-pointer' onClick={() => {viewScanResult(category)}} />}
+                                                {<BsChevronCompactRight className='chevron-icon error cursor-pointer' onClick={() => { viewScanResult(category) }} />}
                                             </div>
                                         }
 
@@ -267,7 +272,7 @@ const DocumentScanning = () => {
                                                     <span className='d-flex align-items-center'><BsExclamationCircle className='pending smaller-icon' /> &nbsp;{category.category}</span>
                                                     <span className="pending issue-count">{category.totalMedium} Medium Issues Found</span>
                                                 </span>
-                                                {<BsChevronCompactRight className='chevron-icon pending cursor-pointer' onClick={() => {viewScanResult(category)}} />}
+                                                {<BsChevronCompactRight className='chevron-icon pending cursor-pointer' onClick={() => { viewScanResult(category) }} />}
                                             </div>
                                         }
 
@@ -278,13 +283,13 @@ const DocumentScanning = () => {
                                                     <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon' /> &nbsp;{category.category}</span>
                                                     <span className="error issue-count">{category.totalCritical} Critical & {category.totalMedium} Medium Issues Found</span>
                                                 </span>
-                                                {<BsChevronCompactRight className='chevron-icon error cursor-pointer' onClick={() => {viewScanResult(category)}} />}
+                                                {<BsChevronCompactRight className='chevron-icon error cursor-pointer' onClick={() => { viewScanResult(category) }} />}
                                             </div>
                                         }
                                     </div>
                                 ))}
                             </div>
-                            {!isProcessing && (totalCount.totalCritical >  0 || totalCount.totalMedium > 0) && <div className="row my-2 mt-lg-4">
+                            {!isProcessing && (totalCount.totalCritical > 0 || totalCount.totalMedium > 0) && <div className="row my-2 mt-lg-4">
                                 <p className="text-center fw-bold">Lorem ipsum dolor sit amet consectetur.</p>
                                 <div className="col-md-10 offset-md-1">
                                     <button type="submit" className="btn col-12 pfRiskButtons" onClick={() => navigate("/create-account")}>

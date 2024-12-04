@@ -13,12 +13,17 @@ input.form-control::placeholder {
 
 .pfRiskLoginImage{
   height: 22rem;
-   width: 90% 
+   width: 100% 
+}
+.loginLabel{
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 400;
 }
 
 @media only screen and (max-width: 770px) {
  .pfRiskLoginImage{
    height: 12.5rem;
-   width: 90%
+   width: 100%
  }
 }

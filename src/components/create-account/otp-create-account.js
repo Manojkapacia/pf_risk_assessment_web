@@ -40,21 +40,25 @@ function OtpCreateAccount() {
     };
 
     return (
-        <div className="container-fluid">
-            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-4 col-md-8 offset-lg-1 mt-4 mt-lg-0">
+        <div className="container">
+            <div className="row d-flex justify-content-center align-items-center vh-100">
+                <div className="col-lg-4 col-md-6  mt-4 mt-lg-0">
                     <img src={createAccount} alt="OTP Account" className='accountImage' />
                 </div>
 
-                <div className="col-lg-7">
-                    <div className="pfRiskheading text-center">Create Account to Proceed</div>
-                    <div className='pfRiskSubHeading text-center'>
-                        Please login to view all critical issues and their solutions
+                <div className="col-lg-6 col-md-8">
+                    <div className="row">
+                        <div className="col-sm-8 col-md-10 offset-md-1">
+                            <div className="pfRiskheading text-center">Create Account to Proceed</div>
+                            <div className='pfRiskSubHeading text-center'>
+                                Please login to view all critical issues and their solutions
+                            </div>
+                        </div>
                     </div>
                     <form>
                         <div className="row">
-                            <div className="col-sm-8 col-md-6 offset-md-3">
-                                <div className="labelHeading mt-2 mt-lg-5 pt-lg-3">
+                            <div className="col-sm-8 col-md-10 offset-md-1">
+                                <div className="otpCreateLabel mt-2 mt-lg-5 pt-lg-3">
                                     Enter OTP send to your EPF registered number
                                 </div>
 
@@ -68,7 +72,7 @@ function OtpCreateAccount() {
                                             onChange={(e) => handleChange(e, index)}
                                             onKeyDown={(e) => handleKeyDown(e, index)}
                                             onPaste={handlePaste}
-                                            className="form-control mx-1 mt-2 text-center"
+                                            className=" otpInput form-control mx-1 mt-2 text-center"
                                         />
                                     ))}
                                 </div>
@@ -82,10 +86,10 @@ function OtpCreateAccount() {
                             </div>
                         </div>
                         <div className="row my-2 mt-md-5 pt-lg-4">
-                            <div className="col-md-6 col-sm-8 offset-md-3">
+                            <div className="col-sm-8 col-md-10 offset-md-1">
                                 <button type="submit"
                                     className="btn w-100 pfRiskButtons">
-                                    Start Assessment
+                                    Continue
                                 </button>
                             </div>
                         </div>
