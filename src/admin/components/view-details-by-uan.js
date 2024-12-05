@@ -57,10 +57,10 @@ function ViewDetailsByUan() {
         }
     };
 
-    const backToAdminLogin = () => {
-        localStorage.removeItem("admin_logged_in");
-        navigate('/operation/login');
-    };
+    // const backToAdminLogin = () => {
+    //     localStorage.removeItem("admin_logged_in");
+    //     navigate('/operation/login');
+    // };
 
     return (
         <>
@@ -75,10 +75,10 @@ function ViewDetailsByUan() {
             )}
             <div className="row">
                 <div className="col d-flex justify-content-end">
-                    <button className="btn me-2" onClick={() => navigate("/")}>
+                    {/* <button className="btn me-2" onClick={() => navigate("/")}>
                         <ArrowLeft size={17} className="me-1" /> Back to Assessment</button>
                     <button className="btn me-3" onClick={backToAdminLogin}
-                        style={{ cursor: 'pointer' }}>Logout</button>
+                        style={{ cursor: 'pointer' }}>Logout</button> */}
                 </div>
             </div>
             <div className="container">
