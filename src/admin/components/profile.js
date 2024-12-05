@@ -46,10 +46,13 @@ function Profile({ jsonData, onBack }) {
                                         data-bs-parent="#accordionExample"
                                     >
                                         <div className="accordion-body">
-                                            <p><strong>Full Name:</strong> {jsonData.data.profile.basicDetails.fullName}</p>
-                                            <p><strong>DOB:</strong> {jsonData.data.profile.basicDetails.dateOfBirth}</p>
-                                            <p><strong>Gender:</strong> {jsonData.data.profile.basicDetails.gender}</p>
-                                            <p><strong>Father's Name:</strong> {jsonData.data.profile.basicDetails.fatherHusbandName}</p>
+                                            <p><strong>Full Name:</strong> {jsonData.data.profile.basicDetails?.fullName}</p>
+                                            <p><strong>DOB:</strong> {jsonData.data.profile.basicDetails?.dateOfBirth}</p>
+                                            <p><strong>Gender:</strong> {jsonData.data.profile.basicDetails?.gender}</p>
+                                            <p><strong>Father's / Husband Name:</strong> {jsonData.data.profile.basicDetails?.fatherHusbandName}</p>
+                                            <p><strong>Relation:</strong> {jsonData.data.profile.basicDetails?.relation}</p>
+                                            <p><strong>Physically Handicapped:</strong> {jsonData.data.profile.basicDetails?.physicallyHandicapped}</p>
+                                            <p><strong>International Worker:</strong> {jsonData.data.profile.basicDetails?.internationalWorker}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -75,8 +78,42 @@ function Profile({ jsonData, onBack }) {
                                         data-bs-parent="#accordionExample"
                                     >
                                         <div className="accordion-body">
-                                            <p><strong>Aadhar Card:</strong> {jsonData.data.profile.kycDetails.aadhaar}</p>
-                                            <p><strong>Pan Card:</strong> {jsonData.data.profile.kycDetails.pan}</p>
+                                            <p><strong>Aadhar Card:</strong> {jsonData.data.profile.kycDetails?.aadhaar}</p>
+                                            <p><strong>Pan Card:</strong> {jsonData.data.profile.kycDetails?.pan}</p>
+                                            <p><strong>Bank Account:</strong> {jsonData.data.profile.kycDetails?.bankAccountNumber}</p>
+                                            <p><strong>IFSC Code:</strong> {jsonData.data.profile.kycDetails?.bankIFSC}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Accordion Item 3 */}
+                                <div className="accordion-item">
+                                    <h2 className="accordion-header" id="headnigThree">
+                                        <button
+                                            className="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapseThree"
+                                            aria-expanded="false"
+                                            aria-controls="collapseThree"
+                                        >
+                                            <strong>KYC Verification Details:</strong>
+                                        </button>
+                                    </h2>
+                                    <div
+                                        id="collapseThree"
+                                        className="accordion-collapse collapse"
+                                        aria-labelledby="headingThree"
+                                        data-bs-parent="#accordionExample"
+                                    >
+                                        <div className="accordion-body">
+                                            <p><strong>Bio Metric Status:</strong> {jsonData.data.profile?.kycVerificationDetails?.bioMetricVerificationStatus}</p>
+                                            <p><strong>Demo Graphic Verification Status:</strong> {
+                                            jsonData.data.profile?.kycVerificationDetails?.demographicVerificationStatus !== undefined &&
+                                            jsonData.data.profile?.kycVerificationDetails?.demographicVerificationStatus !== null ?
+                                            jsonData.data.profile?.kycVerificationDetails?.demographicVerificationStatus : "N"
+                                            }</p>
+                                            <p><strong>OTP Based Verification Status:</strong> {jsonData.data.profile?.kycVerificationDetails?.otpBasedVerificationStatus}</p>
                                         </div>
                                     </div>
                                 </div>
