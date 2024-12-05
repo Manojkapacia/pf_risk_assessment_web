@@ -19,6 +19,7 @@ import ViewDetailsByUan from './admin/components/view-details-by-uan';
 import AdminLogin from './admin/components/admin-login';
 import AuthGuardAdmin from './components/guards/auth-guard-admin';
 import AdminGuestGuard from './components/guards/guest-guard-admin';
+import PageNotFound from './components/static/page-not-found'
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
         <Route path="/welcome-back" element={<GuestGuard><WelcomeBack /></GuestGuard>} />
         <Route path="/operation/login" element={<AdminGuestGuard><AdminLogin /></AdminGuestGuard>} />
         <Route path="/operation/view-details" element={<AuthGuardAdmin><ViewDetailsByUan /></AuthGuardAdmin>} />
-        <Route path="*" element={<h2>404 - Page Not Found</h2>} />
+        <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </Router>
 

@@ -1,0 +1,91 @@
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .scanner-loader {
+    width: 12rem;
+    height: 12rem;
+    position: relative;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .scanner-loader::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, #00ff00, #00cc00);
+    animation: scan 1.5s linear infinite;
+  }
+  
+  .document-icon {
+    width: 11rem;
+    height: 11rem;
+    margin: auto;
+    background: white;
+    border: 2px solid #000;
+    border-radius: 5px;
+  }
+
+  .line1,
+.line2,
+.line3,
+.line4,
+.line5 {
+  width: 50px;
+  height: 4px;
+  margin: 5px 0;
+  background-color: green;
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+.line1 {
+  animation-delay: 0s;
+}
+
+.line2 {
+  animation-delay: 0.3s;
+}
+
+.line3 {
+  animation-delay: 0.6s;
+}
+
+.line4 {
+  animation-delay: 0.9s;
+}
+
+.line5 {
+  animation-delay: 1.2s;
+}
+  
+  p {
+    font-size: 16px;
+    color: #333;
+  }
+
+  @keyframes loading {
+    0% {
+      transform: scaleX(0);
+    }
+    50% {
+      transform: scaleX(1);
+    }
+    100% {
+      transform: scaleX(0);
+    }
+  }
+  
+  @keyframes scan {
+    0% {
+      top: 0;
+    }
+    100% {
+      top: 100%;
+    }
+  }

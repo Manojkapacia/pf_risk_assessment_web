@@ -6,6 +6,8 @@ import '../../css/auth/otp-verification.css';
 import ToastMessage from '../common/toast-message';
 import MESSAGES from '../constants/messages';
 import Loader from '../common/loader';
+t// import Loader from '../common/scanne-loader';
+// import '../../css/common/scanner-loader.css';
 import { post } from '../common/api';
 
 function OtpComponent() {
@@ -20,6 +22,17 @@ function OtpComponent() {
 
     const { uan } = location.state || {};
     const timeoutRef = useRef(null);
+
+    const [timeLeft, setTimeLeft] = useState(60);
+    useEffect(() => {
+        if (timeLeft === 0) return; // Stop countdown when timeLeft reaches 0
+    
+        const timer = setInterval(() => {
+          setTimeLeft((prevTime) => prevTime - 1); // Decrease time by 1 every second
+        }, 1000);
+    
+        return () => clearInterval(timer); // Cleanup the interval on component unmount
+      }, [timeLeft]); // Re-run effect when timeLeft changes
 
     // Reset toast state
     const resetToast = useCallback(() => {
@@ -134,12 +147,16 @@ function OtpComponent() {
                                             />
                                         ))}
                                     </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <p className='text-danger mb-0'>OTP expires in {timeLeft} seconds.</p>
                                     <a
-                                        className="text-decoration-none labelSubHeading mt-2 float-end"
+                                        className="text-decoration-none labelSubHeading"
                                         href="www.google.com"
                                         onClick={(e) => e.preventDefault()}>
                                         Resend OTP
                                     </a>
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <div className="row my-2 mt-lg-5 pt-lg-4">
