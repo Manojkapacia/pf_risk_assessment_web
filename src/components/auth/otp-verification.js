@@ -6,7 +6,7 @@ import '../../css/auth/otp-verification.css';
 import ToastMessage from '../common/toast-message';
 import MESSAGES from '../constants/messages';
 import Loader from '../common/loader';
-t// import Loader from '../common/scanne-loader';
+// import Loader from '../common/scanne-loader';
 // import '../../css/common/scanner-loader.css';
 import { post } from '../common/api';
 
