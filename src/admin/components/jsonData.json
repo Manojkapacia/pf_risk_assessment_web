@@ -1,0 +1,790 @@
+{
+  "_id": {
+    "$oid": "67569467addad703f8e619c6"
+  },
+  "meta": {
+    "internalUserId": "7fa049a2-4458-4ff6-a603-e3dce1e4e037",
+    "uan": "101699073532",
+    "password": "Vatican@1997",
+    "createdTime": {
+      "$date": "2024-12-09T06:55:35.843Z"
+    }
+  },
+  "data": {
+    "profile": {
+      "UAN": "101699073532",
+      "fullName": "ALSON ANDREW SILVESTER",
+      "phone": "9769846834",
+      "email": "alsonsilvester@gmail.com",
+      "basicDetails": {
+        "fullName": "ALSON ANDREW SILVESTER",
+        "dateOfBirth": "17-05-1997",
+        "gender": "M",
+        "fatherHusbandName": "ANDREW CYRIL SILVESTER",
+        "relation": "F",
+        "physicallyHandicapped": "N",
+        "internationalWorker": "N"
+      },
+      "kycDetails": {
+        "aadhaar": "468345444582",
+        "pan": "GDGPS2045G",
+        "bankAccountNumber": "50100395949364",
+        "bankIFSC": "HDFC0000358"
+      },
+      "kycVerificationDetails": {
+        "bioMetricVerificationStatus": "-",
+        "demographicVerificationStatus": "[ Verfied on 08-MAR-24 ]",
+        "otpBasedVerificationStatus": "[ Verfied on 20-JUL-24 ]"
+      }
+    },
+    "serviceHistory": {
+      "overview": {
+        "Total Experience": "2 Years 9 Months 0 Days",
+        "Date of Joining": "13-Apr-2021",
+        "Total NCP Days": "23 Days"
+      },
+      "history": [
+        {
+          "heading": "1",
+          "period": "Feb 2024 - Aug 2024",
+          "company": "ICICI PRUDENTIAL LIFE INSURANCE COMPANY LIMITED",
+          "details": {
+            "Est Id": "MHBAN0049598000",
+            "Member Id": "MHBAN00495980005089547",
+            "NCP Days": "0 Days",
+            "Joining Date": "16-Feb-2024",
+            "Exit Date": "28-Aug-2024",
+            "Total Service": "0 Years 6 Months 12 Days"
+          }
+        },
+        {
+          "heading": "2",
+          "period": "Apr 2021 - Aug 2023",
+          "company": "TELEPERFORMANCE GLOBAL SERVICES PRIVATE LIMITED",
+          "details": {
+            "Est Id": "KDMAL0094725000",
+            "Member Id": "KDMAL00947250000443830",
+            "NCP Days": "23 Days",
+            "Joining Date": "13-Apr-2021",
+            "Exit Date": "08-Aug-2023",
+            "Total Service": "2 Years 3 Months 26 Days"
+          }
+        }
+      ]
+    },
+    "home": {
+      "currentEstablishmentDetails": {
+        "establishmentName": "ICICI PRUDENTIAL LIFE INSURANCE COMPANY LIMITED",
+        "establishmentId": "MHBAN0049598000",
+        "memberId": "MHBAN00495980005089547",
+        "dateOfJoining": "16-02-2024",
+        "experience": "0 Years 6 Months 12 Days"
+      },
+      "memberWiseBalances": [
+        {
+          "memberId": "KDMAL00947250000443830",
+          "balance": "₹ 0"
+        },
+        {
+          "memberId": "MHBAN00495980005089547",
+          "balance": "₹ 0"
+        }
+      ],
+      "totalBalance": "₹ 0"
+    },
+    "passbooks": {
+      "MHBAN00495980005089547": {
+        "isTrust": "true"
+      },
+      "KDMAL00947250000443830": {
+        "2021": {
+          "openingBalance": {
+            "particulars": "OB Int. Updated upto 31/03/2021",
+            "employeeShare": "₹ 0",
+            "employerShare": "₹ 0",
+            "pensionShare": "₹ 0"
+          },
+          "transactions": [
+            {
+              "wageMonth": "Apr-2021",
+              "transactionDate": "26-07-2021",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 052021",
+              "epfWages": "5,461",
+              "epsWages": "5,461",
+              "employeeShare": "655",
+              "employerShare": "200",
+              "pensionShare": "455"
+            },
+            {
+              "wageMonth": "May-2021",
+              "transactionDate": "26-07-2021",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 062021",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "May-2021",
+              "transactionDate": "26-07-2021",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 062021",
+              "epfWages": "728",
+              "epsWages": "728",
+              "employeeShare": "87",
+              "employerShare": "26",
+              "pensionShare": "61"
+            },
+            {
+              "wageMonth": "Jun-2021",
+              "transactionDate": "15-07-2021",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 072021",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Jul-2021",
+              "transactionDate": "13-08-2021",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 082021",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Aug-2021",
+              "transactionDate": "15-09-2021",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 092021",
+              "epfWages": "11,274",
+              "epsWages": "11,274",
+              "employeeShare": "1,353",
+              "employerShare": "414",
+              "pensionShare": "939"
+            },
+            {
+              "wageMonth": "Sep-2021",
+              "transactionDate": "14-10-2021",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 102021",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Oct-2021",
+              "transactionDate": "15-11-2021",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 112021",
+              "epfWages": "11,274",
+              "epsWages": "11,274",
+              "employeeShare": "1,353",
+              "employerShare": "414",
+              "pensionShare": "939"
+            },
+            {
+              "wageMonth": "Nov-2021",
+              "transactionDate": "14-12-2021",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 122021",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Dec-2021",
+              "transactionDate": "13-01-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 012022",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Jan-2022",
+              "transactionDate": "15-02-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 022022",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Feb-2022",
+              "transactionDate": "14-03-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 032022",
+              "epfWages": "11,274",
+              "epsWages": "11,274",
+              "employeeShare": "1,353",
+              "employerShare": "414",
+              "pensionShare": "939"
+            }
+          ],
+          "totals": {
+            "Total Contributions for the year [ 2021 ]": {
+              "employeeShare": "₹ 13,978",
+              "employerShare": "₹ 4,275",
+              "pensionShare": "₹ 9,703"
+            },
+            "Total Transfer-Ins/VDRs for the year [ 2021 ]": {
+              "employeeShare": "₹ 0",
+              "employerShare": "₹ 0",
+              "pensionShare": "₹ 0"
+            },
+            "Total Withdrawals for the year [ 2021 ]": {
+              "employeeShare": "₹ 0",
+              "employerShare": "₹ 0",
+              "pensionShare": "₹ 0"
+            }
+          },
+          "closingBalance": {
+            "particulars": "Closing Balance as on 31/03/2022",
+            "employeeShare": "₹ 14,429",
+            "employerShare": "₹ 4,413",
+            "pensionShare": "₹ 9,703"
+          },
+          "interestDetails": {
+            "particulars": "Int. Updated upto 31/03/2022",
+            "employeeShare": "₹ 451",
+            "employerShare": "₹ 138",
+            "pensionShare": "₹ 0"
+          }
+        },
+        "2022": {
+          "openingBalance": {
+            "particulars": "OB Int. Updated upto 01/04/2022",
+            "employeeShare": "₹ 14,429",
+            "employerShare": "₹ 4,413",
+            "pensionShare": "₹ 9,703"
+          },
+          "transactions": [
+            {
+              "wageMonth": "Mar-2022",
+              "transactionDate": "12-04-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 042022",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Apr-2022",
+              "transactionDate": "13-05-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 052022",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "May-2022",
+              "transactionDate": "15-06-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 062022",
+              "epfWages": "11,274",
+              "epsWages": "11,274",
+              "employeeShare": "1,353",
+              "employerShare": "414",
+              "pensionShare": "939"
+            },
+            {
+              "wageMonth": "Jun-2022",
+              "transactionDate": "14-07-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 072022",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Jul-2022",
+              "transactionDate": "12-08-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 082022",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Aug-2022",
+              "transactionDate": "15-09-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 092022",
+              "epfWages": "11,274",
+              "epsWages": "11,274",
+              "employeeShare": "1,353",
+              "employerShare": "414",
+              "pensionShare": "939"
+            },
+            {
+              "wageMonth": "Sep-2022",
+              "transactionDate": "14-10-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 102022",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Oct-2022",
+              "transactionDate": "15-11-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 112022",
+              "epfWages": "11,274",
+              "epsWages": "11,274",
+              "employeeShare": "1,353",
+              "employerShare": "414",
+              "pensionShare": "939"
+            },
+            {
+              "wageMonth": "Nov-2022",
+              "transactionDate": "15-12-2022",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 122022",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Dec-2022",
+              "transactionDate": "13-01-2023",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 012023",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Jan-2023",
+              "transactionDate": "13-02-2023",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 022023",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Feb-2023",
+              "transactionDate": "14-03-2023",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 032023",
+              "epfWages": "11,274",
+              "epsWages": "11,274",
+              "employeeShare": "1,353",
+              "employerShare": "414",
+              "pensionShare": "939"
+            }
+          ],
+          "totals": {
+            "Total Contributions for the year [ 2022 ]": {
+              "employeeShare": "₹ 15,900",
+              "employerShare": "₹ 4,864",
+              "pensionShare": "₹ 11,036"
+            },
+            "Total Transfer-Ins/VDRs for the year [ 2022 ]": {
+              "employeeShare": "₹ 0",
+              "employerShare": "₹ 0",
+              "pensionShare": "₹ 0"
+            },
+            "Total Withdrawals for the year [ 2022 ]": {
+              "employeeShare": "₹ 0",
+              "employerShare": "₹ 0",
+              "pensionShare": "₹ 0"
+            }
+          },
+          "closingBalance": {
+            "particulars": "Closing Balance as on 31/03/2023",
+            "employeeShare": "₹ 32,098",
+            "employerShare": "₹ 9,818",
+            "pensionShare": "₹ 20,739"
+          },
+          "interestDetails": {
+            "particulars": "Int. Updated upto 31/03/2023",
+            "employeeShare": "₹ 1,769",
+            "employerShare": "₹ 541",
+            "pensionShare": "₹ 0"
+          }
+        },
+        "2023": {
+          "openingBalance": {
+            "particulars": "OB Int. Updated upto 01/04/2023",
+            "employeeShare": "₹ 32,098",
+            "employerShare": "₹ 9,818",
+            "pensionShare": "₹ 20,739"
+          },
+          "transactions": [
+            {
+              "wageMonth": "Mar-2023",
+              "transactionDate": "13-04-2023",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 042023",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "Apr-2023",
+              "transactionDate": "13-05-2023",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 052023",
+              "epfWages": "10,922",
+              "epsWages": "10,922",
+              "employeeShare": "1,311",
+              "employerShare": "401",
+              "pensionShare": "910"
+            },
+            {
+              "wageMonth": "May-2023",
+              "transactionDate": "12-06-2023",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 062023",
+              "epfWages": "11,507",
+              "epsWages": "11,507",
+              "employeeShare": "1,381",
+              "employerShare": "422",
+              "pensionShare": "959"
+            },
+            {
+              "wageMonth": "Jun-2023",
+              "transactionDate": "13-07-2023",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 072023",
+              "epfWages": "11,147",
+              "epsWages": "11,147",
+              "employeeShare": "1,338",
+              "employerShare": "409",
+              "pensionShare": "929"
+            },
+            {
+              "wageMonth": "Aug-2023",
+              "transactionDate": "13-09-2023",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 092023",
+              "epfWages": "10,404",
+              "epsWages": "10,404",
+              "employeeShare": "1,248",
+              "employerShare": "381",
+              "pensionShare": "867"
+            },
+            {
+              "wageMonth": "Aug-2023",
+              "transactionDate": "13-09-2023",
+              "transactionType": "+",
+              "particulars": "Cont. For Due-Month 092023",
+              "epfWages": "2,877",
+              "epsWages": "2,877",
+              "employeeShare": "345",
+              "employerShare": "105",
+              "pensionShare": "240"
+            },
+            {
+              "wageMonth": "Oct-2023",
+              "transactionDate": "24-11-2023",
+              "transactionType": "-",
+              "particulars": "Claim Against PARA 68J",
+              "epfWages": "0",
+              "epsWages": "0",
+              "employeeShare": "9,700",
+              "employerShare": "0",
+              "pensionShare": "0"
+            },
+            {
+              "wageMonth": "Oct-2023",
+              "transactionDate": "24-11-2023",
+              "transactionType": "-",
+              "particulars": "Claim Against PARA 68L(3)",
+              "epfWages": "0",
+              "epsWages": "0",
+              "employeeShare": "29,274",
+              "employerShare": "4,167",
+              "pensionShare": "0"
+            },
+            {
+              "wageMonth": "Dec-2023",
+              "transactionDate": "19-01-2024",
+              "transactionType": "-",
+              "particulars": "Claim Against PARA 68HH",
+              "epfWages": "0",
+              "epsWages": "0",
+              "employeeShare": "0",
+              "employerShare": "5,800",
+              "pensionShare": "0"
+            }
+          ],
+          "totals": {
+            "Total Contributions for the year [ 2023 ]": {
+              "employeeShare": "₹ 6,934",
+              "employerShare": "₹ 2,119",
+              "pensionShare": "₹ 4,815"
+            },
+            "Total Transfer-Ins/VDRs for the year [ 2023 ]": {
+              "employeeShare": "₹ 0",
+              "employerShare": "₹ 0",
+              "pensionShare": "₹ 0"
+            },
+            "Total Withdrawals for the year [ 2023 ]": {
+              "employeeShare": "₹ 38,974",
+              "employerShare": "₹ 9,967",
+              "pensionShare": "₹ 0"
+            }
+          },
+          "closingBalance": {
+            "particulars": "Closing Balance as on 31/03/2024",
+            "employeeShare": "₹ 1,780",
+            "employerShare": "₹ 2,644",
+            "pensionShare": "₹ 25,554"
+          },
+          "interestDetails": {
+            "particulars": "Int. Updated upto 31/03/2024",
+            "employeeShare": "₹ 1,722",
+            "employerShare": "₹ 674",
+            "pensionShare": "₹ 0"
+          }
+        },
+        "2024": {
+          "openingBalance": {
+            "particulars": "OB Int. Updated upto 01/04/2024",
+            "employeeShare": "₹ 1,780",
+            "employerShare": "₹ 2,644",
+            "pensionShare": "₹ 25,554"
+          },
+          "transactions": [
+            {
+              "wageMonth": "Jun-2024",
+              "transactionDate": "23-07-2024",
+              "transactionType": "-",
+              "particulars": "Claim Against PARA 68J",
+              "epfWages": "0",
+              "epsWages": "0",
+              "employeeShare": "58",
+              "employerShare": "0",
+              "pensionShare": "0"
+            },
+            {
+              "wageMonth": "Aug-2024",
+              "transactionDate": "19-09-2024",
+              "transactionType": "-",
+              "particulars": "Claim Against PARA 68J",
+              "epfWages": "0",
+              "epsWages": "0",
+              "employeeShare": "1,700",
+              "employerShare": "0",
+              "pensionShare": "0"
+            },
+            {
+              "wageMonth": "Oct-2024",
+              "transactionDate": "26-11-2024",
+              "transactionType": "-",
+              "particulars": "Claim Against PARA 57(1)",
+              "epfWages": "0",
+              "epsWages": "0",
+              "employeeShare": "83",
+              "employerShare": "2,789",
+              "pensionShare": "0"
+            }
+          ],
+          "totals": {
+            "Total Contributions for the year [ 2024 ]": {
+              "employeeShare": "₹ 0",
+              "employerShare": "₹ 0",
+              "pensionShare": "₹ 0"
+            },
+            "Total Transfer-Ins/VDRs for the year [ 2024 ]": {
+              "employeeShare": "₹ 0",
+              "employerShare": "₹ 0",
+              "pensionShare": "₹ 0"
+            },
+            "Total Withdrawals for the year [ 2024 ]": {
+              "employeeShare": "₹ 1,841",
+              "employerShare": "₹ 2,789",
+              "pensionShare": "₹ 0"
+            }
+          },
+          "closingBalance": {
+            "particulars": "Closing Balance as on 31/03/2025",
+            "employeeShare": "₹ 0",
+            "employerShare": "₹ 0",
+            "pensionShare": "₹ 25,554"
+          },
+          "interestDetails": {
+            "particulars": "Int. given against Claim : KDMAL241150070962",
+            "employeeShare": "₹ 61",
+            "employerShare": "₹ 145",
+            "pensionShare": "₹ 0"
+          }
+        }
+      }
+    },
+    "claims": {
+      "summary": {
+        "totalClaims": "11",
+        "approvedSettledClaims": "6",
+        "approvedSettledAmount": "₹ 53,571",
+        "rejectedClaims": "4",
+        "pendingInProcessClaims": "1"
+      },
+      "details": {
+        "Pending Claims": {
+          "Pending Claims": [
+            {
+              "claimId": "10169907353204002",
+              "receiptDate": "02-12-2024",
+              "memberId": "MHBAN00495980005089547",
+              "formType": "Form-10C",
+              "description": "Withdrawal Benefit / Scheme Certificate",
+              "rejectDate": "MUMBAI (BANDRA)",
+              "rejectionReason": ""
+            }
+          ]
+        },
+        "Settled Claims": {
+          "Settled Claims": [
+            {
+              "claimId": "10169907353206002",
+              "receiptDate": "06-11-2023",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-31",
+              "description": "DECLARED AS AFFECTED BY OUTBREAK OF EPIDEMIC OR PANDEMIC  BY APPROPRIATE GOVERNMENT (COVID-19)",
+              "rejectDate": "₹ 33,441",
+              "rejectionReason": ""
+            },
+            {
+              "claimId": "10169907353206005",
+              "receiptDate": "05-01-2024",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-31",
+              "description": "ADVANCE FOR CONTINUOUS UNEMPLOYMENT FOR ABOVE ONE MONTH",
+              "rejectDate": "₹ 5,800",
+              "rejectionReason": ""
+            },
+            {
+              "claimId": "999317052411120000141",
+              "receiptDate": "12-11-2024",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-13 (Transfer Out)",
+              "description": "Transfer (Unexempted to Unexempted in other region or to Exempted Establishments)",
+              "rejectDate": "₹ 2,872",
+              "rejectionReason": ""
+            },
+            {
+              "claimId": "10169907353206001",
+              "receiptDate": "06-11-2023",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-31",
+              "description": "Illness",
+              "rejectDate": "₹ 9,700",
+              "rejectionReason": ""
+            },
+            {
+              "claimId": "10169907353206007",
+              "receiptDate": "22-07-2024",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-31",
+              "description": "Illness",
+              "rejectDate": "₹ 58",
+              "rejectionReason": ""
+            },
+            {
+              "claimId": "10169907353206008",
+              "receiptDate": "31-08-2024",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-31",
+              "description": "Illness",
+              "rejectDate": "₹ 1,700",
+              "rejectionReason": ""
+            }
+          ]
+        },
+        "Rejected Claims": {
+          "Rejected Claims": [
+            {
+              "claimId": "10169907353206003",
+              "receiptDate": "26-11-2023",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-31",
+              "description": "Non Receipt of Wages (>2 months)",
+              "rejectDate": "05-12-2023",
+              "rejectionReason": "1) NOT ELIGIBLE INSUFFICIENT MEMBER BALANCE 2) NOT ELIGIBLE- INSUFFICIENT BALANCE"
+            },
+            {
+              "rejectionReason": ""
+            },
+            {
+              "claimId": "10169907353206006",
+              "receiptDate": "12-02-2024",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-31",
+              "description": "Non Receipt of Wages (>2 months)",
+              "rejectDate": "21-02-2024",
+              "rejectionReason": "1) NOT ELIGIBLE INSUFFICIENT MEMBER BALANCE 2) NOT ELIGIBLE-INSUFFICIENT SERVICE"
+            },
+            {
+              "rejectionReason": ""
+            },
+            {
+              "claimId": "10169907353206004",
+              "receiptDate": "08-12-2023",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-31",
+              "description": "Illness",
+              "rejectDate": "18-12-2023",
+              "rejectionReason": "1) NOT ELIGIBLE INSUFFICIENT MEMBER BALANCE 2) NOT ELIGIBLE- INSUFFICIENT BALANCE"
+            },
+            {
+              "rejectionReason": ""
+            },
+            {
+              "claimId": "10169907353204001",
+              "receiptDate": "05-01-2024",
+              "memberId": "KDMAL00947250000443830",
+              "formType": "Form-10C",
+              "description": "Withdrawal Benefit / Scheme Certificate",
+              "rejectDate": "16-01-2024",
+              "rejectionReason": "1) PL SUBMIT THE FORM 10C ALONG WITH F/19 2) PHOTOCOPY OF BANK PASSBOOK NOT ATTESTED BY THE AUTHORIZED SIGNATORY/BANK MANAGER"
+            },
+            {
+              "rejectionReason": ""
+            }
+          ]
+        }
+      }
+    }
+  },
+  "__v": 0
+}

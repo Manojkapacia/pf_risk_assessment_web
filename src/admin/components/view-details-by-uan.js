@@ -8,6 +8,7 @@ import { Search, Eye, Download, ArrowLeft } from "react-bootstrap-icons";
 import { get } from "../../components/common/api";
 import Loader from "../../components/common/loader";
 import { useNavigate } from "react-router-dom";
+import Claims  from "./claims";
 
 function ViewDetailsByUan() {
     
@@ -110,7 +111,7 @@ function ViewDetailsByUan() {
                                         <th className="text-center">Service History</th>
                                         <th className="text-center">Transfers</th>
                                         <th className="text-center">Passbook</th>
-                                        {/* <th className="text-center">Withdrawability Report</th> */}
+                                        <th className="text-center">Claims</th>
                                     </tr>
                                 </thead>
                                 {uanData && 
@@ -133,14 +134,13 @@ function ViewDetailsByUan() {
                                             <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("pfpassbook")} />
                                             {/* <Download size={20} /> */}
                                         </td>
-                                        {/* <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" />
-                                            <Download size={20} onClick={handleDownload} />
-                                        </td> */}
+                                        <td className="text-center">
+                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("claims")}/>
+                                        </td>
                                     </tr>
                                 </tbody>
                                }
-                                {!uanData && <tbody><tr><td colSpan={4} className="text-center">No Data Found!!</td></tr></tbody>}
+                            {!uanData && <tbody><tr><td colSpan={5} className="text-center">No Data Found!!</td></tr></tbody>}
                             </table>
                         </div>
                     </div>
@@ -150,6 +150,8 @@ function ViewDetailsByUan() {
                     <ServiceHistory jsonData={uanData} onBack={() => setCurrentView("parent")} />
                 ) : currentView === "pfpassbook" ? (
                     <PFPassbook jsonData={uanData} onBack={() => setCurrentView("parent")} />
+                ) :currentView === "claims" ? (
+                    <Claims jsonData={uanData} onBack={() => setCurrentView("parent")} />
                 ) : null
                 }
 

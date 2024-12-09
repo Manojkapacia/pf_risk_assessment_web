@@ -1,10 +1,10 @@
 import React from "react";
 import { ArrowLeft } from 'react-bootstrap-icons';
-
+import getData from './jsonData.json'
 const PFPassbook = ({ jsonData, onBack }) => {
-    console.log("data get", jsonData);
+    // console.log("data get", getData);
+    // let data = getData?.data?.passbooks;
     let data = jsonData?.data?.passbooks;
-
 
 
     return (
@@ -24,7 +24,8 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                 aria-expanded="true"
                                 aria-controls={`collapse-${index}`}
                             >
-                                Member ID: {memberId}
+                                Member ID: {memberId} &nbsp;&nbsp; 
+                                {/* Member Name : {console.log} */}
                             </button>
                         </h2>
                         <div
@@ -34,8 +35,9 @@ const PFPassbook = ({ jsonData, onBack }) => {
                             data-bs-parent="#passbookAccordion"
                         >
                             <div className="accordion-body">
-                                {/* Render Years */}
-                                {Object.entries(yearsData).map(([year, yearData], yearIndex) => (
+                                {yearsData.isTrust === 'true' ?(<h4>This passbook belongs to a trust</h4>) 
+                                 :(
+                                Object.entries(yearsData).map(([year, yearData], yearIndex) => (
                                     <div key={yearIndex}>
                                         <h5
                                             style={{
@@ -48,17 +50,12 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                         >
                                             Year: {year}
                                         </h5>
-                                        {/* Show year details in another expansion */}
                                         <div
                                             id={`details-${memberId}-${year}`}
                                             className="collapse"
                                             style={{ marginLeft: "20px" }}
                                         >
                                             {console.log("year Data", yearData)}
-                                            {/* {yearData.transactions.map((txn, txnIndex) => (
-                      <p key={txnIndex}>
-                        Date: {txn.date}, Amount: {txn.amount}
-                      </p> */}
                                             <div className="mt-3">
                                                 <div className="mb-4">
                                                     <h4>Opening Balance</h4>
@@ -184,7 +181,9 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                             </div>
                                         </div>
                                     </div>
-                                ))}
+                                ))
+                                 )}
+                                
                             </div>
                         </div>
                     </div>

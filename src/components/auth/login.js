@@ -59,7 +59,7 @@ function LoginComponent() {
         if (Object.values(newErrors).every((err) => !err)) {
             try {
                 setLoading(true);
-                const result = await login(formData.uan, formData.password);
+                const result = await login(formData.uan, formData.password.trim());
                 setLoading(false);
 
                 if (result.status === 400) {
