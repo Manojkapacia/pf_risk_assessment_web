@@ -40,13 +40,13 @@
 }
 
 .selectImage{
-    width: 90%;
+    width: 100%;
     height: 22rem;
 }
 
 @media only screen and (max-width: 770px) {
     .selectImage {
-      width: 90%; 
+      width: 100%; 
       height: 16.5rem;
     }
   }

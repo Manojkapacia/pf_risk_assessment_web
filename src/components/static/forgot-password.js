@@ -15,10 +15,10 @@ const ForgotPassword = () => {
     return (
         <div className="container-fluid">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-4 col-md-4 offset-lg-1 mt-2 mt-md-0">
+                <div className="col-lg-3 col-md-4 offset-lg-1 mt-2 mt-md-0">
                     <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
                 </div>
-                <div className="col-md-8 col-lg-6">
+                <div className="col-md-8 col-lg-6 ms-lg-4">
                     <div className="row">
                         <div className='col-md-12 text-end backAssesment'style={{cursor:'pointer'}}
                                 onClick={() => navigate("/")}>Back to Assessment</div>

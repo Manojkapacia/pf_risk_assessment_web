@@ -81,8 +81,14 @@
     line-height: 1.2;
 }
 
-/* @media (min-width: 750px) {
-    .custom-col {
-      height: 100vh;
+/* .unaImage{
+    height: 22rem;
+    width: 100%; 
+  }
+
+@media only screen and (max-width: 770px) {
+    .unaImage{
+      height: 16.5rem;
+      width: 100%; 
     }
   } */

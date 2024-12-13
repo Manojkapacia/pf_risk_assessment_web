@@ -59,7 +59,7 @@ function LoginComponent() {
         if (Object.values(newErrors).every((err) => !err)) {
             try {
                 setLoading(true);
-                const result = await login(formData.uan, formData.password);
+                const result = await login(formData.uan, formData.password.trim());
                 setLoading(false);
 
                 if (result.status === 400) {
@@ -68,7 +68,16 @@ function LoginComponent() {
                 } else {
                     setMessage({ type: "success", content: result.message });
                     setTimeout(() => {
-                        navigate("/otpAssessment", { state: { uan: formData.uan } });
+                        if(result.message === "Login successful using local user profile."){
+                            const currentRoute = localStorage.getItem("current_page_"+formData.uan);
+                            if(currentRoute=="doc-scan"){
+                                navigate("/doc-scan", { state: { UAN: formData.uan } })
+                            }else{
+                                navigate("/service-history", { state: { UAN: formData.uan } });
+                            }
+                        }else{
+                            navigate("/" , { state: { UAN: formData.uan } });
+                        }
                     }, 2000);
                 }
             } catch (error) {
@@ -93,24 +102,29 @@ function LoginComponent() {
                     overlay={true}
                 />
             )}
-            <div className="container-fluid">
+            <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
-                <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                    <div className="col-lg-4 col-md-8 offset-lg-1 mt-2 mt-lg-0">
+                <div className="row d-flex justify-content-center align-items-center vh-100">
+                    <div className="col-lg-4 col-md-6 mt-2 mt-lg-0">
                         <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
                     </div>
-                    <div className="col-lg-7">
-                        <div className="pfRiskheading text-center">PF Risk Assessment</div>
-                        <div className="pfRiskSubHeading text-center">
-                            Check if your PF is at risk of getting stuck
+                    <div className="col-lg-6 col-md-8">
+                        <div className="row">
+                            <div className="col-md-11 offset-md-1">
+                                <div className="pfRiskheading text-center">PF Risk Assessment</div>
+                                <div className="pfRiskSubHeading text-center">
+                                    Check if your PF is at risk of getting stuck
+                                </div>
+                            </div>
                         </div>
+
                         <form onSubmit={handleSubmit}>
                             <div className="row mt-2 mt-lg-4">
-                                <div className="col-md-8 offset-md-2">
+                                <div className="col-md-11 offset-md-1">
                                     <div className="d-flex justify-content-between">
-                                        <div className="labelHeading">UAN number:</div>
-                                        <div className="labelSubHeading text-end" style={{cursor:'pointer'}}
-                                        onClick={() => navigate("/activate-uan")}>Activate UAN</div>
+                                        <div className="loginLabel">UAN number:</div>
+                                        <div className="labelSubHeading text-end" style={{ cursor: 'pointer' }}
+                                            onClick={() => navigate("/activate-uan")}>Activate UAN</div>
                                     </div>
                                     <input
                                         className="form-control mt-2"
@@ -123,15 +137,15 @@ function LoginComponent() {
                                         required
                                     />
                                     <ValidationError message={errors.uan} />
-                                    <div className="text-end labelSubHeading mt-2"style={{cursor:'pointer'}}
+                                    <div className="text-end labelSubHeading mt-2" style={{ cursor: 'pointer' }}
                                         onClick={() => navigate("/donot-know-uan")}>
                                         I don't know my UAN
                                     </div>
                                 </div>
                             </div>
                             <div className="row mt-lg-3">
-                                <div className="col-md-8 offset-md-2">
-                                    <div className="labelHeading">Password:</div>
+                                <div className="col-md-11 offset-md-1">
+                                    <div className="loginLabel">Password:</div>
                                     <div className="position-relative">
                                         <input
                                             className="form-control mt-2"
@@ -152,7 +166,7 @@ function LoginComponent() {
                                         </span>
                                     </div>
                                     <ValidationError message={errors.password} />
-                                    <div className="text-end labelSubHeading mt-2" style={{cursor:'pointer'}}
+                                    <div className="text-end labelSubHeading mt-2" style={{ cursor: 'pointer' }}
                                         onClick={() => navigate("/forgot-password")}>
                                         Forgot Password?
                                     </div>
@@ -161,7 +175,7 @@ function LoginComponent() {
 
 
                             <div className="row my-2 mt-lg-4">
-                                <div className="col-md-8 offset-md-2">
+                                <div className="col-md-11 offset-md-1">
                                     <button type="submit" className="btn col-12 pfRiskButtons" disabled={!isFormValid}>
                                         Continue
                                     </button>

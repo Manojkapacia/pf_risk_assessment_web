@@ -11,10 +11,10 @@ const DonotKnowUan = () => {
     return (
         <div className="container-fliud">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-md-4  offset-md-1 mt-2 mt-md-0">
+                <div className="col-md-3  offset-lg-1 mt-2 mt-md-0">
                     <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-6 ms-md-4">
                     <div className="row">
                         <div className='col-md-11 text-end backAssesment'style={{cursor:'pointer'}}
                                 onClick={() => navigate("/")}>Back to Assessment</div>

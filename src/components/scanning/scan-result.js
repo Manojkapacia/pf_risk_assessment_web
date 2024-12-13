@@ -16,7 +16,11 @@ const ScanResult = (props) => {
             </div>
             <div className="pfRiskheading text-center">{selectedCategory.category}</div>
             <p className="text-muted text-center">
-                Lorem ipsum dolor sit amet consectetur. Viverra adipiscing diam mus dictumst et proin faucibus lacus sed. Aliquet.
+            {selectedCategory.category=="Contributions" ? <p>On time and consistent deduction of employee Share, Employer share as well as Pension share as per EPF rules is very important</p> 
+             :selectedCategory.category=="Service History" ?<p>Checking any anomaly like missing Date of Exit or Date of joining or 
+                overlapping work experience</p>
+             :selectedCategory.category=="Transfer" ?<p>Every UAN must have a balanced Tranfer ledger, any mismatched transfer In or transfer out can force the EPFO to block access to your money </p>
+             :<p>There has been many changes in the EPS rules in past years and many employers, often make clerical mistakes in record keeping in accordance to the rules, this leads to blocking of access to your EPF amount</p>}
             </p>
             <div className="row g-3 mt-3 mb-3">
                 {selectedCategory.subCategory.map((subCategory, index) => (

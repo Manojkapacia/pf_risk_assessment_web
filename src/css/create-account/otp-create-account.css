@@ -1,11 +1,23 @@
 .accountImage{
     height: 22rem;
-     width: 90% 
+     width: 100% 
+  }
+
+  .otpCreateLabel{
+    font-size: 1rem;
+    font-weight: 400;
+    color: #000000;
   }
   
   @media only screen and (max-width: 770px) {
    .accountImage{
      height: 12.5rem;
-     width: 90% 
+     width: 100% 
    }
   }
+
+  @media only screen and (min-width: 770px) {
+    .otpInput{
+      height: 3.5rem;
+    }
+   }

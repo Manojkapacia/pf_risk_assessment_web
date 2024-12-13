@@ -101,3 +101,17 @@ export const del = async (endpoint) => {
     throw error;
   }
 };
+
+export const logout = async () => {
+  try {
+    const response = await apiClient.post('auth/logout');
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      return { message: MESSAGES.error.logoutError, status: 401 };
+    }
+    console.error('logout failed:', error);
+    // Re-throw for other error cases
+    throw error;
+  }
+};

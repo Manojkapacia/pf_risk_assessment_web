@@ -11,10 +11,14 @@ function SelectOrganization() {
     const navigate = useNavigate();
 
     const [selectedId, setSelectedId] = useState(null);
-    const { listItems, uan, type } = location.state || {};
-    
+    const { listItems,uan, UAN, type } = location.state || {};
+    // Accessing the state
+    // const { UAN } = location.state || {};
     useEffect(() => {
-        localStorage.setItem("current_page", "select-organization")
+        let dynamicKey = "current_page_" + UAN; 
+        console.log("select Organization", UAN,uan)
+        let value = "select-organization";   
+        localStorage.setItem(dynamicKey, value); 
     }, []);
 
     // Ensure listItems is an array before applying map
@@ -30,13 +34,13 @@ function SelectOrganization() {
 
     const generateReportClick = () => {
         const selectedOrg = selectedId !== null ? updatedListItems[selectedId] : null;
-        navigate("/doc-scan", { state: { selectedOrg, uan, type }})
+        navigate("/doc-scan", { state: { selectedOrg,UAN, uan, type } })
     }
 
     return (
-        <div className="container-fluid">
-            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-4 col-md-8 offset-lg-1">
+        <div className="container">
+            <div className="row d-flex justify-content-center align-items-center vh-100">
+                <div className="col-lg-4 col-md-8">
                     <div className='row'>
                         <div className='col-md-12 mt-2 mt-sm-0'>
                             <img src={serchHistoryImg} alt="Service History" className='selectImage' />
@@ -53,50 +57,55 @@ function SelectOrganization() {
                 </div>
 
 
-                <div className="col-lg-5 col-md-8 offset-lg-1">
+                <div className="col-lg-6 col-md-8">
                     <div className='row'>
-                        <div className="pfRiskheading text-center">Select Current Organization</div>
-                    </div>
+                        <div className="col-lg-11 offset-lg-1">
+                            <div className='row'>
+                                <div className="col-md-10 offset-md-1 pfRiskheading text-center">Select Current Organization</div>
+                            </div>
 
-                    <div className='row'>
-                        <div className='pfRiskSubHeading text-center'>
-                            Lorem ipsum dolor sit amet consectetur.
-                            Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
-                            Lorem rhoncus vitae ullamcorper non.
-                        </div>
-                    </div>
+                            <div className='row'>
+                                <div className='col-md-10 offset-md-1 pfRiskSubHeading text-center'>
+                                    Lorem ipsum dolor sit amet consectetur.
+                                    Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
+                                    Lorem rhoncus vitae ullamcorper non.
+                                </div>
+                            </div>
 
-                    <div className="row mt-4">
-                        <div className="col-md-8 offset-md-2">
-                            <div className="overflow-auto selectsideBar" style={{ maxHeight: '15rem' }}>
-                                <form>
-                                    {updatedListItems.map((item, index) => (
-                                        <div key={index}>
-                                            <ul className='list-group ms-4' >
-                                                <li><span className='selectHeading'>{item.company}</span><br></br>
-                                                    <span className='selectTime px-2'>{ConvertPeriod(item.period)}</span>
-                                                    <div className="form-check mt-2 ps-0 d-flex justify-content-start">
-                                                        <input className="large-checkbox me-3" type="checkbox" value=""
-                                                            checked={selectedId === index} onChange={() => handleCheckboxChange(index)} />
-                                                        <div className="form-check-label checkboxText">
-                                                            Still working here
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    ))}
-                                </form>
+                            <div className="row mt-4">
+                                <div className="col-md-8 offset-md-2">
+                                    <div className="overflow-auto selectsideBar" style={{ maxHeight: '15rem' }}>
+                                        <form>
+                                            {updatedListItems.map((item, index) => (
+                                                <div key={index}>
+                                                    <ul className='list-group ms-4' >
+                                                        <li><span className='selectHeading'>{item.company}</span><br></br>
+                                                            <span className='selectTime px-2'>{ConvertPeriod(item.period)}</span>
+                                                            <div className="form-check mt-2 ps-0 d-flex justify-content-start">
+                                                                <input className="large-checkbox me-3" type="checkbox" value=""
+                                                                    checked={selectedId === index} onChange={() => handleCheckboxChange(index)} />
+                                                                <div className="form-check-label checkboxText">
+                                                                    Still working here
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            ))}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className='row mt-4'>
+                                <div className='col-md-12 my-3 my-lg-0'>
+                                    <button className='btn correctButton w-100' onClick={generateReportClick}>
+                                        {selectedId !== null ? 'Continue' : "Not working in any of these"}</button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className='row mt-4'>
-                        <div className='col-md-12 my-3 my-lg-0'>
-                            <button className='btn correctButton w-100' onClick={generateReportClick}>
-                                {selectedId !== null ? 'Continue' : "Not working in any of these"}</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

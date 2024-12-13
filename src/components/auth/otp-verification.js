@@ -6,6 +6,8 @@ import '../../css/auth/otp-verification.css';
 import ToastMessage from '../common/toast-message';
 import MESSAGES from '../constants/messages';
 import Loader from '../common/loader';
+// import Loader from '../common/scanne-loader';
+// import '../../css/common/scanner-loader.css';
 import { post } from '../common/api';
 
 function OtpComponent() {
@@ -20,6 +22,17 @@ function OtpComponent() {
 
     const { uan } = location.state || {};
     const timeoutRef = useRef(null);
+
+    const [timeLeft, setTimeLeft] = useState(60);
+    useEffect(() => {
+        if (timeLeft === 0) return; // Stop countdown when timeLeft reaches 0
+    
+        const timer = setInterval(() => {
+          setTimeLeft((prevTime) => prevTime - 1); // Decrease time by 1 every second
+        }, 1000);
+    
+        return () => clearInterval(timer); // Cleanup the interval on component unmount
+      }, [timeLeft]); // Re-run effect when timeLeft changes
 
     // Reset toast state
     const resetToast = useCallback(() => {
@@ -97,21 +110,26 @@ function OtpComponent() {
                     overlay={true}
                 />
             )}
-            <div className="container-fluid">
+            <div className="container">
                 {showToast && <ToastMessage message={toastMessage} type={toastType} />}
-                <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                    <div className="col-lg-4 col-md-8 offset-lg-1 mt-2 mt-lg-0">
+                <div className="row d-flex justify-content-center align-items-center vh-100">
+                    <div className="col-lg-4 col-md-6 mt-2 mt-lg-0">
                         <img src={pfRiskImage} alt="OTP Assessment" className="otpAssessmentImage" />
                     </div>
-                    <div className="col-lg-7">
-                        <div className="pfRiskheading text-center">PF Risk Assessment</div>
-                        <div className="pfRiskSubHeading text-center">
-                            Check if your PF is at risk of getting stuck
+                    <div className="col-lg-6 col-md-8">
+                        <div className="row">
+                            <div className="col-sm-8 col-md-10 offset-md-1">
+                                <div className="pfRiskheading text-center">PF Risk Assessment</div>
+                                <div className="pfRiskSubHeading text-center">
+                                    Check if your PF is at risk of getting stuck
+                                </div>
+                            </div>
                         </div>
+
                         <form onSubmit={handleSubmit}>
                             <div className="row">
-                                <div className="col-sm-8 col-md-6 offset-md-3">
-                                    <div className="labelHeading mt-2 mt-lg-5 pt-lg-3">
+                                <div className="col-sm-8 col-md-10 offset-md-1">
+                                    <div className="otpLabel mt-2 mt-lg-5 pt-lg-5">
                                         Enter OTP sent to your EPF registered number
                                     </div>
                                     <div className="d-flex">
@@ -121,7 +139,7 @@ function OtpComponent() {
                                                 id={`otp-input-${index}`}
                                                 type="text"
                                                 maxLength="1"
-                                                className="form-control text-center mx-1 mt-2"
+                                                className="otpInput form-control text-center mx-1 mt-2"
                                                 value={digit}
                                                 onChange={(e) => handleOtpChange(e.target.value, index)}
                                                 onKeyDown={(e) => handleBackspace(e, index)}
@@ -129,16 +147,20 @@ function OtpComponent() {
                                             />
                                         ))}
                                     </div>
+                                    <div className="d-flex justify-content-between align-items-center mt-2">
+                                    <p className='text-danger mb-0'>OTP expires in {timeLeft} seconds.</p>
                                     <a
-                                        className="text-decoration-none labelSubHeading mt-2 float-end"
+                                        className="text-decoration-none labelSubHeading"
                                         href="www.google.com"
                                         onClick={(e) => e.preventDefault()}>
                                         Resend OTP
                                     </a>
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <div className="row my-2 mt-lg-5 pt-lg-4">
-                                <div className="col-md-6 col-sm-8 offset-md-3">
+                                <div className="col-md-10 col-sm-8 offset-md-1">
                                     <button type="submit" className="btn w-100 pfRiskButtons">
                                         Start Assessment
                                     </button>
