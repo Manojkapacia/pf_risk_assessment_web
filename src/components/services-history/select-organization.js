@@ -11,10 +11,14 @@ function SelectOrganization() {
     const navigate = useNavigate();
 
     const [selectedId, setSelectedId] = useState(null);
-    const { listItems, uan, type } = location.state || {};
-
+    const { listItems,uan, UAN, type } = location.state || {};
+    // Accessing the state
+    // const { UAN } = location.state || {};
     useEffect(() => {
-        localStorage.setItem("current_page", "select-organization")
+        let dynamicKey = "current_page_" + UAN; 
+        console.log("select Organization", UAN,uan)
+        let value = "select-organization";   
+        localStorage.setItem(dynamicKey, value); 
     }, []);
 
     // Ensure listItems is an array before applying map
@@ -30,7 +34,7 @@ function SelectOrganization() {
 
     const generateReportClick = () => {
         const selectedOrg = selectedId !== null ? updatedListItems[selectedId] : null;
-        navigate("/doc-scan", { state: { selectedOrg, uan, type } })
+        navigate("/doc-scan", { state: { selectedOrg,UAN, uan, type } })
     }
 
     return (

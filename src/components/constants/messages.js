@@ -17,7 +17,8 @@ const MESSAGES = {
         },
         invalidUanPassword: 'Either UAN or Password is incorrect',
         unauthorized: 'Session Expired! Please login again',
-        invalidOpnLogin: 'Invalid Credentails'
+        invalidOpnLogin: 'Invalid Credentails',
+        logoutError : 'Unauthorized: Session expired or invalid'
     },
     labels: {
         otp: "Enter OTP",

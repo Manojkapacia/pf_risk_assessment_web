@@ -139,8 +139,8 @@ function ViewDetailsByUan() {
                                         </td>
                                     </tr>
                                 </tbody>
-                               }
-                            {!uanData && <tbody><tr><td colSpan={5} className="text-center">No Data Found!!</td></tr></tbody>}
+                                }
+                             {!uanData && <tbody><tr><td colSpan={5} className="text-center">No Data Found!!</td></tr></tbody>}
                             </table>
                         </div>
                     </div>

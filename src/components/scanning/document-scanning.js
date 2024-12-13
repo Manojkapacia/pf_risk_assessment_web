@@ -23,7 +23,7 @@ const DocumentScanning = () => {
     const [isFetched, setIsFetched] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
 
-    const { selectedOrg, type } = location.state || {};
+    const { selectedOrg, type,UAN ,uan} = location.state || {};
 
     const navigate = useNavigate()
 
@@ -67,7 +67,9 @@ const DocumentScanning = () => {
     };
 
     useEffect(() => {
-        localStorage.setItem("current_page", "doc-scan");
+            let dynamicKey = "current_page_" + UAN; 
+            let value = "doc-scan";   
+            localStorage.setItem(dynamicKey, value); 
         if (!isFetched) {
             fetchReport();
         }

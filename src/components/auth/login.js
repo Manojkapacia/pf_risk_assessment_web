@@ -68,7 +68,16 @@ function LoginComponent() {
                 } else {
                     setMessage({ type: "success", content: result.message });
                     setTimeout(() => {
-                        navigate("/otpAssessment", { state: { uan: formData.uan } });
+                        if(result.message === "Login successful using local user profile."){
+                            const currentRoute = localStorage.getItem("current_page_"+formData.uan);
+                            if(currentRoute=="doc-scan"){
+                                navigate("/doc-scan", { state: { UAN: formData.uan } })
+                            }else{
+                                navigate("/service-history", { state: { UAN: formData.uan } });
+                            }
+                        }else{
+                            navigate("/" , { state: { UAN: formData.uan } });
+                        }
                     }, 2000);
                 }
             } catch (error) {

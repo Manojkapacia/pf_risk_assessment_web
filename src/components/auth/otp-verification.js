@@ -147,7 +147,7 @@ function OtpComponent() {
                                             />
                                         ))}
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <div className="d-flex justify-content-between align-items-center mt-2">
                                     <p className='text-danger mb-0'>OTP expires in {timeLeft} seconds.</p>
                                     <a
                                         className="text-decoration-none labelSubHeading"

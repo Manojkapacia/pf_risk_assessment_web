@@ -7,6 +7,7 @@ import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
 import SearchComponent from '../common/search';
 import { get } from '../common/api';
 import { ConvertPeriod } from '../common/date-convertor';
+import { useLocation } from 'react-router-dom';
 
 function ServiceHistory() {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,7 @@ function ServiceHistory() {
     const [uan, setUan] = useState('')
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     // Function to fetch data
     const fetchData = async () => {
@@ -35,8 +37,12 @@ function ServiceHistory() {
         }
     };
 
+    // Accessing the state
+    const { UAN } = location.state || {};
     useEffect(() => {
-        localStorage.setItem("current_page", "service-history")
+        let dynamicKey = "current_page_" + UAN; 
+        let value = "service-history";   
+        localStorage.setItem(dynamicKey, value); 
         setUan(localStorage.getItem('user_uan'))
         fetchData(); // Call API when component loads
     }, []);
@@ -47,7 +53,7 @@ function ServiceHistory() {
     };
 
     const handleButtonClick = (type) => {
-        navigate("/select-organization", { state: { listItems, uan, type } })
+        navigate("/select-organization", { state: { listItems, uan, UAN, type } })
     };
 
     if (isLoading) {
@@ -112,13 +118,13 @@ function ServiceHistory() {
                                                     {activeIndex === index && (
                                                         <li className='list-group-item bg-light'>
                                                             <div className="row">
-                                                                <div className="col-6">
+                                                                <div className="col-5">
                                                                     <span className='dropdownLabel'>Member Id :</span><br></br>
                                                                     <span className='dropdownLabel'>NCP Days :</span><br></br>
                                                                     <span className='dropdownLabel'>Joining Date :</span><br></br>
                                                                     <span className='dropdownLabel'>Exit Date :</span><br></br>
                                                                 </div>
-                                                                <div className="col-6">
+                                                                <div className="col-7 ps-0">
                                                                     <span className='dropdownSublabel'>{item.details['Member Id']}</span><br></br>
                                                                     <span className='dropdownSublabel'>{item.details['NCP Days']}</span><br></br>
                                                                     <span className='dropdownSublabel'>{item.details['Joining Date']}</span><br></br>
