@@ -9,7 +9,7 @@ import Loader from '../common/loader';
 // import Loader from '../common/scanne-loader';
 // import '../../css/common/scanner-loader.css';
 import { post, login } from '../common/api';
-import loaderGif from './../../assets/images/scanner.gif';
+import loaderGif from './../../assets/images/otp.gif';
 
 function OtpComponent() {
     const location = useLocation();
