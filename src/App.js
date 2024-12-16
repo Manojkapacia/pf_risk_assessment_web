@@ -23,7 +23,8 @@ import PageNotFound from './components/static/page-not-found'
 
 function App() {
   return (
-    <Router>
+    <div className='min-vh-100 setBackGround'>
+      <Router>
       <Logo />
       <Routes>
         <Route path="/" element={<GuestGuard><LoginComponent /></GuestGuard>} />
@@ -43,7 +44,7 @@ function App() {
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </Router>
-
+    </div>
   );
 }
 

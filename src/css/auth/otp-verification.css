@@ -8,6 +8,11 @@
     font-weight: 400;
     color: #000000;
   }
+
+  .termConditionText{
+    font-size: 0.62rem;
+    font-weight: 300;
+  }
   
   @media only screen and (max-width: 770px) {
    .otpAssessmentImage{

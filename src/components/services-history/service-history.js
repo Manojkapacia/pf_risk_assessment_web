@@ -61,12 +61,16 @@ function ServiceHistory() {
     }
 
     return (
-        <div className="container">
+        <div className='setBackGround'>
+            <div className="container">
             <div className="row d-flex justify-content-center align-items-center vh-100">
                 <div className="col-lg-4 col-md-8">
                     <div className='row'>
                         <div className='col-md-12 mt-2 mt-sm-0'>
-                            <img src={serchHistoryImg} alt="Service History" className='serviceImage' />
+                            {/* <img src={serchHistoryImg} alt="Service History" className='serviceImage' /> */}
+                            <div className='welcomeLabelLogin'>
+                            Step 1
+                        </div>
                         </div>
                     </div>
 
@@ -156,6 +160,8 @@ function ServiceHistory() {
             </div>
 
         </div>
+        </div>
+        
     )
 }
 

@@ -9,6 +9,7 @@ import { get } from "../../components/common/api";
 import Loader from "../../components/common/loader";
 import { useNavigate } from "react-router-dom";
 import Claims  from "./claims";
+import Withdrawability from "./withdrawability ";
 
 function ViewDetailsByUan() {
     
@@ -112,6 +113,7 @@ function ViewDetailsByUan() {
                                         <th className="text-center">Transfers</th>
                                         <th className="text-center">Passbook</th>
                                         <th className="text-center">Claims</th>
+                                        <th className="text-center">Withdrawability </th>
                                     </tr>
                                 </thead>
                                 {uanData && 
@@ -137,6 +139,9 @@ function ViewDetailsByUan() {
                                         <td className="text-center">
                                             <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("claims")}/>
                                         </td>
+                                        <td className="text-center">
+                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("withdraw")}/>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 }
@@ -152,7 +157,9 @@ function ViewDetailsByUan() {
                     <PFPassbook jsonData={uanData} onBack={() => setCurrentView("parent")} />
                 ) :currentView === "claims" ? (
                     <Claims jsonData={uanData} onBack={() => setCurrentView("parent")} />
-                ) : null
+                ) :currentView === "withdraw" ? (
+                    <Withdrawability jsonData={uanData} onBack={() => setCurrentView("parent")} />
+                ): null
                 }
 
             </div>

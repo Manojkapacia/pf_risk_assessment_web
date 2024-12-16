@@ -9,6 +9,13 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import MESSAGES from '../constants/messages'
 import Loader from '../common/loader';
 import { login } from '../common/api';
+import loaderGif from './../../assets/images/scanner.gif';
+import multiFactor from "../../assets/images/multifactor.png"
+import IPData from "../../assets/images/PIdata.png";
+import Encryption from "../../assets/images/encryption.png";
+import DPDP from "../../assets/images/DPDP.png";
+import cloud from "../../assets/images/cloud.png";
+import dataProtect from "../../assets/images/dataProtect.png"
 
 function LoginComponent() {
     const [formData, setFormData] = useState({ uan: "", password: "" });
@@ -50,6 +57,12 @@ function LoginComponent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // setLoading(true);
+        // setTimeout(() => {
+        //     setLoading(false);
+        // }, 2000);
+
         const newErrors = {
             uan: validateField("uan", formData.uan),
             password: validateField("password", formData.password),
@@ -68,15 +81,16 @@ function LoginComponent() {
                 } else {
                     setMessage({ type: "success", content: result.message });
                     setTimeout(() => {
-                        if(result.message === "Login successful using local user profile."){
-                            const currentRoute = localStorage.getItem("current_page_"+formData.uan);
-                            if(currentRoute=="doc-scan"){
+                        setMessage({ type: "", content: "" });
+                        if (result.message === "Login successful using local user profile.") {
+                            const currentRoute = localStorage.getItem("current_page_" + formData.uan);
+                            if (currentRoute == "doc-scan") {
                                 navigate("/doc-scan", { state: { UAN: formData.uan } })
-                            }else{
+                            } else {
                                 navigate("/service-history", { state: { UAN: formData.uan } });
                             }
-                        }else{
-                            navigate("/" , { state: { UAN: formData.uan } });
+                        } else {
+                            navigate("/otpAssessment", { state: { UAN: formData.uan, Pws: formData.password } });
                         }
                     }, 2000);
                 }
@@ -92,8 +106,8 @@ function LoginComponent() {
 
 
     return (
-        <>
-            {loading && (
+        <div>
+            {/* {loading && (
                 <Loader
                     type="dots"
                     size="large"
@@ -101,12 +115,55 @@ function LoginComponent() {
                     message="Checking credentials, please wait..."
                     overlay={true}
                 />
+            )} */}
+            {loading && (
+                <div className="loader-overlay">
+                    <div className="loader-container">
+                        <img className='loader-img' src={loaderGif} alt="Loading..." />
+                        <p className="loader-text">Verifying UAN Number and Password</p>
+                    </div>
+                </div>
             )}
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row d-flex justify-content-center align-items-center vh-100">
                     <div className="col-lg-4 col-md-6 mt-2 mt-lg-0">
-                        <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
+                        {/* <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' /> */}
+                        <div className='welcomeLabelLogin'>
+                            Welcome to India's First<br></br> Digital PF check up
+                        </div>
+                        <div className='EpfText mt-4 mb-3'>
+                            Please login using your EPF UAN and<br></br> Password to begin the check up
+                        </div>
+                        <div className="d-flex justify-content-start">
+                        <span className='securityText py-2 px-3 d-flex align-items-center'>
+                        <img src={dataProtect} alt="Risk Assessment" className='dataImage me-1'/>
+                            We have implemented 5 tier security to keep youe data protected</span>
+                        </div>
+                        <div className="d-flex justify-content-start mt-3">
+                            <div className='d-flex flex-column  align-items-center text-center'>
+                                <img src={multiFactor} alt="Risk Assessment" className='iconImage '/>
+                                <span className="iconText">Multi Factor Authentication</span>
+                            </div>
+                            <div className='d-flex flex-column align-items-center text-center'>
+                                <img src={IPData} alt="Risk Assessment" className='iconImage' />
+                                <span className="iconText">Encrypting and Masking PI Data</span>
+                            </div>
+                            <div className='d-flex flex-column align-items-center text-center'>
+                                <img src={Encryption} alt="Risk Assessment" className='iconImage' />
+                                <span className="iconText">End to End Encryption</span>
+                            </div>
+                            <div className='d-flex flex-column align-items-center text-center'>
+                                <img src={DPDP} alt="Risk Assessment" className='iconImage' />
+                                <span className="iconText">Adherence to DPDP Act 2024</span>
+                            </div>
+                            <div className='d-flex flex-column align-items-center text-center'>
+                                <img src={cloud} alt="Risk Assessment" className='iconImage' />
+                                <span className="iconText">Highly Secure cloud infrastructure</span>
+                            </div>
+
+                        </div>
+
                     </div>
                     <div className="col-lg-6 col-md-8">
                         <div className="row">
@@ -123,11 +180,14 @@ function LoginComponent() {
                                 <div className="col-md-11 offset-md-1">
                                     <div className="d-flex justify-content-between">
                                         <div className="loginLabel">UAN number:</div>
-                                        <div className="labelSubHeading text-end" style={{ cursor: 'pointer' }}
-                                            onClick={() => navigate("/activate-uan")}>Activate UAN</div>
+                                        <div className="labelSubHeading text-end">
+                                            <span style={{ cursor: 'pointer' }}
+                                                onClick={() => navigate("/activate-uan")}>Activate UAN
+                                            </span>
+                                        </div>
                                     </div>
                                     <input
-                                        className="form-control mt-2"
+                                        className="form-control uanNumber mt-2"
                                         type="text"
                                         placeholder="Enter your 12 digit UAN number"
                                         name="uan"
@@ -137,9 +197,10 @@ function LoginComponent() {
                                         required
                                     />
                                     <ValidationError message={errors.uan} />
-                                    <div className="text-end labelSubHeading mt-2" style={{ cursor: 'pointer' }}
-                                        onClick={() => navigate("/donot-know-uan")}>
-                                        I don't know my UAN
+                                    <div className="text-end labelSubHeading mt-2" >
+                                        <span style={{ cursor: 'pointer' }}
+                                            onClick={() => navigate("/donot-know-uan")}>I don't know my UAN
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +209,7 @@ function LoginComponent() {
                                     <div className="loginLabel">Password:</div>
                                     <div className="position-relative">
                                         <input
-                                            className="form-control mt-2"
+                                            className="form-control uanNumber mt-2"
                                             type={showPassword ? "text" : "password"}
                                             placeholder="Enter your EPFO password"
                                             name="password"
@@ -166,10 +227,11 @@ function LoginComponent() {
                                         </span>
                                     </div>
                                     <ValidationError message={errors.password} />
-                                    <div className="text-end labelSubHeading mt-2" style={{ cursor: 'pointer' }}
-                                        onClick={() => navigate("/forgot-password")}>
-                                        Forgot Password?
+                                    <div className="text-end labelSubHeading mt-2" >
+                                        <span style={{ cursor: 'pointer' }}
+                                            onClick={() => navigate("/forgot-password")}>Forgot Password?</span>
                                     </div>
+                                    <span className='alreadyText'>Already have an account? <span className='loginText'> Login here</span></span>
                                 </div>
                             </div>
 
@@ -185,7 +247,7 @@ function LoginComponent() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 
