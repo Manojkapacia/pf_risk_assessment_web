@@ -2,6 +2,7 @@ import React from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
 import { useNavigate } from 'react-router-dom';
+import SideContent from '../common/side-content';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { Link,ThreeDots,Tablet,ArrowClockwise } from "react-bootstrap-icons";
 
@@ -15,10 +16,11 @@ const ActivateUan = () => {
     return (
         <div className="container-fluid">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-md-4 col-lg-3 offset-lg-1 mt-2 mt-md-0">
-                    <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
+                <div className="col-md-4 col-lg-4 mt-2 mt-md-0 mb-3 mb-lg-0">
+                    {/* <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage'/> */}
+                    <SideContent></SideContent>
                 </div>
-                <div className="col-md-8 col-lg-6 ms-lg-4">
+                <div className="col-md-7 offset-md-1 offset-lg-0 col-lg-6 pb-5" style={{backgroundColor: "#ffffff"}}>
                     <div className="row">
                         <div className='col-md-12 text-end backAssesment' style={{cursor:'pointer'}}
                                 onClick={() => navigate("/")}>Back to Assessment</div>
@@ -88,7 +90,7 @@ const ActivateUan = () => {
                                 </div>
                             </div>
                             <div className="buttonClass mt-md-3 d-flex justify-content-center align-items-center" style={{ height: '5.3rem' }}>
-                                <button className='epfoButton w-100 py-2' onClick={goToEpfoPortal}>Go to EPFO Portal</button>
+                                <button className='pfRiskButtons w-100 py-2' onClick={goToEpfoPortal}>Go to EPFO Portal</button>
                             </div>
                         </div>
                     </div>

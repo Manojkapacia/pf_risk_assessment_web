@@ -71,6 +71,7 @@ function ServiceHistory() {
                             <div className='welcomeLabelLogin'>
                             Step 1
                         </div>
+                        
                         </div>
                     </div>
 

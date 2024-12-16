@@ -69,9 +69,12 @@
 }
 
 .welcomeButton{
-    background-color:#2F6870;
-    color: #ffffff;
-    border-radius: 0.3rem;
+    background-color:#ffffff;
+    color:#00124F;
+    border-radius: 2rem;
+    border: 2px solid #00124F;
+    font-size: 1rem;
+    font-weight: 600;
 }
 .welcomeLabel{
     font-size: 2rem;

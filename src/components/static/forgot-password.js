@@ -2,6 +2,7 @@ import React from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
 import { useNavigate } from 'react-router-dom';
+import SideContent from '../common/side-content';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { Link ,ChatSquareDots,Key,PersonCheck,Clipboard,CreditCard  } from "react-bootstrap-icons";
 
@@ -15,10 +16,11 @@ const ForgotPassword = () => {
     return (
         <div className="container-fluid">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-3 col-md-4 offset-lg-1 mt-2 mt-md-0">
-                    <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' />
+                <div className="col-lg-4 col-md-4 mt-2 mt-md-0 mb-3 mb-lg-0">
+                    {/* <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' /> */}
+                    <SideContent></SideContent>
                 </div>
-                <div className="col-md-8 col-lg-6 ms-lg-4">
+                <div className="col-md-7 offset-md-1 offset-lg-0 col-lg-6" style={{backgroundColor: "#ffffff"}}>
                     <div className="row">
                         <div className='col-md-12 text-end backAssesment'style={{cursor:'pointer'}}
                                 onClick={() => navigate("/")}>Back to Assessment</div>
@@ -73,7 +75,7 @@ const ForgotPassword = () => {
                             </div>
                         </div>
                         <div className='col-md-6'>
-                            <div className="card border-0 shadow-sm my-2 my-lg-3  d-flex justify-content-center align-items-start" style={{ backgroundColor: '#F9F9F9',height:'5.3rem' }}>
+                            <div className="card border-0 shadow-sm my-2 my-lg-3  d-flex justify-content-center align-items-start" style={{ backgroundColor: '#F9F9F9',height:'6rem' }}>
                                 <div className="card-body pe-0 d-flex align-items">
                                     <div className='iconbody d-flex justify-content-center align-items-center'>
                                         <CreditCard className='iconSet p-2' size={30} title="Chat Icon" />
@@ -122,7 +124,7 @@ const ForgotPassword = () => {
                     </div>
                     <div className='row my-2 my-lg-3'>
                         <div className='col-md-6 offset-md-3'>
-                            <button className='epfoButton w-100 py-2'  onClick={goToEpfoPortal}>Go to EPFO Portal</button>
+                            <button className='pfRiskButtons w-100 py-2'  onClick={goToEpfoPortal}>Go to EPFO Portal</button>
                         </div>
                     </div>
                 </div>
