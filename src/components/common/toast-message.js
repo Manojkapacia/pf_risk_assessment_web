@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const ToastMessage = ({ message, type = 'success', position = 'top-center', autoClose = 3000 }) => {
     // Trigger the toast notification based on the type
+    toast.dismiss();
     const showToast = () => {
         switch (type) {
             case 'success':
@@ -30,7 +31,16 @@ const ToastMessage = ({ message, type = 'success', position = 'top-center', auto
         showToast();
     },);
 
-    return <ToastContainer />;
+    return <ToastContainer 
+    position={position}
+                autoClose={autoClose}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover/>;
 };
 
 export default ToastMessage;

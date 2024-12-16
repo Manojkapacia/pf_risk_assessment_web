@@ -159,7 +159,7 @@ const DocumentScanning = () => {
                                     </div>
                                 </div>
 
-                                <span className="warning-message mt-1" style={{ fontSize: '0.95rem' }}>
+                                <span className="warning-message mt-1" style={{ fontSize: '1rem' }}>
                                     Solving these issues will take <span
                                         className='months'>2 months</span> or more.<br></br>
                                     <span className="act-now">Act Now!</span>
@@ -171,7 +171,7 @@ const DocumentScanning = () => {
                                 <div className="col-7">
                                     <div className="progress-details-scan-done">
                                         <span className='progressText'>Your PF is at</span><br></br>
-                                        <span className='progressHeading'>RISK</span><br></br>
+                                        <span className='progressHeading'>Medium RISK</span><br></br>
                                         <span className='progressText'>of getting stuck</span>
                                     </div>
                                 </div>
@@ -181,7 +181,7 @@ const DocumentScanning = () => {
                                     </div>
                                 </div>
 
-                                <span className="warning-message mt-1" style={{ fontSize: '0.95rem' }}>
+                                <span className="warning-message mt-1" style={{ fontSize: '1rem' }}>
                                     Solving these issues will take <span
                                         className='months'>2 months</span> or more.<br></br>
                                     <span className="act-now">Act Now!</span>
@@ -211,9 +211,8 @@ const DocumentScanning = () => {
                             <div className='row'>
                                 <div className='col-md-8 offset-md-2'>
                                     <div className="pfRiskheading text-center">{isProcessing ? "Scanning Your PF" : "Scan Complete"}</div>
-                                    {isProcessing && <p className="pfRiskSubHeading text-center">Lorem ipsum dolor sit amet consectetur.
-                                        Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
-                                        Lorem rhoncus vitae ullamcorper non. fgdgf</p>}
+                                    {isProcessing && <p className="pfRiskSubHeading text-center">
+                                        Last year 25% of EPF claims got rejected and people were blocked from accessing their own money when they needed it the most</p>}
                                 </div>
                             </div>
 
@@ -292,7 +291,7 @@ const DocumentScanning = () => {
                                 ))}
                             </div>
                             {!isProcessing && (totalCount.totalCritical > 0 || totalCount.totalMedium > 0) && <div className="row my-2 mt-lg-4">
-                                <p className="text-center fw-bold">Lorem ipsum dolor sit amet consectetur.</p>
+                                <p className="text-center fw-bold">Don’t wait till its too late, protect your PF now</p>
                                 <div className="col-md-10 offset-md-1">
                                     <button type="submit" className="btn col-12 pfRiskButtons" onClick={() => navigate("/create-account")}>
                                         Resolve My PF Issues

@@ -1,3 +1,48 @@
+
+.securityText{
+  font-weight: 400;
+  font-size: 0.63rem;
+  color: #078960;
+  background-color: #41BF9733;
+  border-radius: 2rem;
+}
+.dataImage{
+  height: 1rem;
+  width: 1rem;
+}
+.iconText{
+  font-weight: 300;
+  font-size: 0.63rem;
+  color: #000000;
+}
+
+.iconImage{
+  height: 2rem;
+  width: 2rem;
+}
+
+/* Override autofill background color to white */
+input.uanNumber:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #000 !important; /* Text color */
+  /* transition: background-color 5000s ease-in-out 0s;  */
+}
+
+/* Ensure this works for dark mode or custom themes */
+input.uanNumber:-webkit-autofill:focus {
+  /* box-shadow: 0 0 0px 1000px white inset !important; */
+  -webkit-text-fill-color: #000 !important;
+}
+
+.alreadyText{
+  font-size: 0.81rem;
+  font-weight: 300;
+}
+.loginText{
+  font-weight: 600;
+  color: #407BFF;
+}
+
 input.form-control::placeholder {
     color: #D2D2D2; 
     font-size: 0.9rem;

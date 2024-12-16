@@ -1,6 +1,7 @@
 .pfRiskButtons{
   color: #ffffff !important;
-  background-color: #2f6870 !important;
+  background-color: #00124F!important;
+  border-radius: 2rem !important;
 }
 .pfRiskheading{
   /* font-family :Roboto; */
@@ -37,7 +38,20 @@
   width: 5.5rem; 
   height: 3.1rem;
 }
+.setBackGround{
+  background-color: #eef9ff;
+}
 
+.EpfText{
+  font-weight: 400;
+  font-size: 0.81rem;
+  color: #000000;
+}
+.welcomeLabelLogin{
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #000000;
+}
 @media only screen and (max-width: 770px) {
   .logo {
     width: 4rem; 
@@ -72,6 +86,40 @@
 
 .font-small {
   font-size: 0.9rem;
+}
+
+.loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+  z-index: 9999; 
+  text-align: center; 
+}
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-img {
+  width: 15rem;
+  height: 15rem;
+}
+
+.loader-text {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 770px) {
