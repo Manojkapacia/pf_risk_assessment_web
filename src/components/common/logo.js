@@ -8,7 +8,7 @@ import {logout} from './api'
 const Logo = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const noButtonPaths = ["/", "/otpAssessment"];
+  const noButtonPaths = ["/", "/otpAssessment","/activate-uan","/donot-know-uan","/forgot-password"];
   const shouldHideButtons = noButtonPaths.includes(location.pathname);
   const [message, setMessage] = useState({ type: "", content: "" });
 

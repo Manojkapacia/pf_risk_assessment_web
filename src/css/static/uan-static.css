@@ -84,14 +84,8 @@
     line-height: 1.2;
 }
 
-/* .unaImage{
-    height: 22rem;
-    width: 100%; 
-  }
-
-@media only screen and (max-width: 770px) {
-    .unaImage{
-      height: 16.5rem;
-      width: 100%; 
+@media (max-width: 700px) {
+    .responsive-padding {
+      padding-bottom: 1rem !important;
     }
-  } */
+  }

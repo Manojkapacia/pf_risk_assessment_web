@@ -8,11 +8,11 @@ import { Search, Eye, Download, ArrowLeft } from "react-bootstrap-icons";
 import { get } from "../../components/common/api";
 import Loader from "../../components/common/loader";
 import { useNavigate } from "react-router-dom";
-import Claims  from "./claims";
+import Claims from "./claims";
 import Withdrawability from "./withdrawability ";
 
 function ViewDetailsByUan() {
-    
+
 
     const [value, setValue] = useState("");
     const [currentView, setCurrentView] = useState("parent");
@@ -22,7 +22,7 @@ function ViewDetailsByUan() {
 
     const navigate = useNavigate();
 
-    
+
     const handleChange = (e) => {
         const inputValue = e.target.value;
 
@@ -75,14 +75,6 @@ function ViewDetailsByUan() {
                     overlay={true}
                 />
             )}
-            <div className="row">
-                <div className="col d-flex justify-content-end">
-                    {/* <button className="btn me-2" onClick={() => navigate("/")}>
-                        <ArrowLeft size={17} className="me-1" /> Back to Assessment</button>
-                    <button className="btn me-3" onClick={backToAdminLogin}
-                        style={{ cursor: 'pointer' }}>Logout</button> */}
-                </div>
-            </div>
             <div className="container">
 
                 {currentView === "parent" ? (
@@ -116,36 +108,36 @@ function ViewDetailsByUan() {
                                         <th className="text-center">Withdrawability </th>
                                     </tr>
                                 </thead>
-                                {uanData && 
-                                <tbody>
-                                    <tr>
-                                        <td className="text-center">
-                                            <Eye size={20} onClick={() => setCurrentView("profile")}
-                                                className="me-md-3 me-2" />
-                                            {/* <Download size={20} /> */}
-                                        </td>
-                                        <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("serviceHistory")} />
-                                            {/* <Download size={20} /> */}
-                                        </td>
-                                        <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" />
-                                            {/* <Download size={20} /> */}
-                                        </td>
-                                        <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("pfpassbook")} />
-                                            {/* <Download size={20} /> */}
-                                        </td>
-                                        <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("claims")}/>
-                                        </td>
-                                        <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("withdraw")}/>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                {uanData &&
+                                    <tbody>
+                                        <tr>
+                                            <td className="text-center">
+                                                <Eye size={20} onClick={() => setCurrentView("profile")}
+                                                    className="me-md-3 me-2" />
+                                                {/* <Download size={20} /> */}
+                                            </td>
+                                            <td className="text-center">
+                                                <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("serviceHistory")} />
+                                                {/* <Download size={20} /> */}
+                                            </td>
+                                            <td className="text-center">
+                                                <Eye size={20} className="me-md-3 me-2" />
+                                                {/* <Download size={20} /> */}
+                                            </td>
+                                            <td className="text-center">
+                                                <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("pfpassbook")} />
+                                                {/* <Download size={20} /> */}
+                                            </td>
+                                            <td className="text-center">
+                                                <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("claims")} />
+                                            </td>
+                                            <td className="text-center">
+                                                <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("withdraw")} />
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 }
-                             {!uanData && <tbody><tr><td colSpan={5} className="text-center">No Data Found!!</td></tr></tbody>}
+                                {!uanData && <tbody><tr><td colSpan={6} className="text-center">No Data Found!!</td></tr></tbody>}
                             </table>
                         </div>
                     </div>
@@ -155,12 +147,23 @@ function ViewDetailsByUan() {
                     <ServiceHistory jsonData={uanData} onBack={() => setCurrentView("parent")} />
                 ) : currentView === "pfpassbook" ? (
                     <PFPassbook jsonData={uanData} onBack={() => setCurrentView("parent")} />
-                ) :currentView === "claims" ? (
+                ) : currentView === "claims" ? (
                     <Claims jsonData={uanData} onBack={() => setCurrentView("parent")} />
-                ) :currentView === "withdraw" ? (
+                ) : currentView === "withdraw" ? (
                     <Withdrawability jsonData={uanData} onBack={() => setCurrentView("parent")} />
-                ): null
+                ) : null
                 }
+
+                {/* <div className="row">
+                    <div className="col-md-8 offset-md-2 mt-5">
+                        <div className="card">
+                            <div className="card-body">
+                                <h5>Name</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div> */}
+
 
             </div>
         </>
