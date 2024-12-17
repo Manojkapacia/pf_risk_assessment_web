@@ -12,7 +12,7 @@ import Claims  from "./claims";
 import Withdrawability from "./withdrawability";
 
 function ViewDetailsByUan() {
-    
+
 
     const [value, setValue] = useState("");
     const [currentView, setCurrentView] = useState("parent");
@@ -22,7 +22,7 @@ function ViewDetailsByUan() {
 
     const navigate = useNavigate();
 
-    
+
     const handleChange = (e) => {
         const inputValue = e.target.value;
 
@@ -76,14 +76,6 @@ function ViewDetailsByUan() {
                     overlay={true}
                 />
             )}
-            <div className="row">
-                <div className="col d-flex justify-content-end">
-                    {/* <button className="btn me-2" onClick={() => navigate("/")}>
-                        <ArrowLeft size={17} className="me-1" /> Back to Assessment</button>
-                    <button className="btn me-3" onClick={backToAdminLogin}
-                        style={{ cursor: 'pointer' }}>Logout</button> */}
-                </div>
-            </div>
             <div className="container">
 
                 {currentView === "parent" ? (
@@ -156,12 +148,23 @@ function ViewDetailsByUan() {
                     <ServiceHistory jsonData={uanData} onBack={() => setCurrentView("parent")} />
                 ) : currentView === "pfpassbook" ? (
                     <PFPassbook jsonData={uanData} onBack={() => setCurrentView("parent")} />
-                ) :currentView === "claims" ? (
+                ) : currentView === "claims" ? (
                     <Claims jsonData={uanData} onBack={() => setCurrentView("parent")} />
-                ) :currentView === "withdraw" ? (
+                ) : currentView === "withdraw" ? (
                     <Withdrawability jsonData={uanData} onBack={() => setCurrentView("parent")} />
-                ): null
+                ) : null
                 }
+
+                {/* <div className="row">
+                    <div className="col-md-8 offset-md-2 mt-5">
+                        <div className="card">
+                            <div className="card-body">
+                                <h5>Name</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div> */}
+
 
             </div>
         </>

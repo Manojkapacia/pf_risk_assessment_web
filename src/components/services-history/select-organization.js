@@ -44,17 +44,12 @@ function SelectOrganization() {
             <div className="row d-flex justify-content-center align-items-center vh-100">
                 <div className="col-lg-4 col-md-8">
                     <div className='row'>
-                        <div className='col-md-12 mt-2 mt-sm-0'>
-                            <img src={serchHistoryImg} alt="Service History" className='selectImage' />
+                        <div className='col-md-8 offset-md-2 mt-2 mt-sm-0'>
+                        <div className='welcomeLabelLogin mb-md-4'>
+                            Step 2
                         </div>
-                    </div>
-
-                    <div className='row'>
-                        <div className='selectUanNumber text-center'>UAN No</div>
-                    </div>
-
-                    <div className='row mt-1'>
-                        <div className='selectDigit text-center'>{uan}</div>
+                        <span className='EpfText'>Please choose if your are currently working in any of the companies listed here</span>
+                        </div>
                     </div>
                 </div>
 
@@ -66,13 +61,13 @@ function SelectOrganization() {
                                 <div className="col-md-10 offset-md-1 pfRiskheading text-center">Select Current Organization</div>
                             </div>
 
-                            <div className='row'>
+                            {/* <div className='row'>
                                 <div className='col-md-10 offset-md-1 pfRiskSubHeading text-center'>
                                     Lorem ipsum dolor sit amet consectetur.
                                     Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
                                     Lorem rhoncus vitae ullamcorper non.
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="row mt-4">
                                 <div className="col-md-8 offset-md-2">

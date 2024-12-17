@@ -9,7 +9,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import MESSAGES from '../constants/messages'
 import Loader from '../common/loader';
 import { login } from '../common/api';
-import loaderGif from './../../assets/images/scanner.gif';
+import loaderGif from './../../assets/images/login.gif';
 import SideContent from '../common/side-content'
 
 function LoginComponent() {
@@ -116,11 +116,15 @@ function LoginComponent() {
             )}
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
-                <div className="row d-flex justify-content-center align-items-center vh-100">
-                    <div className="col-lg-4 col-md-6 mt-2 mt-lg-0">
-                        <SideContent></SideContent>
+                <div className="row d-flex justify-content-center align-items-center vh-md-100">
+                    <div className="col-lg-4 col-md-8 mt-4 mt-lg-0">
+                    <div className="row">
+                        <div className="col-md-11 text-center offset-md-1">
+                            <SideContent></SideContent>
+                        </div>
                     </div>
-                    <div className="col-lg-6 col-md-8">
+                    </div>
+                    <div className="col-lg-6 col-md-8 mt-3 mt-lg-0">
                         <div className="row">
                             <div className="col-md-11 offset-md-1">
                                 <div className="pfRiskheading text-center">PF Risk Assessment</div>
