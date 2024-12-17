@@ -21,24 +21,62 @@ function OtpComponent() {
     const [toastMessage, setToastMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const { UAN, Pws } = location.state || {};
+    const { UAN, Pws, type = "" } = location.state || {};
     const timeoutRef = useRef(null);
 
     const [timeLeft, setTimeLeft] = useState(59);
+
     useEffect(() => {
-        console.log("UAN number is get", UAN, Pws);
-
+        if(type === "back-screen") {
+            refreshOtp()
+        }
         if (timeLeft === 0) return;
-
         const timer = setInterval(() => {
             setTimeLeft((prevTime) => prevTime - 1);
         }, 1000);
-
         return () => clearInterval(timer);
     }, []);
 
-    //Resend OTP
+    //Refresh OTP
+    const refreshOtp = async () => {
+        if (UAN && Pws) {
+            try {
+                setLoading(true);
+                const result = await post('auth/refresh-data',{ uan: UAN, password: Pws.trim()});
+                setLoading(false);
 
+                if (result.status === 400) {
+                    setShowToast(true);
+                    setToastMessage(result.message);
+                    setTimeout(() => {
+                        setToastMessage("")
+                        setShowToast(false);
+                    }, 2500);
+                } else if (result.status === 401) {
+                    setLoading(false);
+                    localStorage.removeItem('user_uan')
+                    navigate('/');
+                } else {
+                    setShowToast(true)
+                    setToastMessage(result.message);
+                    setTimeout(() => {
+                        setToastMessage("")
+                        setShowToast(false);
+                    }, 3000);
+                }
+            } catch (error) {
+                setLoading(false);
+                setShowToast(true)
+                setToastMessage(error.message);
+                setTimeout(() => {
+                    setToastMessage("")
+                    setShowToast(false);
+                }, 3000);
+            }
+        }
+    }
+
+    //Resend OTP
     const resendOtp = async (event) => {
         event.preventDefault();
         if (UAN && Pws) {
@@ -48,17 +86,28 @@ function OtpComponent() {
                 setLoading(false);
 
                 if (result.status === 400) {
-                    console.log("Hit login successfully");
-                    setToastMessage({ type: "error", content: result.message });
-                    setTimeout(() => setToastMessage({ type: "", content: "" }), 2500);
+                    setShowToast(true);
+                    setToastMessage(result.message);
+                    setTimeout(() => {
+                        setToastMessage("")
+                        setShowToast(false);
+                    }, 2500);
                 } else {
-                    setToastMessage({ type: "success", content: "OTP send successfully" });
-                    setTimeout(() => setToastMessage({ type: "", content: "" }), 3000);
+                    setShowToast(true)
+                    setToastMessage(result.message);
+                    setTimeout(() => {
+                        setToastMessage("")
+                        setShowToast(false);
+                    }, 3000);
                 }
             } catch (error) {
                 setLoading(false);
-                setToastMessage({ type: "error", content: error.message });
-                setTimeout(() => setToastMessage({ type: "", content: "" }), 3000);
+                setShowToast(true)
+                setToastMessage(error.message);
+                setTimeout(() => {
+                    setToastMessage("")
+                    setShowToast(false);
+                }, 3000);
             }
         }
     }
@@ -99,16 +148,11 @@ function OtpComponent() {
         e.preventDefault();
         resetToast();
 
-        // setLoading(true);
-        // setTimeout(() => {
-        //     setLoading(false);
-        // }, 3000);
-
-
         if (otp.every((digit) => digit)) {
             try {
+                const endpoint = type === "back-screen" ? "auth/submit-otp?refresh=true" : "auth/submit-otp"
                 setLoading(true);
-                await post('auth/submit-otp', { otp: otp.join('') });
+                await post(endpoint, { otp: otp.join('') });
 
                 setToastType('success');
                 setToastMessage(MESSAGES.success.otpVerified);
@@ -149,7 +193,7 @@ function OtpComponent() {
                 <div className="loader-overlay">
                     <div className="loader-container">
                         <img className='loader-img' src={loaderGif} alt="Loading..." />
-                        <p className="loader-text">Verifying OTP and Fetching details</p>
+                        <p className="loader-text">{type === "back-screen" ? 'Checking credentials' : 'Verifying OTP and Fetching details'}</p>
                     </div>
                 </div>
             )}

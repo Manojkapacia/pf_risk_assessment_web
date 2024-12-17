@@ -1,13 +1,11 @@
 import '../../App.css';
 import '../../css/service-history/service-history.css';
 import React, { useState, useEffect } from 'react';
-import serchHistoryImg from '../../assets/images/serch_history.png';
 import { useNavigate } from 'react-router-dom';
 import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
 import SearchComponent from '../common/search';
 import { get } from '../common/api';
 import { ConvertPeriod } from '../common/date-convertor';
-import { useLocation } from 'react-router-dom';
 
 function ServiceHistory() {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +15,6 @@ function ServiceHistory() {
     const [uan, setUan] = useState('')
 
     const navigate = useNavigate();
-    const location = useLocation();
 
     // Function to fetch data
     const fetchData = async () => {
@@ -25,7 +22,7 @@ function ServiceHistory() {
             const response = await get('auth/data?filter=serviceHistory');
             if (response.status === 401) {
                 setIsLoading(false);
-                localStorage.clear()
+                localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
                 setListItems(response.serviceHistory.history);
@@ -38,9 +35,8 @@ function ServiceHistory() {
     };
 
     // Accessing the state
-    const { UAN } = location.state || {};
     useEffect(() => {
-        let dynamicKey = "current_page_" + UAN; 
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan'); 
         let value = "service-history";   
         localStorage.setItem(dynamicKey, value); 
         setUan(localStorage.getItem('user_uan'))
@@ -53,7 +49,10 @@ function ServiceHistory() {
     };
 
     const handleButtonClick = (type) => {
-        navigate("/select-organization", { state: { listItems, uan, UAN, type } })
+        const data = { listItems: listItems, uan: uan, type: type };
+        const encodedData = btoa(JSON.stringify(data));
+        localStorage.setItem('data-org-' + uan, encodedData);
+        navigate("/select-organization", { state: { listItems, uan, type } })
     };
 
     if (isLoading) {

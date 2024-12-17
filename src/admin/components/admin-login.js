@@ -10,7 +10,7 @@ import Loader from '../../components/common/loader';
 import { adminLogin } from "../../components/common/api";
 
 function AdminLogin() {
-    const [formData, setFormData] = useState({ email: "", password: "" });
+    const [formData, setFormData] = useState({ username: "", password: "" });
     const [errors,setErrors] = useState({});
     const [isFormValid, setIsFormValid] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -20,16 +20,10 @@ function AdminLogin() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setIsFormValid(Object.values(errors).every((err) => !err) && formData.email && formData.password);
+        setIsFormValid(Object.values(errors).every((err) => !err) && formData.username && formData.password);
     }, [errors, formData]);
 
     const validateField = useCallback((field, value) => {
-        if (field === "email") {
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!value) return MESSAGES.required.requiredField("Email");
-            if (!emailPattern.test(value)) return MESSAGES.error.correctEmail;
-        }
-
         if (field === "password") {
             if (!value) return MESSAGES.required.requiredField("Password");
             if (value.length < 8) return MESSAGES.error.password.length;
@@ -50,7 +44,7 @@ function AdminLogin() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = {
-            email: validateField("email", formData.email),
+            username: validateField("username", formData.username),
             password: validateField("password", formData.password),
         };
 
@@ -59,21 +53,20 @@ function AdminLogin() {
         if (Object.values(newErrors).every((err) => !err)) {
             try {
                 setLoading(true);
-                const result = await adminLogin('/auth/admin-login', formData);
+                const result = await adminLogin('/admin/login', formData);
                 setLoading(false);
 
                 if (result.status === 400) {
                     setMessage({ type: "error", content: result.message });
                     setTimeout(() => setMessage({ type: "", content: "" }), 2500);
                 } else {
-                    setMessage({ type: "success", content: MESSAGES.success.loginSuccess });
+                    setMessage({ type: "success", content: result.message });
                     localStorage.setItem("admin_logged_in", "yes");
                     setTimeout(() => {
                         navigate("/operation/view-details");
                     }, 2000);
                 }
             } catch (error) {
-                console.log(error)
                 setLoading(false);
                 setMessage({ type: "error", content: error.message });
                 setTimeout(() => setMessage({ type: "", content: "" }), 3000);
@@ -108,18 +101,18 @@ function AdminLogin() {
                             <div className="row mt-2 mt-lg-4">
                                 <div className="col-md-12">
                                     <div className="d-flex justify-content-between">
-                                        <div className="labelHeading">Email:</div>
+                                        <div className="labelHeading">Username:</div>
                                     </div>
                                     <input
                                         className="form-control mt-2"
-                                        type="email"
-                                        placeholder="Enter your email id"
-                                        name="email"
-                                        value={formData.email}
+                                        type="text"
+                                        placeholder="Enter username"
+                                        name="username"
+                                        value={formData.username}
                                         onChange={handleInputChange}
                                         required
                                     />
-                                    <ValidationError message={errors.email} />
+                                    <ValidationError message={errors.username} />
                                 </div>
                             </div>
                             <div className="row mt-lg-3">

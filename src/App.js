@@ -27,20 +27,20 @@ function App() {
       <Router>
       <Logo />
       <Routes>
-        <Route path="/" element={<GuestGuard><LoginComponent /></GuestGuard>} />
-        <Route path="/otpAssessment" element={<GuestGuard><OtpComponent /></GuestGuard>} />
+        <Route path="/" element={<LoginComponent />} />
+        <Route path="/otpAssessment" element={<OtpComponent />} />
         <Route path="/doc-scan" element={<AuthGuard><DocumentScanning /></AuthGuard>} />
         <Route path="/service-history" element={<AuthGuard><ServiceHistory /></AuthGuard>} />
-        <Route path="/select-organization" element={<SelectOrganization />} />
+        <Route path="/select-organization" element={<AuthGuard><SelectOrganization /></AuthGuard>} />
         <Route path="/create-account" element={<AuthGuard><CreateAccount /></AuthGuard>} />
         <Route path="/create-account-otp" element={<AuthGuard><OtpCreateAccount /></AuthGuard>} />
         <Route path="/activate-uan" element={<GuestGuard><ActivateUan /></GuestGuard>} />
         <Route path="/donot-know-uan" element={<GuestGuard><DonotKnowUan /></GuestGuard>} />
         <Route path="/epfo-down" element={<GuestGuard><EpfoDown /></GuestGuard>} />
         <Route path="/forgot-password" element={<GuestGuard><ForgotPassword /></GuestGuard>} />
-        <Route path="/welcome-back" element={<GuestGuard><WelcomeBack /></GuestGuard>} />
+        <Route path="/welcome-back" element={<AuthGuard><WelcomeBack /></AuthGuard>} />
         <Route path="/operation/login" element={<AdminGuestGuard><AdminLogin /></AdminGuestGuard>} />
-        <Route path="/operation/view-details" element={<ViewDetailsByUan />} />
+        <Route path="/operation/view-details" element={<AuthGuardAdmin><ViewDetailsByUan /></AuthGuardAdmin>} />
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </Router>

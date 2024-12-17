@@ -23,7 +23,7 @@ const DocumentScanning = () => {
     const [isFetched, setIsFetched] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
 
-    const { selectedOrg, type,UAN ,uan} = location.state || {};
+    const { selectedOrg, type } = location.state || {};
 
     const navigate = useNavigate()
 
@@ -39,8 +39,8 @@ const DocumentScanning = () => {
 
             const response = await post('withdrawability-check', dataToSend);
             if (response.status === 401) {
-                setLoading(false);
-                localStorage.clear();
+                setLoading(false);                
+                localStorage.removeItem('user_uan')
                 navigate('/');
                 return;
             }
@@ -67,9 +67,9 @@ const DocumentScanning = () => {
     };
 
     useEffect(() => {
-            let dynamicKey = "current_page_" + UAN; 
-            let value = "doc-scan";   
-            localStorage.setItem(dynamicKey, value); 
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan'); ; 
+        let value = "doc-scan";   
+        localStorage.setItem(dynamicKey, value); 
         if (!isFetched) {
             fetchReport();
         }

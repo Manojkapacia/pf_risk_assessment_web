@@ -78,12 +78,8 @@ function LoginComponent() {
                     setTimeout(() => {
                         setMessage({ type: "", content: "" });
                         if (result.message === "Login successful using local user profile.") {
-                            const currentRoute = localStorage.getItem("current_page_" + formData.uan);
-                            if (currentRoute == "doc-scan") {
-                                navigate("/doc-scan", { state: { UAN: formData.uan } })
-                            } else {
-                                navigate("/service-history", { state: { UAN: formData.uan } });
-                            }
+                            localStorage.setItem("user_uan", formData.uan);
+                            navigate("/welcome-back", { state: { UAN: formData.uan, Pws: formData.password } })
                         } else {
                             navigate("/otpAssessment", { state: { UAN: formData.uan, Pws: formData.password } });
                         }
@@ -98,7 +94,6 @@ function LoginComponent() {
     };
 
     const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
-
 
     return (
         <div>

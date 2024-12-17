@@ -9,7 +9,7 @@ import { get } from "../../components/common/api";
 import Loader from "../../components/common/loader";
 import { useNavigate } from "react-router-dom";
 import Claims  from "./claims";
-import Withdrawability from "./withdrawability ";
+import Withdrawability from "./withdrawability";
 
 function ViewDetailsByUan() {
     
@@ -42,7 +42,8 @@ function ViewDetailsByUan() {
                     const response = await get(`data/fetchByUan/${inputValue}`)
                     if (response.status === 401) {
                         setLoading(false);
-                        localStorage.clear()
+                        localStorage.removeItem('user_uan')
+                        localStorage.removeItem('admin_logged_in')
                         navigate('/operation/login');
                     } else {
                         setUanData(response)
@@ -113,7 +114,7 @@ function ViewDetailsByUan() {
                                         <th className="text-center">Transfers</th>
                                         <th className="text-center">Passbook</th>
                                         <th className="text-center">Claims</th>
-                                        <th className="text-center">Withdrawability </th>
+                                        <th className="text-center">Withdrawability Report</th>
                                     </tr>
                                 </thead>
                                 {uanData && 
@@ -121,31 +122,31 @@ function ViewDetailsByUan() {
                                     <tr>
                                         <td className="text-center">
                                             <Eye size={20} onClick={() => setCurrentView("profile")}
-                                                className="me-md-3 me-2" />
+                                                className="me-md-3 me-2 cursor-pointer" />
                                             {/* <Download size={20} /> */}
                                         </td>
                                         <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("serviceHistory")} />
+                                            <Eye size={20} className="me-md-3 me-2 cursor-pointer" onClick={() => setCurrentView("serviceHistory")} />
                                             {/* <Download size={20} /> */}
                                         </td>
                                         <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" />
+                                            <Eye size={20} className="me-md-3 me-2 cursor-pointer" />
                                             {/* <Download size={20} /> */}
                                         </td>
                                         <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("pfpassbook")} />
+                                            <Eye size={20} className="me-md-3 me-2 cursor-pointer" onClick={() => setCurrentView("pfpassbook")} />
                                             {/* <Download size={20} /> */}
                                         </td>
                                         <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("claims")}/>
+                                            <Eye size={20} className="me-md-3 me-2 cursor-pointer" onClick={() => setCurrentView("claims")}/>
                                         </td>
                                         <td className="text-center">
-                                            <Eye size={20} className="me-md-3 me-2" onClick={() => setCurrentView("withdraw")}/>
+                                            <Eye size={20} className="me-md-3 me-2 cursor-pointer" onClick={() => setCurrentView("withdraw")}/>
                                         </td>
                                     </tr>
                                 </tbody>
                                 }
-                             {!uanData && <tbody><tr><td colSpan={5} className="text-center">No Data Found!!</td></tr></tbody>}
+                             {!uanData && <tbody><tr><td colSpan={6} className="text-center">No Data Found!!</td></tr></tbody>}
                             </table>
                         </div>
                     </div>

@@ -29,14 +29,9 @@ export const login = async (uan, password) => {
 // Function to handle admin login
 export const adminLogin = async (endpoint, data) => {
   try {
-    // const response = await apiClient.post(endpoint, data);
-    // return response.data;
-    if(data.email === staticData.email && data.password === staticData.password) {
-      return { message: MESSAGES.error.loginSuccess, status: 200 };
-    } else {
-      return { message: MESSAGES.error.invalidOpnLogin, status: 400 };
-    }
-  } catch (error) {
+    const response = await apiClient.post(endpoint, data);
+    return response.data;
+  }catch (error) {
     if (error.response && error.response.status === 400) {
       return { message: MESSAGES.error.invalidUanPassword, status: 400 };
     }

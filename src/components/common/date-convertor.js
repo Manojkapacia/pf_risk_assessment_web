@@ -18,7 +18,6 @@ export const ConvertPeriod = (period) => {
     const startDate = formatDate(start);
 
     // Check if the end date is "Present" or needs conversion
-    console.log(end)
     const endDate = end.toLowerCase() === "present" ? "Present" : (end.toLowerCase() === "na" || end === "") ? "NA" : formatDate(end);
 
     // Return the formatted string

@@ -11,12 +11,10 @@ function SelectOrganization() {
     const navigate = useNavigate();
 
     const [selectedId, setSelectedId] = useState(null);
-    const { listItems,uan, UAN, type } = location.state || {};
-    // Accessing the state
-    // const { UAN } = location.state || {};
+    const { listItems, uan, type } = location.state || {};
+
     useEffect(() => {
-        let dynamicKey = "current_page_" + UAN; 
-        console.log("select Organization", UAN,uan)
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan'); ; 
         let value = "select-organization";   
         localStorage.setItem(dynamicKey, value); 
     }, []);
@@ -34,7 +32,11 @@ function SelectOrganization() {
 
     const generateReportClick = () => {
         const selectedOrg = selectedId !== null ? updatedListItems[selectedId] : null;
-        navigate("/doc-scan", { state: { selectedOrg,UAN, uan, type } })
+        localStorage.removeItem('data-org-' + uan)
+        const data = { selectedOrg, uan, type };
+        const encodedData = btoa(JSON.stringify(data));
+        localStorage.setItem('data-scan-' + uan, encodedData);
+        navigate("/doc-scan", { state: { selectedOrg, uan, type } })
     }
 
     return (

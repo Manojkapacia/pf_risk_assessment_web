@@ -20,10 +20,10 @@ const Logo = () => {
     }else{
       try {
         const result = await logout();
-          setMessage({ type: "success", content: result.message });
-          setTimeout(() => setMessage({ type: "", content: "" }), 2000);
-          // localStorage.clear(); 
-          navigate('/'); 
+        localStorage.removeItem('user_uan');
+        setMessage({ type: "success", content: result.message });
+        setTimeout(() => setMessage({ type: "", content: "" }), 2000);
+        navigate('/'); 
       } catch (error) {
         console.error('Unexpected error during logout:', error);
       }
@@ -38,7 +38,7 @@ const Logo = () => {
       {!shouldHideButtons && (
       <div className="col d-flex justify-content-end">
         <button className="btn me-2" onClick={handleLogout}>
-          <ArrowLeft size={17} className="me-1" /> Back to Assessment</button>
+          <ArrowLeft size={17} className="me-1" />Back to Assessment</button>
       </div>
       )}
     </div>
