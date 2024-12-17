@@ -29,8 +29,8 @@ const MESSAGES = {
         requiredField: (type) => `${type} is required.`,
     },
     api: {
-        // baseUrl: 'https://uat.finright.in/'
-        baseUrl: 'http://localhost:3001'
+        baseUrl: 'https://uat.finright.in/'
+        // baseUrl: 'http://localhost:3001'
     }
 };
 
