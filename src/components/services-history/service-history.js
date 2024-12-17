@@ -11,20 +11,22 @@ function ServiceHistory() {
     const [activeIndex, setActiveIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(true); // Track loading state
     const [listItems, setListItems] = useState([]); // Store API data
-    const [uan, setUan] = useState('')
+    const [uan, setUan] = useState('');
+    const [reportUpdatedAtVar, setreportUpdatedAt] = useState("");
 
     const navigate = useNavigate();
 
     // Function to fetch data
     const fetchData = async () => {
         try {
-            const response = await get('auth/data?filter=serviceHistory');
+            const response = await get('auth/data');
+            setreportUpdatedAt(response.rawData.reportUpdatedAt);
             if (response.status === 401) {
                 setIsLoading(false);
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
-                setListItems(response.serviceHistory.history);
+                setListItems(response.rawData.data.serviceHistory.history);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -46,12 +48,12 @@ function ServiceHistory() {
         setActiveIndex(activeIndex === index ? null : index);
         setIsOpen(activeIndex === index ? false : true);
     };
-
+    
     const handleButtonClick = (type) => {
         const data = { listItems: listItems, uan: uan, type: type };
         const encodedData = btoa(JSON.stringify(data));
         localStorage.setItem('data-org-' + uan, encodedData);
-        navigate("/select-organization", { state: { listItems, uan, type } })
+        navigate("/select-organization", { state: { listItems, uan, type,reportUpdatedAtVar}})
     };
 
     // if (isLoading) {
