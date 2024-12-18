@@ -245,7 +245,7 @@ function OtpComponent() {
                                             : <p className='text-danger mb-0'>OTP expired</p>}
                                         <a
                                             className="text-decoration-none labelSubHeading"
-                                            onClick={resendOtp} style={{ cursor: "pointer" }}>
+                                            onClick={type === "back-screen" ? refreshOtp : resendOtp} style={{ cursor: "pointer" }}>
                                             Resend OTP
                                         </a>
                                     </div>
