@@ -133,9 +133,9 @@
 }
 
 @media only screen and (max-width: 1030px) {
-    .scanResCol{
-        height: 10rem;
-    }
+    /* .scanResCol{
+        height: 15rem;
+    } */
     .bigger-icon {
         font-size: 6rem;
     }

@@ -125,3 +125,19 @@ export const logout = async () => {
     throw error;
   }
 };
+
+//ZOHO API
+// Function to handle login
+export const zohoRequest = async (formData) => {
+  try {
+    const response = await apiClient.post('data/createLead', {formData});
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      return { message: MESSAGES.error.ZOHOError, status: 400 };
+    }
+    console.error('Request failed:', error);
+    // Re-throw for other error cases
+    throw error;
+  }
+};

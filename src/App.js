@@ -23,7 +23,7 @@ import PageNotFound from './components/static/page-not-found'
 
 function App() {
   return (
-    <div className='min-vh-100 setBackGround'>
+    <div className='flex-grow-1 overflow-auto setBackGround'>
       <Router>
       <Logo />
       <Routes>

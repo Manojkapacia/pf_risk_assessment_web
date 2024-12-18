@@ -1,29 +1,53 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import SideContent from '../common/side-content';
 import { Telephone } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
-
+import { zohoRequest } from "./../common/api";
+import ToastMessage from '../common/toast-message'
 const EpfoDown = () => {
+    const [message, setMessage] = useState({ type: "", content: "" });
     const {
         register,
         handleSubmit,
         formState: { errors },
-      } = useForm();
+    } = useForm();
 
-      const onSubmit = (data) => {
-        console.log("Form Data:", data);
+    const onSubmit = async (data) => {
+        const formData = {
+            ...data, 
+            Wants_To: "Check Withdraw-ability",
+            Lead_Status :"Open",
+            Campaign_Id: "6329452000003870254"
+          };
+        try {
+          const result = await zohoRequest(formData);
+          console.log("respone",result.data.data[0].status);
+          
+          if (result.data.data[0].status== "success") {
+            setMessage({ type: "success", content: result.message });
+            setTimeout(() => setMessage({ type: "", content: "" }), 2000);
+        } else {
+            setMessage({ type: "error", content: result.message });
+            setTimeout(() => setMessage({ type: "", content: "" }), 2000);
+        }
+        } catch (error) {
+          console.error('Error submitting form:', error);
+          setMessage({ type: "error", content: error.message });
+          setTimeout(() => setMessage({ type: "", content: "" }), 2000);
+        }
       };
+
     return (
         <div className="container-fluid">
+            {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
-                <div className="col-md-4 col-lg-4 mt-2 mt-md-0 mb-3 mb-lg-0">
+                <div className="col-md-4 col-lg-4 text-center  mt-2 mt-md-0 mb-3 mb-lg-0">
                     <SideContent></SideContent>
-                    {/* <img src={pfRiskImage} alt="Risk Assessment" className='pfRiskLoginImage' /> */}
                 </div>
-                <div className="col-md-7 offset-md-1 col-lg-6 offset-lg-0 pb-md-5 pb-2" style={{backgroundColor: "#ffffff"}}>
+                <div className="col-md-7 offset-md-1 col-lg-6 offset-lg-0 pb-md-5 pb-2" style={{ backgroundColor: "#ffffff" }}>
                     <div className='row'>
                         <div className='col-md-9'>
                             <span className='epfoLabel'>Oops! Looks like EPF servers are down,</span><br></br>
@@ -33,24 +57,43 @@ const EpfoDown = () => {
                     </div>
                     <div className='row mt-md-4 mt-2'>
                         <div className='col-md-9 offset-md-1'>
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className='row'>
-                            <div className='col-md-6'>
-                                    <label className='epfoFormlabel'>Name<span style={{color:"red"}}>*</span></label>
-                                    <input type='text' className='form-control' placeholder='Eg-Robert' 
-                                        {...register("name", { required: "Name is required" })}/>
-                                        {errors.name && <span className="text-danger">{errors.name.message}</span>}
-                                </div>
-                                <div className='col-md-6'>
-                                    <label className='epfoFormlabel'>Mobile number<span style={{color:"red"}}>*</span></label>
-                                    <input type='text' className='form-control' placeholder='Eg-00000 00000' 
-                                    {...register("number", {
-                                        required: "Mobile Number is required",
-                                        // min: { value: 18, message: "Minimum age is 18" },
-                                      })}/>
-                                      {errors.number && <span className="text-danger">{errors.number.message}</span>}
-                                </div>
-                                {/* <div className='col-md-12 mt-2 mt-md-4'>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <div className='row'>
+                                    <div className='col-md-6'>
+                                        <label className='epfoFormlabel'>Name<span style={{ color: "red" }}>*</span></label>
+                                        <input type='text' className='form-control' placeholder='Eg-Robert' autoComplete='off'
+                                            name="Last_Name"
+                                            {...register("Last_Name", { required: "Name is required" })} />
+                                        {errors.Last_Name && <span className="text-danger">{errors.Last_Name.message}</span>}
+                                    </div>
+                                    <div className='col-md-6'>
+                                        <label className='epfoFormlabel'>Mobile number<span style={{ color: "red" }}>*</span></label>
+                                        <input type='tel' className='form-control' placeholder='Eg-00000 00000'
+                                            autoComplete='off' maxLength={10} inputMode="numeric"
+                                            name="Mobile" 
+                                            {...register("Mobile", {
+                                                required: "Mobile Number is required",
+                                                pattern: {
+                                                    value: /^\d{10}$/,
+                                                    message: "Number must be exactly 10 digits",
+                                                }
+                                            })}
+                                            onInput={(e) => {
+                                                e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                                            }} />
+                                        {errors.Mobile && <span className="text-danger">{errors.Mobile.message}</span>}
+                                    </div>
+                                    <div className='col-md-6'>
+                                        <label className='epfoFormlabel'>Email</label>
+                                        <input type='email' className='form-control' placeholder='loramid@gmail.com' 
+                                            autoComplete='off' name='Email'
+                                            {...register("Email", {
+                                                // required: "Email is required",
+                                                pattern: { value: /^\S+@\S+$/i, message: "Enter a valid Email" },
+                                            })} />
+                                        {errors.Email && <span className="text-danger">{errors.Email.message}</span>}
+                                    </div>
+                                    {/* <div className='col-md-12 mt-2 mt-md-4'>
                                     <label className='epfoFormlabel'>I want to :</label><br></br>
                                     <select className="form-select-sm w-100" style={{border:'1px solid #dee2e6'}} aria-label="Default select example">
                                         <option className='epfoFormlabel'>Select an option</option>
@@ -60,42 +103,51 @@ const EpfoDown = () => {
                                         <option className='epfoFormlabel' value="4">Check Withdraw-ability</option>
                                     </select>
                                 </div> */}
-                                <div className='col-md-12 mt-2 mt-md-4'>
-                                    <label className='iconHeading'>Where did you hear about us?<span style={{color:"red"}}>*</span></label>
-                                    <div className='d-flex flex-wrap justify-content-start mt-1'>
-                                        <div className="form-check  d-flex aling-item">
-                                            <input className="form-check-input custom-radio" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
-                                            <label className="form-check-label iconHeading mx-2" htmlFor="inlineRadio1">Google</label>
+                                    <div className='col-md-12 mt-2 mt-md-4'>
+                                        <label className='iconHeading'>Where did you hear about us?<span style={{ color: "red" }}>*</span></label>
+                                        <div className='d-flex flex-wrap justify-content-start mt-1'>
+                                            <div className="form-check  d-flex aling-item">
+                                                <input className="form-check-input custom-radio" type="radio" id="google" value="google"
+                                                    {...register("Lead_Source", { required: "Please select button" })} />
+                                                <label className="form-check-label iconHeading mx-2" htmlFor="google">Google</label>
+                                            </div>
+                                            <div className="form-check  d-flex aling-item">
+                                                <input className="form-check-input custom-radio" type="radio" id="linkedIn" value="linkedin"
+                                                    {...register("Lead_Source", { required: "Please select button" })} />
+                                                <label className="form-check-label iconHeading mx-2" htmlFor="linkedIn">LinkedIn</label>
+                                            </div>
+                                            <div className="form-check d-flex aling-item">
+                                                <input className="form-check-input custom-radio" type="radio" id="twitter" value="twitter/X"
+                                                    {...register("Lead_Source", { required: "Please select button" })} />
+                                                <label className="form-check-label iconHeading mx-2" htmlFor="twitter">Twitter/X</label>
+                                            </div>
+                                            <div className="form-check  d-flex aling-item">
+                                                <input className="form-check-input custom-radio" type="radio" id="justDial" value="justdial"
+                                                    {...register("Lead_Source", { required: "Please select button" })} />
+                                                <label className="form-check-label iconHeading mx-2" htmlFor="justDial">Just Dial</label>
+                                            </div>
+                                            <div className="form-check d-flex aling-item">
+                                                <input className="form-check-input custom-radio" type="radio" id="youtube" value="youtube"
+                                                    {...register("Lead_Source", { required: "Please select button" })} />
+                                                <label className="form-check-label iconHeading mx-2" htmlFor="youtube">You Tube</label>
+                                            </div>
+                                            <div className="form-check d-flex aling-item">
+                                                <input className="form-check-input custom-radio" type="radio" id="referred" value="reffered"
+                                                    {...register("Lead_Source", { required: "Please select button" })} />
+                                                <label className="form-check-label iconHeading mx-2" htmlFor="referred">Referred by a Friend</label>
+                                            </div>
                                         </div>
-                                        <div className="form-check  d-flex aling-item">
-                                            <input className="form-check-input custom-radio" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option1" />
-                                            <label className="form-check-label iconHeading mx-2" htmlFor="inlineRadio2">LinkedIn</label>
-                                        </div>
-                                        <div className="form-check d-flex aling-item">
-                                            <input className="form-check-input custom-radio" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option2" />
-                                            <label className="form-check-label iconHeading mx-2" htmlFor="inlineRadio3">Twitter/X</label>
-                                        </div>
-                                        <div className="form-check  d-flex aling-item">
-                                            <input className="form-check-input custom-radio" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option2" />
-                                            <label className="form-check-label iconHeading mx-2" htmlFor="inlineRadio4">Just Dial</label>
-                                        </div>
-                                        <div className="form-check d-flex aling-item">
-                                            <input className="form-check-input custom-radio" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option2" />
-                                            <label className="form-check-label iconHeading mx-2" htmlFor="inlineRadio5">You Tube</label>
-                                        </div>
-                                        <div className="form-check d-flex aling-item">
-                                            <input className="form-check-input custom-radio" type="radio" name="inlineRadioOptions" id="inlineRadio6" value="option2" />
-                                            <label className="form-check-label iconHeading mx-2" htmlFor="inlineRadio6">Referred by a Friend</label>
-                                        </div>
+                                        {errors.Lead_Source && (
+                                                <span className="text-danger">{errors.Lead_Source.message}</span>
+                                            )}
+
+
                                     </div>
-
-
+                                    <div className='col-md-12 mt-md-4 my-2 d-md-flex justify-content-md-start d-flex justify-content-center'>
+                                        <button className='requestButton px-3 py-1' type="submit">
+                                            <Telephone className='me-2 mb-1' size={13} title="Phone Icon" />Request a call</button>
+                                    </div>
                                 </div>
-                                <div className='col-md-12 mt-md-4 my-2 d-md-flex justify-content-md-start d-flex justify-content-center'>
-                                    <button className='requestButton px-3 py-1'>
-                                        <Telephone className='me-2 mb-1' size={13} title="Phone Icon" />Request a call</button>
-                                </div>
-                            </div>
                             </form>
                         </div>
                     </div>
