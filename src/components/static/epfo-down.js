@@ -4,8 +4,18 @@ import '../../css/static/uan-static.css';
 import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import SideContent from '../common/side-content';
 import { Telephone } from "react-bootstrap-icons";
+import { useForm } from "react-hook-form";
 
 const EpfoDown = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm();
+
+      const onSubmit = (data) => {
+        console.log("Form Data:", data);
+      };
     return (
         <div className="container-fluid">
             <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
@@ -23,14 +33,22 @@ const EpfoDown = () => {
                     </div>
                     <div className='row mt-md-4 mt-2'>
                         <div className='col-md-9 offset-md-1'>
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <div className='row'>
-                                <div className='col-md-6'>
+                            <div className='col-md-6'>
                                     <label className='epfoFormlabel'>Name<span style={{color:"red"}}>*</span></label>
-                                    <input type='text' className='form-control' placeholder='Eg-Robert' />
+                                    <input type='text' className='form-control' placeholder='Eg-Robert' 
+                                        {...register("name", { required: "Name is required" })}/>
+                                        {errors.name && <span className="text-danger">{errors.name.message}</span>}
                                 </div>
                                 <div className='col-md-6'>
                                     <label className='epfoFormlabel'>Mobile number<span style={{color:"red"}}>*</span></label>
-                                    <input type='text' className='form-control' placeholder='Eg-00000 00000' />
+                                    <input type='text' className='form-control' placeholder='Eg-00000 00000' 
+                                    {...register("number", {
+                                        required: "Mobile Number is required",
+                                        // min: { value: 18, message: "Minimum age is 18" },
+                                      })}/>
+                                      {errors.number && <span className="text-danger">{errors.number.message}</span>}
                                 </div>
                                 {/* <div className='col-md-12 mt-2 mt-md-4'>
                                     <label className='epfoFormlabel'>I want to :</label><br></br>
@@ -78,6 +96,7 @@ const EpfoDown = () => {
                                         <Telephone className='me-2 mb-1' size={13} title="Phone Icon" />Request a call</button>
                                 </div>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>

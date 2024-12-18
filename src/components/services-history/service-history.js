@@ -20,7 +20,7 @@ function ServiceHistory() {
     const fetchData = async () => {
         try {
             const response = await get('auth/data');
-            setreportUpdatedAt(response.rawData.reportUpdatedAt);
+            setreportUpdatedAt(response.rawData.meta.createdTime);
             if (response.status === 401) {
                 setIsLoading(false);
                 localStorage.removeItem('user_uan')

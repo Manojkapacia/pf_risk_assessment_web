@@ -36,7 +36,7 @@ function SelectOrganization() {
         const data = { selectedOrg, uan, type };
         const encodedData = btoa(JSON.stringify(data));
         localStorage.setItem('data-scan-' + uan, encodedData);
-        // navigate("/doc-scan", { state: { selectedOrg, uan, type,reportUpdatedAtVar } });
+        navigate("/doc-scan", { state: { selectedOrg, uan, type,reportUpdatedAtVar } });
     }
 
     return (

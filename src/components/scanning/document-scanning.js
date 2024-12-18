@@ -22,8 +22,9 @@ const DocumentScanning = () => {
     const [totalCount, setTotalCounts] = useState({ totalSuccess: 0, totalCritical: 0, totalMedium: 0 });
     const [isFetched, setIsFetched] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
+    const [istTime, setIstTime] = useState(null);
 
-    const { selectedOrg, type } = location.state || {};
+    const { selectedOrg, type, reportUpdatedAtVar } = location.state || {};
 
     const navigate = useNavigate()
 
@@ -39,7 +40,7 @@ const DocumentScanning = () => {
 
             const response = await post('withdrawability-check', dataToSend);
             if (response.status === 401) {
-                setLoading(false);                
+                setLoading(false);
                 localStorage.removeItem('user_uan')
                 navigate('/');
                 return;
@@ -67,9 +68,9 @@ const DocumentScanning = () => {
     };
 
     useEffect(() => {
-        let dynamicKey = "current_page_" + localStorage.getItem('user_uan'); ; 
-        let value = "doc-scan";   
-        localStorage.setItem(dynamicKey, value); 
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');;
+        let value = "doc-scan";
+        localStorage.setItem(dynamicKey, value);
         if (!isFetched) {
             fetchReport();
         }
@@ -113,6 +114,30 @@ const DocumentScanning = () => {
         setIsViewingResult(false);
         setCurrentViewResultCategory(null)
     };
+
+    const convertToIST = (utcDateString) => {
+        const utcDate = new Date(utcDateString);
+        const options = {
+            timeZone: "Asia/Kolkata",
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+        };
+
+        return new Intl.DateTimeFormat("en-IN", options).format(utcDate);
+    };
+
+    useEffect(() => {
+        if (reportUpdatedAtVar) {
+            const utcDateString = reportUpdatedAtVar;
+            const convertedTime = convertToIST(utcDateString);
+            setIstTime(convertedTime);
+        }
+    }, []);
 
     return (
         <>
@@ -204,6 +229,7 @@ const DocumentScanning = () => {
                                 </div>
                             </div>
                         }
+                        {istTime && <p>Last Updated Date: {istTime}</p>}
                     </div>
 
                     {!isViewingResult &&
