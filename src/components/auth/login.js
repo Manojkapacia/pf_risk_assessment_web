@@ -52,12 +52,6 @@ function LoginComponent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // setLoading(true);
-        // setTimeout(() => {
-        //     setLoading(false);
-        // }, 2000);
-
         const newErrors = {
             uan: validateField("uan", formData.uan),
             password: validateField("password", formData.password),
@@ -77,7 +71,7 @@ function LoginComponent() {
                     setMessage({ type: "success", content: result.message });
                     setTimeout(() => {
                         setMessage({ type: "", content: "" });
-                        if (result.message === "Login successful using local user profile.") {
+                        if (result.message === "User Successfully Verified") {
                             localStorage.setItem("user_uan", formData.uan);
                             navigate("/welcome-back", { state: { UAN: formData.uan, Pws: formData.password } })
                         } else {
@@ -86,9 +80,17 @@ function LoginComponent() {
                     }, 2000);
                 }
             } catch (error) {
+                console.log("get status",error.status);
+                if(error.status=== 401){
                 setLoading(false);
                 setMessage({ type: "error", content: error.message });
                 setTimeout(() => setMessage({ type: "", content: "" }), 3000);
+                }else{
+                    setLoading(false);
+                    setMessage({ type: "error", content: error.message });
+                    setTimeout(() => setMessage({ type: "", content: "" }), 3000);
+                    navigate("/epfo-down");
+                }
             }
         }
     };

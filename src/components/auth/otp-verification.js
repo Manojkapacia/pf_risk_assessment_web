@@ -200,18 +200,18 @@ function OtpComponent() {
             <div className="container">
                 {showToast && <ToastMessage message={toastMessage} type={toastType} />}
                 <div className="row d-flex justify-content-center align-items-center vh-100">
-                    <div className="col-lg-4 col-md-6 mt-2 mt-lg-0">
+                    <div className="col-lg-4 col-md-8 offset-md-1 mt-2 mt-lg-0">
                         {/* <img src={pfRiskImage} alt="OTP Assessment" className="otpAssessmentImage" /> */}
-                        <div className='welcomeLabelLogin'>
+                        <div className='welcomeLabelLogin text-center'>
                             Welcome to India's First<br></br> Digital PF check up
                         </div>
-                        <div className='EpfText mt-4 mb-3'>
+                        <div className='EpfText mt-4 mb-3 text-center'>
                             Please Enter OTP to Begin checkup
                         </div>
                     </div>
                     <div className="col-lg-6 col-md-8">
                         <div className="row">
-                            <div className="col-sm-8 col-md-10 offset-md-1">
+                            <div className="col-sm-8 col-md-11 offset-md-1">
                                 <div className="pfRiskheading text-center">PF Risk Assessment</div>
                                 <div className="pfRiskSubHeading text-center">
                                     Check if your PF is at risk of getting stuck
@@ -221,7 +221,7 @@ function OtpComponent() {
 
                         <form onSubmit={handleSubmit}>
                             <div className="row">
-                                <div className="col-sm-8 col-md-10 offset-md-1">
+                                <div className="col-sm-8 col-md-11 offset-md-1">
                                     <div className="otpLabel mt-2 mt-lg-5 pt-lg-5">
                                         Enter OTP sent to your EPF registered number
                                     </div>

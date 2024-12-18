@@ -42,6 +42,21 @@ export const adminLogin = async (endpoint, data) => {
 };
 
 // Function to make GET requests
+export const getUanNumber = async (page = 1, limit = 100) => {
+  try {
+    const response = await apiClient.get(`admin/uan-details?page=${page}&limit=${limit}`);
+    return response.data; // Return the API response data
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      return { message: MESSAGES.error.unauthorized, status: 401 };
+    }
+    console.error('GET request failed:', error);
+    throw error;
+  }
+};
+
+
+// Function to make GET requests
 export const get = async (endpoint) => {
   try {
     const response = await apiClient.get(endpoint);
