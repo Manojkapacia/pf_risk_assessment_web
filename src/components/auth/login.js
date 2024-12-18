@@ -80,7 +80,6 @@ function LoginComponent() {
                     }, 2000);
                 }
             } catch (error) {
-                console.log("get status",error.status);
                 if(error.status=== 401){
                 setLoading(false);
                 setMessage({ type: "error", content: error.message });

@@ -40,6 +40,9 @@
 }
 .setBackGround{
   background-color: #eef9ff;
+  /* height: 150vh;
+  display: flex;
+  flex-direction: column; */
 }
 
 .EpfText{

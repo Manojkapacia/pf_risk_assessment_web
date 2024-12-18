@@ -18,7 +18,8 @@ const MESSAGES = {
         invalidUanPassword: 'Either UAN or Password is incorrect',
         unauthorized: 'Session Expired! Please login again',
         invalidOpnLogin: 'Invalid Credentails',
-        logoutError : 'Unauthorized: Session expired or invalid'
+        logoutError : 'Unauthorized: Session expired or invalid',
+        ZOHOError: "Provide new details"
     },
     labels: {
         otp: "Enter OTP",
@@ -29,8 +30,8 @@ const MESSAGES = {
         requiredField: (type) => `${type} is required.`,
     },
     api: {
-        // baseUrl: 'https://uat.finright.in/'
-        baseUrl: 'http://localhost:3001'
+        baseUrl: 'https://uat.finright.in/'
+        // baseUrl: 'http://localhost:3001'
     }
 };
 
