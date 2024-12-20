@@ -1,0 +1,29 @@
+.reportUserName{
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+.reportUANno{
+    font-weight: 300;
+    font-size: 1.25rem;
+}
+.reportValueText{
+    font-weight: 500;
+    font-size: 1.25rem;
+    line-height: 1;
+    margin-bottom: 0px;
+}
+.reportValueAmount{
+    font-weight: 800;
+    margin-top: 0;
+    font-size: 2rem;  
+}
+
+.employeeText{
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.employeeValue{
+    font-size: 0.95rem;
+    font-weight: 800;
+}

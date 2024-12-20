@@ -1,0 +1,28 @@
+.kycLabel{
+    font-size: 0.81rem;
+    font-weight: 700;
+}
+
+.kycValue{
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.card-bottom-shadow {
+    box-shadow: 0 4px 8px rgba(50, 50, 50, 0.5);
+    border: none;
+  }
+  
+  .card-bottom-shadow:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease-in-out;
+  }
+
+  .selectSeccess {
+    background-color: #27DEBF;
+    padding: 0.7rem;       
+    border-radius: 0.2rem;
+    align-items: center;
+    justify-content: center;
+  }
+  

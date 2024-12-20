@@ -19,6 +19,10 @@ import ViewDetailsByUan from './admin/components/view-details-by-uan';
 import AdminLogin from './admin/components/admin-login';
 import AuthGuardAdmin from './components/guards/auth-guard-admin';
 import AdminGuestGuard from './components/guards/guest-guard-admin';
+import KycDetails from './components/KYC/kyc-details';
+import ReportRegistation from './components/report/report-registation';
+import ReportOtp from './components/report/report-otp';
+import ReportSubmit from "./components/report/report-submit"
 import PageNotFound from './components/static/page-not-found'
 
 function App() {
@@ -36,11 +40,15 @@ function App() {
         <Route path="/create-account-otp" element={<AuthGuard><OtpCreateAccount /></AuthGuard>} />
         <Route path="/activate-uan" element={<GuestGuard><ActivateUan /></GuestGuard>} />
         <Route path="/donot-know-uan" element={<GuestGuard><DonotKnowUan /></GuestGuard>} />
-        <Route path="/epfo-down" element={<GuestGuard><EpfoDown /></GuestGuard>} />
+        <Route path="/epfo-down" element={<EpfoDown/>} />
         <Route path="/forgot-password" element={<GuestGuard><ForgotPassword /></GuestGuard>} />
         <Route path="/welcome-back" element={<AuthGuard><WelcomeBack /></AuthGuard>} />
         <Route path="/operation/login" element={<AdminGuestGuard><AdminLogin /></AdminGuestGuard>} />
         <Route path="/operation/view-details" element={<AuthGuardAdmin><ViewDetailsByUan /></AuthGuardAdmin>} />
+        <Route path="/kyc-details" element={<KycDetails/>}/>
+        <Route path="/report-registation" element={<ReportRegistation/>}/>
+        <Route path="/report-otp" element={<ReportOtp/>}/>
+        <Route path="/report-submit" element={<ReportSubmit/>}/>
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
     </Router>

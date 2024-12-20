@@ -61,7 +61,6 @@ function ServiceHistory() {
     // }
 
     return (
-        <div className='setBackGround'>
             <div className="container">
                 <div className="row d-flex justify-content-center align-items-center vh-100">
                     <div className="col-lg-4 col-md-8">
@@ -154,7 +153,6 @@ function ServiceHistory() {
                     </div>
                 </div>
             </div>
-        </div>
     )
 }
 
