@@ -9,11 +9,19 @@ import { zohoRequest } from "./../common/api";
 import ToastMessage from '../common/toast-message'
 const EpfoDown = () => {
     const [message, setMessage] = useState({ type: "", content: "" });
+    const [isDisabled, setIsDisabled] = useState(false);
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
+
+    const handleClick = () => { 
+        setIsDisabled(true);
+        setTimeout(() => {
+          setIsDisabled(false);
+        }, 5000);
+      };
 
     const onSubmit = async (data) => {
         const formData = {
@@ -24,11 +32,9 @@ const EpfoDown = () => {
           };
         try {
           const result = await zohoRequest(formData);
-          console.log("respone",result.data.data[0].status);
-          
           if (result.data.data[0].status== "success") {
-            setMessage({ type: "success", content: result.message });
-            setTimeout(() => setMessage({ type: "", content: "" }), 2000);
+            const newTabUrl = "https://www.finright.in/submitted-successfully";
+            window.open(newTabUrl, "_blank", "noopener,noreferrer");
         } else {
             setMessage({ type: "error", content: result.message });
             setTimeout(() => setMessage({ type: "", content: "" }), 2000);
@@ -144,8 +150,11 @@ const EpfoDown = () => {
 
                                     </div>
                                     <div className='col-md-12 mt-md-4 my-2 d-md-flex justify-content-md-start d-flex justify-content-center'>
-                                        <button className='requestButton px-3 py-1' type="submit">
-                                            <Telephone className='me-2 mb-1' size={13} title="Phone Icon" />Request a call</button>
+                                        <button className='requestButton px-3 py-1' type="submit" 
+                                        disabled={isDisabled} onClick={handleClick}>
+                                            <Telephone className='me-2 mb-1' size={13} title="Phone Icon" />
+                                            {isDisabled ? "Please Wait..." : "Request a call"}
+                                        </button>
                                     </div>
                                 </div>
                             </form>
