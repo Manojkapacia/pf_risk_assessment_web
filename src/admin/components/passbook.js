@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { ArrowLeft } from 'react-bootstrap-icons';
 
 const PFPassbook = ({ jsonData, onBack }) => {
-    // console.log("data get", getData);
-    // let data = getData?.data;
     let data = jsonData?.data;
 
     return (

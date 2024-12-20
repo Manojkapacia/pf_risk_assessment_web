@@ -105,7 +105,7 @@ function ServiceHistory() {
                                                             style={{ cursor: "pointer" }}
                                                             onClick={() => handleItemClick(index)}
                                                         >
-                                                            {item.company}
+                                                            {item.company == "-" ? 'NA' : item.company}
                                                             <span className='ms-2' style={{ marginLeft: 'auto' }}>{isOpen && activeIndex === index ? <BsChevronCompactDown /> : <BsChevronCompactUp />}</span><br></br>
 
                                                             <span className='timeDuration'>

@@ -81,9 +81,9 @@ function LoginComponent() {
                 }
             } catch (error) {
                 if(error.status=== 401){
-                setLoading(false);
-                setMessage({ type: "error", content: error.message });
-                setTimeout(() => setMessage({ type: "", content: "" }), 3000);
+                    setLoading(false);
+                    setMessage({ type: "error", content: MESSAGES.error.invalidEpfoCredentials });
+                    setTimeout(() => setMessage({ type: "", content: "" }), 3000);
                 }else{
                     setLoading(false);
                     setMessage({ type: "error", content: error.message });

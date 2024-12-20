@@ -99,7 +99,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                     <th>Member ID</th>
                                                     <th>Form Type</th>
                                                     <th>Description</th>
-                                                    <th>Rejection Reason</th>
+                                                    <th>Reason</th>
                                                 </tr>
                                             )}
                                     </thead>
@@ -118,7 +118,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                         <td>{claim.receiptDate}</td>
                                                         <td>{claim.memberId}</td>
                                                         <td>{claim.formType}</td>
-                                                        <td>{claim.description}</td>
+                                                        <td>{claim.claimDescription}</td>
                                                         <td>{claim.rejectionReason || "N/A"}</td>
                                                     </tr>
                                                 ))
@@ -143,6 +143,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                     <th>#</th>
                                                     <th>Claim ID</th>
                                                     <th>Receipt Date</th>
+                                                    <th>Approved Date</th>
                                                     <th>Member ID</th>
                                                     <th>Form Type</th>
                                                     <th>Description</th>
@@ -163,10 +164,11 @@ const Claims = ({ jsonData, onBack }) => {
                                                         <td>{index + 1}</td>
                                                         <td>{claim.claimId}</td>
                                                         <td>{claim.receiptDate}</td>
+                                                        <td>{claim.approvedDate}</td>
                                                         <td>{claim.memberId}</td>
                                                         <td>{claim.formType}</td>
-                                                        <td>{claim.description}</td>
-                                                        <td>{claim.rejectDate}</td>
+                                                        <td>{claim.claimDescription}</td>
+                                                        <td>{claim.totalAmount}</td>
                                                     </tr>
                                                 ))
                                             )
@@ -190,10 +192,10 @@ const Claims = ({ jsonData, onBack }) => {
                                                     <th>#</th>
                                                     <th>Claim ID</th>
                                                     <th>Receipt Date</th>
+                                                    <th>Rejection Date</th>
                                                     <th>Member ID</th>
                                                     <th>Form Type</th>
                                                     <th>Description</th>
-                                                    <th>Rejection Date</th>
                                                     <th>Rejection Reason</th>
                                                 </tr>
                                             )}
@@ -212,10 +214,10 @@ const Claims = ({ jsonData, onBack }) => {
                                                         <td>{index + 1}</td>
                                                         <td>{claim.claimId}</td>
                                                         <td>{claim.receiptDate}</td>
+                                                        <td>{claim.rejectDate}</td>
                                                         <td>{claim.memberId}</td>
                                                         <td>{claim.formType}</td>
-                                                        <td>{claim.description}</td>
-                                                        <td>{claim.rejectDate}</td>
+                                                        <td>{claim.claimDescription}</td>
                                                         <td className="text-danger">{claim.rejectionReason || "N/A"}</td>
                                                     </tr>
                                                 ))
