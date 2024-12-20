@@ -4,7 +4,7 @@ import Profile from './profile';
 // import * as XLSX from 'xlsx';
 import ServiceHistory from './service-history';
 import PFPassbook from './passbook';
-import { Search, Eye, Download, ArrowLeft } from "react-bootstrap-icons";
+import { Eye, ArrowLeft } from "react-bootstrap-icons";
 import { get } from "../../components/common/api";
 import Loader from "../../components/common/loader";
 import { useNavigate } from "react-router-dom";
@@ -14,8 +14,6 @@ import { getUanNumber } from "../../components/common/api"
 import Transfer from "./transfers";
 
 function ViewDetailsByUan() {
-
-
     const [value, setValue] = useState("");
     const [currentView, setCurrentView] = useState("parent");
     const [typingTimeout, setTypingTimeout] = useState(null);
@@ -23,11 +21,8 @@ function ViewDetailsByUan() {
     const [loading, setLoading] = useState(false);
     const [uanList, setUanList] = useState([]);
     const [searchList, setSearchList] = useState([]);
-    const [loading1, setLoading1] = useState(true);
      // State for search input
-  const [searchUAN, setSearchUAN] = useState('');
-  // State for filtered result
-  const [filteredData, setFilteredData] = useState(uanData?.data);
+    const [searchUAN, setSearchUAN] = useState('');
 
     const [showUanDetails, setShowUanDetails] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -48,7 +43,7 @@ function ViewDetailsByUan() {
             const timeout = setTimeout(async () => {
                 setLoading(true);
                 try {
-                    const response = await get(`data/fetchByUan/${uanNuber}`)
+                    const response = await get(`/admin/data/${uanNuber}`)
                     if (response.status === 401) {
                         setLoading(false);
                         localStorage.removeItem('user_uan')
@@ -65,7 +60,6 @@ function ViewDetailsByUan() {
                     setLoading(false); // Stop showing the loading screen
                 }
             }, 0);
-
             setTypingTimeout(timeout);
         }
     };
@@ -75,7 +69,6 @@ function ViewDetailsByUan() {
             try {
                 const result = await getUanNumber(1, 100);
                 if (result.status === 401) {
-                    setLoading1(false);
                     localStorage.removeItem('user_uan')
                     localStorage.removeItem('admin_logged_in')
                     navigate('/operation/login');
@@ -87,7 +80,6 @@ function ViewDetailsByUan() {
                 console.error("Error fetching data:", err);
                 setUanList([null])
             } finally {
-                setLoading1(false);
             }
         };
         fetchUanList();
@@ -168,17 +160,17 @@ function ViewDetailsByUan() {
                             </div>
                         </div>
                     ) : currentView === "profile" ? (
-                        <Profile jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
+                        <Profile jsonData={uanData} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "serviceHistory" ? (
-                        <ServiceHistory jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
+                        <ServiceHistory jsonData={uanData} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "pfpassbook" ? (
-                        <PFPassbook jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
+                        <PFPassbook jsonData={uanData} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "claims" ? (
-                        <Claims jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
+                        <Claims jsonData={uanData} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "withdraw" ? (
-                        <Withdrawability jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
+                        <Withdrawability jsonData={uanData} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "transfer" ? (
-                        <Transfer jsonData={uanData.transferData} onBack={() => setCurrentView("parent")} />
+                        <Transfer uan={value} onBack={() => setCurrentView("parent")} />
                     ) : null
 
                 ) : (

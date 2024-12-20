@@ -6,6 +6,7 @@ const MESSAGES = {
         loginSuccess: "Logged in successfully"
     },
     error: {
+        invalidEpfoCredentials: "Invalid UAN or password. Try resetting password with the mobile number registred with finright or EPFO",
         invalidOtp: "The OTP entered is invalid. Please try again.",
         correctEmail:"Please enter the correct email",
         uanInvalidLength: "UAN must be a 12-digit number.",        
@@ -19,7 +20,7 @@ const MESSAGES = {
         unauthorized: 'Session Expired! Please login again',
         invalidOpnLogin: 'Invalid Credentails',
         logoutError : 'Unauthorized: Session expired or invalid',
-        ZOHOError: "Provide new details"
+        ZOHOError: "Provide new details",
     },
     labels: {
         otp: "Enter OTP",

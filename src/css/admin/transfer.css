@@ -16,12 +16,9 @@ h1 {
 
 .data-table {
     width: 100%;
-    /* Ensures the table takes up full width of the container */
     border-collapse: collapse;
     table-layout: fixed;
-    /* Ensures columns adjust to the available width */
     word-wrap: break-word;
-    /* Allows text to wrap within table cells */
 }
 
 .data-table thead {

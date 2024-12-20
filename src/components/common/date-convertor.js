@@ -10,16 +10,16 @@ export const ConvertPeriod = (period) => {
 
     // Helper function to convert "Month YYYY" to "MM/YYYY"
     const formatDate = (date) => {
+        if (!date || date.trim().toLowerCase() === "n/a") return "NA";
+        if (date.trim().toLowerCase() === "present") return "Present";
         const [month, year] = date.split(" ");
         return `${months[month]}/${year}`;
     };
 
-    // Convert the start date
+    // Convert the start and end dates
     const startDate = formatDate(start);
-
-    // Check if the end date is "Present" or needs conversion
-    const endDate = end.toLowerCase() === "present" ? "Present" : (end.toLowerCase() === "na" || end === "") ? "NA" : formatDate(end);
+    const endDate = formatDate(end);
 
     // Return the formatted string
-    return endDate ? `${startDate} - ${endDate}` : startDate;
-}
+    return `${startDate} - ${endDate}`;
+};

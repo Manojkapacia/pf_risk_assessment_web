@@ -1,16 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft } from 'react-bootstrap-icons';
 import '../../css/admin/transfer.css'
+import { get } from "../../components/common/api";
+import { useNavigate } from "react-router-dom";
 
-function Transfer({ jsonData, onBack }) {
-    let data = jsonData?.transferData
+function Transfer({ uan, onBack }) {
+    const [transferData, setTransferData] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        async function fetchTransferTable() {
+            setLoading(true);
+            try {
+                const response = await get(`/admin/getTransferLodgeTable/${uan}`)
+                if (response.status === 401) {
+                    localStorage.removeItem('admin_logged_in');
+                    navigate('/operation/login');
+                } else {
+                    setTransferData(response);
+                }
+            } catch (error) {
+                setTransferData([])
+            } finally {
+                setLoading(false); 
+            }
+        }
+        fetchTransferTable()
+    }, []);
+
     return (
         <>
             <button className="btn p-0 d-flex align-items-center mt-4 mb-md-3" onClick={onBack}>
                 <ArrowLeft size={20} className="me-1" /> Back
             </button>
             <div className="data-table-container">
-                <h1>Transaction Data</h1>
+                <h4 className="text-center">Transfer Table</h4>
                 <table className="data-table">
                     <thead>
                         <tr>
@@ -29,7 +55,7 @@ function Transfer({ jsonData, onBack }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((row, index) => (
+                        {transferData && transferData.length ? transferData.map((row, index) => (
                             <tr key={index}>
                                 <td>{row["Member Id (From)"] || "N/A"}</td>
                                 <td>{row["Claim ID"] || "N/A"}</td>
@@ -44,7 +70,10 @@ function Transfer({ jsonData, onBack }) {
                                 <td>{row["Transfer Employer Share"] || "N/A"}</td>
                                 <td>{row["Pension Share"] || "N/A"}</td>
                             </tr>
-                        ))}
+                        )): <tr>
+                                <td colSpan={12} className="text-center">No Transfer Found!</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
