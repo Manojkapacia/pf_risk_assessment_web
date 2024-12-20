@@ -11,7 +11,7 @@ function SelectOrganization() {
     const navigate = useNavigate();
 
     const [selectedId, setSelectedId] = useState(null);
-    const { listItems, uan, type,reportUpdatedAtVar } = location.state || {};
+    const { listItems, uan, type,reportUpdatedAtVar,profileData } = location.state || {};
 
     useEffect(() => {
         let dynamicKey = "current_page_" + localStorage.getItem('user_uan'); ; 
@@ -36,7 +36,7 @@ function SelectOrganization() {
         const data = { selectedOrg, uan, type };
         const encodedData = btoa(JSON.stringify(data));
         localStorage.setItem('data-scan-' + uan, encodedData);
-        navigate("/doc-scan", { state: { selectedOrg, uan, type,reportUpdatedAtVar } });
+        navigate("/kyc-details", { state: { selectedOrg, uan, type,reportUpdatedAtVar,profileData} });
     }
 
     return (

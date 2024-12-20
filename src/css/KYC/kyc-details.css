@@ -26,3 +26,10 @@
     justify-content: center;
   }
   
+  .byDefaultSeccess {
+    background-color: #eef9ff;
+    padding: 0.7rem;       
+    border-radius: 0.2rem;
+    align-items: center;
+    justify-content: center;
+  }
