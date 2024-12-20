@@ -53,15 +53,11 @@ function ServiceHistory() {
     };
     
     const handleButtonClick = (type) => {
-        const data = { listItems: listItems, uan: uan, type: type };
+        const data = { listItems, uan, type, reportUpdatedAtVar, profileData };
         const encodedData = btoa(JSON.stringify(data));
-        localStorage.setItem('data-org-' + uan, encodedData);
-        navigate("/select-organization", { state: { listItems, uan, type,reportUpdatedAtVar,profileData}})
+        localStorage.setItem('data-for-org-' + uan, encodedData);
+        navigate("/select-organization", { state: { listItems, uan, type,reportUpdatedAtVar,profileData } })
     };
-
-    // if (isLoading) {
-    //     return <SearchComponent/>;
-    // }
 
     return (
             <div className="container">
@@ -108,7 +104,7 @@ function ServiceHistory() {
                                                             style={{ cursor: "pointer" }}
                                                             onClick={() => handleItemClick(index)}
                                                         >
-                                                            {item.company == "-" ? 'NA' : item.company}
+                                                            {item.company === "-" ? 'NA' : item.company}
                                                             <span className='ms-2' style={{ marginLeft: 'auto' }}>{isOpen && activeIndex === index ? <BsChevronCompactDown /> : <BsChevronCompactUp />}</span><br></br>
 
                                                             <span className='timeDuration'>

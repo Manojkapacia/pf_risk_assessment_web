@@ -1,12 +1,14 @@
 import '../../App.css';
 import '../../css/KYC/kyc-details.css';
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle, XCircle } from "react-bootstrap-icons";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 
 function KycDetails() {
     const location = useLocation();
+    const navigate = useNavigate()
+
     const [showAccountDetails, setShowAccountDetails] = useState(false);
     const [showFullAccountNumber, setShowFullAccountNumber] = useState(false);
     const [kycStatus, setKycStatus] = useState({
@@ -18,13 +20,21 @@ function KycDetails() {
         bankAccountNumber: null,
         bankIFSC: null
     });
-    const { profileData } = location.state || {};
+    const { selectedOrg, uan, type, reportUpdatedAtVar, profileData } = location.state || {};
+
+    useEffect(() => {
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
+        let value = "kyc-details";
+        localStorage.setItem(dynamicKey, value);
+    }, [])
+
     const updateStatus = (field, status) => {
         setKycStatus((prevState) => ({
             ...prevState,
             [field]: status,
         }));
     };
+
     const toggleAccountVisibility = () => {
         setShowFullAccountNumber(!showFullAccountNumber);
     };
@@ -35,12 +45,22 @@ function KycDetails() {
         }
         return account; 
     };
+
     const isButtonEnabled = Object.values(kycStatus)
         .slice(0, 5)
         .every((status) => status !== null);
 
     const handleSubmit = async () => {
-        setShowAccountDetails(true);
+        if(!showAccountDetails) {
+            setShowAccountDetails(true);
+        } else {
+            localStorage.removeItem('data-for-org-' + uan)
+            localStorage.removeItem('data-for-kyc-' + uan)
+            const data = { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus };
+            const encodedData = btoa(JSON.stringify(data));
+            localStorage.setItem('data-for-scan-' + uan, encodedData);
+            navigate('/doc-scan', {state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus }})
+        }
     };
 
     return (
@@ -83,12 +103,12 @@ function KycDetails() {
                                                  : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
                                                 </div>
                                             </div>
-                                                {showFullAccountNumber ? (
+                                                {profileData?.kycDetails?.bankAccountNumber != '-' && (showFullAccountNumber ? (
                                                     <EyeSlash className="text-primary fs-5" onClick={toggleAccountVisibility}/>
                                                 ) : (
                                                     <Eye className="text-primary fs-5" 
                                                     onClick={toggleAccountVisibility}/>
-                                                )}
+                                                ))}
                                             <div>
                                                 {kycStatus.bankAccountNumber !== true ? (
                                                     <span className='byDefaultSeccess me-2' onClick={() => updateStatus("bankAccountNumber", true)}>
@@ -153,7 +173,7 @@ function KycDetails() {
                                         <div className="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <span className="kycLabel">Full Name</span>
-                                                <div className="kycValue">{profileData?.basicDetails?.fullName}</div>
+                                                <div className="">{profileData?.basicDetails?.fullName}</div>
                                             </div>
                                             <div>
                                                 {kycStatus.fullName !== true ? (
@@ -183,7 +203,7 @@ function KycDetails() {
                                         <div className="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <span className="kycLabel">Date of Birth</span>
-                                                <div className="kycValue">{profileData?.basicDetails?.dateOfBirth}</div>
+                                                <div className="">{profileData?.basicDetails?.dateOfBirth}</div>
                                             </div>
                                             <div>
                                                 <div>
@@ -216,7 +236,7 @@ function KycDetails() {
                                         <div className="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <span className="kycLabel">Gender</span>
-                                                <div className="kycValue">{profileData?.basicDetails?.gender}</div>
+                                                <div className="">{profileData?.basicDetails?.gender}</div>
                                             </div>
                                             <div>
                                                 {kycStatus.gender !== true ? (
@@ -248,7 +268,7 @@ function KycDetails() {
                                             <div>
                                                 {profileData?.basicDetails?.relation === "F" ? (<span className="kycLabel"> Father's Name</span>)
                                                     : (<span className="kycLabel"> Husband's Name</span>)}
-                                                <div className="kycValue">{profileData?.basicDetails?.fatherHusbandName}</div>
+                                                <div className="">{profileData?.basicDetails?.fatherHusbandName}</div>
                                             </div>
                                             <div>
                                                 {kycStatus.fatherHusbandName !== true ? (
@@ -279,7 +299,7 @@ function KycDetails() {
                                         <div className="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <span className="kycLabel">Physically Handicapped?</span>
-                                                <div className="kycValue">{profileData?.basicDetails?.physicallyHandicapped}</div>
+                                                <div className="">{profileData?.basicDetails?.physicallyHandicapped}</div>
                                             </div>
                                             <div>
                                                 {kycStatus.physicallyHandicapped !== true ? (

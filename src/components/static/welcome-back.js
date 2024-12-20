@@ -15,18 +15,26 @@ const WelcomeBack = () => {
 
     const handleResume = () => {
         const currentRoute = localStorage.getItem("current_page_" + UAN);
-        console.log(currentRoute)
-        if(currentRoute === null) {
-            navigate(`/service-history`, { state: { UAN } })
-            return;
-        }
-        if(currentRoute === 'select-organization' || currentRoute ===  'doc-scan') {
-            const key = currentRoute === 'select-organization' ? 'data-org-' + UAN : 'data-scan-' + UAN
-            const retrievedData = JSON.parse(atob(localStorage.getItem(key)));
-            navigate(`/${currentRoute}`, { state: retrievedData })
-        } else {
+
+        if(!currentRoute || currentRoute === 'service-history') {
             navigate(`/${currentRoute}`, { state: { UAN } })
         }
+        if(currentRoute && currentRoute === 'select-organization') {
+            const key = 'data-for-org-' + UAN
+            const retrievedData = JSON.parse(atob(localStorage.getItem(key)));
+            navigate(`/${currentRoute}`, { state: retrievedData })
+        }
+        if(currentRoute && currentRoute === 'kyc-details') {
+            const key = 'data-for-kyc-' + UAN 
+            const retrievedData = JSON.parse(atob(localStorage.getItem(key)));
+            console.log(retrievedData)
+            navigate(`/${currentRoute}`, { state: retrievedData })
+        }
+        if(currentRoute && currentRoute === 'doc-scan') {
+            const key = 'data-for-scan-' + UAN
+            const retrievedData = JSON.parse(atob(localStorage.getItem(key)));
+            navigate(`/${currentRoute}`, { state: retrievedData })
+        }         
     }
 
     return(
