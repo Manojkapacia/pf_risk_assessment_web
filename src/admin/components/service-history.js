@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Eye, ArrowLeft } from "react-bootstrap-icons";
-import getData from './jsonData.json'
 
 function ServiceHistory({ jsonData, onBack }) {
     // const data = getData.data.serviceHistory.history;

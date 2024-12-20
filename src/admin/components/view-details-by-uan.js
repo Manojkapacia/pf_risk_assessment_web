@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Claims from "./claims";
 import Withdrawability from "./withdrawability";
 import { getUanNumber } from "../../components/common/api"
+import Transfer from "./transfers";
 
 function ViewDetailsByUan() {
 
@@ -107,16 +108,6 @@ function ViewDetailsByUan() {
         }
       };
 
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setFormData((prev) => ({ ...prev, [name]: value }));
-    //     setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
-    // };
-    // const backToAdminLogin = () => {
-    //     localStorage.removeItem("admin_logged_in");
-    //     navigate('/operation/login');
-    // };
-
     return (
         <>
             {loading && (
@@ -129,41 +120,9 @@ function ViewDetailsByUan() {
                 />
             )}
             <div className="container">
-                {/* <div className="row">
-                    <div className="col-md-8 offset-md-2 mt-5">
-                        <div className="input-group mt-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Search"
-                                aria-label="Search"
-                                maxLength={12}
-                            />
-                            <button className="btn btn-primary btn-control ms-2 border "
-                                onClick={toggleModal}>New Client</button>
-                        </div>
-                    </div>
-                </div> */}
                 {showUanDetails ? (
                     currentView === "parent" ? (
                         <div className="row">
-                            {/* <div className="col-md-8 offset-md-2 mt-5">
-                            <div className="input-group mt-3">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Search"
-                                    aria-label="Search"
-                                    value={value}
-                                    maxLength={12}
-                                    onChange={handleChange}
-                                />
-                                <span className="input-group-text">
-                                    <Search />
-                                </span>
-                            </div>
-                        </div> */}
-
                             <div className="col-md-10 offset-md-1 mt-5">
                                 <button className="btn p-0 d-flex align-items-center my-3" onClick={handleBackButtonClick}>
                                     <ArrowLeft size={20} className="me-1" /> Back
@@ -185,19 +144,15 @@ function ViewDetailsByUan() {
                                                 <td className="text-center">
                                                     <Eye size={20} onClick={() => setCurrentView("profile")}
                                                         className="me-md-3 me-2 cursor-pointer" />
-                                                    {/* <Download size={20} /> */}
                                                 </td>
                                                 <td className="text-center">
                                                     <Eye size={20} className="me-md-3 me-2 cursor-pointer" onClick={() => setCurrentView("serviceHistory")} />
-                                                    {/* <Download size={20} /> */}
                                                 </td>
                                                 <td className="text-center">
-                                                    <Eye size={20} className="me-md-3 me-2 cursor-pointer" />
-                                                    {/* <Download size={20} /> */}
+                                                    <Eye size={20} className="me-md-3 me-2 cursor-pointer" onClick={() => setCurrentView("transfer")} />
                                                 </td>
                                                 <td className="text-center">
                                                     <Eye size={20} className="me-md-3 me-2 cursor-pointer" onClick={() => setCurrentView("pfpassbook")} />
-                                                    {/* <Download size={20} /> */}
                                                 </td>
                                                 <td className="text-center">
                                                     <Eye size={20} className="me-md-3 me-2 cursor-pointer" onClick={() => setCurrentView("claims")} />
@@ -213,15 +168,17 @@ function ViewDetailsByUan() {
                             </div>
                         </div>
                     ) : currentView === "profile" ? (
-                        <Profile jsonData={uanData} onBack={() => setCurrentView("parent")} />
+                        <Profile jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "serviceHistory" ? (
-                        <ServiceHistory jsonData={uanData} onBack={() => setCurrentView("parent")} />
+                        <ServiceHistory jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "pfpassbook" ? (
-                        <PFPassbook jsonData={uanData} onBack={() => setCurrentView("parent")} />
+                        <PFPassbook jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "claims" ? (
-                        <Claims jsonData={uanData} onBack={() => setCurrentView("parent")} />
+                        <Claims jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "withdraw" ? (
-                        <Withdrawability jsonData={uanData} onBack={() => setCurrentView("parent")} />
+                        <Withdrawability jsonData={uanData.data} onBack={() => setCurrentView("parent")} />
+                    ) : currentView === "transfer" ? (
+                        <Transfer jsonData={uanData.transferData} onBack={() => setCurrentView("parent")} />
                     ) : null
 
                 ) : (
@@ -237,8 +194,6 @@ function ViewDetailsByUan() {
                                     value={searchUAN}
                                     onChange={handleSearch}
                                 />
-                                {/* <button className="btn btn-primary btn-control ms-2 border "
-                                    onClick={toggleModal}>New Client</button> */}
                             </div>
                             {uanList?.length > 0 ? (
                                 uanList?.map((item) => (
@@ -290,21 +245,6 @@ function ViewDetailsByUan() {
                         </div>
                         <div className="modal-body">
                             <div className="row justify-content-center align-items-center">
-                                {/* <div class="col-4">
-                                    <label for="exampleInput" class="form-label">UAN Number: </label>
-                                </div>
-                                <div class="col-8">
-                                    <input
-                                        className="form-control uanNumber mt-2"
-                                        type="text"
-                                        placeholder="Enter your 12 digit UAN number"
-                                        name="uan"
-                                        // value={formData.uan}
-                                        // onChange={handleInputChange}
-                                        maxLength={12}
-                                    // required
-                                    />
-                                </div> */}
                                 <form>
                                     <div className="mb-3">
                                         <label htmlFor="exampleInput" className="form-label">
@@ -315,8 +255,6 @@ function ViewDetailsByUan() {
                                             type="text"
                                             placeholder="Enter your 12 digit UAN number"
                                             name="uan"
-                                            // value={formData.uan}
-                                            // onChange={handleInputChange}
                                             maxLength={12}
                                             required
                                         />
@@ -335,16 +273,7 @@ function ViewDetailsByUan() {
                                     <button className="btn btn-primary">Submit</button>
                                 </form>
                             </div>
-
                         </div>
-                        {/* <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={toggleModal}>
-                                Close
-                            </button>
-                            <button type="button" className="btn btn-primary" onClick={toggleModal}>
-                                Save changes
-                            </button>
-                        </div> */}
                     </div>
                 </div>
             </div>

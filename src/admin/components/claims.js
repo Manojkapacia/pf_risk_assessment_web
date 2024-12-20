@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { ArrowLeft } from 'react-bootstrap-icons';
-import getData from './jsonData.json'
 
 const Claims = ({ jsonData, onBack }) => {
     let claimsData = jsonData?.data?.claims;
