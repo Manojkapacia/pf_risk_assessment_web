@@ -17,7 +17,7 @@ const WelcomeBack = () => {
         const currentRoute = localStorage.getItem("current_page_" + UAN);
 
         if(!currentRoute || currentRoute === null || currentRoute === 'service-history') {
-            navigate(`/${currentRoute}`, { state: { UAN } })
+            navigate(`/service-history`, { state: { UAN } })
         }
         if(currentRoute && currentRoute === 'select-organization') {
             const key = 'data-for-org-' + UAN
