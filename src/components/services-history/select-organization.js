@@ -32,11 +32,11 @@ function SelectOrganization() {
 
     const generateReportClick = () => {
         const selectedOrg = selectedId !== null ? updatedListItems[selectedId] : null;
-        localStorage.removeItem('data-org-' + uan)
-        const data = { selectedOrg, uan, type };
+        localStorage.removeItem('data-for-org-' + uan)
+        const data = { selectedOrg, uan, type, reportUpdatedAtVar, profileData };
         const encodedData = btoa(JSON.stringify(data));
-        localStorage.setItem('data-scan-' + uan, encodedData);
-        navigate("/kyc-details", { state: { selectedOrg, uan, type,reportUpdatedAtVar,profileData,home} });
+        localStorage.setItem('data-for-kyc-' + uan, encodedData);
+        navigate("/kyc-details", { state: { selectedOrg, uan, type, reportUpdatedAtVar, profileData,home} });
     }
 
     return (

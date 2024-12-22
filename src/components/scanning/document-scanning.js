@@ -24,7 +24,7 @@ const DocumentScanning = () => {
     const [message, setMessage] = useState({ type: "", content: "" });
     const [istTime, setIstTime] = useState(null);
 
-    const { selectedOrg, type, reportUpdatedAtVar } = location.state || {};
+    const { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus } = location.state || {};
 
     const navigate = useNavigate()
 
@@ -36,6 +36,7 @@ const DocumentScanning = () => {
                 userEmpHistoryCorrect: type && type.toLowerCase() === 'correct',
                 userStillWorkingInOrganization: !!selectedOrg,
                 currentOrganizationMemberId: selectedOrg?.details?.["Member Id"] || "",
+                kycStatus
             };
 
             const response = await post('withdrawability-check', dataToSend);

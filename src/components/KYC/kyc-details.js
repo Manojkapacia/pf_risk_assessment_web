@@ -1,13 +1,14 @@
 import '../../App.css';
 import '../../css/KYC/kyc-details.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle, XCircle } from "react-bootstrap-icons";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 
 function KycDetails() {
     const location = useLocation();
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+
     const [showAccountDetails, setShowAccountDetails] = useState(false);
     const [showFullAccountNumber, setShowFullAccountNumber] = useState(false);
     const [kycStatus, setKycStatus] = useState({
@@ -19,13 +20,21 @@ function KycDetails() {
         bankAccountNumber: null,
         bankIFSC: null
     });
-    const { profileData, home } = location.state || {};
+    const { selectedOrg, uan, type, reportUpdatedAtVar, profileData,home } = location.state || {};
+
+    useEffect(() => {
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
+        let value = "kyc-details";
+        localStorage.setItem(dynamicKey, value);
+    }, [])
+
     const updateStatus = (field, status) => {
         setKycStatus((prevState) => ({
             ...prevState,
             [field]: status,
         }));
     };
+
     const toggleAccountVisibility = () => {
         setShowFullAccountNumber(!showFullAccountNumber);
     };
@@ -44,7 +53,17 @@ function KycDetails() {
         .every((status) => status !== null);
 
     const handleKycDetailsSubmit = async () => {
-        setShowAccountDetails(true);
+        if(!showAccountDetails) {
+            setShowAccountDetails(true);
+        } else {
+            localStorage.removeItem('data-for-org-' + uan)
+            localStorage.removeItem('data-for-kyc-' + uan)
+            const data = { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus };
+            const encodedData = btoa(JSON.stringify(data));
+            localStorage.setItem('data-for-scan-' + uan, encodedData);
+            navigate('/doc-scan', {state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus }})
+        }
+
     };
     const handleSubAccDetails = async () => {
         navigate("/report-registation",{ state: {profileData, home}})
@@ -91,12 +110,12 @@ function KycDetails() {
                                                         : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
                                                 </div>
                                             </div>
-                                            {showFullAccountNumber ? (
+                                            {profileData?.kycDetails?.bankAccountNumber != '-' && (showFullAccountNumber ? (
                                                 <EyeSlash className="text-primary fs-5" onClick={toggleAccountVisibility} />
                                             ) : (
                                                 <Eye className="text-primary fs-5"
                                                     onClick={toggleAccountVisibility} />
-                                            )}
+                                            ))}
                                             <div>
                                                 {kycStatus.bankAccountNumber !== true ? (
                                                     <span className='byDefaultSeccess me-2' onClick={() => updateStatus("bankAccountNumber", true)}>
