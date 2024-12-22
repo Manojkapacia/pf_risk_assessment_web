@@ -8,7 +8,9 @@ import {logout} from './api'
 const Logo = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const noButtonPaths = ["/", "/otpAssessment","/activate-uan","/donot-know-uan","/forgot-password"];
+  const noButtonPaths = ["/","/activate-uan","/donot-know-uan","/forgot-password",
+    "/operation/login"
+  ];
   const shouldHideButtons = noButtonPaths.includes(location.pathname);
   const [message, setMessage] = useState({ type: "", content: "" });
 
@@ -36,10 +38,16 @@ const Logo = () => {
         <img src={logo} alt="Logo" className="logo" />
       </div>
       {!shouldHideButtons && (
-      <div className="col d-flex justify-content-end">
-        <button className="btn me-2" onClick={handleLogout}>
-          <ArrowLeft size={17} className="me-1" />Back to Assessment</button>
-      </div>
+      // <div className="col d-flex justify-content-end">
+      //   <button className="btn btn-info me-2 mt-2" onClick={handleLogout}>
+      //     Log out
+      //   </button>
+      // </div>
+      <span
+                className="position-absolute top-0 end-0 m-3 text-end backAssesment"
+                style={{ cursor: 'pointer' }} onClick={handleLogout}>
+                Log out
+            </span>
       )}
     </div>
 

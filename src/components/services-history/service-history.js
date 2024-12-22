@@ -13,6 +13,7 @@ function ServiceHistory() {
     const [listItems, setListItems] = useState([]); // Store API data
     const [uan, setUan] = useState('');
     const [profileData, setProfileData] = useState({});
+    const [home, setHome] = useState({});
     const [reportUpdatedAtVar, setreportUpdatedAt] = useState("");
 
     const navigate = useNavigate();
@@ -27,9 +28,9 @@ function ServiceHistory() {
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
-                setListItems(response.rawData.data.serviceHistory.history);
-                setProfileData(response.rawData.data.profile);
-                
+                setListItems(response?.rawData?.data?.serviceHistory?.history);
+                setProfileData(response?.rawData?.data?.profile);
+                setHome(response?.rawData?.data?.home)
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -56,7 +57,8 @@ function ServiceHistory() {
         const data = { listItems: listItems, uan: uan, type: type };
         const encodedData = btoa(JSON.stringify(data));
         localStorage.setItem('data-org-' + uan, encodedData);
-        navigate("/select-organization", { state: { listItems, uan, type,reportUpdatedAtVar,profileData}})
+        navigate("/select-organization", { state: { listItems, uan, type,reportUpdatedAtVar
+            ,profileData,home}})
     };
 
     // if (isLoading) {

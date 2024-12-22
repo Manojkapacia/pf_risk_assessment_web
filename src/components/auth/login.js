@@ -84,11 +84,12 @@ function LoginComponent() {
                     setLoading(false);
                     setMessage({ type: "error", content: MESSAGES.error.invalidEpfoCredentials });
                     setTimeout(() => setMessage({ type: "", content: "" }), 3000);
-                }else{
+                }if (error.status >= 500) {
+                    navigate("/epfo-down")
+                  }else{
                     setLoading(false);
                     setMessage({ type: "error", content: error.message });
                     setTimeout(() => setMessage({ type: "", content: "" }), 3000);
-                    navigate("/epfo-down");
                 }
             }
         }

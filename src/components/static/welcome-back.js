@@ -15,7 +15,6 @@ const WelcomeBack = () => {
 
     const handleResume = () => {
         const currentRoute = localStorage.getItem("current_page_" + UAN);
-        console.log(currentRoute)
         if(currentRoute === null) {
             navigate(`/service-history`, { state: { UAN } })
             return;

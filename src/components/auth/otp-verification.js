@@ -25,24 +25,38 @@ function OtpComponent() {
     const timeoutRef = useRef(null);
 
     const [timeLeft, setTimeLeft] = useState(59);
-
+    const [timer, setTimer] = useState(59);
+    const [triggerApiCall, setTriggerApiCall] = useState(false);
+    const isBtnAssessmentEnabled = otp.every((field) => field !== "");
     useEffect(() => {
-        if(type === "back-screen") {
+        if (type === "back-screen") {
             refreshOtp()
         }
-        if (timeLeft === 0) return;
-        const timer = setInterval(() => {
-            setTimeLeft((prevTime) => prevTime - 1);
-        }, 1000);
-        return () => clearInterval(timer);
     }, []);
+    useEffect(() => {
+        let interval;
+        if (timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+        } else {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [timer]);
+
+    useEffect(() => {
+        if (triggerApiCall) {
+            resendOtp();
+        }
+    }, [triggerApiCall]);
 
     //Refresh OTP
     const refreshOtp = async () => {
         if (UAN && Pws) {
             try {
                 setLoading(true);
-                const result = await post('auth/refresh-data',{ uan: UAN, password: Pws.trim()});
+                const result = await post('auth/refresh-data', { uan: UAN, password: Pws.trim() });
                 setLoading(false);
 
                 if (result.status === 400) {
@@ -57,7 +71,9 @@ function OtpComponent() {
                     localStorage.removeItem('user_uan')
                     navigate('/');
                 } else {
-                    setShowToast(true)
+                    setShowToast(true);
+                    setTimer(59);
+                    setTriggerApiCall(false);
                     setToastMessage(result.message);
                     setTimeout(() => {
                         setToastMessage("")
@@ -93,7 +109,9 @@ function OtpComponent() {
                         setShowToast(false);
                     }, 2500);
                 } else {
-                    setShowToast(true)
+                    setShowToast(true);
+                    setTimer(59);
+                    setTriggerApiCall(false);
                     setToastMessage(result.message);
                     setTimeout(() => {
                         setToastMessage("")
@@ -101,13 +119,17 @@ function OtpComponent() {
                     }, 3000);
                 }
             } catch (error) {
-                setLoading(false);
-                setShowToast(true)
-                setToastMessage(error.message);
-                setTimeout(() => {
-                    setToastMessage("")
-                    setShowToast(false);
-                }, 3000);
+                if (error.status >= 500) {
+                    navigate("/epfo-down")
+                } else {
+                    setLoading(false);
+                    setShowToast(true)
+                    setToastMessage(error.message);
+                    setTimeout(() => {
+                        setToastMessage("")
+                        setShowToast(false);
+                    }, 3000);
+                }
             }
         }
     }
@@ -138,11 +160,27 @@ function OtpComponent() {
         }
     }, [otp, resetToast]);
 
-    const handleBackspace = useCallback((event, index) => {
-        if (event.key === "Backspace" && otp[index] === "" && index > 0) {
-            document.getElementById(`otp-input-${index - 1}`).focus();
+    // const handleBackspace = useCallback((event, index) => {
+    //     if (event.key === "Backspace" && otp[index] === "" && index > 0) {
+    //         document.getElementById(`otp-input-${index - 1}`).focus();
+    //     }
+    // }, [otp]);
+    const handleBackspace = (e, index) => {
+        if (e.key === "Backspace") {
+            const newOtp = [...otp];
+            if (otp[index] === "" && index > 0) {
+                const prevInput = document.getElementById(`otp-input-${index - 1}`);
+                if (prevInput) {
+                    newOtp[index - 1] = "";
+                    setOtp(newOtp);
+                    prevInput.focus();
+                }
+            } else {
+                newOtp[index] = "";
+                setOtp(newOtp);
+            }
         }
-    }, [otp]);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -201,7 +239,6 @@ function OtpComponent() {
                 {showToast && <ToastMessage message={toastMessage} type={toastType} />}
                 <div className="row d-flex justify-content-center align-items-center vh-100">
                     <div className="col-lg-4 col-md-8 offset-md-1 mt-2 mt-lg-0">
-                        {/* <img src={pfRiskImage} alt="OTP Assessment" className="otpAssessmentImage" /> */}
                         <div className='welcomeLabelLogin text-center'>
                             Welcome to India's First<br></br> Digital PF check up
                         </div>
@@ -226,14 +263,29 @@ function OtpComponent() {
                                         Enter OTP sent to your EPF registered number
                                     </div>
                                     <div className="d-flex">
-                                        {otp.map((digit, index) => (
+                                        {/* {otp.map((digit, index) => (
                                             <input
                                                 key={index}
                                                 id={`otp-input-${index}`}
                                                 type="text"
+                                                autoComplete='off'
                                                 maxLength="1"
                                                 className="otpInput form-control text-center mx-1 mt-2"
-                                                value={digit}
+                                                value={otp[index]}
+                                                onChange={(e) => handleOtpChange(e.target.value, index)}
+                                                onKeyDown={(e) => handleBackspace(e, index)}
+                                                aria-label={`OTP input ${index + 1}`}
+                                            />
+                                        ))} */}
+                                        {Array.from({ length: 6 }).map((_, index) => (
+                                            <input
+                                                key={index}
+                                                id={`otp-input-${index}`}
+                                                type="text"
+                                                autoComplete="off"
+                                                maxLength="1"
+                                                className="otpInput form-control text-center mx-1 mt-2"
+                                                value={otp[index]}
                                                 onChange={(e) => handleOtpChange(e.target.value, index)}
                                                 onKeyDown={(e) => handleBackspace(e, index)}
                                                 aria-label={`OTP input ${index + 1}`}
@@ -241,7 +293,7 @@ function OtpComponent() {
                                         ))}
                                     </div>
                                     <div className="d-flex justify-content-between align-items-center mt-2">
-                                        {timeLeft > 1 ? <p className='text-danger mb-0'>OTP expires in {timeLeft} seconds.</p>
+                                        {timer > 1 ? <p className='text-danger mb-0'>OTP expires in {timer} seconds.</p>
                                             : <p className='text-danger mb-0'>OTP expired</p>}
                                         <a
                                             className="text-decoration-none labelSubHeading"
@@ -253,15 +305,15 @@ function OtpComponent() {
                                 </div>
                             </div>
                             <div className="row my-2 mt-lg-5 pt-lg-4">
-                                <div className="col-md-10 col-sm-8 offset-md-1">
-                                    <button type="submit" className="btn w-100 pfRiskButtons">
+                                <div className="col-md-11 col-sm-8 offset-md-1">
+                                    <button type="submit" className="btn w-100 pfRiskButtons" disabled={!isBtnAssessmentEnabled}>
                                         Start Assessment
                                     </button>
                                     <div className='text-center'>
-                                    <span className='termConditionText d-inline-block mt-1'>By Cliking on continue you allow Finright to use your EPF account 
-                                        data to provide you best possible guidance and agree to the <br></br>
-                                        <span style={{fontWeight:"700"}}>Terms & Conditions</span>
-                                    </span>
+                                        <span className='termConditionText d-inline-block mt-1'>By Cliking on continue you allow Finright to use your EPF account
+                                            data to provide you best possible guidance and agree to the <br></br>
+                                            <span style={{ fontWeight: "700" }}>Terms & Conditions</span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
