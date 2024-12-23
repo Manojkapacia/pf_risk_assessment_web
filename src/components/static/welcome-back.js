@@ -27,7 +27,6 @@ const WelcomeBack = () => {
         if(currentRoute && currentRoute === 'kyc-details') {
             const key = 'data-for-kyc-' + UAN 
             const retrievedData = JSON.parse(atob(localStorage.getItem(key)));
-            console.log(retrievedData)
             navigate(`/${currentRoute}`, { state: retrievedData })
         }
         if(currentRoute && currentRoute === 'doc-scan') {

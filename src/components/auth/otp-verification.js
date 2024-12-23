@@ -16,7 +16,10 @@ function OtpComponent() {
     const [message, setMessage] = useState({ type: "", content: "" });
 
     const { UAN, Pws, type = "" } = location.state || {};
+<<<<<<< HEAD
+=======
 
+>>>>>>> 9c7a4790e4afe94b4b849767530a3691b488891d
     const [timer, setTimer] = useState(59);
     const [triggerApiCall, setTriggerApiCall] = useState(false);
     const isBtnAssessmentEnabled = otp.every((field) => field !== "");

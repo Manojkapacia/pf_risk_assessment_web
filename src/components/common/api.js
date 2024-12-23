@@ -42,7 +42,7 @@ export const adminLogin = async (endpoint, data) => {
 };
 
 // Function to make GET requests
-export const getUanNumber = async (page = 1, limit = 100) => {
+export const getUanNumber = async (page, limit) => {
   try {
     const response = await apiClient.get(`admin/uan-details?page=${page}&limit=${limit}`);
     return response.data; // Return the API response data
