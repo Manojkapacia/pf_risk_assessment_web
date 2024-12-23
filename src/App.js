@@ -19,7 +19,7 @@ import ViewDetailsByUan from './admin/components/view-details-by-uan';
 import AdminLogin from './admin/components/admin-login';
 import AuthGuardAdmin from './components/guards/auth-guard-admin';
 import AdminGuestGuard from './components/guards/guest-guard-admin';
-import KycDetails from './components/kyc/kyc-details';
+import KycDetails from './components/KYC/kyc-details';
 import ReportRegistation from './components/report/report-registation';
 import ReportOtp from './components/report/report-otp';
 import ReportSubmit from "./components/report/report-submit"

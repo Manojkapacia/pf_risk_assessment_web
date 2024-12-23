@@ -1,6 +1,5 @@
 import axios from 'axios';
 import MESSAGES from '../constants/messages';
-import staticData from '../../helper/admin-login.json';
 
 // Create an Axios instance with default configurations
 const apiClient = axios.create({
@@ -20,6 +19,7 @@ export const login = async (uan, password) => {
     if (error.response && error.response.status === 400) {
       return { message: MESSAGES.error.invalidUanPassword, status: 400 };
     }
+    
     console.error('Login failed:', error);
     // Re-throw for other error cases
     throw error;
@@ -127,7 +127,6 @@ export const logout = async () => {
 };
 
 //ZOHO API
-// Function to handle login
 export const zohoRequest = async (formData) => {
   try {
     const response = await apiClient.post('data/createLead', {formData});

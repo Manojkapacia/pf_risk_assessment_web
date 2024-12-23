@@ -92,7 +92,9 @@ function LoginComponent() {
                 if(error.status=== 401){
                     setLoading(false);
                     setMessage({ type: "error", content: MESSAGES.error.invalidEpfoCredentials });
-                }else{
+                }if (error.status >= 500) {
+                    navigate("/epfo-down")
+                  }else{
                     setLoading(false);
                     setMessage({ type: "error", content: error.message });
                     navigate("/epfo-down");
