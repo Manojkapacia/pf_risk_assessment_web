@@ -2,7 +2,6 @@ import '../../App.css';
 import '../../css/KYC/kyc-details.css';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CheckCircle, XCircle } from "react-bootstrap-icons";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 
 function KycDetails() {
@@ -12,13 +11,13 @@ function KycDetails() {
     const [showAccountDetails, setShowAccountDetails] = useState(false);
     const [showFullAccountNumber, setShowFullAccountNumber] = useState(false);
     const [kycStatus, setKycStatus] = useState({
-        fullName: null,
-        dateOfBirth: null,
-        gender: null,
-        fatherHusbandName: null,
-        physicallyHandicapped: null,
-        bankAccountNumber: null,
-        bankIFSC: null
+        fullName: true,
+        dateOfBirth: true,
+        gender: true,
+        fatherHusbandName: true,
+        physicallyHandicapped: true,
+        bankAccountNumber: true,
+        bankIFSC: true
     });
     const { selectedOrg, uan, type, reportUpdatedAtVar, profileData,home } = location.state || {};
 
@@ -27,13 +26,6 @@ function KycDetails() {
         let value = "kyc-details";
         localStorage.setItem(dynamicKey, value);
     }, [])
-
-    const updateStatus = (field, status) => {
-        setKycStatus((prevState) => ({
-            ...prevState,
-            [field]: status,
-        }));
-    };
 
     const toggleAccountVisibility = () => {
         setShowFullAccountNumber(!showFullAccountNumber);
@@ -45,12 +37,6 @@ function KycDetails() {
         }
         return account;
     };
-    const isBasicBtnEnabled = Object.values(kycStatus)
-        .slice(0, 5)
-        .every((status) => status !== null);
-        const isAccBtnEnabled = Object.values(kycStatus)
-        .slice(5, 7)
-        .every((status) => status !== null);
 
     const handleKycDetailsSubmit = async () => {
         if(!showAccountDetails) {
@@ -99,247 +85,146 @@ function KycDetails() {
                         {showAccountDetails ? (
                             <>
                             <div className='col-md-10 offset-md-1'>
-                                <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>Check Bank Details</span>
+                                <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>
+                                    Select the detail that does not match your Bank Account</span>
                                 <div className="card card-bottom-shadow border-0 mb-2">
-                                    <div className="list-group">
+                                    <div className="list-group" style={{border: kycStatus.bankAccountNumber ? "none" : "2px solid red"}}
+                                            onClick={() =>
+                                                setKycStatus((prev) => ({
+                                                    ...prev,
+                                                    bankAccountNumber: !prev.bankAccountNumber,
+                                                }))
+                                            }>
                                         <div className="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <span className="kycLabel">A/c Number</span>
                                                 <div className="kycValue">
                                                     {showFullAccountNumber ? profileData?.kycDetails?.bankAccountNumber
                                                         : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
-                                                </div>
-                                            </div>
-                                            {profileData?.kycDetails?.bankAccountNumber != '-' && (showFullAccountNumber ? (
-                                                <EyeSlash className="text-primary fs-5" onClick={toggleAccountVisibility} />
+                                                        {profileData?.kycDetails?.bankAccountNumber !== '-' && (showFullAccountNumber ? (
+                                                <EyeSlash className="text-primary fs-5 ms-3" onClick={toggleAccountVisibility} />
                                             ) : (
-                                                <Eye className="text-primary fs-5"
+                                                <Eye className="text-primary fs-5 ms-3"
                                                     onClick={toggleAccountVisibility} />
                                             ))}
-                                            <div>
-                                                {kycStatus.bankAccountNumber !== true ? (
-                                                    <span className='byDefaultSeccess me-2' onClick={() => updateStatus("bankAccountNumber", true)}>
-                                                        <CheckCircle className="text-success fs-5" />
-                                                    </span>
-                                                ) : (
-                                                    <span className="selectSeccess me-2">
-                                                        <CheckCircle className="text-white fs-5" />
-                                                    </span>
-                                                )}
-                                                {kycStatus.bankAccountNumber !== false ? (
-                                                    <span className='byDefaultSeccess' onClick={() => updateStatus("bankAccountNumber", false)}>
-                                                        <XCircle className="text-danger fs-5" />
-                                                    </span>
-                                                ) : (
-                                                    <span className="selectSeccess" style={{ backgroundColor: " #FA3E3E" }}>
-                                                        <XCircle className="text-white fs-5" />
-                                                    </span>
-                                                )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="card card-bottom-shadow border-0 mb-2">
-                                    <div className="list-group">
+                                    <div className="list-group" style={{border: kycStatus.bankIFSC ? "none" : "2px solid red"}}
+                                            onClick={() =>
+                                                setKycStatus((prev) => ({
+                                                    ...prev,
+                                                    bankIFSC: !prev.bankIFSC,
+                                                }))
+                                            }>
                                         <div className="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <span className="kycLabel">IFSC Number</span>
                                                 <div className="kycValue">{profileData?.kycDetails?.bankIFSC}</div>
-                                            </div>
-                                            <div>
-                                                <div>
-                                                    {kycStatus.bankIFSC !== true ? (
-                                                        <span className='byDefaultSeccess me-2' onClick={() => updateStatus("bankIFSC", true)}>
-                                                            <CheckCircle className="text-success fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess me-2">
-                                                            <CheckCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
-                                                    {kycStatus.bankIFSC !== false ? (
-                                                        <span className='byDefaultSeccess' onClick={() => updateStatus("bankIFSC", false)} >
-                                                            <XCircle className="text-danger fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess" style={{ backgroundColor: " #FA3E3E" }}>
-                                                            <XCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <button type="button" onClick={handleSubAccDetails}
-                                    className="btn col-12 pfRiskButtons mt-2" disabled={!isAccBtnEnabled}>
-                                    Continue
+                                    className="btn col-12 pfRiskButtons mt-2">
+                                    Confirm Details
                                 </button>
                             </>
                         ) : (
                             <>
                                 <div className='col-md-10 offset-md-1'>
-                                    <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>Check KYC Details</span>
+                                    <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>
+                                    Select the detail that does not match your PAN & Aadhaar</span>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group">
+                                        <div className="list-group" style={{border: kycStatus.fullName ? "none" : "2px solid red"}}
+                                            onClick={() =>
+                                                setKycStatus((prev) => ({
+                                                    ...prev,
+                                                    fullName: !prev.fullName,
+                                                }))
+                                            }>
                                             <div className="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <span className="kycLabel">Full Name</span>
                                                     <div className="kycValue">{profileData?.basicDetails?.fullName}</div>
                                                 </div>
-                                                <div>
-                                                    {kycStatus.fullName !== true ? (
-                                                        <span className='byDefaultSeccess me-2' onClick={() => updateStatus("fullName", true)}>
-                                                            <CheckCircle className="text-success fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess me-2">
-                                                            <CheckCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
-                                                    {kycStatus.fullName !== false ? (
-                                                        <span className='byDefaultSeccess' onClick={() => updateStatus("fullName", false)}>
-                                                            <XCircle className="text-danger fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess" style={{ backgroundColor: " #FA3E3E" }}>
-                                                            <XCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group">
+                                        <div className="list-group" style={{border: kycStatus.dateOfBirth ? "none" : "2px solid red"}}
+                                            onClick={() =>
+                                                setKycStatus((prev) => ({
+                                                    ...prev,
+                                                    dateOfBirth: !prev.dateOfBirth,
+                                                }))
+                                            }>
                                             <div className="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <span className="kycLabel">Date of Birth</span>
                                                     <div className="kycValue">{profileData?.basicDetails?.dateOfBirth}</div>
                                                 </div>
-                                                <div>
-                                                    <div>
-                                                        {kycStatus.dateOfBirth !== true ? (
-                                                            <span className='byDefaultSeccess me-2' onClick={() => updateStatus("dateOfBirth", true)}>
-                                                                <CheckCircle className="text-success fs-5" />
-                                                            </span>
-                                                        ) : (
-                                                            <span className="selectSeccess me-2">
-                                                                <CheckCircle className="text-white fs-5" />
-                                                            </span>
-                                                        )}
-                                                        {kycStatus.dateOfBirth !== false ? (
-                                                            <span className='byDefaultSeccess' onClick={() => updateStatus("dateOfBirth", false)}>
-                                                                <XCircle className="text-danger fs-5" />
-                                                            </span>
-                                                        ) : (
-                                                            <span className="selectSeccess" style={{ backgroundColor: " #FA3E3E" }}>
-                                                                <XCircle className="text-white fs-5" />
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group">
-
+                                        <div className="list-group" style={{border: kycStatus.gender ? "none" : "2px solid red"}}
+                                            onClick={() =>
+                                                setKycStatus((prev) => ({
+                                                    ...prev,
+                                                    gender: !prev.gender,
+                                                }))
+                                            }>
                                             <div className="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <span className="kycLabel">Gender</span>
                                                     <div className="kycValue">{profileData?.basicDetails?.gender === "M" ? "Male" : "Female"}</div>
                                                 </div>
-                                                <div>
-                                                    {kycStatus.gender !== true ? (
-                                                        <span className='byDefaultSeccess me-2' onClick={() => updateStatus("gender", true)} >
-                                                            <CheckCircle className="text-success fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess me-2">
-                                                            <CheckCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
-                                                    {kycStatus.gender !== false ? (
-                                                        <span className='byDefaultSeccess' onClick={() => updateStatus("gender", false)}>
-                                                            <XCircle className="text-danger fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess" style={{ backgroundColor: " #FA3E3E" }}>
-                                                            <XCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group">
-
+                                        <div className="list-group" style={{border: kycStatus.fatherHusbandName ? "none" : "2px solid red"}}
+                                            onClick={() =>
+                                                setKycStatus((prev) => ({
+                                                    ...prev,
+                                                    fatherHusbandName: !prev.fatherHusbandName,
+                                                }))
+                                            }>
                                             <div className="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
                                                     {profileData?.basicDetails?.relation === "F" ? (<span className="kycLabel"> Father's Name</span>)
                                                         : (<span className="kycLabel"> Husband's Name</span>)}
                                                     <div className="kycValue">{profileData?.basicDetails?.fatherHusbandName}</div>
                                                 </div>
-                                                <div>
-                                                    {kycStatus.fatherHusbandName !== true ? (
-                                                        <span className='byDefaultSeccess me-2' onClick={() => updateStatus("fatherHusbandName", true)}>
-                                                            <CheckCircle className="text-success fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess me-2">
-                                                            <CheckCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
-                                                    {kycStatus.fatherHusbandName !== false ? (
-                                                        <span className='byDefaultSeccess' onClick={() => updateStatus("fatherHusbandName", false)}>
-                                                            <XCircle className="text-danger fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess" style={{ backgroundColor: " #FA3E3E" }}>
-                                                            <XCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group">
+                                        <div className="list-group" style={{border: kycStatus.physicallyHandicapped ? "none" : "2px solid red"}}
+                                            onClick={() =>
+                                                setKycStatus((prev) => ({
+                                                    ...prev,
+                                                    physicallyHandicapped: !prev.physicallyHandicapped,
+                                                }))
+                                            }>
                                             <div className="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <span className="kycLabel">Physically Handicapped?</span>
                                                     <div className="kycValue">{profileData?.basicDetails?.physicallyHandicapped === "N" ? "None" : "Yes"}</div>
-                                                </div>
-                                                <div>
-                                                    {kycStatus.physicallyHandicapped !== true ? (
-                                                        <span className='byDefaultSeccess me-2' onClick={() => updateStatus("physicallyHandicapped", true)}>
-                                                            <CheckCircle className="text-success fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess me-2">
-                                                            <CheckCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
-                                                    {kycStatus.physicallyHandicapped !== false ? (
-                                                        <span className='byDefaultSeccess' onClick={() => updateStatus("physicallyHandicapped", false)} >
-                                                            <XCircle className="text-danger fs-5" />
-                                                        </span>
-                                                    ) : (
-                                                        <span className="selectSeccess" style={{ backgroundColor: " #FA3E3E" }}>
-                                                            <XCircle className="text-white fs-5" />
-                                                        </span>
-                                                    )}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <button type="button" onClick={handleKycDetailsSubmit}
-                                    className="btn col-12 pfRiskButtons mt-2" disabled={!isBasicBtnEnabled}>
-                                    Continue
+                                    className="btn col-12 pfRiskButtons mt-2">
+                                    Confirm Details
                                 </button>
                             </>
                         )}

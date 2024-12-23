@@ -1,13 +1,38 @@
 import '../../App.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReportCard from "../common/report-card";
 import perfect from "../../assets/images/perfect.png";
-import {useNavigate,useLocation } from 'react-router-dom';
+import {useLocation } from 'react-router-dom';
+import {zohoRequest} from "./../common/api";
 
 function ReportSubmit() {
     const location = useLocation();
-        const { profileData, home } = location.state || {};
-        const navigate = useNavigate();
+    const { profileData, home } = location.state || {};
+    
+    useEffect(() => {
+        const formData = {
+            Last_Name: profileData?.basicDetails?.fullName,
+            Mobile: profileData?.phone,
+            Email:"",
+            Wants_To: "",
+            Lead_Status :"Open",
+            Lead_Source:"",
+            Campaign_Id: ""
+          };
+           const ZohoAPi= async (formData) => {
+            try {
+                const result = await zohoRequest(formData);
+                if (result.data.data[0].status=== "success") {
+                //   const newTabUrl = "https://www.finright.in/submitted-successfully";
+                //   window.open(newTabUrl, "_blank", "noopener,noreferrer");
+              }
+              } catch (error) {
+                console.error('Error submitting form:', error);
+              }
+          }
+          ZohoAPi(formData);
+        }, []);
+
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center vh-100">

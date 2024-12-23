@@ -21,11 +21,11 @@ function ReportCard({ profileData, homeData }) {
                     <hr className="text-white" />
                     <div className="d-flex justify-content-center">
                         <div className="text-center">
-                            <p className="employeeText mb-1">Employee Share</p>
+                            {/* <p className="employeeText mb-1">Employee Share</p> */}
                             {/* <span className='employeeValue'>₹11,25,000</span> */}
                         </div>
                         <div className="text-center ms-5">
-                            <p className="employeeText mb-1">Employer Share</p>
+                            {/* <p className="employeeText mb-1">Employer Share</p> */}
                             {/* <span className='employeeValue'>₹11,25,000</span> */}
                         </div>
                     </div>
