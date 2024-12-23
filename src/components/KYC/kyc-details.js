@@ -91,19 +91,18 @@ function KycDetails() {
                                                     bankAccountNumber: !prev.bankAccountNumber,
                                                 }))
                                             }>
-                                            <div className="list-group-item d-flex justify-content-between align-items-center">
-                                                <div>
-                                                    <span className="kycLabel">A/c Number</span>
-                                                    <div className="kycValue">
-                                                        {showFullAccountNumber ? profileData?.kycDetails?.bankAccountNumber
-                                                            : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
+                                        <div className="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <span className="kycLabel">A/c Number</span>
+                                                <div className="kycValue">
+                                                    {showFullAccountNumber ? profileData?.kycDetails?.bankAccountNumber
+                                                        : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
                                                         {profileData?.kycDetails?.bankAccountNumber !== '-' && (showFullAccountNumber ? (
-                                                            <EyeSlash className="text-primary fs-5 ms-3" onClick={toggleAccountVisibility} />
-                                                        ) : (
-                                                            <Eye className="text-primary fs-5 ms-3"
-                                                                onClick={toggleAccountVisibility} />
-                                                        ))}
-                                                    </div>
+                                                <EyeSlash className="text-primary fs-5 ms-3" onClick={toggleAccountVisibility} />
+                                            ) : (
+                                                <Eye className="text-primary fs-5 ms-3"
+                                                    onClick={toggleAccountVisibility} />
+                                            ))}
                                                 </div>
                                             </div>
                                         </div>
@@ -125,7 +124,8 @@ function KycDetails() {
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" onClick={handleKycDetailsSubmit}
+                            </div>
+                            <button type="button" onClick={handleKycDetailsSubmit}
                                     className="btn col-12 pfRiskButtons mt-2">
                                     Confirm Details
                                 </button>

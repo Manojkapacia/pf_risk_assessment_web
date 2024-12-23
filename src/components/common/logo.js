@@ -34,7 +34,7 @@ const Logo = () => {
     <div>
       {message.type && <ToastMessage message={message.content} type={message.type} />}
       <div className="logo-container">
-        <img src={logo} alt="Logo" className="logo" />
+        {/* <img src={logo} alt="Logo" className="logo" /> */}
       </div>
       {!shouldHideButtons && (
       // <div className="col d-flex justify-content-end">
