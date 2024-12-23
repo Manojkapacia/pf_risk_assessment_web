@@ -22,9 +22,14 @@ function ReportRegistation() {
     } = useForm();
 
     const onSubmit = async (mobileNumber) => {
+        
+        const transformedNumber = {
+            ...mobileNumber,
+            phoneNumber: `91${mobileNumber.phoneNumber}`,
+        };
         try {
             setLoading(true);
-            const response = await post('/auth/generate-otp', mobileNumber);
+            const response = await post('/auth/generate-otp', transformedNumber);
             setLoading(false);
             if (response.status === 401) {
                 setLoading(false);
