@@ -1,6 +1,5 @@
 import logo from '../../assets/images/finright_logo.png';
 import React ,{useState} from "react";
-import { ArrowLeft } from "react-bootstrap-icons";
 import ToastMessage from "./toast-message";
 import { useNavigate ,useLocation  } from "react-router-dom";
 import {logout} from './api'

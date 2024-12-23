@@ -2,12 +2,12 @@ import '../../App.css';
 import React from 'react';
 import ReportCard from "../common/report-card";
 import perfect from "../../assets/images/perfect.png";
-import {useNavigate,useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function ReportSubmit() {
     const location = useLocation();
-        const { profileData, home } = location.state || {};
-        const navigate = useNavigate();
+    const { profileData, home } = location.state || {};
+
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center vh-100">

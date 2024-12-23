@@ -58,15 +58,11 @@ function KycDetails() {
         } else {
             localStorage.removeItem('data-for-org-' + uan)
             localStorage.removeItem('data-for-kyc-' + uan)
-            const data = { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus };
-            const encodedData = btoa(JSON.stringify(data));
+            const encodedData = JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home });
             localStorage.setItem('data-for-scan-' + uan, encodedData);
-            navigate('/doc-scan', {state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus }})
+            navigate('/doc-scan', {state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home }})
         }
 
-    };
-    const handleSubAccDetails = async () => {
-        navigate("/report-registation",{ state: {profileData, home}})
     };
 
     return (
@@ -110,7 +106,7 @@ function KycDetails() {
                                                         : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
                                                 </div>
                                             </div>
-                                            {profileData?.kycDetails?.bankAccountNumber != '-' && (showFullAccountNumber ? (
+                                            {profileData?.kycDetails?.bankAccountNumber !== '-' && (showFullAccountNumber ? (
                                                 <EyeSlash className="text-primary fs-5" onClick={toggleAccountVisibility} />
                                             ) : (
                                                 <Eye className="text-primary fs-5"
@@ -172,7 +168,7 @@ function KycDetails() {
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" onClick={handleSubAccDetails}
+                            <button type="button" onClick={handleKycDetailsSubmit}
                                     className="btn col-12 pfRiskButtons mt-2" disabled={!isAccBtnEnabled}>
                                     Continue
                                 </button>

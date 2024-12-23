@@ -9,7 +9,6 @@ import { ConvertPeriod } from '../common/date-convertor';
 function ServiceHistory() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(null);
-    const [isLoading, setIsLoading] = useState(true); // Track loading state
     const [listItems, setListItems] = useState([]); // Store API data
     const [uan, setUan] = useState('');
     const [profileData, setProfileData] = useState({});
@@ -24,7 +23,6 @@ function ServiceHistory() {
             const response = await get('auth/data');
             setreportUpdatedAt(response.rawData.meta.createdTime);
             if (response.status === 401) {
-                setIsLoading(false);
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
@@ -35,7 +33,6 @@ function ServiceHistory() {
         } catch (error) {
             console.error("Error fetching data:", error);
         } finally {
-            setIsLoading(false); // Stop showing the loading screen
         }
     };
 

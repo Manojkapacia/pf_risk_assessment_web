@@ -2,7 +2,6 @@ import '../../App.css';
 import '../../css/service-history/service-history.css';
 import '../../css/service-history/select-organization.css';
 import React, { useEffect, useState } from 'react';
-import serchHistoryImg from '../../assets/images/serch_history.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ConvertPeriod } from '../common/date-convertor';
 
