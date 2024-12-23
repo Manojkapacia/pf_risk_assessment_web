@@ -19,7 +19,7 @@ function KycDetails() {
         bankAccountNumber: true,
         bankIFSC: true
     });
-    const { selectedOrg, uan, type, reportUpdatedAtVar, profileData,home } = location.state || {};
+    const { selectedOrg, uan, type, reportUpdatedAtVar, profileData, home } = location.state || {};
 
     useEffect(() => {
         let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
@@ -39,14 +39,14 @@ function KycDetails() {
     };
 
     const handleKycDetailsSubmit = async () => {
-        if(!showAccountDetails) {
+        if (!showAccountDetails) {
             setShowAccountDetails(true);
         } else {
             localStorage.removeItem('data-for-org-' + uan)
             localStorage.removeItem('data-for-kyc-' + uan)
             const encodedData = JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home });
             localStorage.setItem('data-for-scan-' + uan, encodedData);
-            navigate('/doc-scan', {state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home }})
+            navigate('/doc-scan', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
         }
 
     };
@@ -80,76 +80,63 @@ function KycDetails() {
                     <div className='row'>
                         {showAccountDetails ? (
                             <>
-                            <div className='col-md-10 offset-md-1'>
-                                <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>
-                                    Select the detail that does not match your Bank Account</span>
-                                <div className="card card-bottom-shadow border-0 mb-2">
-                                    <div className="list-group" style={{border: kycStatus.bankAccountNumber ? "none" : "2px solid red"}}
+                                <div className='col-md-10 offset-md-1'>
+                                    <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>
+                                        Select the detail that does not match your Bank Account</span>
+                                    <div className="card card-bottom-shadow border-0 mb-2">
+                                        <div className="list-group" style={{ border: kycStatus.bankAccountNumber ? "none" : "2px solid red" }}
                                             onClick={() =>
                                                 setKycStatus((prev) => ({
                                                     ...prev,
                                                     bankAccountNumber: !prev.bankAccountNumber,
                                                 }))
                                             }>
-                                        <div className="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <span className="kycLabel">A/c Number</span>
-                                                <div className="kycValue">
-                                                    {showFullAccountNumber ? profileData?.kycDetails?.bankAccountNumber
-                                                        : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
-<<<<<<< HEAD
+                                            <div className="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <span className="kycLabel">A/c Number</span>
+                                                    <div className="kycValue">
+                                                        {showFullAccountNumber ? profileData?.kycDetails?.bankAccountNumber
+                                                            : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
                                                         {profileData?.kycDetails?.bankAccountNumber !== '-' && (showFullAccountNumber ? (
-                                                <EyeSlash className="text-primary fs-5 ms-3" onClick={toggleAccountVisibility} />
-=======
-                                                </div>
-                                            </div>
-                                            {profileData?.kycDetails?.bankAccountNumber !== '-' && (showFullAccountNumber ? (
-                                                <EyeSlash className="text-primary fs-5" onClick={toggleAccountVisibility} />
->>>>>>> 9c7a4790e4afe94b4b849767530a3691b488891d
-                                            ) : (
-                                                <Eye className="text-primary fs-5 ms-3"
-                                                    onClick={toggleAccountVisibility} />
-                                            ))}
+                                                            <EyeSlash className="text-primary fs-5 ms-3" onClick={toggleAccountVisibility} />
+                                                        ) : (
+                                                            <Eye className="text-primary fs-5 ms-3"
+                                                                onClick={toggleAccountVisibility} />
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="card card-bottom-shadow border-0 mb-2">
-                                    <div className="list-group" style={{border: kycStatus.bankIFSC ? "none" : "2px solid red"}}
+                                    <div className="card card-bottom-shadow border-0 mb-2">
+                                        <div className="list-group" style={{ border: kycStatus.bankIFSC ? "none" : "2px solid red" }}
                                             onClick={() =>
                                                 setKycStatus((prev) => ({
                                                     ...prev,
                                                     bankIFSC: !prev.bankIFSC,
                                                 }))
                                             }>
-                                        <div className="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <span className="kycLabel">IFSC Number</span>
-                                                <div className="kycValue">{profileData?.kycDetails?.bankIFSC}</div>
+                                            <div className="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <span className="kycLabel">IFSC Number</span>
+                                                    <div className="kycValue">{profileData?.kycDetails?.bankIFSC}</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-<<<<<<< HEAD
-                            <button type="button" onClick={handleSubAccDetails}
+                                <button type="button" onClick={handleKycDetailsSubmit}
                                     className="btn col-12 pfRiskButtons mt-2">
                                     Confirm Details
-=======
-                            <button type="button" onClick={handleKycDetailsSubmit}
-                                    className="btn col-12 pfRiskButtons mt-2" disabled={!isAccBtnEnabled}>
-                                    Continue
->>>>>>> 9c7a4790e4afe94b4b849767530a3691b488891d
                                 </button>
                             </>
                         ) : (
                             <>
                                 <div className='col-md-10 offset-md-1'>
                                     <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>
-                                    Select the detail that does not match your PAN & Aadhaar</span>
+                                        Select the detail that does not match your PAN & Aadhaar</span>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group" style={{border: kycStatus.fullName ? "none" : "2px solid red"}}
+                                        <div className="list-group" style={{ border: kycStatus.fullName ? "none" : "2px solid red" }}
                                             onClick={() =>
                                                 setKycStatus((prev) => ({
                                                     ...prev,
@@ -161,12 +148,12 @@ function KycDetails() {
                                                     <span className="kycLabel">Full Name</span>
                                                     <div className="kycValue">{profileData?.basicDetails?.fullName}</div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group" style={{border: kycStatus.dateOfBirth ? "none" : "2px solid red"}}
+                                        <div className="list-group" style={{ border: kycStatus.dateOfBirth ? "none" : "2px solid red" }}
                                             onClick={() =>
                                                 setKycStatus((prev) => ({
                                                     ...prev,
@@ -182,7 +169,7 @@ function KycDetails() {
                                         </div>
                                     </div>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group" style={{border: kycStatus.gender ? "none" : "2px solid red"}}
+                                        <div className="list-group" style={{ border: kycStatus.gender ? "none" : "2px solid red" }}
                                             onClick={() =>
                                                 setKycStatus((prev) => ({
                                                     ...prev,
@@ -198,7 +185,7 @@ function KycDetails() {
                                         </div>
                                     </div>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group" style={{border: kycStatus.fatherHusbandName ? "none" : "2px solid red"}}
+                                        <div className="list-group" style={{ border: kycStatus.fatherHusbandName ? "none" : "2px solid red" }}
                                             onClick={() =>
                                                 setKycStatus((prev) => ({
                                                     ...prev,
@@ -215,7 +202,7 @@ function KycDetails() {
                                         </div>
                                     </div>
                                     <div className="card card-bottom-shadow border-0 mb-2">
-                                        <div className="list-group" style={{border: kycStatus.physicallyHandicapped ? "none" : "2px solid red"}}
+                                        <div className="list-group" style={{ border: kycStatus.physicallyHandicapped ? "none" : "2px solid red" }}
                                             onClick={() =>
                                                 setKycStatus((prev) => ({
                                                     ...prev,
