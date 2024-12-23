@@ -24,7 +24,7 @@ const DocumentScanning = () => {
     const [message, setMessage] = useState({ type: "", content: "" });
     const [istTime, setIstTime] = useState(null);
 
-    const { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus } = location.state || {};
+    const { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } = location.state || {};
 
     const navigate = useNavigate()
 
@@ -88,7 +88,8 @@ const DocumentScanning = () => {
                     } else {
                         setIsProcessing(false);
                         clearInterval(interval);
-                        return prev;
+                        navigate("/report-registation",{ state: {profileData, home}})
+                        return prev;                        
                     }
                 });
             }, 100);

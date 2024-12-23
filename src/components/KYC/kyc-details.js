@@ -44,15 +44,11 @@ function KycDetails() {
         } else {
             localStorage.removeItem('data-for-org-' + uan)
             localStorage.removeItem('data-for-kyc-' + uan)
-            const data = { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus };
-            const encodedData = btoa(JSON.stringify(data));
+            const encodedData = JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home });
             localStorage.setItem('data-for-scan-' + uan, encodedData);
-            navigate('/doc-scan', {state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus }})
+            navigate('/doc-scan', {state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home }})
         }
 
-    };
-    const handleSubAccDetails = async () => {
-        navigate("/report-registation",{ state: {profileData, home}})
     };
 
     return (
@@ -101,8 +97,15 @@ function KycDetails() {
                                                 <div className="kycValue">
                                                     {showFullAccountNumber ? profileData?.kycDetails?.bankAccountNumber
                                                         : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
+<<<<<<< HEAD
                                                         {profileData?.kycDetails?.bankAccountNumber !== '-' && (showFullAccountNumber ? (
                                                 <EyeSlash className="text-primary fs-5 ms-3" onClick={toggleAccountVisibility} />
+=======
+                                                </div>
+                                            </div>
+                                            {profileData?.kycDetails?.bankAccountNumber !== '-' && (showFullAccountNumber ? (
+                                                <EyeSlash className="text-primary fs-5" onClick={toggleAccountVisibility} />
+>>>>>>> 9c7a4790e4afe94b4b849767530a3691b488891d
                                             ) : (
                                                 <Eye className="text-primary fs-5 ms-3"
                                                     onClick={toggleAccountVisibility} />
@@ -129,9 +132,15 @@ function KycDetails() {
                                     </div>
                                 </div>
                             </div>
+<<<<<<< HEAD
                             <button type="button" onClick={handleSubAccDetails}
                                     className="btn col-12 pfRiskButtons mt-2">
                                     Confirm Details
+=======
+                            <button type="button" onClick={handleKycDetailsSubmit}
+                                    className="btn col-12 pfRiskButtons mt-2" disabled={!isAccBtnEnabled}>
+                                    Continue
+>>>>>>> 9c7a4790e4afe94b4b849767530a3691b488891d
                                 </button>
                             </>
                         ) : (
