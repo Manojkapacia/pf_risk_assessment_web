@@ -10,22 +10,55 @@ const Claims = ({ jsonData, onBack }) => {
     const [activeCategory, setActiveCategory] = useState("Pending Claims");
 
     // Data access functions
-    const getPendingClaims = () => claimsData?.details?.["Pending Claims"].filter(claim => claim.claimId) || [];
-    const getSettledClaims = () => claimsData?.details?.["Settled Claims"].filter(claim => claim.claimId) || [];
-    const getRejectedClaims = () => claimsData?.details?.["Rejected Claims"].filter(claim => claim.claimId) || [];
+    const getPendingClaims = () => {
+        const pendingClaims = claimsData?.details?.["Pending Claims"];
+        console.log(Array.isArray(pendingClaims))
+
+        if (!Array.isArray(pendingClaims)) {
+            // Return an empty array or handle the message appropriately
+            return pendingClaims?.message ? [] : [];
+        }
+        console.log(pendingClaims);
+
+        // Filter claims if it's an array
+        return pendingClaims.filter(claim => claim.claimId);
+    };
+    const getSettledClaims = () => {
+        const seteledClaims = claimsData?.details?.["Settled Claims"];
+
+        // Check if it contains a message instead of an array
+        if (!Array.isArray(seteledClaims)) {
+            // Return an empty array or handle the message appropriately
+            return seteledClaims?.message ? [] : [];
+        }
+
+        // Filter claims if it's an array
+        return seteledClaims.filter(claim => claim.claimId);
+    };
+    const getRejectedClaims = () => {
+        const rejectedClaims = claimsData?.details?.["Rejected Claims"];
+
+        // Check if it contains a message instead of an array
+        if (!Array.isArray(rejectedClaims)) {
+            return rejectedClaims?.message ? [] : [];
+        }
+
+        // Filter claims if it's an array
+        return rejectedClaims.filter(claim => claim.claimId);
+    };
 
     return (
         <>
             {claimsData == null ? (
                 <>
-                <button className="btn p-0 d-flex align-items-center mt-4 mb-md-3" onClick={onBack}>
-                <ArrowLeft size={20} className="me-1" /> Back
-                </button>
-                <table className="table table-hover mt-5">
-                    <tbody><tr><td colSpan={5} className="text-center">No Data Found!!</td></tr></tbody>
-                </table>
+                    <button className="btn p-0 d-flex align-items-center mt-4 mb-md-3" onClick={onBack}>
+                        <ArrowLeft size={20} className="me-1" /> Back
+                    </button>
+                    <table className="table table-hover mt-5">
+                        <tbody><tr><td colSpan={5} className="text-center">No Data Found!!</td></tr></tbody>
+                    </table>
                 </>
-                )
+            )
 
                 :
                 (<>
@@ -69,16 +102,28 @@ const Claims = ({ jsonData, onBack }) => {
                         {/* Button Controls */}
                         <div className="btn-group mb-3">
                             <button className="btn btn-primary" onClick={() => setSelectedTab("Pending Claims")}>
-                                Pending Claims [{claimsData?.details?.["message"] ? ([]) :
-                                    (claimsData?.details?.["Pending Claims"].filter(claim => claim.claimId).length)}]
+                                Pending Claims
+                                {
+                                    Array.isArray(claimsData?.details?.["Pending Claims"])
+                                        ? claimsData.details["Pending Claims"].filter(claim => claim.claimId).length
+                                        : 0
+                                }
                             </button>
                             <button className="btn btn-success" onClick={() => setSelectedTab("Settled Claims")}>
-                                Settled Claims [{claimsData?.details?.["Settled Claims"]?.["message"] ? ([]) :
-                                    (claimsData?.details?.["Settled Claims"]?.filter(claim => claim.claimId).length)}]
+                                Settled Claims 
+                                {
+                                    Array.isArray(claimsData?.details?.["Settled Claims"])
+                                        ? claimsData.details["Settled Claims"].filter(claim => claim.claimId).length
+                                        : 0
+                                }
                             </button>
                             <button className="btn btn-danger" onClick={() => setSelectedTab("Rejected Claims")}>
-                                Rejected Claims [{claimsData?.details?.["Rejected Claims"]?.["message"] ? ([]) :
-                                    (claimsData?.details?.["Rejected Claims"].filter(claim => claim.claimId).length)}]
+                                Rejected Claims 
+                                {
+                                    Array.isArray(claimsData?.details?.["Rejected Claims"])
+                                        ? claimsData.details["Rejected Claims"].filter(claim => claim.claimId).length
+                                        : 0
+                                }
                             </button>
                         </div>
 
