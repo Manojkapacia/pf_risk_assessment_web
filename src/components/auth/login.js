@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import '../../css/auth/login.css';
 import '../../App.css';
-import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { useNavigate } from 'react-router-dom';
 import ValidationError from '../common/validate-error';
 import ToastMessage from '../common/toast-message';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import MESSAGES from '../constants/messages'
-import Loader from '../common/loader';
 import { login } from '../common/api';
 import loaderGif from './../../assets/images/login.gif';
 import SideContent from '../common/side-content'
@@ -19,12 +17,25 @@ function LoginComponent() {
     const [showPassword, setShowPassword] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
+    const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
 
     const navigate = useNavigate();
 
     useEffect(() => {
         setIsFormValid(Object.values(errors).every((err) => !err) && formData.uan && formData.password);
     }, [errors, formData]);
+
+    // Toast Message Auto Clear
+    useEffect(() => {
+        if (message.type) {
+        isMessageActive.current = true; // Set active state when a message is displayed
+        const timer = setTimeout(() => {
+            setMessage({ type: "", content: "" });
+            isMessageActive.current = false; // Reset active state
+        }, 2500);
+        return () => clearTimeout(timer);
+        }
+    }, [message]);
 
     const validateField = useCallback((field, value) => {
         if (field === "uan") {
@@ -66,11 +77,9 @@ function LoginComponent() {
 
                 if (result.status === 400) {
                     setMessage({ type: "error", content: result.message });
-                    setTimeout(() => setMessage({ type: "", content: "" }), 2500);
                 } else {
                     setMessage({ type: "success", content: result.message });
                     setTimeout(() => {
-                        setMessage({ type: "", content: "" });
                         if (result.message === "User Successfully Verified") {
                             localStorage.setItem("user_uan", formData.uan);
                             navigate("/welcome-back", { state: { UAN: formData.uan, Pws: formData.password } })
@@ -83,13 +92,12 @@ function LoginComponent() {
                 if(error.status=== 401){
                     setLoading(false);
                     setMessage({ type: "error", content: MESSAGES.error.invalidEpfoCredentials });
-                    setTimeout(() => setMessage({ type: "", content: "" }), 3000);
                 }if (error.status >= 500) {
                     navigate("/epfo-down")
                   }else{
                     setLoading(false);
                     setMessage({ type: "error", content: error.message });
-                    setTimeout(() => setMessage({ type: "", content: "" }), 3000);
+                    navigate("/epfo-down");
                 }
             }
         }
@@ -99,15 +107,6 @@ function LoginComponent() {
 
     return (
         <div>
-            {/* {loading && (
-                <Loader
-                    type="dots"
-                    size="large"
-                    color="#28a745"
-                    message="Checking credentials, please wait..."
-                    overlay={true}
-                />
-            )} */}
             {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">

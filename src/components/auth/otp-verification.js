@@ -1,13 +1,9 @@
 import '../../App.css';
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import '../../css/auth/otp-verification.css';
 import ToastMessage from '../common/toast-message';
 import MESSAGES from '../constants/messages';
-import Loader from '../common/loader';
-// import Loader from '../common/scanne-loader';
-// import '../../css/common/scanner-loader.css';
 import { post, login } from '../common/api';
 import loaderGif from './../../assets/images/otp.gif';
 
@@ -16,23 +12,23 @@ function OtpComponent() {
     const navigate = useNavigate();
 
     const [otp, setOtp] = useState(Array(6).fill(""));
-    const [showToast, setShowToast] = useState(false);
-    const [toastType, setToastType] = useState('');
-    const [toastMessage, setToastMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState({ type: "", content: "" });
 
     const { UAN, Pws, type = "" } = location.state || {};
-    const timeoutRef = useRef(null);
 
     const [timeLeft, setTimeLeft] = useState(59);
     const [timer, setTimer] = useState(59);
     const [triggerApiCall, setTriggerApiCall] = useState(false);
     const isBtnAssessmentEnabled = otp.every((field) => field !== "");
+    const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
+
     useEffect(() => {
         if (type === "back-screen") {
             refreshOtp()
         }
     }, []);
+
     useEffect(() => {
         let interval;
         if (timer > 0) {
@@ -51,6 +47,18 @@ function OtpComponent() {
         }
     }, [triggerApiCall]);
 
+    // Toast Message Auto Clear
+    useEffect(() => {
+        if (message.type) {
+        isMessageActive.current = true; // Set active state when a message is displayed
+        const timer = setTimeout(() => {
+            setMessage({ type: "", content: "" });
+            isMessageActive.current = false; // Reset active state
+        }, 2500);
+        return () => clearTimeout(timer);
+        }
+    }, [message]);
+
     //Refresh OTP
     const refreshOtp = async () => {
         if (UAN && Pws) {
@@ -60,34 +68,19 @@ function OtpComponent() {
                 setLoading(false);
 
                 if (result.status === 400) {
-                    setShowToast(true);
-                    setToastMessage(result.message);
-                    setTimeout(() => {
-                        setToastMessage("")
-                        setShowToast(false);
-                    }, 2500);
+                    setMessage({ type: "error", content: result.message });
                 } else if (result.status === 401) {
                     setLoading(false);
                     localStorage.removeItem('user_uan')
                     navigate('/');
                 } else {
-                    setShowToast(true);
                     setTimer(59);
                     setTriggerApiCall(false);
-                    setToastMessage(result.message);
-                    setTimeout(() => {
-                        setToastMessage("")
-                        setShowToast(false);
-                    }, 3000);
+                    setMessage({ type: "success", content: result.message });
                 }
             } catch (error) {
                 setLoading(false);
-                setShowToast(true)
-                setToastMessage(error.message);
-                setTimeout(() => {
-                    setToastMessage("")
-                    setShowToast(false);
-                }, 3000);
+                setMessage({ type: "error", content: error.message });
             }
         }
     }
@@ -102,52 +95,24 @@ function OtpComponent() {
                 setLoading(false);
 
                 if (result.status === 400) {
-                    setShowToast(true);
-                    setToastMessage(result.message);
-                    setTimeout(() => {
-                        setToastMessage("")
-                        setShowToast(false);
-                    }, 2500);
+                    setMessage({ type: "error", content: result.message });
                 } else {
-                    setShowToast(true);
+                    setMessage({ type: "success", content: result.message });
                     setTimer(59);
                     setTriggerApiCall(false);
-                    setToastMessage(result.message);
-                    setTimeout(() => {
-                        setToastMessage("")
-                        setShowToast(false);
-                    }, 3000);
                 }
             } catch (error) {
                 if (error.status >= 500) {
                     navigate("/epfo-down")
                 } else {
-                    setLoading(false);
-                    setShowToast(true)
-                    setToastMessage(error.message);
-                    setTimeout(() => {
-                        setToastMessage("")
-                        setShowToast(false);
-                    }, 3000);
+                setLoading(false);
+                setMessage({ type: "error", content: error.message });
                 }
             }
         }
     }
 
-    // Reset toast state
-    const resetToast = useCallback(() => {
-        setShowToast(false);
-        setToastType('');
-        setToastMessage('');
-    }, []);
-
-    useEffect(() => {
-        return () => clearTimeout(timeoutRef.current); // Cleanup timeout
-    }, []);
-
     const handleOtpChange = useCallback((value, index) => {
-        resetToast();
-
         if (/^[0-9]$/.test(value)) {
             const newOtp = [...otp];
             newOtp[index] = value;
@@ -158,7 +123,7 @@ function OtpComponent() {
                 document.getElementById(`otp-input-${index + 1}`).focus();
             }
         }
-    }, [otp, resetToast]);
+    }, [otp]);
 
     // const handleBackspace = useCallback((event, index) => {
     //     if (event.key === "Backspace" && otp[index] === "" && index > 0) {
@@ -184,49 +149,30 @@ function OtpComponent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        resetToast();
 
         if (otp.every((digit) => digit)) {
             try {
                 const endpoint = type === "back-screen" ? "auth/submit-otp?refresh=true" : "auth/submit-otp"
                 setLoading(true);
                 await post(endpoint, { otp: otp.join('') });
+                setLoading(false);
 
-                setToastType('success');
-                setToastMessage(MESSAGES.success.otpVerified);
-                setShowToast(true);
+                setMessage({ type: "success", content: MESSAGES.success.otpVerified });
                 localStorage.setItem("user_uan", UAN);
 
-                timeoutRef.current = setTimeout(() => {
+                setTimeout(() => {
                     navigate("/service-history");
                 }, 2000);
             } catch (error) {
-                setToastType('error');
-                setToastMessage(error.message || MESSAGES.error.generic);
-                setShowToast(true);
-
-                timeoutRef.current = setTimeout(resetToast, 3000);
-            } finally {
-                setLoading(false);
+                setMessage({ type: "error", content: error.message || MESSAGES.error.generic });
             }
         } else {
-            setToastType('error');
-            setToastMessage(MESSAGES.error.invalidOtp);
-            setShowToast(true);
+            setMessage({ type: "error", content: MESSAGES.error.invalidOtp });
         }
     };
 
     return (
         <div className='setBackGround'>
-            {/* {loading && (
-                <Loader
-                    type="dots"
-                    size="large"
-                    color="#28a745"
-                    message="Verifying OTP, please wait..."
-                    overlay={true}
-                />
-            )} */}
             {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">
@@ -236,7 +182,7 @@ function OtpComponent() {
                 </div>
             )}
             <div className="container">
-                {showToast && <ToastMessage message={toastMessage} type={toastType} />}
+                {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row d-flex justify-content-center align-items-center vh-100">
                     <div className="col-lg-4 col-md-8 offset-md-1 mt-2 mt-lg-0">
                         <div className='welcomeLabelLogin text-center'>
