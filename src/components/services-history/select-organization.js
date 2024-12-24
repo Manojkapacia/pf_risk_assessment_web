@@ -40,7 +40,7 @@ function SelectOrganization() {
 
     return (
         <div className="container">
-            <div className="row d-flex justify-content-center align-items-center vh-100">
+            <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-4 col-md-8">
                     <div className='row'>
                         <div className='col-md-8 offset-md-2 mt-2 mt-sm-0'>

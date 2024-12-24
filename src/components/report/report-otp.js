@@ -99,7 +99,7 @@ function ReportOtp() {
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
-                navigate("/report-submit", { state: { profileData, home } });
+                navigate("/report-submit", { state: { profileData, home,mobileNumber } });
             }
         } catch (error) {
                 console.error("Error fetching data:", error);
@@ -110,7 +110,7 @@ function ReportOtp() {
     return (
         <div className="container">
             {message.type && <ToastMessage message={message.content} type={message.type} />}
-            <div className="row d-flex justify-content-center align-items-center vh-100">
+            <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-5 col-md-8">
                     <ReportCard profileData={profileData} homeData={home}></ReportCard>
                 </div>

@@ -7,14 +7,14 @@ import { zohoRequest } from "./../common/api";
 
 function ReportSubmit() {
     const location = useLocation();
-    const { profileData, home } = location.state || {};
-
+    const { profileData, home,mobileNumber } = location.state || {};
+    
     useEffect(() => {
         const formData = {
             Last_Name: profileData?.basicDetails?.fullName,
-            Mobile: profileData?.phone,
+            Mobile: mobileNumber?.phoneNumber,
             Email: "",
-            Wants_To: "",
+            Wants_To: "Withdrawal Checkup",
             Lead_Status: "Open",
             Lead_Source: "",
             Campaign_Id: ""
@@ -33,7 +33,7 @@ function ReportSubmit() {
 
     return (
         <div className="container">
-            <div className="row d-flex justify-content-center align-items-center vh-100">
+            <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-5 col-md-8">
                     <ReportCard profileData={profileData} homeData={home}></ReportCard>
                 </div>

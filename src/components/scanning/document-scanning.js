@@ -154,7 +154,7 @@ const DocumentScanning = () => {
             )}
             {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="container-fluid">
-                <div className="row mx-sm-2 d-flex justify-content-center align-items-center vh-100">
+                <div className="row mx-sm-2 d-flex justify-content-center align-items-center">
                     <div className="col-lg-4 col-md-8 mt-5 mt-lg-0">
                         {isProcessing && <div className="row mx-0 progress-card d-flex justify-content-center align-items-center">
                             <div className="col-7">

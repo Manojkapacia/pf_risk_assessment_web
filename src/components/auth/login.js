@@ -106,7 +106,7 @@ function LoginComponent() {
     const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
     return (
-        <div>
+        <>
             {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">
@@ -191,7 +191,7 @@ function LoginComponent() {
                                         <span style={{ cursor: 'pointer' }}
                                             onClick={() => navigate("/forgot-password")}>Forgot Password?</span>
                                     </div>
-                                    <span className='alreadyText'>Already have an account? <span className='loginText'> Login here</span></span>
+                                    {/* <span className='alreadyText'>Already have an account? <span className='loginText'> Login here</span></span> */}
                                 </div>
                             </div>
 
@@ -207,7 +207,7 @@ function LoginComponent() {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

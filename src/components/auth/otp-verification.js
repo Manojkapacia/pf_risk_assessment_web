@@ -170,7 +170,7 @@ function OtpComponent() {
     };
 
     return (
-        <div className='setBackGround'>
+        <div >
             {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">
@@ -181,7 +181,7 @@ function OtpComponent() {
             )}
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
-                <div className="row d-flex justify-content-center align-items-center vh-100">
+                <div className="row d-flex justify-content-center align-items-center">
                     <div className="col-lg-4 col-md-8 offset-md-1 mt-2 mt-lg-0">
                         <div className='welcomeLabelLogin text-center'>
                             Welcome to India's First<br></br> Digital PF check up
