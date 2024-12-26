@@ -6,12 +6,13 @@ import perfect from "../../assets/images/perfect.png";
 import { useLocation } from 'react-router-dom';
 import { zohoRequest } from "./../common/api";
 import reportImage from "./../../assets/images/report.png";
+import { getReportSubmissionMessage } from '../common/time-formatter';
 
 function ReportSubmit() {
     const location = useLocation();
     const { profileData, home, mobileNumber } = location.state || {};
     const reportMessage = getReportSubmissionMessage()
-    
+
     useEffect(() => {
         const formData = {
             Last_Name: profileData?.basicDetails?.fullName,
