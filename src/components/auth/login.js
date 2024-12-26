@@ -9,6 +9,7 @@ import MESSAGES from '../constants/messages'
 import { login } from '../common/api';
 import loaderGif from './../../assets/images/login.gif';
 import SideContent from '../common/side-content'
+import { ExtractMobile } from '../common/extract-mobile';
 
 function LoginComponent() {
     const [formData, setFormData] = useState({ uan: "", password: "" });
@@ -84,7 +85,8 @@ function LoginComponent() {
                             localStorage.setItem("user_uan", formData.uan);
                             navigate("/welcome-back", { state: { UAN: formData.uan, Pws: formData.password } })
                         } else {
-                            navigate("/otpAssessment", { state: { UAN: formData.uan, Pws: formData.password } });
+                            const regMobileNumber = ExtractMobile(result.message)
+                            navigate("/otpAssessment", { state: { UAN: formData.uan, Pws: formData.password, type: "", regMobileNumber } });
                         }
                     }, 2000);
                 }

@@ -21,6 +21,7 @@ const MESSAGES = {
         invalidOpnLogin: 'Invalid Credentails',
         logoutError : 'Unauthorized: Session expired or invalid',
         ZOHOError: "Provide new details",
+        generic: "Server Error, Please try again later"
     },
     labels: {
         otp: "Enter OTP",

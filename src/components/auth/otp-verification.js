@@ -6,6 +6,7 @@ import ToastMessage from '../common/toast-message';
 import MESSAGES from '../constants/messages';
 import { post, login } from '../common/api';
 import loaderGif from './../../assets/images/otp.gif';
+import { ExtractMobile } from '../common/extract-mobile';
 
 function OtpComponent() {
     const location = useLocation();
@@ -13,15 +14,19 @@ function OtpComponent() {
 
     const [otp, setOtp] = useState(Array(6).fill(""));
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState({ type: "", content: "" });
-
-    const { UAN, Pws, type = "" } = location.state || {};
+    const [message, setMessage] = useState({ type: "", content: "" });    
     const [timer, setTimer] = useState(59);
     const [triggerApiCall, setTriggerApiCall] = useState(false);
+    const [mobileNumber, setMobileNumber] = useState("");
+    const [otpVerified, setOtpVerified] = useState(false)
+    const [isVerifyingOtp, setIsVerifyingOtp] = useState(false)
+
     const isBtnAssessmentEnabled = otp.every((field) => field !== "");
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
+    const { UAN, Pws, type = "", regMobileNumber = "" } = location.state || {};
 
     useEffect(() => {
+        setMobileNumber(regMobileNumber)        
         if (type === "back-screen") {
             refreshOtp()
         }
@@ -75,10 +80,14 @@ function OtpComponent() {
                     setTimer(59);
                     setTriggerApiCall(false);
                     setMessage({ type: "success", content: result.message });
+                    setMobileNumber(ExtractMobile(result.message))
                 }
             } catch (error) {
                 setLoading(false);
-                setMessage({ type: "error", content: error.message });
+                setMessage({ type: "error", content: MESSAGES.error.generic });
+                if (error.status >= 500) {
+                    navigate("/epfo-down")
+                }
             }
         }
     }
@@ -98,13 +107,14 @@ function OtpComponent() {
                     setMessage({ type: "success", content: result.message });
                     setTimer(59);
                     setTriggerApiCall(false);
+                    setMobileNumber(ExtractMobile(result.message))
                 }
             } catch (error) {
                 if (error.status >= 500) {
                     navigate("/epfo-down")
                 } else {
-                setLoading(false);
-                setMessage({ type: "error", content: error.message });
+                    setLoading(false);
+                    setMessage({ type: "error", content: error.message });
                 }
             }
         }
@@ -123,11 +133,6 @@ function OtpComponent() {
         }
     }, [otp]);
 
-    // const handleBackspace = useCallback((event, index) => {
-    //     if (event.key === "Backspace" && otp[index] === "" && index > 0) {
-    //         document.getElementById(`otp-input-${index - 1}`).focus();
-    //     }
-    // }, [otp]);
     const handleBackspace = (e, index) => {
         if (e.key === "Backspace") {
             const newOtp = [...otp];
@@ -151,18 +156,26 @@ function OtpComponent() {
         if (otp.every((digit) => digit)) {
             try {
                 const endpoint = type === "back-screen" ? "auth/submit-otp?refresh=true" : "auth/submit-otp"
+                setIsVerifyingOtp(true)
                 setLoading(true);
-                await post(endpoint, { otp: otp.join('') });
-                setLoading(false);
-
-                setMessage({ type: "success", content: MESSAGES.success.otpVerified });
-                localStorage.setItem("user_uan", UAN);
-
-                setTimeout(() => {
-                    navigate("/service-history");
-                }, 2000);
+                const result = await post(endpoint, { otp: otp.join('') });
+                
+                if (result.status === 400) {
+                    setMessage({ type: "error", content: result.message });
+                } else {
+                    // setMessage({ type: "success", content: MESSAGES.success.otpVerified });
+                    setOtpVerified(true)
+                    localStorage.setItem("user_uan", UAN);    
+                    setTimeout(() => {
+                        navigate("/service-history");
+                        setLoading(false)
+                    }, 1000);
+                }
             } catch (error) {
-                setMessage({ type: "error", content: error.message || MESSAGES.error.generic });
+                setMessage({ type: "error", content: MESSAGES.error.generic });
+                if (error.status >= 500) {
+                    navigate("/epfo-down")
+                }
             }
         } else {
             setMessage({ type: "error", content: MESSAGES.error.invalidOtp });
@@ -175,7 +188,8 @@ function OtpComponent() {
                 <div className="loader-overlay">
                     <div className="loader-container">
                         <img className='loader-img' src={loaderGif} alt="Loading..." />
-                        <p className="loader-text">{type === "back-screen" ? 'Checking credentials' : 'Verifying OTP and Fetching details'}</p>
+                        {!otpVerified && <p className="loader-text">{type === "back-screen" && !isVerifyingOtp ? 'Checking credentials' : 'Verifying OTP and Fetching details'}</p>}
+                        {otpVerified && <p className="loader-text">{'OTP Verified Successfully, Navigating to Home Screen...'}</p>}
                     </div>
                 </div>
             )}
@@ -204,23 +218,9 @@ function OtpComponent() {
                             <div className="row">
                                 <div className="col-sm-8 col-md-11 offset-md-1">
                                     <div className="otpLabel mt-2 mt-lg-5 pt-lg-5">
-                                        Enter OTP sent to your EPF registered number
+                                        Enter OTP sent to your EPF registered number {mobileNumber}
                                     </div>
                                     <div className="d-flex">
-                                        {/* {otp.map((digit, index) => (
-                                            <input
-                                                key={index}
-                                                id={`otp-input-${index}`}
-                                                type="text"
-                                                autoComplete='off'
-                                                maxLength="1"
-                                                className="otpInput form-control text-center mx-1 mt-2"
-                                                value={otp[index]}
-                                                onChange={(e) => handleOtpChange(e.target.value, index)}
-                                                onKeyDown={(e) => handleBackspace(e, index)}
-                                                aria-label={`OTP input ${index + 1}`}
-                                            />
-                                        ))} */}
                                         {Array.from({ length: 6 }).map((_, index) => (
                                             <input
                                                 key={index}

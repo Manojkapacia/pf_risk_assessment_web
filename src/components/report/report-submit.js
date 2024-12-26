@@ -4,10 +4,12 @@ import ReportCard from "../common/report-card";
 import perfect from "../../assets/images/perfect.png";
 import { useLocation } from 'react-router-dom';
 import { zohoRequest } from "./../common/api";
+import { getReportSubmissionMessage } from '../common/time-formatter';
 
 function ReportSubmit() {
     const location = useLocation();
     const { profileData, home } = location.state || {};
+    const reportMessage = getReportSubmissionMessage()
 
     useEffect(() => {
         const formData = {
@@ -54,7 +56,7 @@ function ReportSubmit() {
                             </div>
                             <div className="text-center mt-4">
                                 <p className="reportWhatsappText">
-                                    Perfect!!<br></br> Thank you for sharing your details, we will<br></br> share your report within 4 hours
+                                    Perfect!!<br></br> Thank you for sharing your details, we will<br></br> {reportMessage}
                                 </p>
                             </div>
                         </div>
