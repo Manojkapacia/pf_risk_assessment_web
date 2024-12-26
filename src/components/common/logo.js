@@ -1,30 +1,33 @@
 import logo from '../../assets/images/finright_logo.png';
-import React ,{useState} from "react";
+import React, { useState } from "react";
 import ToastMessage from "./toast-message";
-import { useNavigate ,useLocation  } from "react-router-dom";
-import {logout} from './api'
+import { useNavigate, useLocation } from "react-router-dom";
+import FinRightlogo from './../../assets/images/FinRightlogo.png'
+import { logout } from './api'
 
 const Logo = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const noButtonPaths = ["/","/activate-uan","/donot-know-uan","/forgot-password",
+  const logoutButton = ["/", "/activate-uan", "/donot-know-uan", "/forgot-password",
     "/operation/login"
   ];
-  const shouldHideButtons = noButtonPaths.includes(location.pathname);
+  const backToAssessmentButton = ["/activate-uan", "/donot-know-uan", "/forgot-password"];
+  const HideLogoutButtons = logoutButton.includes(location.pathname);
+  const backToAssessment = backToAssessmentButton.includes(location.pathname);
   const [message, setMessage] = useState({ type: "", content: "" });
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     const adminLogin = localStorage.getItem('admin_logged_in');
-    if(adminLogin){
+    if (adminLogin) {
       localStorage.removeItem('admin_logged_in');
       navigate('/');
-    }else{
+    } else {
       try {
         const result = await logout();
         localStorage.removeItem('user_uan');
         setMessage({ type: "success", content: result.message });
         setTimeout(() => setMessage({ type: "", content: "" }), 2000);
-        navigate('/'); 
+        navigate('/');
       } catch (error) {
         console.error('Unexpected error during logout:', error);
       }
@@ -33,24 +36,36 @@ const Logo = () => {
   return (
     <div>
       {message.type && <ToastMessage message={message.content} type={message.type} />}
-      <div className="logo-container">
-        {/* <img src={logo} alt="Logo" className="logo" /> */}
-      </div>
-      {!shouldHideButtons && (
-      // <div className="col d-flex justify-content-end">
-      //   <button className="btn btn-info me-2 mt-2" onClick={handleLogout}>
-      //     Log out
-      //   </button>
-      // </div>
-      <span
-                className="position-absolute top-0 end-0 m-3 text-end backAssesment"
-                style={{ cursor: 'pointer' }} onClick={handleLogout}>
-                Log out
-            </span>
+      
+        <nav style={headerStyle}>
+           <img src={FinRightlogo} alt="Logo" className="logo"  style={{marginLeft:"4rem"}}/>
+           {!HideLogoutButtons && (
+          <span
+            className="text-end"
+            style={{ cursor: 'pointer', color: "blue" }} onClick={handleLogout}>
+            Log out
+          </span>
       )}
+      {backToAssessment && (
+          <span
+          className="text-end"
+          style={{ cursor: 'pointer',color: "blue" }} onClick={() => navigate("/")} >
+          Back to Assessment
+      </span>
+      )}
+        </nav>
     </div>
 
   );
+};
+
+const headerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "1.5rem 0.9rem",
+  backgroundColor: "#ffffff",
+  // borderBottom: "2px solid #ddd",
 };
 
 export default Logo;

@@ -24,12 +24,14 @@ import ReportRegistation from './components/report/report-registation';
 import ReportOtp from './components/report/report-otp';
 import ReportSubmit from "./components/report/report-submit"
 import PageNotFound from './components/static/page-not-found'
+import Layout from './components/common/layout';
 
 function App() {
   return (
     <div className='flex-grow-1 overflow-auto setBackGround'>
       <Router>
-      <Logo />
+      {/* <Logo /> */}
+      <Layout>
       <Routes>
         <Route path="/" element={<LoginComponent />} />
         <Route path="/otpAssessment" element={<OtpComponent />} />
@@ -51,6 +53,8 @@ function App() {
         <Route path="/report-submit" element={<ReportSubmit/>}/>
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
+      </Layout>
+      
     </Router>
     </div>
   );

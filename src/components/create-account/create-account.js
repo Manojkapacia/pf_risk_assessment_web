@@ -8,7 +8,7 @@ function CreateAccount() {
 
     return (
         <div className="container">
-            <div className="row d-flex justify-content-center align-items-center vh-100">
+            <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-4 col-md-6 mt-4 mt-lg-0">
                     <img src={createAccount} alt="Account Create" className='accountImage' />
                 </div>

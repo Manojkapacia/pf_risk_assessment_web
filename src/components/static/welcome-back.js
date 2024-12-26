@@ -38,7 +38,7 @@ const WelcomeBack = () => {
 
     return(
         <div className="container-fluid">
-            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+            <div className="row mx-2 d-flex justify-content-center align-items-center">
                 <div className='col-md-6 col-lg-3 text-center'>
                     <span className='welcomeLabel'>Welcome Back!</span><br></br>
                     <span className='labelText'>Choose an option to continue</span>
