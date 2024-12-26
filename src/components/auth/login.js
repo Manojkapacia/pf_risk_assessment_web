@@ -120,16 +120,16 @@ function LoginComponent() {
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row d-flex justify-content-center align-items-center">
-                    <div className="col-lg-4 col-md-8 mt-4 mt-lg-0">
+                    <div className="col-lg-4 col-md-8">
                     <div className="row">
-                        <div className="col-md-11 text-center offset-md-1">
+                        <div className="col-md-12 text-center">
                             <SideContent></SideContent>
                         </div>
                     </div>
                     </div>
-                    <div className="col-lg-6 col-md-8 mt-3 mt-lg-0">
+                    <div className="col-lg-5 col-md-8 mt-3 mt-lg-0 ms-0 ms-lg-3">
                         <div className="row">
-                            <div className="col-md-11 offset-md-1">
+                            <div className="col-md-12">
                                 <div className="pfRiskheading text-center" style={{fontWeight:"700"}}>PF Account Health Check up</div>
                                 <div className="pfRiskSubHeading text-center" style={{color:"#000000"}}>
                                     Check if your PF is at risk of getting stuck
@@ -139,7 +139,7 @@ function LoginComponent() {
 
                         <form onSubmit={handleSubmit}>
                             <div className="row mt-2 mt-lg-4">
-                                <div className="col-md-11 offset-md-1">
+                                <div className="col-md-12">
                                     <div className="d-flex justify-content-between">
                                         <div className="loginLabel">UAN number:</div>
                                         <div className="labelSubHeading text-end">
@@ -167,7 +167,7 @@ function LoginComponent() {
                                 </div>
                             </div>
                             <div className="row mt-lg-3">
-                                <div className="col-md-11 offset-md-1">
+                                <div className="col-md-12">
                                     <div className="loginLabel">Password:</div>
                                     <div className="position-relative">
                                         <input
@@ -199,7 +199,7 @@ function LoginComponent() {
 
 
                             <div className="row my-2 mt-lg-4">
-                                <div className="col-md-11 offset-md-1">
+                                <div className="col-md-12">
                                     <button type="submit" className="btn col-12 pfRiskButtons" disabled={!isFormValid}>
                                         Continue
                                     </button>

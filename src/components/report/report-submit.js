@@ -48,14 +48,46 @@ function ReportSubmit() {
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
-                <div className="col-lg-6 col-md-8">
+                <div className="col-lg-4 col-md-8 mt-2 mt-lg-0">
+                    <div className="card1 position-relative">
+                        <div
+                            className="card-body text-center p-0"
+                            style={{ backgroundColor: "#E5F0F4", height: "35.2rem", borderRadius: "1rem", border: "1px solid #0E0E0E" }}>
+                            <h2 className="pt-3">Provident Fund Check-up</h2>
+                            <img
+                                src={reportImage} alt="Report" className="img-fluid"
+                                style={{ width: "90%", height: "29rem" }} />
+                            <div
+                                className="blue-section d-flex justify-content-center align-items-center"
+                                style={{
+                                    backgroundColor: "#004b8d", height: "5rem", width: "100%", marginBottom: "0.05rem",
+                                    position: "absolute", bottom: 0, borderBottomLeftRadius: "1rem", boxShadow: "0 -1rem 1rem -0.20rem rgba(0, 0, 0, 0.4)",
+                                    borderBottomRightRadius: "1rem"
+                                }}>
+                                <button
+                                    className="btn" onClick={handleDownload}
+                                    style={{
+                                        backgroundColor: "#ffffff", color: "#000000",
+                                        borderRadius: "2rem", fontWeight: "bold",
+                                        padding: "0.6rem 1.5rem"
+                                    }}>
+                                    Download Sample Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Second column  */}
+
+                <div className="col-lg-5 col-md-8 mt-2 mt-lg-0">
                     <div className='row'>
-                        <div className='col-md-10 offset-md-1'>
-                        <div className='row'>
-                                    <div className='col-md-10 offset-md-1'>
+                        <div className='col-md-12'>
+                            <div className='row'>
+                                <div className='col-md-10 offset-md-1'>
                                     <ReportCard profileData={profileData} homeData={home}></ReportCard>
-                                    </div>
                                 </div>
+                            </div>
                             <div className="text-center mb-4 mt-3">
                                 <p className="welcomeLabelLogin">Your report regeneration is in progress</p>
                                 <p className="pfRiskSubHeading">
@@ -67,42 +99,12 @@ function ReportSubmit() {
                             </div>
                             <div className="text-center mt-4">
                                 <p className="reportWhatsappText">
-                                    Perfect!!<br></br> Thank you for sharing your details, we will<br></br> {reportMessage}
+                                    Perfect!! Thank you for sharing your details, we will<br></br> {reportMessage}
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                {/* Second column  */}
-                <div className="col-lg-5 col-md-8">
-                    <div className="card1 position-relative">
-                        <div
-                            className="card-body text-center p-0"
-                            style={{backgroundColor: "#4880FF",height: "37.5rem",borderRadius: "1rem"}}>
-                            <h2 className="pt-3">Provident Fund Check-up</h2>
-                            <img
-                                src={reportImage}alt="Report"className="img-fluid" 
-                                style={{ width: "90%", height: "32rem" }}/>
-                            <div
-                                className="blue-section d-flex justify-content-center align-items-center"
-                                style={{
-                                    backgroundColor: "#004b8d",height: "5rem", width: "100%",
-                                    position: "absolute",bottom: 0,borderBottomLeftRadius: "1rem",
-                                    borderBottomRightRadius: "1rem"}}>
-                                <button
-                                    className="btn" onClick={handleDownload}
-                                    style={{backgroundColor: "#ffffff", color: "#000000",
-                                        borderRadius: "2rem",fontWeight: "bold",
-                                        padding: "0.6rem 1.5rem"}}>
-                                    Download Sample Report
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     );

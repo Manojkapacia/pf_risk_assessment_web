@@ -34,28 +34,58 @@ const Logo = () => {
     }
   };
   return (
+    // <div>
+    //   {message.type && <ToastMessage message={message.content} type={message.type} />}
+
+    //   <nav style={headerStyle}>
+    //     <img src={FinRightlogo} alt="Logo" className="logo" />
+    //     {!HideLogoutButtons && (
+    //       <span
+    //         className="text-end"
+    //         style={{ cursor: 'pointer', color: "blue" }} onClick={handleLogout}>
+    //         Log out
+    //       </span>
+    //     )}
+    //     {backToAssessment && (
+    //       <span
+    //         className="text-end"
+    //         style={{ cursor: 'pointer', color: "blue" }} onClick={() => navigate("/")} >
+    //         Back to Assessment
+    //       </span>
+    //     )}
+    //   </nav>
+    // </div>
+
     <div>
       {message.type && <ToastMessage message={message.content} type={message.type} />}
-      
-        <nav style={headerStyle}>
-           <img src={FinRightlogo} alt="Logo" className="logo"  style={{marginLeft:"4rem"}}/>
-           {!HideLogoutButtons && (
-          <span
-            className="text-end"
-            style={{ cursor: 'pointer', color: "blue" }} onClick={handleLogout}>
-            Log out
-          </span>
-      )}
-      {backToAssessment && (
-          <span
-          className="text-end"
-          style={{ cursor: 'pointer',color: "blue" }} onClick={() => navigate("/")} >
-          Back to Assessment
-      </span>
-      )}
-        </nav>
-    </div>
 
+      <nav className="d-flex justify-content-between align-items-center p-2 p-md-3" style={{ backgroundColor: "#ffffff" }}>
+        {/* Logo */}
+        <img src={FinRightlogo} alt="Logo" className="logo" />
+
+        {/* Buttons */}
+        <div className="d-flex align-items-center">
+          {!HideLogoutButtons && (
+            <span
+              className="text-end"
+              style={{ cursor: 'pointer', color: "blue" }}
+              onClick={handleLogout}
+            >
+              Log out
+            </span>
+          )}
+          {backToAssessment && (
+            <span
+              className="text-end"
+              style={{ cursor: 'pointer', color: "blue" }}
+              onClick={() => navigate("/")}
+            >
+              Back to Assessment
+            </span>
+          )}
+        </div>
+      </nav>
+    </div>
   );
 };
 
@@ -64,8 +94,7 @@ const headerStyle = {
   justifyContent: "space-between",
   alignItems: "center",
   padding: "1.5rem 0.9rem",
-  backgroundColor: "#ffffff",
-  // borderBottom: "2px solid #ddd",
+  backgroundColor: "#ffffff"
 };
 
 export default Logo;
