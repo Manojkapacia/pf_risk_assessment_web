@@ -185,6 +185,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                     <th>Form Type</th>
                                                     <th>Description</th>
                                                     <th>Claim Amount</th>
+                                                    <th>Approved Date </th>
                                                 </tr>
                                             )}
                                     </thead>
@@ -206,6 +207,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                         <td>{claim.formType}</td>
                                                         <td>{claim.claimDescription}</td>
                                                         <td>{claim.totalAmount}</td>
+                                                        <td>{claim.approvedDate}</td>
                                                     </tr>
                                                 ))
                                             )
