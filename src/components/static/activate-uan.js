@@ -14,12 +14,8 @@ const ActivateUan = () => {
 
     return (
         <div className="container-fluid position-relative">
-            <span
-                className="position-absolute top-0 end-0 m-3 text-end backAssesment"
-                style={{ cursor: 'pointer' }} onClick={() => navigate("/")} >
-                Back to Assessment
-            </span>
-            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+            
+            <div className="row mx-2 d-flex justify-content-center align-items-center">
                 <div className="col-md-4 col-lg-4 mt-2 mt-md-0 mb-3 mb-lg-0 d-none d-md-block">
                 <div className="row">
                         <div className="col-md-11 text-center offset-md-1">

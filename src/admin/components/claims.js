@@ -25,25 +25,16 @@ const Claims = ({ jsonData, onBack }) => {
     };
     const getSettledClaims = () => {
         const seteledClaims = claimsData?.details?.["Settled Claims"];
-
-        // Check if it contains a message instead of an array
         if (!Array.isArray(seteledClaims)) {
-            // Return an empty array or handle the message appropriately
             return seteledClaims?.message ? [] : [];
         }
-
-        // Filter claims if it's an array
         return seteledClaims.filter(claim => claim.claimId);
     };
     const getRejectedClaims = () => {
         const rejectedClaims = claimsData?.details?.["Rejected Claims"];
-
-        // Check if it contains a message instead of an array
         if (!Array.isArray(rejectedClaims)) {
             return rejectedClaims?.message ? [] : [];
         }
-
-        // Filter claims if it's an array
         return rejectedClaims.filter(claim => claim.claimId);
     };
 
@@ -145,7 +136,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                     <th>Member ID</th>
                                                     <th>Form Type</th>
                                                     <th>Description</th>
-                                                    <th>Reason</th>
+                                                    <th>Location</th>
                                                 </tr>
                                             )}
                                     </thead>
@@ -165,7 +156,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                         <td>{claim.memberId}</td>
                                                         <td>{claim.formType}</td>
                                                         <td>{claim.claimDescription}</td>
-                                                        <td>{claim.rejectionReason || "N/A"}</td>
+                                                        <td>{claim.rejectDate || "N/A"}</td>
                                                     </tr>
                                                 ))
                                             )
@@ -194,6 +185,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                     <th>Form Type</th>
                                                     <th>Description</th>
                                                     <th>Claim Amount</th>
+                                                    <th>Approved Date </th>
                                                 </tr>
                                             )}
                                     </thead>
@@ -215,6 +207,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                         <td>{claim.formType}</td>
                                                         <td>{claim.claimDescription}</td>
                                                         <td>{claim.totalAmount}</td>
+                                                        <td>{claim.approvedDate}</td>
                                                     </tr>
                                                 ))
                                             )

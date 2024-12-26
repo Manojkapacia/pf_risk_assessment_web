@@ -60,9 +60,13 @@ function ReportOtp() {
 
 
     const reSendOtp = async () => {
+        const transformedNumber = {
+            ...mobileNumber,
+            phoneNumber: `91${mobileNumber.phoneNumber}`,
+        };
         try {
             setLoading(true);
-            const response = await post('/auth/generate-otp', mobileNumber);
+            const response = await post('/auth/generate-otp', transformedNumber);
             setLoading(false);
             if (response.status === 401) {
                 localStorage.removeItem('user_uan')
@@ -99,10 +103,10 @@ function ReportOtp() {
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
-                navigate("/report-submit", { state: { profileData, home } });
+                navigate("/report-submit", { state: { profileData, home, mobileNumber } });
             }
         } catch (error) {
-                console.error("Error fetching data:", error);
+            console.error("Error fetching data:", error);
         }
     }
 
@@ -110,17 +114,16 @@ function ReportOtp() {
     return (
         <div className="container">
             {message.type && <ToastMessage message={message.content} type={message.type} />}
-            <div className="row d-flex justify-content-center align-items-center vh-100">
-                <div className="col-lg-5 col-md-8">
-                    <ReportCard profileData={profileData} homeData={home}></ReportCard>
-                </div>
-
-                {/* Second column  */}
-
+            <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-6 col-md-8">
                     <div className='row'>
                         <div className='col-md-10 offset-md-1'>
-                            <div className="text-center mb-4">
+                        <div className='row'>
+                                    <div className='col-md-10 offset-md-1'>
+                                    <ReportCard profileData={profileData} homeData={home}></ReportCard>
+                                    </div>
+                                </div>
+                            <div className="text-center mb-4 mt-3">
                                 <p className="welcomeLabelLogin">Your report regeneration is in progress</p>
                                 <p className="pfRiskSubHeading">
                                     Thank you for providing your information, we<br></br> have started preparing your report.
@@ -160,6 +163,19 @@ function ReportOtp() {
                                     </button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+                {/* Second column  */}
+                <div className="col-lg-5 col-md-8">
+                    <div className='row'>
+                        <div className='col-md-8 offset-md-2 bg-image mt-3 mt-lg-0 p-0'>
+                            <div className='overlayImage text-white'>
+                                <p> Evaluate your provident fund across 25 checks done by EPFO</p>
+                                <p className='my-4'>Know if your money is at risk of getting stuck</p>
+                                <p className='mb-4'>Identify how much of your corpus is blocked by issues</p>
+                                <p>Get an estimated time to resolve these issues</p>
+                            </div>
                         </div>
                     </div>
                 </div>

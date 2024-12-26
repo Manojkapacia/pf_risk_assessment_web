@@ -3,6 +3,13 @@
   background-color: #00124F!important;
   border-radius: 2rem !important;
 }
+
+.pfRiskButtons:disabled {
+  background-color: #d6d6d6 !important;
+  color: #000000 !important;
+  cursor: not-allowed;
+}
+
 .pfRiskheading{
   /* font-family :Roboto; */
   color: #000000;
@@ -35,8 +42,8 @@
 }
 
 .logo {
-  width: 5.5rem; 
-  height: 3.1rem;
+  width: 5rem; 
+  height: 1.7rem;
 }
 .setBackGround{
   background-color: #eef9ff;

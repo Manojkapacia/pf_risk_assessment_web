@@ -59,7 +59,7 @@ function ServiceHistory() {
 
     return (
             <div className="container">
-                <div className="row d-flex justify-content-center align-items-center vh-100">
+                <div className="row d-flex justify-content-center align-items-center">
                     <div className="col-lg-4 col-md-8">
                         <div className='row'>
                             <div className='col-md-8 offset-md-2 mt-2 mt-sm-0'>
@@ -69,7 +69,7 @@ function ServiceHistory() {
                                 <span className='EpfText'>Please confirm if the service history captured by EPF portal is correct?</span>
                                 <ul>
                                     <li className="EpfText my-md-3">Check if all your previous and current employments are listed here</li>
-                                    <li className="EpfText">Verify if their Date of Joining and date of Exit are correctly marked</li>
+                                    <li className="EpfText">Verify if ‘Date of Joining’ and ‘Date of Exit’ is marked correctly for each organization </li>
                                 </ul>
                             </div>
                         </div>
@@ -103,7 +103,7 @@ function ServiceHistory() {
                                                             onClick={() => handleItemClick(index)}
                                                         >
                                                             {item.company === "-" ? 'NA' : item.company}
-                                                            <span className='ms-2' style={{ marginLeft: 'auto' }}>{isOpen && activeIndex === index ? <BsChevronCompactDown /> : <BsChevronCompactUp />}</span><br></br>
+                                                            <span className='ms-2' style={{ marginLeft: 'auto' }}>{isOpen && activeIndex === index ? <BsChevronCompactUp /> :<BsChevronCompactDown />}</span><br></br>
 
                                                             <span className='timeDuration'>
                                                                 {ConvertPeriod(item.period)}
@@ -116,13 +116,13 @@ function ServiceHistory() {
                                                                 <div className="row">
                                                                     <div className="col-5">
                                                                         <span className='dropdownLabel'>Member Id :</span><br></br>
-                                                                        <span className='dropdownLabel'>NCP Days :</span><br></br>
+                                                                        {/* <span className='dropdownLabel'>NCP Days :</span><br></br> */}
                                                                         <span className='dropdownLabel'>Joining Date :</span><br></br>
                                                                         <span className='dropdownLabel'>Exit Date :</span><br></br>
                                                                     </div>
                                                                     <div className="col-7 ps-0">
                                                                         <span className='dropdownSublabel'>{item.details['Member Id']}</span><br></br>
-                                                                        <span className='dropdownSublabel'>{item.details['NCP Days']}</span><br></br>
+                                                                        {/* <span className='dropdownSublabel'>{item.details['NCP Days']}</span><br></br> */}
                                                                         <span className='dropdownSublabel'>{item.details['Joining Date']}</span><br></br>
                                                                         <span className='dropdownSublabel'>{item.details['Exit Date']}</span><br></br>
                                                                     </div>

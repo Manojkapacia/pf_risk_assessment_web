@@ -49,7 +49,7 @@ const EpfoDown = () => {
     return (
         <div className="container-fluid">
             {message.type && <ToastMessage message={message.content} type={message.type} />}
-            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+            <div className="row mx-2 d-flex justify-content-center align-items-center">
                 <div className="col-md-4 col-lg-4 text-center  mt-2 mt-md-0 mb-3 mb-lg-0">
                     <SideContent></SideContent>
                 </div>
