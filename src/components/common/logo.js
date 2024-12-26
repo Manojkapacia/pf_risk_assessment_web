@@ -8,10 +8,12 @@ import { logout } from './api'
 const Logo = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const noButtonPaths = ["/", "/activate-uan", "/donot-know-uan", "/forgot-password",
+  const logoutButton = ["/", "/activate-uan", "/donot-know-uan", "/forgot-password",
     "/operation/login"
   ];
-  const shouldHideButtons = noButtonPaths.includes(location.pathname);
+  const backToAssessmentButton = ["/activate-uan", "/donot-know-uan", "/forgot-password"];
+  const HideLogoutButtons = logoutButton.includes(location.pathname);
+  const backToAssessment = backToAssessmentButton.includes(location.pathname);
   const [message, setMessage] = useState({ type: "", content: "" });
 
   const handleLogout = async () => {
@@ -34,16 +36,24 @@ const Logo = () => {
   return (
     <div>
       {message.type && <ToastMessage message={message.content} type={message.type} />}
-      {!shouldHideButtons && (
-        <header style={headerStyle}>
-           <img src={FinRightlogo} alt="Logo" className="logo" />
+      
+        <nav style={headerStyle}>
+           <img src={FinRightlogo} alt="Logo" className="logo"  style={{marginLeft:"4rem"}}/>
+           {!HideLogoutButtons && (
           <span
             className="text-end"
             style={{ cursor: 'pointer', color: "blue" }} onClick={handleLogout}>
             Log out
           </span>
-        </header>
       )}
+      {backToAssessment && (
+          <span
+          className="text-end"
+          style={{ cursor: 'pointer',color: "blue" }} onClick={() => navigate("/")} >
+          Back to Assessment
+      </span>
+      )}
+        </nav>
     </div>
 
   );
@@ -55,7 +65,7 @@ const headerStyle = {
   alignItems: "center",
   padding: "1.5rem 0.9rem",
   backgroundColor: "#ffffff",
-  borderBottom: "2px solid #ddd",
+  // borderBottom: "2px solid #ddd",
 };
 
 export default Logo;

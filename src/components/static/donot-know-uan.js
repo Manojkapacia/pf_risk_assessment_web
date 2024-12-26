@@ -12,12 +12,12 @@ const DonotKnowUan = () => {
 
     return (
         <div className="container-fliud position-relative">
-            <span
+            {/* <span
                 className="position-absolute top-0 end-0 m-3 text-end backAssesment"
                 style={{ cursor: 'pointer' }} onClick={() => navigate("/")} >
                 Back to Assessment
-            </span>
-            <div className="row mx-2 d-flex justify-content-center align-items-center vh-100">
+            </span> */}
+            <div className="row mx-2 d-flex justify-content-center align-items-center">
                 <div className="col-lg-4 col-md-4 mt-2 mt-md-0 mb-3 mb-lg-0 d-none d-md-block">
                 <div className="row">
                         <div className="col-md-11 text-center offset-md-1">

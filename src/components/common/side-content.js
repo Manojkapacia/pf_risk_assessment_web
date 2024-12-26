@@ -28,11 +28,13 @@ function SideContent() {
     return (
         <>
             <div className='welcomeLabelLogin mt-3 mt-md-0'>
-                Welcome to India's First<br></br> Digital PF check up
+                {/* Welcome to India's First<br></br> Digital PF check up */}
+                India’s First AI based Provident<br></br>Fund (PF) Check up
             </div>
             {(!isMobile  &&
                 <div className='EpfText mt-4 mb-3'>
-                Please login using your EPF UAN and<br></br> Password to begin the check up
+                {/* Please login using your EPF UAN and<br></br> Password to begin the check up */}
+                Login with your EPF UAN and Password​
             </div>
             )}
             
@@ -41,30 +43,40 @@ function SideContent() {
                 <span className='securityText py-2 px-3 d-flex align-items-center' 
                 onClick={toggleText} style={{cursor: "pointer"}}>
                     <img src={dataProtect} alt="Risk Assessment" className='dataImage me-1' />
-                    We have implemented 5 tier security to keep your data protected</span>
+                    {/* We have implemented 5 tier security to keep your data protected */}
+                    Your privacy is our priority. We take data security seriously
+                    </span>
             </div>
             {(isTextVisible || !isMobile) && (
-                <div className="d-flex justify-content-start mt-3">
+                <div className="d-flex justify-content-center mt-3">
                 <div className='d-flex flex-column  align-items-center text-center'>
                     <img src={multiFactor} alt="Risk Assessment" className='iconImage ' />
-                    <span className="iconText">Multi Factor Authentication</span>
+                    <span className="iconText">
+                        {/* Multi Factor Authentication */}
+                        Two-Factor Auth​
+                    </span>
+                </div>
+                <div className='d-flex flex-column align-items-center text-center mx-5'>
+                    <img src={Encryption} alt="Risk Assessment" className='iconImage' />
+                    <span className="iconText">
+                        {/* End to End Encryption */}
+                        End-to-End Encryption​
+                    </span>
                 </div>
                 <div className='d-flex flex-column align-items-center text-center'>
                     <img src={IPData} alt="Risk Assessment" className='iconImage' />
-                    <span className="iconText">Encrypting and Masking PI Data</span>
+                    <span className="iconText">
+                        Masking of PI data
+                    </span>
                 </div>
-                <div className='d-flex flex-column align-items-center text-center'>
-                    <img src={Encryption} alt="Risk Assessment" className='iconImage' />
-                    <span className="iconText">End to End Encryption</span>
-                </div>
-                <div className='d-flex flex-column align-items-center text-center'>
+                {/* <div className='d-flex flex-column align-items-center text-center'>
                     <img src={DPDP} alt="Risk Assessment" className='iconImage' />
                     <span className="iconText">Adherence to DPDP Act 2024</span>
-                </div>
-                <div className='d-flex flex-column align-items-center text-center'>
+                </div> */}
+                {/* <div className='d-flex flex-column align-items-center text-center'>
                     <img src={cloud} alt="Risk Assessment" className='iconImage' />
                     <span className="iconText">Highly Secure cloud infrastructure</span>
-                </div>
+                </div> */}
 
             </div>
             )}

@@ -117,7 +117,7 @@ function LoginComponent() {
             )}
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
-                <div className="row d-flex justify-content-center align-items-center vh-md-100">
+                <div className="row d-flex justify-content-center align-items-center">
                     <div className="col-lg-4 col-md-8 mt-4 mt-lg-0">
                     <div className="row">
                         <div className="col-md-11 text-center offset-md-1">
@@ -128,8 +128,8 @@ function LoginComponent() {
                     <div className="col-lg-6 col-md-8 mt-3 mt-lg-0">
                         <div className="row">
                             <div className="col-md-11 offset-md-1">
-                                <div className="pfRiskheading text-center">PF Risk Assessment</div>
-                                <div className="pfRiskSubHeading text-center">
+                                <div className="pfRiskheading text-center" style={{fontWeight:"700"}}>PF Account Health Check up</div>
+                                <div className="pfRiskSubHeading text-center" style={{color:"#000000"}}>
                                     Check if your PF is at risk of getting stuck
                                 </div>
                             </div>

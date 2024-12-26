@@ -170,7 +170,7 @@ function OtpComponent() {
     };
 
     return (
-        <div >
+        <div>
             {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">
@@ -254,8 +254,8 @@ function OtpComponent() {
                                         Start Assessment
                                     </button>
                                     <div className='text-center'>
-                                        <span className='termConditionText d-inline-block mt-1'>By Cliking on continue you allow Finright to use your EPF account
-                                            data to provide you best possible guidance and agree to the <br></br>
+                                        <span className='termConditionText d-inline-block mt-1'>By clicking on ‘Start Assessment’, you allow Finright to access your PF account to provide you best possible 
+                                            support to fix your PF issues and agree to our<br></br>
                                             <span style={{ fontWeight: "700" }}>Terms & Conditions</span>
                                         </span>
                                     </div>

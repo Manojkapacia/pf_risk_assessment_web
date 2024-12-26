@@ -238,8 +238,8 @@ const DocumentScanning = () => {
                         <div className="col-lg-7 mt-3">
                             <div className='row'>
                                 <div className='col-md-8 offset-md-2'>
-                                    <div className="pfRiskheading text-center">{isProcessing ? "Scanning Your PF" : "Scan Complete"}</div>
-                                    {isProcessing && <p className="pfRiskSubHeading text-center">
+                                    <div className="pfRiskheading text-center" style={{fontWeight:"700"}}>{isProcessing ? "Scanning your PF Account" : "Scan Complete"}</div>
+                                    {isProcessing && <p className="pfRiskSubHeading text-center" style={{color:"#000000"}}>
                                         Last year 25% of EPF claims got rejected and people were blocked from accessing their own money when they needed it the most</p>}
                                 </div>
                             </div>
