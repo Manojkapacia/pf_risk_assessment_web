@@ -60,7 +60,7 @@ function ReportSubmit() {
                             <div
                                 className="blue-section d-flex justify-content-center align-items-center"
                                 style={{
-                                    backgroundColor: "#004b8d", height: "5rem", width: "100%", marginBottom: "0.05rem",
+                                    backgroundColor: "#04184a", height: "5rem", width: "100%", marginBottom: "0.05rem",
                                     position: "absolute", bottom: 0, borderBottomLeftRadius: "1rem", boxShadow: "0 -1rem 1rem -0.20rem rgba(0, 0, 0, 0.4)",
                                     borderBottomRightRadius: "1rem"
                                 }}>
