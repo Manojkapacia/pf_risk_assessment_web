@@ -115,14 +115,14 @@ function ReportOtp() {
         <div className="container">
             {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="row d-flex justify-content-center align-items-center">
-                <div className="col-lg-6 col-md-8">
+                <div className="col-lg-5 col-md-8 mt-2 mt-lg-0">
                     <div className='row'>
-                        <div className='col-md-10 offset-md-1'>
-                        <div className='row'>
-                                    <div className='col-md-10 offset-md-1'>
+                        <div className='col-md-12'>
+                            <div className='row'>
+                                <div className='col-md-10 offset-md-1'>
                                     <ReportCard profileData={profileData} homeData={home}></ReportCard>
-                                    </div>
                                 </div>
+                            </div>
                             <div className="text-center mb-4 mt-3">
                                 <p className="welcomeLabelLogin">Your report regeneration is in progress</p>
                                 <p className="pfRiskSubHeading">
@@ -157,7 +157,7 @@ function ReportOtp() {
                                     </a>
                                 </div>
 
-                                <div className='text-center mt-5'>
+                                <div className='text-center mt-3 mt-lg-5'>
                                     <button className="pfRiskButtons py-2 px-5">
                                         Verify Number
                                     </button>
@@ -167,9 +167,9 @@ function ReportOtp() {
                     </div>
                 </div>
                 {/* Second column  */}
-                <div className="col-lg-5 col-md-8">
+                <div className="col-lg-4 col-md-8 mt-2 mt-lg-0 ms-0 ms-lg-5">
                     <div className='row'>
-                        <div className='col-md-8 offset-md-2 bg-image mt-3 mt-lg-0 p-0'>
+                        <div className='col-md-12 bg-image p-0'>
                             <div className='overlayImage text-white'>
                                 <p> Evaluate your provident fund across 25 checks done by EPFO</p>
                                 <p className='my-4'>Know if your money is at risk of getting stuck</p>

@@ -62,12 +62,12 @@ function ReportRegistation() {
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row d-flex justify-content-center align-items-center">
-                <div className="col-lg-6 col-md-8">
+                    <div className="col-lg-5 col-md-8">
                         <div className='row'>
-                            <div className='col-md-10 offset-md-1'>
+                            <div className='col-md-12'>
                                 <div className='row'>
                                     <div className='col-md-10 offset-md-1'>
-                                    <ReportCard profileData={profileData} homeData={home}></ReportCard>
+                                        <ReportCard profileData={profileData} homeData={home}></ReportCard>
                                     </div>
                                 </div>
                                 <div className="text-center mb-4 mt-3">
@@ -107,7 +107,7 @@ function ReportRegistation() {
                                 </form>
                                 <div className="text-center mt-4">
                                     <p className="reportWhatsappText">
-                                        Please share your WhatsApp number, <br /> You will get your report in 4 hours
+                                        Please share your Whatsapp number to get report
                                     </p>
                                 </div>
                             </div>
@@ -115,9 +115,9 @@ function ReportRegistation() {
                     </div>
 
                     {/* Second column  */}
-                    <div className="col-lg-5 col-md-8">
+                    <div className="col-lg-4 col-md-8 mt-2 mt-lg-0 ms-0 ms-lg-5">
                         <div className='row'>
-                            <div className='col-md-8 offset-md-2 bg-image mt-3 mt-lg-0 p-0'>
+                            <div className='col-md-12 bg-image p-0'>
                                 <div className='overlayImage text-white'>
                                     <p> Evaluate your provident fund across 25 checks done by EPFO</p>
                                     <p className='my-4'>Know if your money is at risk of getting stuck</p>
