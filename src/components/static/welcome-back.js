@@ -2,6 +2,7 @@ import React from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { decryptData } from '../common/encryption-decryption';
 
 const WelcomeBack = () => {
     const navigate = useNavigate();
@@ -21,17 +22,27 @@ const WelcomeBack = () => {
         }
         if(currentRoute && currentRoute === 'select-organization') {
             const key = 'data-for-org-' + UAN
-            const retrievedData = JSON.parse(atob(localStorage.getItem(key)));
+            const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
             navigate(`/${currentRoute}`, { state: retrievedData })
         }
         if(currentRoute && currentRoute === 'kyc-details') {
             const key = 'data-for-kyc-' + UAN 
-            const retrievedData = JSON.parse(atob(localStorage.getItem(key)));
+            const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
             navigate(`/${currentRoute}`, { state: retrievedData })
         }
         if(currentRoute && currentRoute === 'doc-scan') {
             const key = 'data-for-scan-' + UAN
-            const retrievedData = JSON.parse(localStorage.getItem(key));
+            const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
+            navigate(`/${currentRoute}`, { state: retrievedData })
+        }         
+        if(currentRoute && currentRoute === 'report-registation') {
+            const key = 'data-for-report-reg-' + UAN
+            const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
+            navigate(`/${currentRoute}`, { state: retrievedData })
+        }         
+        if(currentRoute && currentRoute === 'report-submit') {
+            const key = 'data-for-report-submit-' + UAN
+            const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
             navigate(`/${currentRoute}`, { state: retrievedData })
         }         
     }

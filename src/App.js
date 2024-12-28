@@ -47,10 +47,10 @@ function App() {
         <Route path="/welcome-back" element={<AuthGuard><WelcomeBack /></AuthGuard>} />
         <Route path="/operation/login" element={<AdminGuestGuard><AdminLogin /></AdminGuestGuard>} />
         <Route path="/operation/view-details" element={<AuthGuardAdmin><ViewDetailsByUan /></AuthGuardAdmin>} />
-        <Route path="/kyc-details" element={<KycDetails/>}/>
-        <Route path="/report-registation" element={<ReportRegistation/>}/>
-        <Route path="/report-otp" element={<ReportOtp/>}/>
-        <Route path="/report-submit" element={<ReportSubmit/>}/>
+        <Route path="/kyc-details" element={<AuthGuard><KycDetails/></AuthGuard>}/>
+        <Route path="/report-registation" element={<AuthGuard><ReportRegistation/></AuthGuard>}/>
+        <Route path="/report-otp" element={<AuthGuard><ReportOtp/></AuthGuard>}/>
+        <Route path="/report-submit" element={<AuthGuard><ReportSubmit/></AuthGuard>}/>
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
       </Layout>

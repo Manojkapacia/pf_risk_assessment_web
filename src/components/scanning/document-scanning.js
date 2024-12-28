@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { post } from '../common/api';
 import Loader from '../common/loader';
 import ToastMessage from '../common/toast-message';
+import { encryptData } from '../common/encryption-decryption';
 
 const DocumentScanning = () => {
     const location = useLocation();
@@ -88,6 +89,10 @@ const DocumentScanning = () => {
                     } else {
                         setIsProcessing(false);
                         clearInterval(interval);
+                        localStorage.removeItem('data-for-org-' + uan)
+                        localStorage.removeItem('data-for-scan-' + uan)
+                        const encodedData = encryptData(JSON.stringify({profileData, home}));
+                        localStorage.setItem('data-for-report-reg-' + uan, encodedData);
                         navigate("/report-registation",{ state: {profileData, home}})
                         return prev;                        
                     }

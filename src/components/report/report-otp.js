@@ -5,6 +5,7 @@ import ReportCard from "../common/report-card";
 import { useNavigate, useLocation } from 'react-router-dom';
 import ToastMessage from './../common/toast-message';
 import { post } from '../common/api';
+import { encryptData } from '../common/encryption-decryption';
 
 function ReportOtp() {
     const otpLength = 6;
@@ -103,6 +104,10 @@ function ReportOtp() {
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
+                const uan = localStorage.getItem('user_uan')
+                localStorage.removeItem('data-for-report-reg-' + uan)
+                const encodedData = encryptData(JSON.stringify({profileData, home, mobileNumber}));
+                localStorage.setItem('data-for-report-submit-' + uan, encodedData);
                 navigate("/report-submit", { state: { profileData, home, mobileNumber } });
             }
         } catch (error) {
