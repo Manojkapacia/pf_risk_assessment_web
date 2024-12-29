@@ -77,28 +77,28 @@ const DocumentScanning = () => {
         }
     }, [isFetched]); // Depend only on isFetched
 
-    useEffect(() => {
-        if (categories.length === 0) return;
+    // useEffect(() => {
+    //     if (categories.length === 0) return;
 
-        const timeoutId = setTimeout(() => {
-            const interval = setInterval(() => {
-                setProgress((prev) => {
-                    if (prev < 100) {
-                        return prev + 1;
-                    } else {
-                        setIsProcessing(false);
-                        clearInterval(interval);
-                        navigate("/report-registation",{ state: {profileData, home}})
-                        return prev;                        
-                    }
-                });
-            }, 100);
+    //     const timeoutId = setTimeout(() => {
+    //         const interval = setInterval(() => {
+    //             setProgress((prev) => {
+    //                 if (prev < 100) {
+    //                     return prev + 1;
+    //                 } else {
+    //                     setIsProcessing(false);
+    //                     clearInterval(interval);
+    //                     navigate("/report-registation",{ state: {profileData, home}})
+    //                     return prev;                        
+    //                 }
+    //             });
+    //         }, 100);
 
-            return () => clearInterval(interval);
-        }, 500);
+    //         return () => clearInterval(interval);
+    //     }, 500);
 
-        return () => clearTimeout(timeoutId);
-    }, [categories]);
+    //     return () => clearTimeout(timeoutId);
+    // }, [categories]);
 
     useEffect(() => {
         if (categories.length === 0 || progress === 0) return;
@@ -238,9 +238,10 @@ const DocumentScanning = () => {
                         <div className="col-lg-7 mt-3">
                             <div className='row'>
                                 <div className='col-md-8 offset-md-2'>
-                                    <div className="pfRiskheading text-center" style={{fontWeight:"700"}}>{isProcessing ? "Scanning your PF Account" : "Scan Complete"}</div>
-                                    {isProcessing && <p className="pfRiskSubHeading text-center" style={{color:"#000000"}}>
-                                        Last year 25% of EPF claims got rejected and people were blocked from accessing their own money when they needed it the most</p>}
+                                    <div className="pfRiskheading text-center" style={{ fontWeight: "700" }}>{isProcessing ? "Scanning your PF Account" : "Scan Complete"}</div>
+                                    {/* {isProcessing && <p className="pfRiskSubHeading text-center" style={{color:"#000000"}}>
+                                        Last year 25% of EPF claims got rejected and people were blocked from accessing 
+                                        their own money when they needed it the most</p>} */}
                                 </div>
                             </div>
 
@@ -269,7 +270,17 @@ const DocumentScanning = () => {
                                         {isProcessing && currentCategory?.category !== category.category && index >= Math.floor(progress / (100 / categories.length)) && (
                                             <>
                                                 <span className='d-flex flex-start align-items-center'>
-                                                    <BsClock className='smaller-icon' /> &nbsp;{category.category}
+                                                    {console.log("cat", category.category.toLowerCase() === 'transfer')
+                                                    }
+                                                    {category.category.toLowerCase() === 'transfer' ? (
+                                                        <>
+                                                            <BsClock className="smaller-icon" />&nbsp; Check Pasbook
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <BsClock className="smaller-icon" /> &nbsp;Check {category.category}
+                                                        </>
+                                                    )}
                                                 </span>
                                                 <span className="pending">Pending</span>
                                             </>

@@ -28,12 +28,10 @@ function SideContent() {
     return (
         <>
             <div className='welcomeLabelLogin mt-3 mt-md-0'>
-                {/* Welcome to India's First<br></br> Digital PF check up */}
                 India’s First AI based Provident<br></br>Fund (PF) Check up
             </div>
             {(!isMobile &&
                 <div className='EpfText mt-4 mb-3'>
-                    {/* Please login using your EPF UAN and<br></br> Password to begin the check up */}
                     Login with your EPF UAN and Password
                 </div>
             )}
