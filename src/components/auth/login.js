@@ -10,6 +10,10 @@ import { login } from '../common/api';
 import loaderGif from './../../assets/images/login.gif';
 import SideContent from '../common/side-content'
 import { ExtractMobile } from '../common/extract-mobile';
+import multiFactor from '../../assets/images/multifactor.png';
+import IPData from '../../assets/images/PIdata.png';
+import Encryption from '../../assets/images/encryption.png';
+import dataProtect from '../../assets/images/dataProtect.png';
 
 function LoginComponent() {
     const [formData, setFormData] = useState({ uan: "", password: "" });
@@ -19,7 +23,11 @@ function LoginComponent() {
     const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
+    const [isVisible, setIsVisible] = useState(false);
 
+    const toggleText = () => {
+      setIsVisible(!isVisible);
+    };
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,12 +37,12 @@ function LoginComponent() {
     // Toast Message Auto Clear
     useEffect(() => {
         if (message.type) {
-        isMessageActive.current = true; // Set active state when a message is displayed
-        const timer = setTimeout(() => {
-            setMessage({ type: "", content: "" });
-            isMessageActive.current = false; // Reset active state
-        }, 2500);
-        return () => clearTimeout(timer);
+            isMessageActive.current = true; // Set active state when a message is displayed
+            const timer = setTimeout(() => {
+                setMessage({ type: "", content: "" });
+                isMessageActive.current = false; // Reset active state
+            }, 2500);
+            return () => clearTimeout(timer);
         }
     }, [message]);
 
@@ -91,12 +99,12 @@ function LoginComponent() {
                     }, 2000);
                 }
             } catch (error) {
-                if(error.status=== 401){
+                if (error.status === 401) {
                     setLoading(false);
                     setMessage({ type: "error", content: MESSAGES.error.invalidEpfoCredentials });
-                }if (error.status >= 500) {
+                } if (error.status >= 500) {
                     navigate("/epfo-down")
-                  }else{
+                } else {
                     setLoading(false);
                     setMessage({ type: "error", content: error.message });
                     navigate("/epfo-down");
@@ -120,19 +128,20 @@ function LoginComponent() {
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row d-flex justify-content-center align-items-center">
-                    <div className="col-lg-4 col-md-8">
-                    <div className="row">
-                        <div className="col-md-12 text-center">
-                            <SideContent></SideContent>
+                    {/* <div className="col-lg-4 col-md-8">
+                        <div className="row">
+                            <div className="col-md-12 text-center">
+                                <SideContent></SideContent>
+                            </div>
                         </div>
-                    </div>
-                    </div>
+                    </div> */}
                     <div className="col-lg-5 col-md-8 mt-3 mt-lg-0 ms-0 ms-lg-3">
                         <div className="row">
                             <div className="col-md-12">
-                                <div className="pfRiskheading text-center" style={{fontWeight:"700"}}>PF Account Health Check up</div>
-                                <div className="pfRiskSubHeading text-center" style={{color:"#000000"}}>
-                                    Check if your PF is at risk of getting stuck
+                                <div className="pfRiskheading text-center" style={{ fontWeight: "700" }}>
+                                    India’s First AI based Provident Fund (PF) Check up</div>
+                                <div className="pfRiskSubHeading text-center" style={{ color: "#000000" }}>
+                                    Login with your EPF UAN and Password
                                 </div>
                             </div>
                         </div>
@@ -206,6 +215,35 @@ function LoginComponent() {
                                 </div>
                             </div>
                         </form>
+                        <div className="d-flex justify-content-center mt-3">
+                            <span className='securityText py-2 px-3 d-flex align-items-center' onClick={toggleText} style={{ cursor: "pointer" }}>
+                                <img src={dataProtect} alt="Risk Assessment" className='dataImage me-1' />
+                                Your privacy is our priority. We take data security seriously
+                            </span>
+                        </div>
+                        {isVisible &&
+                        <div className="d-flex justify-content-center mt-3">
+                            <div className='d-flex flex-column  align-items-center text-center'>
+                                <img src={multiFactor} alt="Risk Assessment" className='iconImage ' />
+                                <span className="iconText">
+                                    Two-Factor Auth
+                                </span>
+                            </div>
+                            <div className='d-flex flex-column align-items-center text-center mx-5'>
+                                <img src={Encryption} alt="Risk Assessment" className='iconImage' />
+                                <span className="iconText">
+                                    End-to-End Encryption
+                                </span>
+                            </div>
+                            <div className='d-flex flex-column align-items-center text-center'>
+                                <img src={IPData} alt="Risk Assessment" className='iconImage' />
+                                <span className="iconText">
+                                    Masking of PI data
+                                </span>
+                            </div>
+
+                        </div>
+                        }
                     </div>
                 </div>
             </div>

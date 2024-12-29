@@ -34,28 +34,6 @@ const Logo = () => {
     }
   };
   return (
-    // <div>
-    //   {message.type && <ToastMessage message={message.content} type={message.type} />}
-
-    //   <nav style={headerStyle}>
-    //     <img src={FinRightlogo} alt="Logo" className="logo" />
-    //     {!HideLogoutButtons && (
-    //       <span
-    //         className="text-end"
-    //         style={{ cursor: 'pointer', color: "blue" }} onClick={handleLogout}>
-    //         Log out
-    //       </span>
-    //     )}
-    //     {backToAssessment && (
-    //       <span
-    //         className="text-end"
-    //         style={{ cursor: 'pointer', color: "blue" }} onClick={() => navigate("/")} >
-    //         Back to Assessment
-    //       </span>
-    //     )}
-    //   </nav>
-    // </div>
-
     <div>
       {message.type && <ToastMessage message={message.content} type={message.type} />}
 
@@ -80,7 +58,7 @@ const Logo = () => {
               style={{ cursor: 'pointer', color: "blue" }}
               onClick={() => navigate("/")}
             >
-              Back to Assessment
+              Back
             </span>
           )}
         </div>

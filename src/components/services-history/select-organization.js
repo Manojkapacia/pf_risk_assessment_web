@@ -42,7 +42,7 @@ function SelectOrganization() {
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
-                <div className="col-lg-4 col-md-8">
+                {/* <div className="col-lg-4 col-md-8">
                     <div className='row'>
                         <div className='col-md-8 offset-md-2 mt-2 mt-sm-0'>
                         <div className='welcomeLabelLogin mb-md-4'>
@@ -51,23 +51,15 @@ function SelectOrganization() {
                         <span className='EpfText'>Please choose if your are currently working in any of the companies listed here</span>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
 
                 <div className="col-lg-6 col-md-8">
                     <div className='row'>
-                        <div className="col-lg-11 offset-lg-1">
+                        <div className="col-lg-11">
                             <div className='row'>
                                 <div className="col-md-10 offset-md-1 pfRiskheading text-center">Select Current Organization</div>
                             </div>
-
-                            {/* <div className='row'>
-                                <div className='col-md-10 offset-md-1 pfRiskSubHeading text-center'>
-                                    Lorem ipsum dolor sit amet consectetur.
-                                    Lorem rhoncus vitae ullamcorper non.Lorem rhoncus vitae ullamcorper non.
-                                    Lorem rhoncus vitae ullamcorper non.
-                                </div>
-                            </div> */}
 
                             <div className="row mt-4">
                                 <div className="col-md-8 offset-md-2">

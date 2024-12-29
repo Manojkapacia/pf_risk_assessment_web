@@ -61,7 +61,7 @@ function ServiceHistory() {
     return (
             <div className="container">
                 <div className="row d-flex justify-content-center align-items-center">
-                    <div className="col-lg-4 col-md-8">
+                    {/* <div className="col-lg-4 col-md-8">
                         <div className='row'>
                             <div className='col-md-8 offset-md-2 mt-2 mt-sm-0'>
                                 <div className='welcomeLabelLogin mb-md-4'>
@@ -74,13 +74,13 @@ function ServiceHistory() {
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Second column  */}
 
                     <div className="col-lg-6 col-md-8">
                         <div className='row'>
-                            <div className="col-lg-11 offset-lg-1">
+                            <div className="col-lg-11">
                                 <div className='row'>
                                     <div className="col-md-8 offset-md-2 pfRiskheading text-center">Please Confirm Service History</div>
                                 </div>
@@ -92,7 +92,7 @@ function ServiceHistory() {
                                 </div>
 
                                 <div className="row mt-4">
-                                    <div className="col-md-8 offset-md-2">
+                                    <div className="col-md-10 offset-md-1">
                                         <div className="overflow-auto sideBar" style={{ maxHeight: '15rem' }}>
                                             <ul className='list-group' >
                                                 {listItems.map((item, index) => (
@@ -116,7 +116,7 @@ function ServiceHistory() {
                                                             <li className='list-group-item bg-light'>
                                                                 <div className="row">
                                                                     <div className="col-5">
-                                                                        <span className='dropdownLabel'>Member Id :</span><br></br>
+                                                                        <span className='dropdownLabel'>Member ID :</span><br></br>
                                                                         {/* <span className='dropdownLabel'>NCP Days :</span><br></br> */}
                                                                         <span className='dropdownLabel'>Joining Date :</span><br></br>
                                                                         <span className='dropdownLabel'>Exit Date :</span><br></br>

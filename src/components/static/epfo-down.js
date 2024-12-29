@@ -50,19 +50,19 @@ const EpfoDown = () => {
         <div className="container-fluid">
             {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="row mx-2 d-flex justify-content-center align-items-center">
-                <div className="col-md-4 col-lg-4 text-center  mt-2 mt-md-0 mb-3 mb-lg-0">
+                {/* <div className="col-md-4 col-lg-4 text-center  mt-2 mt-md-0 mb-3 mb-lg-0">
                     <SideContent></SideContent>
-                </div>
-                <div className="col-md-7 offset-md-1 col-lg-6 offset-lg-0 pb-md-5 pb-2" style={{ backgroundColor: "#ffffff" }}>
+                </div> */}
+                <div className="col-md-7 col-lg-6">
                     <div className='row'>
-                        <div className='col-md-9'>
+                        <div className='col-md-10'>
                             <span className='epfoLabel'>Oops! Looks like EPF servers are down,</span><br></br>
                             <span className='epfoLabel ' style={{ color: '#2460DA' }}>FinRight is still Up</span><br></br>
                             <span className='labelText '>Leave your Details with us and we will call back to discuss your case</span>
                         </div>
                     </div>
                     <div className='row mt-md-4 mt-2'>
-                        <div className='col-md-9 offset-md-1'>
+                        <div className='col-md-10'>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className='row'>
                                     <div className='col-md-6'>

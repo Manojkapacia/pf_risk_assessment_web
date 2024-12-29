@@ -14,18 +14,18 @@ const ActivateUan = () => {
 
     return (
         <div className="container-fluid position-relative">
-            
-            <div className="row mx-2 d-flex justify-content-center align-items-center">
-                <div className="col-md-4 col-lg-4 mt-2 mt-md-0 mb-3 mb-lg-0 d-none d-md-block">
-                <div className="row">
+
+            <div className="row d-flex justify-content-center align-items-center">
+                {/* <div className="col-md-4 col-lg-4 mt-2 mt-md-0 mb-3 mb-lg-0 d-none d-md-block">
+                    <div className="row">
                         <div className="col-md-11 text-center offset-md-1">
                             <SideContent></SideContent>
                         </div>
                     </div>
-            </div>
-                <div className="col-md-7 offset-md-1 col-lg-6 offset-lg-0 pb-md-5 pb-2 mt-5 mt-md-0" style={{ backgroundColor: "#ffffff" }}>
+                </div> */}
+                <div className="col-md-7 col-lg-6  mt-3 mt-md-0">
                     <div className="row">
-                        <div className='col-md-6'>
+                        <div className='col-md-12'>
                             <span className='labelHeading' style={{ lineHeight: '1.2' }}>Follow the steps below to activate UAN</span>
                         </div>
                     </div>

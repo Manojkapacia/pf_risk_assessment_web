@@ -196,20 +196,20 @@ function OtpComponent() {
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row d-flex justify-content-center align-items-center">
-                    <div className="col-lg-4 col-md-8 offset-md-1 mt-2 mt-lg-0">
+                    {/* <div className="col-lg-4 col-md-8 offset-md-1 mt-2 mt-lg-0">
                         <div className='welcomeLabelLogin text-center'>
                             Welcome to India's First<br></br> Digital PF check up
                         </div>
                         <div className='EpfText mt-4 mb-3 text-center'>
                             Please Enter OTP to Begin checkup
                         </div>
-                    </div>
+                    </div> */}
                     <div className="col-lg-6 col-md-8">
                         <div className="row">
                             <div className="col-sm-8 col-md-11 offset-md-1">
-                                <div className="pfRiskheading text-center">PF Risk Assessment</div>
+                                <div className="pfRiskheading text-center">Welcome to India's First Digital PF check up</div>
                                 <div className="pfRiskSubHeading text-center">
-                                    Check if your PF is at risk of getting stuck
+                                Please Enter OTP to Begin checkup
                                 </div>
                             </div>
                         </div>
@@ -225,7 +225,7 @@ function OtpComponent() {
                                             <input
                                                 key={index}
                                                 id={`otp-input-${index}`}
-                                                type="text"
+                                                type="number"
                                                 autoComplete="off"
                                                 maxLength="1"
                                                 className="otpInput form-control text-center mx-1 mt-2"
