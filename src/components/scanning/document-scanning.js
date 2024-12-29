@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { post } from '../common/api';
 import Loader from '../common/loader';
 import ToastMessage from '../common/toast-message';
+import { encryptData } from '../common/encryption-decryption';
 
 const DocumentScanning = () => {
     const location = useLocation();
@@ -80,19 +81,23 @@ const DocumentScanning = () => {
     // useEffect(() => {
     //     if (categories.length === 0) return;
 
-    //     const timeoutId = setTimeout(() => {
-    //         const interval = setInterval(() => {
-    //             setProgress((prev) => {
-    //                 if (prev < 100) {
-    //                     return prev + 1;
-    //                 } else {
-    //                     setIsProcessing(false);
-    //                     clearInterval(interval);
-    //                     navigate("/report-registation",{ state: {profileData, home}})
-    //                     return prev;                        
-    //                 }
-    //             });
-    //         }, 100);
+        const timeoutId = setTimeout(() => {
+            const interval = setInterval(() => {
+                setProgress((prev) => {
+                    if (prev < 100) {
+                        return prev + 1;
+                    } else {
+                        setIsProcessing(false);
+                        clearInterval(interval);
+                        localStorage.removeItem('data-for-org-' + uan)
+                        localStorage.removeItem('data-for-scan-' + uan)
+                        const encodedData = encryptData(JSON.stringify({profileData, home}));
+                        localStorage.setItem('data-for-report-reg-' + uan, encodedData);
+                        navigate("/report-registation",{ state: {profileData, home}})
+                        return prev;                        
+                    }
+                });
+            }, 100);
 
     //         return () => clearInterval(interval);
     //     }, 500);

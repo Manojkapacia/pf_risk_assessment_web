@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
 import { get } from '../common/api';
 import { ConvertPeriod } from '../common/date-convertor';
+import { encryptData } from '../common/encryption-decryption';
 
 function ServiceHistory() {
     const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +53,7 @@ function ServiceHistory() {
     
     const handleButtonClick = (type) => {
         const data = { listItems, uan, type, reportUpdatedAtVar, profileData };
-        const encodedData = btoa(JSON.stringify(data));
+        const encodedData = encryptData(JSON.stringify(data));
         localStorage.setItem('data-for-org-' + uan, encodedData);
         navigate("/select-organization", { state: { listItems, uan, type,reportUpdatedAtVar,profileData,home } })
     };

@@ -4,6 +4,7 @@ import '../../css/service-history/select-organization.css';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ConvertPeriod } from '../common/date-convertor';
+import { encryptData } from '../common/encryption-decryption';
 
 function SelectOrganization() {
     const location = useLocation();
@@ -33,7 +34,7 @@ function SelectOrganization() {
         const selectedOrg = selectedId !== null ? updatedListItems[selectedId] : null;
         localStorage.removeItem('data-for-org-' + uan)
         const data = { selectedOrg, uan, type, reportUpdatedAtVar, profileData };
-        const encodedData = btoa(JSON.stringify(data));
+        const encodedData = encryptData(JSON.stringify(data));
         localStorage.setItem('data-for-kyc-' + uan, encodedData);
         navigate("/kyc-details", { state: { selectedOrg, uan, type, reportUpdatedAtVar, profileData,home} });
     }

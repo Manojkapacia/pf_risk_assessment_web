@@ -1,6 +1,6 @@
 import '../../App.css';
 import '../../css/report/report-registation.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReportCard from "../common/report-card";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Whatsapp } from "react-bootstrap-icons";
@@ -21,8 +21,15 @@ function ReportRegistation() {
         formState: { errors },
     } = useForm();
 
-    const onSubmit = async (mobileNumber) => {
+  
+    useEffect(() => {
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');;
+        let value = "report-registation";
+        localStorage.setItem(dynamicKey, value);
+    }, []);
 
+    
+    const onSubmit = async (mobileNumber) => {
         const transformedNumber = {
             ...mobileNumber,
             phoneNumber: `91${mobileNumber.phoneNumber}`,

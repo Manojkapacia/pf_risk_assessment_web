@@ -2,6 +2,8 @@ import '../../App.css';
 import '../../css/KYC/kyc-details.css';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { Eye, EyeSlash } from "react-bootstrap-icons";
+import { encryptData } from '../common/encryption-decryption';
 
 function KycDetails() {
     const location = useLocation();
@@ -75,11 +77,11 @@ function KycDetails() {
         if (!showAccountDetails) {
             setShowAccountDetails(true);
         } else {
-            // localStorage.removeItem('data-for-org-' + uan)
-            // localStorage.removeItem('data-for-kyc-' + uan)
-            // const encodedData = JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home });
-            // localStorage.setItem('data-for-scan-' + uan, encodedData);
-            // navigate('/doc-scan', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
+            localStorage.removeItem('data-for-org-' + uan)
+            localStorage.removeItem('data-for-kyc-' + uan)
+            const encodedData = encryptData(JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home }));
+            localStorage.setItem('data-for-scan-' + uan, encodedData);
+            navigate('/doc-scan', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
         }
 
     };
