@@ -1,4 +1,3 @@
-import logo from '../../assets/images/finright_logo.png';
 import React, { useState } from "react";
 import ToastMessage from "./toast-message";
 import { useNavigate, useLocation } from "react-router-dom";
