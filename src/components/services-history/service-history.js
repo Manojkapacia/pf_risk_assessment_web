@@ -27,6 +27,7 @@ function ServiceHistory() {
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
+                localStorage.setItem('pass-data',encryptData(JSON.stringify(response?.rawData?.data?.passbooks)))
                 setListItems(response?.rawData?.data?.serviceHistory);
                 setProfileData(response?.rawData?.data?.profile);
                 setHome(response?.rawData?.data?.home)

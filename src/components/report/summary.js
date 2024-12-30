@@ -11,6 +11,10 @@ import {
 import { BsCircleFill, BsExclamationOctagonFill, BsCheck } from "react-icons/bs";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Stepper } from 'react-form-stepper';
+import { decryptData } from '../common/encryption-decryption';
+import { useEffect, useState } from 'react';
+import { getClosingBalance } from '../../helper/data-transform';
+import { getReportSubmissionMessage } from '../common/time-formatter';
 
 // Register required components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -18,6 +22,9 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 function AccountSummary( ) {
     const location = useLocation();
     const { profileData, home, mobileNumber, listItems} = location.state || {};
+    const [balanceDetails, setBalanceDetails] = useState(null)
+    const reportMessage = getReportSubmissionMessage()
+
     // Sample data for the chart
     const data = {
         labels: ["Employee Share", "Employer Share", "Pension Share", "Interest Earned"],
@@ -44,6 +51,12 @@ function AccountSummary( ) {
         },
     };
 
+    useEffect(() => {
+        const passbookData = JSON.parse(decryptData(localStorage.getItem('pass-data'))) 
+        const balances = getClosingBalance(passbookData)
+        setBalanceDetails(balances)
+    }, [])
+
     const handleDownload = () => {
         const pdfPath = "/PFCheck-up-Report.pdf";
         const link = document.createElement("a");
@@ -67,21 +80,21 @@ function AccountSummary( ) {
                                         <div className="card text-white p-2 h-100" style={{ backgroundColor: "#04184a", borderRadius: "1rem" }}>
                                             <div className="d-flex flex-column align-items-center">
                                                 <PersonCircle className="fs-1" />
-                                                <span className='reportUserName mb-0'>{profileData.fullName}</span>
+                                                <span className='reportUserName mb-0'>{profileData?.fullName}</span>
                                                 <span className='reportUANno mb-0'>{`UAN: ${profileData?.UAN}`}</span>
                                             </div>
                                             <div className="row d-flex justify-content-between mt-3">
                                                 <div className="col-4">
                                                     <p className="reportValueText">Current Value</p>
-                                                    <span className='reportValueAmount'>₹{home?.totalBalance}</span>
+                                                    <span className='reportValueAmount'>{home?.totalBalance !== 'N/A' ? `₹${home?.totalBalance}` : 'N/A'}</span>
                                                 </div>
                                                 <div className="col-4">
                                                     <p className="reportValueText">Last Contribution</p>
                                                     <span className='reportValueAmount'>₹22,500</span>
                                                 </div>
                                                 <div className="col-4">
-                                                    <p className="reportValueText">FY'24 Interest</p>
-                                                    <span className='reportValueAmount'>₹1,22,500</span>
+                                                    <p className="reportValueText">{balanceDetails?.year} Interest</p>
+                                                    <span className='reportValueAmount'>{balanceDetails?.interestShare}</span>
                                                 </div>
                                             </div>
                                             <div className="d-flex  justify-content-between mt-3">
@@ -113,7 +126,7 @@ function AccountSummary( ) {
                                             <div className="report-main-text mt-2">
                                                 Your report generation is<br></br>in progress
                                             </div>
-                                            <p className="report-subheading-text mt-2">You will get your report on registered<br></br> number within 4 hours</p>
+                                            <p className="report-subheading-text mt-2">You will get your report on registered<br></br> number {reportMessage}</p>
                                             <div className="text-center mt-auto mx-3">
                                                 <p className="download-sample-btn" onClick={handleDownload} >Download Sample Report</p>
                                             </div>
@@ -174,13 +187,15 @@ function AccountSummary( ) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                {listItems?.history?.map((item, index) => (
+                                                {listItems?.history.length !== 0 ? listItems?.history?.map((item, index) => (
                                                     <tr key={index}>
                                                         <td>{item?.company}</td>
                                                         <td>{item?.period}</td>
                                                         <td>{item?.details?.['Total Service']}</td>
                                                     </tr>
-                                                ))}
+                                                )) : <tr key={0}>
+                                                    <td colSpan={3}>No Employement History</td>
+                                                </tr>}
                                                 </tbody>
                                             </table>
                                             <p className="text-end text-muted">Last updated on 28-12-2024</p>
@@ -215,20 +230,20 @@ function AccountSummary( ) {
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>Employee Share &nbsp;&nbsp;<BsCircleFill style={{ 'color': '#27DEBF' }} /></td>
-                                                        <td>₹22,50,000</td>
+                                                        <td><BsCircleFill style={{ 'color': '#27DEBF' }} />&nbsp;&nbsp;Employee Share </td>
+                                                        <td>{balanceDetails?.employeeShare}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Employer Share &nbsp;&nbsp;<BsCircleFill style={{ 'color': '#00124F' }} /></td>
-                                                        <td>₹22,50,000</td>
+                                                        <td><BsCircleFill style={{ 'color': '#00124F' }} />&nbsp;&nbsp;Employer Share</td>
+                                                        <td>{balanceDetails?.employerShare}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Pension Share &nbsp;&nbsp;<BsCircleFill style={{ 'color': '#4880FF' }} /></td>
-                                                        <td>₹22,50,000</td>
+                                                        <td><BsCircleFill style={{ 'color': '#4880FF' }} />&nbsp;&nbsp;Pension Share</td>
+                                                        <td>{balanceDetails?.pensionShare}</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Interest Earned &nbsp;&nbsp;<BsCircleFill style={{ 'color': '#ABD5FD' }} /></td>
-                                                        <td>₹22,50,000</td>
+                                                        <td><BsCircleFill style={{ 'color': '#ABD5FD' }} />&nbsp;&nbsp;Interest Earned</td>
+                                                        <td>{balanceDetails?.interestShare}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
