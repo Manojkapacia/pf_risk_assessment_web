@@ -58,7 +58,7 @@ function KycDetails() {
 
                         <div className='col-md-10 offset-md-1 text-center'>
                             <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>
-                                Check if your UAN details match your Aadhaar and PAN card
+                                {showCheckbox ? 'Choose details that are incorrect' : 'Check if your UAN details match your Aadhaar and PAN card'}
                             </span>
                         </div>
                     </div>

@@ -70,7 +70,7 @@ function KycDetailsBank() {
 
                         <div className='col-md-10 offset-md-1 text-center'>
                             <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>
-                                Check if your bank account details are correctly captured
+                                {showCheckbox ? 'Choose details that are incorrect' : 'Check if your bank account details are correctly captured'}
                             </span>
                         </div>
                     </div>
