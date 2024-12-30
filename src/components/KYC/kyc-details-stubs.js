@@ -3,27 +3,27 @@ import '../../css/KYC/kyc-details.css';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Eye, EyeSlash } from "react-bootstrap-icons";
+import { encryptData } from '../common/encryption-decryption';
 function KycDetailsBank() {
     const location = useLocation();
     const navigate = useNavigate();
     const [showContinueButton, setShowContinueButton] = useState(false);
     const [showFullAccountNumber, setShowFullAccountNumber] = useState(false);
+    const [showCheckbox, setShowCheckbox] = useState(false);
+
     const { selectedOrg, uan, type, reportUpdatedAtVar, profileData, home, kycStatus } = location.state || {};
     const [BankStatus, setBankStatus] = useState({
-        bankAccountNumber: null,
-        bankIFSC: null
+        bankAccountNumber: true,
+        bankIFSC: true
     });
 
-    const [selectedFields, setSelectedFields] = useState({
-        bankAccountNumber: false,
-        bankIFSC: false
-    });
     const handleCheckboxChange = (field) => {
-        setSelectedFields((prev) => ({
+        setBankStatus((prev) => ({
             ...prev,
             [field]: !prev[field],
         }));
     };
+    
     const toggleAccountVisibility = () => {
         setShowFullAccountNumber(!showFullAccountNumber);
     };
@@ -34,36 +34,34 @@ function KycDetailsBank() {
         }
         return account;
     };
+
     const handleIncorrect = () => {
-        setBankStatus({
-            bankAccountNumber: true,
-            bankIFSC: true
-        });
+        setShowCheckbox(true)
         setShowContinueButton(true);
     };
-    const handleContinueBtn = () => {
-        setBankStatus((prev) => {
-            const updatedStatus = { ...prev };
-            for (const field in selectedFields) {
-                if (selectedFields[field]) {
-                    updatedStatus[field] = false;
-                }
-            }
-            return updatedStatus;
-        });
-        //   navigate('/kyc-details/bank', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
 
+    const handleContinueBtn = () => {
+        const mergedStatues = {...kycStatus, ...BankStatus}
+        console.log(mergedStatues)
+        localStorage.removeItem('data-for-org-' + uan)
+        localStorage.removeItem('data-for-kyc-' + uan)
+        const encodedData = encryptData(JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
+        localStorage.setItem('data-for-scan-' + uan, encodedData);
+        navigate('/doc-scan', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
     };
 
     const handleCorrect = () => {
-        setBankStatus({
-            bankAccountNumber: true,
-            bankIFSC: true
-        });
         setShowContinueButton(false);
-        // navigate('/kyc-details/bank', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
+        const mergedStatues = {...kycStatus, ...BankStatus}
+        console.log(mergedStatues)
+        localStorage.removeItem('data-for-org-' + uan)
+        localStorage.removeItem('data-for-kyc-' + uan)
+        const encodedData = encryptData(JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
+        localStorage.setItem('data-for-scan-' + uan, encodedData);
+        navigate('/doc-scan', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
     }
-    console.log("bank status", BankStatus);
+
+
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
@@ -95,7 +93,7 @@ function KycDetailsBank() {
                                                             onClick={toggleAccountVisibility} />
                                                     ))}
                                                 </div>
-                                                {BankStatus.bankAccountNumber && (
+                                                {showCheckbox && (
                                                     <input className="form-check-input changeCheckbox" type="checkbox" onChange={() => handleCheckboxChange('bankAccountNumber')}
                                                         id="flexCheckDefault" style={{
                                                             transform: 'scale(1.5)'
@@ -107,7 +105,7 @@ function KycDetailsBank() {
                                             <label className='kycLabel mt-3'>IFSC Number: </label>
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <p className="form-check-label kycValue mb-0">{profileData?.kycDetails?.bankIFSC}</p>
-                                                {BankStatus.bankIFSC && (
+                                                {showCheckbox && (
                                                     <input className="form-check-input changeCheckbox" type="checkbox" onChange={() => handleCheckboxChange('bankIFSC')}
                                                         id="flexCheckDefault" style={{
                                                             transform: 'scale(1.5)'
