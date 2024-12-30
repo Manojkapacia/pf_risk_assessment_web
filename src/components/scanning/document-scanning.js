@@ -78,8 +78,8 @@ const DocumentScanning = () => {
         }
     }, [isFetched]); // Depend only on isFetched
 
-    // useEffect(() => {
-    //     if (categories.length === 0) return;
+    useEffect(() => {
+        if (categories.length === 0) return;
 
         const timeoutId = setTimeout(() => {
             const interval = setInterval(() => {
@@ -99,11 +99,11 @@ const DocumentScanning = () => {
                 });
             }, 100);
 
-    //         return () => clearInterval(interval);
-    //     }, 500);
+            return () => clearInterval(interval);
+        }, 500);
 
-    //     return () => clearTimeout(timeoutId);
-    // }, [categories]);
+        return () => clearTimeout(timeoutId);
+    }, [categories]);
 
     useEffect(() => {
         if (categories.length === 0 || progress === 0) return;
@@ -275,15 +275,13 @@ const DocumentScanning = () => {
                                         {isProcessing && currentCategory?.category !== category.category && index >= Math.floor(progress / (100 / categories.length)) && (
                                             <>
                                                 <span className='d-flex flex-start align-items-center'>
-                                                    {console.log("cat", category.category.toLowerCase() === 'transfer')
-                                                    }
                                                     {category.category.toLowerCase() === 'transfer' ? (
                                                         <>
-                                                            <BsClock className="smaller-icon" />&nbsp; Check Pasbook
+                                                            <BsClock className="smaller-icon" />&nbsp; Checking Passbook
                                                         </>
                                                     ) : (
                                                         <>
-                                                            <BsClock className="smaller-icon" /> &nbsp;Check {category.category}
+                                                            <BsClock className="smaller-icon" /> &nbsp; Checking {category.category}
                                                         </>
                                                     )}
                                                 </span>

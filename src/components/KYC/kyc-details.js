@@ -305,8 +305,7 @@ function KycDetails() {
                                                     <input onChange={() => handleCheckboxChange('fullName')}
                                                         className="form-check-input changeCheckbox" type="checkbox"
                                                         id="flexCheckDefault" style={{
-                                                            transform: 'scale(1.5)',
-                                                            backgroundColor: '#DCDCDC', borderColor: '#DCDCDC',
+                                                            transform: 'scale(1.5)'
                                                         }} />
                                                 )}
                                             </div>
@@ -320,8 +319,7 @@ function KycDetails() {
                                                 {kycStatus.fatherHusbandName && (
                                                     <input className="form-check-input changeCheckbox" type="checkbox" onChange={() => handleCheckboxChange('fatherHusbandName')}
                                                         id="flexCheckDefault" style={{
-                                                            transform: 'scale(1.5)',
-                                                            backgroundColor: '#DCDCDC', borderColor: '#DCDCDC',
+                                                            transform: 'scale(1.5)'
                                                         }} />
                                                 )}
                                             </div>
@@ -331,8 +329,7 @@ function KycDetails() {
                                                 {kycStatus.gender && (
                                                     <input className="form-check-input changeCheckbox" type="checkbox" onChange={() => handleCheckboxChange('gender')}
                                                         id="flexCheckDefault" style={{
-                                                            transform: 'scale(1.5)',
-                                                            backgroundColor: '#DCDCDC', borderColor: '#DCDCDC',
+                                                            transform: 'scale(1.5)'
                                                         }} />
                                                 )}
                                             </div>
@@ -342,8 +339,7 @@ function KycDetails() {
                                                 {kycStatus.physicallyHandicapped && (
                                                     <input className="form-check-input" type="checkbox" onChange={() => handleCheckboxChange('physicallyHandicapped')}
                                                         id="flexCheckDefault" style={{
-                                                            transform: 'scale(1.5)',
-                                                            backgroundColor: '#DCDCDC', borderColor: '#DCDCDC',
+                                                            transform: 'scale(1.5)'
                                                         }} />
                                                 )}
                                             </div>
@@ -355,8 +351,7 @@ function KycDetails() {
                                                 {kycStatus.UAN && (
                                                     <input className="form-check-input changeCheckbox" type="checkbox" onChange={() => handleCheckboxChange('UAN')}
                                                         id="flexCheckDefault" style={{
-                                                            transform: 'scale(1.5)',
-                                                            backgroundColor: '#DCDCDC', borderColor: '#DCDCDC',
+                                                            transform: 'scale(1.5)'
                                                         }} />
                                                 )}
                                             </div>
@@ -366,8 +361,7 @@ function KycDetails() {
                                                 {kycStatus.dateOfBirth && (
                                                     <input className="form-check-input" type="checkbox" onChange={() => handleCheckboxChange('dateOfBirth')}
                                                         id="flexCheckDefault" style={{
-                                                            transform: 'scale(1.5)',
-                                                            backgroundColor: '#DCDCDC', borderColor: '#DCDCDC',
+                                                            transform: 'scale(1.5)'
                                                         }} />
                                                 )}
                                             </div>
@@ -377,8 +371,7 @@ function KycDetails() {
                                                 {kycStatus.aadhaar && (
                                                     <input className="form-check-input changeCheckbox" type="checkbox" onChange={() => handleCheckboxChange('aadhaar')}
                                                         id="flexCheckDefault" style={{
-                                                            transform: 'scale(1.5)',
-                                                            backgroundColor: '#DCDCDC', borderColor: '#DCDCDC',
+                                                            transform: 'scale(1.5)'
                                                         }} />
                                                 )}
                                             </div>
@@ -388,8 +381,7 @@ function KycDetails() {
                                                 {kycStatus.pan && (
                                                     <input className="form-check-input changeCheckbox" type="checkbox" onChange={() => handleCheckboxChange('pan')}
                                                         id="flexCheckDefault" style={{
-                                                            transform: 'scale(1.5)',
-                                                            backgroundColor: '#DCDCDC', borderColor: '#DCDCDC',
+                                                            transform: 'scale(1.5)'
                                                         }} />
                                                 )}
                                             </div>
