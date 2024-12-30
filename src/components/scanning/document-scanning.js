@@ -164,8 +164,8 @@ const DocumentScanning = () => {
                         {isProcessing && <div className="row mx-0 progress-card d-flex justify-content-center align-items-center">
                             <div className="col-7">
                                 <div className="progress-details">
-                                    <span className="fw-boldHeading">{currentCategory.category}</span><br></br>
-                                    <span className='subText'>Checking {currentCategory?.category} details</span>
+                                    <span className="fw-boldHeading">{currentCategory?.category?.toLowerCase() === 'transfer' ? 'Passbook Records' : currentCategory?.category}</span><br></br>
+                                    <span className='subText'>Checking {currentCategory?.category?.toLowerCase() === 'transfer' ? 'Passbook Records' : currentCategory?.category} details</span>
                                 </div>
                             </div>
                             <div className="col-5">
@@ -257,7 +257,7 @@ const DocumentScanning = () => {
                                         {isProcessing && currentCategory?.category === category.category && (
                                             <>
                                                 <span className='d-flex flex-start align-items-center'>
-                                                    <BsClock className='smaller-icon' /> &nbsp;{category.category}
+                                                    <BsClock className='smaller-icon' /> &nbsp;Checking {category.category.toLowerCase() === 'transfer' ? 'Passbook Records' : category.category}
                                                 </span>
                                                 <span className="pending">Processing...</span>
                                             </>
@@ -266,7 +266,7 @@ const DocumentScanning = () => {
                                         {isProcessing && index < Math.floor(progress / (100 / categories.length)) && (
                                             <>
                                                 <span className='d-flex flex-start align-items-center'>
-                                                    <BsCheck2Circle className='smaller-icon' /> &nbsp;{category.category}
+                                                    <BsCheck2Circle className='smaller-icon' /> &nbsp;{category.category.toLowerCase() === 'transfer' ? 'Passbook Records' : category.category}
                                                 </span>
                                                 <span className="success">Done</span>
                                             </>
@@ -275,15 +275,7 @@ const DocumentScanning = () => {
                                         {isProcessing && currentCategory?.category !== category.category && index >= Math.floor(progress / (100 / categories.length)) && (
                                             <>
                                                 <span className='d-flex flex-start align-items-center'>
-                                                    {category.category.toLowerCase() === 'transfer' ? (
-                                                        <>
-                                                            <BsClock className="smaller-icon" />&nbsp; Checking Passbook
-                                                        </>
-                                                    ) : (
-                                                        <>
-                                                            <BsClock className="smaller-icon" /> &nbsp; Checking {category.category}
-                                                        </>
-                                                    )}
+                                                    <BsClock className="smaller-icon" />&nbsp; Checking {category.category.toLowerCase() === 'transfer' ? 'Passbook Records' : category.category }
                                                 </span>
                                                 <span className="pending">Pending</span>
                                             </>
