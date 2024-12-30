@@ -27,10 +27,10 @@ function KycDetails() {
 
     const handleCorrect = () => {
         setShowContinueButton(false);
-        navigate('/kyc-details/bank', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
+        navigate('/kyc-details/bank', { state: { listItems,selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
 
     }
-    const { selectedOrg, uan, type, reportUpdatedAtVar, profileData, home } = location.state || {};
+    const {listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home } = location.state || {};
 
     useEffect(() => {
         let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
@@ -46,10 +46,10 @@ function KycDetails() {
     };
 
     const handleContinueBtn = () => {
-        navigate('/kyc-details/bank', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
+        navigate('/kyc-details/bank', { state: {listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
 
     };
-
+    
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">

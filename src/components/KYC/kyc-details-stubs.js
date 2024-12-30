@@ -11,7 +11,7 @@ function KycDetailsBank() {
     const [showFullAccountNumber, setShowFullAccountNumber] = useState(false);
     const [showCheckbox, setShowCheckbox] = useState(false);
 
-    const { selectedOrg, uan, type, reportUpdatedAtVar, profileData, home, kycStatus } = location.state || {};
+    const {listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home, kycStatus } = location.state || {};
     const [BankStatus, setBankStatus] = useState({
         bankAccountNumber: true,
         bankIFSC: true
@@ -45,9 +45,9 @@ function KycDetailsBank() {
         console.log(mergedStatues)
         localStorage.removeItem('data-for-org-' + uan)
         localStorage.removeItem('data-for-kyc-' + uan)
-        const encodedData = encryptData(JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
+        const encodedData = encryptData(JSON.stringify({ listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
         localStorage.setItem('data-for-scan-' + uan, encodedData);
-        navigate('/doc-scan', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
+        navigate('/doc-scan', { state: {listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
     };
 
     const handleCorrect = () => {
@@ -58,7 +58,7 @@ function KycDetailsBank() {
         localStorage.removeItem('data-for-kyc-' + uan)
         const encodedData = encryptData(JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
         localStorage.setItem('data-for-scan-' + uan, encodedData);
-        navigate('/doc-scan', { state: { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
+        navigate('/doc-scan', { state: { listItems,selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
     }
 
 

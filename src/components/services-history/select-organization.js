@@ -20,7 +20,7 @@ function SelectOrganization() {
     }, []);
 
     // Ensure listItems is an array before applying map
-    const updatedListItems = listItems ? listItems.map(item => ({
+    const updatedListItems = listItems?.history ? listItems?.history?.map(item => ({
         ...item,
         checked: false
     })) : [];
@@ -36,9 +36,9 @@ function SelectOrganization() {
         const data = { selectedOrg, uan, type, reportUpdatedAtVar, profileData };
         const encodedData = encryptData(JSON.stringify(data));
         localStorage.setItem('data-for-kyc-' + uan, encodedData);
-        navigate("/kyc-details", { state: { selectedOrg, uan, type, reportUpdatedAtVar, profileData,home} });
+        navigate("/kyc-details", { state: {listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData,home} });
     }
-
+    
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">

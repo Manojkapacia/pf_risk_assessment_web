@@ -11,7 +11,7 @@ import ToastMessage from './../common/toast-message';
 
 function ReportRegistation() {
     const location = useLocation();
-    const { profileData, home } = location.state || {};
+    const { profileData, home, listItems} = location.state || {};
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ function ReportRegistation() {
                 setLoading(false);
                 setMessage({ type: "success", content: response.message });
                 setTimeout(() => setMessage({ type: "", content: "" }), 2000);
-                navigate('/report-otp', { state: { profileData, home, mobileNumber } });
+                navigate('/report-otp', { state: { profileData, home, mobileNumber, listItems} });
             }
         } catch (error) {
             setLoading(false);
@@ -69,7 +69,7 @@ function ReportRegistation() {
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row d-flex justify-content-center align-items-center">
-                    <div className="col-lg-5 col-md-8">
+                    <div className="col-lg-5 col-md-8 mt-3 mt-lg-0">
                         <div className='row'>
                             <div className='col-md-12'>
                                 <div className='row'>
@@ -122,7 +122,7 @@ function ReportRegistation() {
                     </div>
 
                     {/* Second column  */}
-                    <div className="col-lg-4 col-md-8 mt-2 mt-lg-0 ms-0 ms-lg-5">
+                    <div className="col-lg-4 col-md-8 mt-2 mt-lg-0 ms-0 ms-lg-5 d-none d-md-block">
                         <div className='row'>
                             <div className='col-md-12 bg-image p-0'>
                                 <div className='overlayImage text-white'>
