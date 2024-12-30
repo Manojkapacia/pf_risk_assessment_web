@@ -59,10 +59,10 @@
   font-size: 0.8rem;
 }
 
-.card {
+/* .card {
   border-radius: 12px!important;
   border: none;
-}
+} */
 
 h5 {
   font-weight: bold;
@@ -127,4 +127,5 @@ h5 {
 .stepper-container {
   background-color: #fff;
 }
+
 
