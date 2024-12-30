@@ -27,7 +27,7 @@ function ServiceHistory() {
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
-                setListItems(response?.rawData?.data?.serviceHistory?.history);
+                setListItems(response?.rawData?.data?.serviceHistory);
                 setProfileData(response?.rawData?.data?.profile);
                 setHome(response?.rawData?.data?.home)
             }
@@ -57,7 +57,7 @@ function ServiceHistory() {
         localStorage.setItem('data-for-org-' + uan, encodedData);
         navigate("/select-organization", { state: { listItems, uan, type,reportUpdatedAtVar,profileData,home } })
     };
-
+    
     return (
             <div className="container">
                 <div className="row d-flex justify-content-center align-items-center">
@@ -95,7 +95,7 @@ function ServiceHistory() {
                                     <div className="col-md-10 offset-md-1">
                                         <div className="overflow-auto sideBar" style={{ maxHeight: '15rem' }}>
                                             <ul className='list-group' >
-                                                {listItems.map((item, index) => (
+                                                {listItems?.history?.map((item, index) => (
                                                     <React.Fragment key={index}>
                                                         {/* List Item */}
                                                         <li

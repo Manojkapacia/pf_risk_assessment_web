@@ -25,7 +25,7 @@ const DocumentScanning = () => {
     const [message, setMessage] = useState({ type: "", content: "" });
     const [istTime, setIstTime] = useState(null);
 
-    const { selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } = location.state || {};
+    const {listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } = location.state || {};
 
     const navigate = useNavigate()
 
@@ -93,7 +93,7 @@ const DocumentScanning = () => {
                         localStorage.removeItem('data-for-scan-' + uan)
                         const encodedData = encryptData(JSON.stringify({profileData, home}));
                         localStorage.setItem('data-for-report-reg-' + uan, encodedData);
-                        navigate("/report-registation",{ state: {profileData, home}})
+                        navigate("/report-registation",{ state: {profileData, home, listItems}})
                         return prev;                        
                     }
                 });

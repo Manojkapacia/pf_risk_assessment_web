@@ -10,7 +10,7 @@ import { encryptData } from '../common/encryption-decryption';
 function ReportOtp() {
     const otpLength = 6;
     const location = useLocation();
-    const { profileData, home, mobileNumber } = location.state || {};
+    const { profileData, home, mobileNumber, listItems} = location.state || {};
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
     const [otpValues, setOtpValues] = useState(Array(otpLength).fill(""));
@@ -77,7 +77,7 @@ function ReportOtp() {
                 setLoading(false);
                 setTimer(59);
                 setTriggerApiCall(false);
-                navigate('/report-otp', { state: { profileData, home, mobileNumber } })
+                navigate('/report-otp', { state: { profileData, home, mobileNumber, listItems} })
             }
         } catch (error) {
             if (error.status >= 500) {
@@ -106,9 +106,9 @@ function ReportOtp() {
             } else {
                 const uan = localStorage.getItem('user_uan')
                 localStorage.removeItem('data-for-report-reg-' + uan)
-                const encodedData = encryptData(JSON.stringify({profileData, home, mobileNumber}));
+                const encodedData = encryptData(JSON.stringify({profileData, home, mobileNumber,listItems}));
                 localStorage.setItem('data-for-report-submit-' + uan, encodedData);
-                navigate("/report-submit", { state: { profileData, home, mobileNumber } });
+                navigate("/account-summary", { state: { profileData, home, mobileNumber,listItems } });
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -120,7 +120,7 @@ function ReportOtp() {
         <div className="container">
             {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="row d-flex justify-content-center align-items-center">
-                <div className="col-lg-5 col-md-8 mt-2 mt-lg-0">
+                <div className="col-lg-5 col-md-8 mt-3 mt-lg-0">
                     <div className='row'>
                         <div className='col-md-12'>
                             <div className='row'>
@@ -172,7 +172,7 @@ function ReportOtp() {
                     </div>
                 </div>
                 {/* Second column  */}
-                <div className="col-lg-4 col-md-8 mt-2 mt-lg-0 ms-0 ms-lg-5">
+                <div className="col-lg-4 col-md-8 mt-2 mt-lg-0 ms-0 ms-lg-5 d-none d-md-block">
                     <div className='row'>
                         <div className='col-md-12 bg-image p-0'>
                             <div className='overlayImage text-white'>
