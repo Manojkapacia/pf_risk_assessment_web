@@ -156,7 +156,7 @@ const Claims = ({ jsonData, onBack }) => {
                                                         <td>{claim.memberId}</td>
                                                         <td>{claim.formType}</td>
                                                         <td>{claim.claimDescription}</td>
-                                                        <td>{claim.rejectDate || "N/A"}</td>
+                                                        <td>{claim.location || "N/A"}</td>
                                                     </tr>
                                                 ))
                                             )
