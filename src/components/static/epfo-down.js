@@ -1,12 +1,11 @@
-import React,{useState,useEffect} from 'react';
+import React,{ useState } from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
-import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
-import SideContent from '../common/side-content';
 import { Telephone } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
 import { zohoRequest } from "./../common/api";
 import ToastMessage from '../common/toast-message'
+
 const EpfoDown = () => {
     const [message, setMessage] = useState({ type: "", content: "" });
     const [isDisabled, setIsDisabled] = useState(false);
@@ -32,7 +31,7 @@ const EpfoDown = () => {
           };
         try {
           const result = await zohoRequest(formData);
-          if (result.data.data[0].status== "success") {
+          if (result.data.data[0].status === "success") {
             const newTabUrl = "https://www.finright.in/submitted-successfully";
             window.open(newTabUrl, "_blank", "noopener,noreferrer");
         } else {

@@ -4,7 +4,6 @@ import LoginComponent from './components/auth/login';
 import OtpComponent from './components/auth/otp-verification';
 import ServiceHistory from './components/services-history/service-history';
 import SelectOrganization from './components/services-history/select-organization';
-import Logo from './components/common/logo';
 import DocumentScanning from './components/scanning/document-scanning';
 import CreateAccount from './components/create-account/create-account';
 import OtpCreateAccount from './components/create-account/otp-create-account'

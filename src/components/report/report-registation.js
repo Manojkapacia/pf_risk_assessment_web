@@ -11,7 +11,7 @@ import ToastMessage from './../common/toast-message';
 
 function ReportRegistation() {
     const location = useLocation();
-    const { profileData, home, listItems} = location.state || {};
+    const { profileData, home, listItems, reportUpdatedAtVar} = location.state || {};
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ function ReportRegistation() {
                 setLoading(false);
                 setMessage({ type: "success", content: response.message });
                 setTimeout(() => setMessage({ type: "", content: "" }), 2000);
-                navigate('/report-otp', { state: { profileData, home, mobileNumber, listItems} });
+                navigate('/report-otp', { state: { profileData, home, mobileNumber, listItems, reportUpdatedAtVar} });
             }
         } catch (error) {
             setLoading(false);

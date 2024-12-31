@@ -3,10 +3,7 @@ import '../../css/common/side-content.css'
 import multiFactor from "../../assets/images/multifactor.png"
 import IPData from "../../assets/images/PIdata.png";
 import Encryption from "../../assets/images/encryption.png";
-import DPDP from "../../assets/images/DPDP.png";
-import cloud from "../../assets/images/cloud.png";
 import dataProtect from "../../assets/images/dataProtect.png";
-
 
 function SideContent() {
     const [isTextVisible, setIsTextVisible] = useState(false);

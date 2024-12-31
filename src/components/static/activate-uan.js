@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
-import { useNavigate } from 'react-router-dom';
-import SideContent from '../common/side-content';
-import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { Link, ThreeDots, Tablet, ArrowClockwise } from "react-bootstrap-icons";
 
 const ActivateUan = () => {
-    const navigate = useNavigate();
     const goToEpfoPortal = () => {
         window.open("https://passbook.epfindia.gov.in/MemberPassBook/login", "_blank");
     }

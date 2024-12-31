@@ -66,12 +66,4 @@ const Logo = () => {
   );
 };
 
-const headerStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "1.5rem 0.9rem",
-  backgroundColor: "#ffffff"
-};
-
 export default Logo;

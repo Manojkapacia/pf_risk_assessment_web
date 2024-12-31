@@ -8,7 +8,6 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import MESSAGES from '../constants/messages'
 import { login } from '../common/api';
 import loaderGif from './../../assets/images/login.gif';
-import SideContent from '../common/side-content'
 import { ExtractMobile } from '../common/extract-mobile';
 import multiFactor from '../../assets/images/multifactor.png';
 import IPData from '../../assets/images/PIdata.png';

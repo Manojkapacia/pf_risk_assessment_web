@@ -1,14 +1,9 @@
 import React from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
-import { useNavigate } from 'react-router-dom';
-import SideContent from '../common/side-content';
-import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { Link, ChatSquareDots, Key, PersonCheck, Clipboard, CreditCard } from "react-bootstrap-icons";
 
 const ForgotPassword = () => {
-    const navigate = useNavigate();
-
     const goToEpfoPortal = () => {
         window.open("https://passbook.epfindia.gov.in/MemberPassBook/login", "_blank");
     }

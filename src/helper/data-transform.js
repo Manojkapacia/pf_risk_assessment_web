@@ -1,5 +1,4 @@
 export const getClosingBalance = (passbooks) => {
-    console.log(passbooks)
     const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
     const formatCurrency = (value) => `₹ ${value.toLocaleString("en-IN")}`;
 
@@ -35,4 +34,47 @@ export const getClosingBalance = (passbooks) => {
         interestShare: formatCurrency(totalInterestShare),
         year
     }
+}
+
+export const getLastContribution = (data) => {
+    if(!data) return 'N/A'
+
+    const parseCurrency = (value) => Number(value.replace(/[,]/g, ""));
+    const formatCurrency = (value) => `₹ ${value.toLocaleString("en-IN")}`;
+
+    let contribution = 'N/A'
+
+    const currentEmployer = data.serviceHistory.history.find(
+      (entry) => entry.period.toLowerCase().includes("present")
+    );
+  
+    if (!currentEmployer) return contribution;
+  
+    const memberId = currentEmployer.details["Member Id"];
+    const passbook = data.passbooks[memberId];
+  
+    if (!passbook) return 'N/A';
+  
+    let mostRecentTransaction = null;
+  
+    // Iterate through years to find the most recent transaction
+    Object.values(passbook).forEach((yearData) => {
+      yearData.transactions.forEach((transaction) => {
+        if (
+          !mostRecentTransaction ||
+          new Date(transaction.transactionDate.split("-").reverse().join("-")) >
+            new Date(
+              mostRecentTransaction.transactionDate.split("-").reverse().join("-")
+            )
+        ) {
+          mostRecentTransaction = transaction;
+        }
+      });
+    });
+
+    if(mostRecentTransaction) {
+        contribution = formatCurrency(parseCurrency(mostRecentTransaction.employeeShare) + parseCurrency(mostRecentTransaction.employerShare) + parseCurrency(mostRecentTransaction.pensionShare))
+    }
+
+    return contribution;
 }

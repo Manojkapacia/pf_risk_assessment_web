@@ -1,25 +1,12 @@
 import React from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
-import { useNavigate } from 'react-router-dom';
-import SideContent from '../common/side-content';
-import pfRiskImage from '../../assets/images/pf-risk-analyzer.png';
 import { ChatSquareDots, Telephone } from "react-bootstrap-icons";
-import { Link, ThreeDots, Tablet, ArrowClockwise } from "react-bootstrap-icons";
 
 const DonotKnowUan = () => {
-    const navigate = useNavigate();
-
     return (
         <div className="container-fliud">
             <div className="row mx-1 d-flex justify-content-center align-items-center">
-                {/* <div className="col-lg-4 col-md-4 mt-2 mt-md-0 mb-3 mb-lg-0 d-none d-md-block">
-                    <div className="row">
-                        <div className="col-md-11 text-center offset-md-1">
-                            <SideContent></SideContent>
-                        </div>
-                    </div>
-                </div> */}
                 <div className="col-md-7 col-lg-7">
                     <div className="row">
                         <span className='labelHeading'>Know Your UAN</span><br></br>
