@@ -1,39 +1,16 @@
 import '../../App.css';
 import '../../css/report/report-registation.css';
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReportCard from "../common/report-card";
 import perfect from "../../assets/images/perfect.png";
 import { useLocation } from 'react-router-dom';
-import { zohoRequest } from "./../common/api";
 import reportImage from "./../../assets/images/report.png";
 import { getReportSubmissionMessage } from '../common/time-formatter';
 
 function ReportSubmit() {
     const location = useLocation();
-    const { profileData, home, mobileNumber } = location.state || {};
+    const { profileData, home } = location.state || {};
     const reportMessage = getReportSubmissionMessage()
-
-    useEffect(() => {
-        const formData = {
-            Last_Name: profileData?.basicDetails?.fullName,
-            Mobile: mobileNumber?.phoneNumber,
-            Email: "",
-            Wants_To: "Withdrawal Checkup",
-            Lead_Status: "Open",
-            Lead_Source: "",
-            Campaign_Id: ""
-        };
-        const ZohoAPi = async (formData) => {
-            try {
-                const result = await zohoRequest(formData);
-                if (result.data.data[0].status === "success") {
-                }
-            } catch (error) {
-                console.error('Error submitting form:', error);
-            }
-        }
-        ZohoAPi(formData);
-    }, []);
 
     const handleDownload = () => {
         const pdfPath = "/PFCheck-up-Report.pdf";

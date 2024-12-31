@@ -91,9 +91,9 @@ const DocumentScanning = () => {
                         clearInterval(interval);
                         localStorage.removeItem('data-for-org-' + uan)
                         localStorage.removeItem('data-for-scan-' + uan)
-                        const encodedData = encryptData(JSON.stringify({profileData, home}));
+                        const encodedData = encryptData(JSON.stringify({profileData, home, listItems, reportUpdatedAtVar}));
                         localStorage.setItem('data-for-report-reg-' + uan, encodedData);
-                        navigate("/report-registation",{ state: {profileData, home, listItems}})
+                        navigate("/report-registation",{ state: {profileData, home, listItems, reportUpdatedAtVar}})
                         return prev;                        
                     }
                 });

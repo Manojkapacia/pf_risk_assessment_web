@@ -36,7 +36,7 @@
 
 .updatedDate {
   font-style: italic;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   margin-top: 0.5rem;
   color: #bbb3b3;
 }
@@ -56,7 +56,7 @@
 }
 
 .personal-value {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 /* .card {
@@ -79,11 +79,11 @@ h5 {
 
 .table th {
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .table td {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
 }
 
 .text-end {
@@ -129,4 +129,24 @@ h5 {
   background-color: #fff;
 }
 
+.text-primary {
+  font-weight: 700;
+}
 
+.placeholder-container-performance {
+  background-image: url('../../assets/images/Fund-Performance.png');
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat; 
+  opacity: 0.3;
+  color: #000; 
+}
+
+.placeholder-container-roi {
+  background-image: url('../../assets/images/Fund-ROI.png');
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat; 
+  opacity: 0.3;
+  color: #000; 
+}

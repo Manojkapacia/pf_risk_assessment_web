@@ -1,6 +1,6 @@
 import '../../App.css';
 import '../../css/KYC/kyc-details.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 import { encryptData } from '../common/encryption-decryption';

@@ -9,7 +9,6 @@ import { get } from "../../components/common/api";
 import Loader from "../../components/common/loader";
 import { useNavigate } from "react-router-dom";
 import Claims from "./claims";
-import ToastMessage from "./../../components/common/toast-message";
 import MESSAGES from "./../../components/constants/messages"
 import Withdrawability from "./withdrawability";
 import { getUanNumber, login,post } from "../../components/common/api"

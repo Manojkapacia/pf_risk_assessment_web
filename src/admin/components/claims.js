@@ -3,11 +3,9 @@ import { ArrowLeft } from 'react-bootstrap-icons';
 
 const Claims = ({ jsonData, onBack }) => {
     let claimsData = jsonData?.data?.claims;
-
     let summary = jsonData?.data?.claims?.summary;
 
     const [selectedTab, setSelectedTab] = useState("Pending Claims");
-    const [activeCategory, setActiveCategory] = useState("Pending Claims");
 
     // Data access functions
     const getPendingClaims = () => {
