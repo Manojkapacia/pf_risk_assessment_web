@@ -84,6 +84,9 @@ const ActivateUan = () => {
                                     </div>
                                 </div>
                             </div>
+                            {/* <div className="my-3">
+                                <button className='EpfoButtonGoTo btn w-100 py-2 mt-md-4' onClick={goToEpfoPortal}>Go to EPFO Portal</button>
+                            </div> */}
                             <div className="buttonClass mt-md-3 d-flex justify-content-center align-items-center" style={{ height: '5.3rem' }}>
                                 <button className='pfRiskButtons w-100 py-2' onClick={goToEpfoPortal}>Go to EPFO Portal</button>
                             </div>
