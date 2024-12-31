@@ -40,7 +40,7 @@ const WelcomeBack = () => {
             const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
             navigate(`/${currentRoute}`, { state: retrievedData })
         }         
-        if(currentRoute && currentRoute === 'report-submit') {
+        if(currentRoute && currentRoute === 'account-summary') {
             const key = 'data-for-report-submit-' + UAN
             const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
             navigate(`/${currentRoute}`, { state: retrievedData })

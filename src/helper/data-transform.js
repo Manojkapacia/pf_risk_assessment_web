@@ -13,7 +13,10 @@ export const getClosingBalance = (passbooks) => {
         // Extract years and find the latest one
         const years = Object.keys(passbook).map(Number);
         const latestYear = Math.max(...years);
-        year = year + latestYear.toString().slice(-2)
+        if (year === "FY'") {
+          // Set year to the last two digits of the latest year
+          year = year + latestYear.toString().slice(-2)
+        }        
 
         if (passbook[latestYear] && passbook[latestYear].closingBalance) {
             const { employeeShare, employerShare, pensionShare } = passbook[latestYear].closingBalance;
@@ -22,8 +25,8 @@ export const getClosingBalance = (passbooks) => {
             totalPensionShare += parseCurrency(pensionShare);
         }
         if (passbook[latestYear] && passbook[latestYear].interestDetails) {
-            const { employeeShare, employerShare, pensionShare } = passbook[latestYear].interestDetails;
-            totalInterestShare = parseCurrency(employeeShare) + parseCurrency(employerShare) + parseCurrency(pensionShare);
+          const { employeeShare, employerShare, pensionShare } = passbook[latestYear].interestDetails;
+            totalInterestShare += parseCurrency(employeeShare) + parseCurrency(employerShare) + parseCurrency(pensionShare);
         }
     }
 

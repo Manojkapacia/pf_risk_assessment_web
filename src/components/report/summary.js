@@ -8,7 +8,7 @@ import {
     Legend,
 } from "chart.js";
 import { BsCircleFill, BsCheck } from "react-icons/bs";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Stepper } from 'react-form-stepper';
 import { decryptData } from '../common/encryption-decryption';
 import { useEffect, useState } from 'react';
@@ -22,10 +22,13 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 function AccountSummary( ) {
     const location = useLocation();
+    const navigate = useNavigate()
+
     const { profileData, home, mobileNumber, listItems, reportUpdatedAtVar} = location.state || {};
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [recentContribution, setRecentContribution] = useState(null)
     const reportMessage = getReportSubmissionMessage()
+
     const [graphData, setGraphData] = useState({
         labels: ["Employee Share", "Employer Share", "Pension Share", "Interest Earned"],
         datasets: [
@@ -52,6 +55,10 @@ function AccountSummary( ) {
     };
 
     useEffect(() => {
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
+        let value = "account-summary";
+        localStorage.setItem(dynamicKey, value);
+        
         const data = JSON.parse(decryptData(localStorage.getItem('data-raw'))) 
         if(data) {
             const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
@@ -108,7 +115,13 @@ function AccountSummary( ) {
         link.click();
         document.body.removeChild(link);
     };
-    
+ 
+    const handleRefresh = () => {
+        const UAN = localStorage.getItem('user_uan')
+        const Pws = localStorage.getItem('data-cred')
+        navigate("/otpAssessment", { state: { UAN, Pws, type: "back-screen" } });
+    }
+
 
     return (
         <div className='container'>
@@ -128,7 +141,7 @@ function AccountSummary( ) {
                                             <div className="row d-flex justify-content-between mt-3">
                                                 <div className="col-4">
                                                     <p className="reportValueText">Current Value</p>
-                                                    <span className='reportValueAmount'>{home?.totalBalance !== 'N/A' ? `₹${home?.totalBalance}` : 'N/A'}</span>
+                                                    <span className='reportValueAmount'>{home?.totalBalance !== 'N/A' ? `${home?.totalBalance}` : 'N/A'}</span>
                                                 </div>
                                                 <div className="col-4">
                                                     <p className="reportValueText">Last Contribution</p>
@@ -153,7 +166,7 @@ function AccountSummary( ) {
                                                     <span className='reportValueAmountSub' title={listItems?.history[0]?.company}>{listItems?.history[0]?.company.length > 10 ? listItems?.history[0]?.company.slice(0, 10) + "..." : listItems?.history[0]?.company }</span>
                                                 </div>
                                             </div>
-                                            <div className="text-center mt-4">
+                                            <div className="text-center mt-4" onClick={handleRefresh}>
                                                 <p className="refreshBtn">Refresh Data</p>
                                             </div>                                            
                                             <div className="row">
@@ -334,9 +347,9 @@ function AccountSummary( ) {
                                                         inactiveIcon: '○', 
                                                     }}
                                                 />
-                                                <div className="d-flex align-items-center justify-content-center">
+                                                {/* <div className="d-flex align-items-center justify-content-center">
                                                     <p className="download-sample-btn">Book Consultation Now</p>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>
