@@ -117,8 +117,9 @@ function ViewDetailsByUan() {
 
     useEffect(() => {
         const fetchUanList = async () => {
+            const search=''
             try {
-                const result = await getUanNumber(currentPage, itemsPerPage);
+                const result = await getUanNumber(currentPage, itemsPerPage,search);
                 if (result.status === 401) {
                     localStorage.removeItem('user_uan')
                     localStorage.removeItem('admin_logged_in')
@@ -160,17 +161,29 @@ function ViewDetailsByUan() {
         setCurrentPage(page);
     };
 
-    const handleSearch = (e) => {
+    const handleSearch = async(e) => {
         const input = e.target.value.trim();
         setSearchUAN(input);
     
         if (input === "") {
             setUanList(searchList);
         } else {
-            const result = searchList.filter((item) =>
-                item.uan.includes(input) || item.fullName.toLowerCase().includes(input.toLowerCase())
-            );
-            setUanList(result);
+            try {
+                const result = await getUanNumber(currentPage, itemsPerPage, input);
+                if (result.status === 401) {
+                    localStorage.removeItem('user_uan')
+                    localStorage.removeItem('admin_logged_in')
+                    navigate('/operation/login');
+                } else {
+                    setUanList(result?.data?.data);
+                    setSearchList(result?.data?.data);
+                    setTotalItems(result?.data?.totalCount)
+                }
+            } catch (err) {
+                console.error("Error fetching data:", err);
+                setUanList([null])
+            } finally {
+            }
         }
     };
     const handleOpenFirstModal = () => {
@@ -336,20 +349,20 @@ function ViewDetailsByUan() {
                                         <div className="card-body">
                                             <div className="row">
                                                 <div className="col-md-5">
-                                                    <p><strong>Name:</strong> {item.fullName}</p>
+                                                    <p><strong>Name:</strong> {item?.fullName}</p>
                                                 </div>
                                                 <div className="col-md-5">
-                                                    <p><strong>UAN Number :</strong>{item.uan}</p>
+                                                    <p><strong>UAN Number :</strong>{item?.uan}</p>
                                                 </div>
                                                 <div className="col-md-2 d-flex align-item-center">
                                                     <Eye size={20} onClick={() => handleChange(item?.uan)}
                                                         className="me-md-3 me-2 cursor-pointer" />
                                                 </div>
                                                 <div className="col-md-5">
-                                                    <p><strong>Total Balance :</strong>{item.totalBalance}</p>
+                                                    <p><strong>Total Balance :</strong>{item?.totalBalance}</p>
                                                 </div>
                                                 <div className="col-md-5">
-                                                    <p><strong>Date :</strong>{new Date(item.date).toLocaleDateString()}</p>
+                                                    <p><strong>Date :</strong>{new Date(item?.date).toLocaleDateString()}</p>
                                                 </div>
                                             </div>
                                         </div>

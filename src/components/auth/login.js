@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import '../../css/auth/login.css';
 import '../../App.css';
+import './../../css/common/side-content.css'
 import { useNavigate } from 'react-router-dom';
 import ValidationError from '../common/validate-error';
 import ToastMessage from '../common/toast-message';
@@ -149,7 +150,7 @@ function LoginComponent() {
                             <div className="row mt-2 mt-lg-4">
                                 <div className="col-md-12">
                                     <div className="d-flex justify-content-between">
-                                        <div className="loginLabel">UAN number:</div>
+                                        <div className="loginLabel">UAN Number:</div>
                                         <div className="labelSubHeading text-end">
                                             <span style={{ cursor: 'pointer' }}
                                                 onClick={() => navigate("/activate-uan")}>Activate UAN
@@ -158,9 +159,10 @@ function LoginComponent() {
                                     </div>
                                     <input
                                         className="form-control uanNumber mt-2"
-                                        type="text"
+                                        type="number"
                                         placeholder="Enter your 12 digit UAN number"
                                         name="uan"
+                                        autoComplete='off'
                                         value={formData.uan}
                                         onChange={handleInputChange}
                                         maxLength={12}

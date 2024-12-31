@@ -42,9 +42,9 @@ export const adminLogin = async (endpoint, data) => {
 };
 
 // Function to make GET requests
-export const getUanNumber = async (page, limit) => {
+export const getUanNumber = async (page, limit,search) => {
   try {
-    const response = await apiClient.get(`admin/uan-details?page=${page}&limit=${limit}`);
+    const response = await apiClient.get(`admin/uan-details?page=${page}&limit=${limit}&search=${search}`);
     return response.data; // Return the API response data
   } catch (error) {
     if (error.response && error.response.status === 401) {
