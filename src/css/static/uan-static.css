@@ -48,6 +48,12 @@
     font-size: 1rem;
     font-weight: 600;
 }
+.EpfoButtonGoTo{
+    background-color: #00124F !important;
+    color: #ffffff !important;
+    border-radius: 2rem !important;
+    border: none !important;
+}
 
 .epfoLabel{
     color:#FF4059;

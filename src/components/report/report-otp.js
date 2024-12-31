@@ -138,7 +138,7 @@ function ReportOtp() {
                                         <input
                                             key={index}
                                             id={`otp-input-${index}`}
-                                            type="text"
+                                            type="number"
                                             maxLength="1"
                                             autoComplete='off'
                                             name='otp'
