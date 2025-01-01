@@ -167,7 +167,7 @@ function OtpComponent() {
                     // setMessage({ type: "success", content: MESSAGES.success.otpVerified });
                     setOtpVerified(true)
                     localStorage.setItem("user_uan", UAN);  
-                    localStorage.setItem('data-cred', encryptData(Pws))  
+                    localStorage.setItem('data-cred-' + UAN, encryptData(Pws))  
                     setTimeout(() => {
                         navigate("/service-history");
                         setLoading(false)

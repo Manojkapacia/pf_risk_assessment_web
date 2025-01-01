@@ -92,7 +92,7 @@ function LoginComponent() {
                     setTimeout(() => {
                         if (result.message === "User Successfully Verified") {
                             localStorage.setItem("user_uan", formData.uan);                            
-                            localStorage.setItem('data-cred', encryptData(formData.password))  
+                            localStorage.setItem('data-cred-' + formData.uan, encryptData(formData.password))  
                             navigate("/welcome-back", { state: { UAN: formData.uan, Pws: formData.password } })
                         } else {
                             const regMobileNumber = ExtractMobile(result.message)
