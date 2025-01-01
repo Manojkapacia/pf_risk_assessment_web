@@ -60,14 +60,12 @@ function AccountSummary( ) {
         localStorage.setItem(dynamicKey, value);
         
         const data = JSON.parse(decryptData(localStorage.getItem('data-raw-' + localStorage.getItem('user_uan')))) 
-        console.log(data)
+
         if(data) {
             const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
 
             const balances = getClosingBalance(data?.passbooks)
             setBalanceDetails(balances)
-
-            console.log(balances)
 
             const lastContribution = getLastContribution(data)
             setRecentContribution(lastContribution)
@@ -128,7 +126,8 @@ function AccountSummary( ) {
 
     const getMemberWiseBalance = (memberId) => {
         const memberDetails = home?.memberWiseBalances.find((item) => item.memberId === memberId)
-        return memberDetails.balance ?  memberDetails.balance.replace(/[₹]/g, "") : 'N/A'
+        if(!memberDetails) return 'N/A'
+        return memberDetails?.balance.replace(/[₹]/g, "")
     }
 
     return (
