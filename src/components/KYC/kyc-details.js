@@ -81,8 +81,8 @@ function KycDetails() {
                                             </div>
 
 
-                                            {profileData?.basicDetails?.relation === "F" ? (<label className="kycLabel"> Father's Name</label>)
-                                                : (<label className="kycLabel"> Husband's Name</label>)}
+                                            {profileData?.basicDetails?.relation === "F" ? (<label className="kycLabel mt-3"> Father's Name</label>)
+                                                : (<label className="kycLabel mt-3"> Husband's Name</label>)}
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <p className="form-check-label kycValue mb-0">
                                                     {profileData?.basicDetails?.fatherHusbandName}</p>

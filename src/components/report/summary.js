@@ -8,7 +8,7 @@ import {
     Legend,
 } from "chart.js";
 import { BsCircleFill, BsCheck } from "react-icons/bs";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Stepper } from 'react-form-stepper';
 import { decryptData } from '../common/encryption-decryption';
 import { useEffect, useState } from 'react';
@@ -22,10 +22,13 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 function AccountSummary( ) {
     const location = useLocation();
+    const navigate = useNavigate()
+
     const { profileData, home, mobileNumber, listItems, reportUpdatedAtVar} = location.state || {};
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [recentContribution, setRecentContribution] = useState(null)
     const reportMessage = getReportSubmissionMessage()
+
     const [graphData, setGraphData] = useState({
         labels: ["Employee Share", "Employer Share", "Pension Share", "Interest Earned"],
         datasets: [
@@ -52,12 +55,18 @@ function AccountSummary( ) {
     };
 
     useEffect(() => {
-        const data = JSON.parse(decryptData(localStorage.getItem('data-raw'))) 
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
+        let value = "account-summary";
+        localStorage.setItem(dynamicKey, value);
+        
+        const data = JSON.parse(decryptData(localStorage.getItem('data-raw-' + localStorage.getItem('user_uan')))) 
+
         if(data) {
             const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
 
             const balances = getClosingBalance(data?.passbooks)
             setBalanceDetails(balances)
+
             const lastContribution = getLastContribution(data)
             setRecentContribution(lastContribution)
 
@@ -108,7 +117,18 @@ function AccountSummary( ) {
         link.click();
         document.body.removeChild(link);
     };
-    
+ 
+    const handleRefresh = () => {
+        const UAN = localStorage.getItem('user_uan')
+        const Pws = localStorage.getItem('data-cred-' + UAN)
+        navigate("/otpAssessment", { state: { UAN, Pws, type: "back-screen" } });
+    }
+
+    const getMemberWiseBalance = (memberId) => {
+        const memberDetails = home?.memberWiseBalances.find((item) => item.memberId === memberId)
+        if(!memberDetails) return 'N/A'
+        return memberDetails?.balance.replace(/[₹]/g, "")
+    }
 
     return (
         <div className='container'>
@@ -128,7 +148,7 @@ function AccountSummary( ) {
                                             <div className="row d-flex justify-content-between mt-3">
                                                 <div className="col-4">
                                                     <p className="reportValueText">Current Value</p>
-                                                    <span className='reportValueAmount'>{home?.totalBalance !== 'N/A' ? `₹${home?.totalBalance}` : 'N/A'}</span>
+                                                    <span className='reportValueAmount'>{home?.totalBalance !== 'N/A' ? `${home?.totalBalance}` : 'N/A'}</span>
                                                 </div>
                                                 <div className="col-4">
                                                     <p className="reportValueText">Last Contribution</p>
@@ -136,7 +156,7 @@ function AccountSummary( ) {
                                                 </div>
                                                 <div className="col-4">
                                                     <p className="reportValueText">{balanceDetails?.year} Interest</p>
-                                                    <span className='reportValueAmount'>{balanceDetails?.interestShare}</span>
+                                                    <span className='reportValueAmount'>{balanceDetails?.currentYearInterestShare}</span>
                                                 </div>
                                             </div>
                                             <div className="row d-flex justify-content-between mt-3">
@@ -153,7 +173,7 @@ function AccountSummary( ) {
                                                     <span className='reportValueAmountSub' title={listItems?.history[0]?.company}>{listItems?.history[0]?.company.length > 10 ? listItems?.history[0]?.company.slice(0, 10) + "..." : listItems?.history[0]?.company }</span>
                                                 </div>
                                             </div>
-                                            <div className="text-center mt-4">
+                                            <div className="text-center mt-4" onClick={handleRefresh}>
                                                 <p className="refreshBtn">Refresh Data</p>
                                             </div>                                            
                                             <div className="row">
@@ -225,6 +245,7 @@ function AccountSummary( ) {
                                                         <th style={{'padding-left': '0px'}}>Employer</th>
                                                         <th>Tenure</th>
                                                         <th>Experience</th>
+                                                        <th>Balance</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -233,6 +254,7 @@ function AccountSummary( ) {
                                                         <td style={{'padding-left': '0px'}}>{item?.company}</td>
                                                         <td>{item?.period}</td>
                                                         <td>{item?.details?.['Total Service'].replace(/\b\d+\s*Days\b/i, "").trim()}</td>
+                                                        <td>{getMemberWiseBalance(item?.details?.['Member Id'])}</td>
                                                     </tr>
                                                 )) : <tr key={0}>
                                                     <td colSpan={3}>No Employement History</td>
@@ -334,9 +356,9 @@ function AccountSummary( ) {
                                                         inactiveIcon: '○', 
                                                     }}
                                                 />
-                                                <div className="d-flex align-items-center justify-content-center">
+                                                {/* <div className="d-flex align-items-center justify-content-center">
                                                     <p className="download-sample-btn">Book Consultation Now</p>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                     </div>

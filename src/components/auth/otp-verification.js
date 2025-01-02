@@ -7,6 +7,7 @@ import MESSAGES from '../constants/messages';
 import { post, login } from '../common/api';
 import loaderGif from './../../assets/images/otp.gif';
 import { ExtractMobile } from '../common/extract-mobile';
+import { encryptData } from '../common/encryption-decryption';
 
 function OtpComponent() {
     const location = useLocation();
@@ -165,7 +166,8 @@ function OtpComponent() {
                 } else {
                     // setMessage({ type: "success", content: MESSAGES.success.otpVerified });
                     setOtpVerified(true)
-                    localStorage.setItem("user_uan", UAN);    
+                    localStorage.setItem("user_uan", UAN);  
+                    localStorage.setItem('data-cred-' + UAN, encryptData(Pws))  
                     setTimeout(() => {
                         navigate("/service-history");
                         setLoading(false)

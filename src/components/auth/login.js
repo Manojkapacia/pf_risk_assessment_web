@@ -14,6 +14,7 @@ import multiFactor from '../../assets/images/multifactor.png';
 import IPData from '../../assets/images/PIdata.png';
 import Encryption from '../../assets/images/encryption.png';
 import dataProtect from '../../assets/images/dataProtect.png';
+import { encryptData } from '../common/encryption-decryption';
 
 function LoginComponent() {
     const [formData, setFormData] = useState({ uan: "", password: "" });
@@ -90,7 +91,8 @@ function LoginComponent() {
                     setMessage({ type: "success", content: result.message });
                     setTimeout(() => {
                         if (result.message === "User Successfully Verified") {
-                            localStorage.setItem("user_uan", formData.uan);
+                            localStorage.setItem("user_uan", formData.uan);                            
+                            localStorage.setItem('data-cred-' + formData.uan, encryptData(formData.password))  
                             navigate("/welcome-back", { state: { UAN: formData.uan, Pws: formData.password } })
                         } else {
                             const regMobileNumber = ExtractMobile(result.message)

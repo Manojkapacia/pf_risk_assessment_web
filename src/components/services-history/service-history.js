@@ -27,7 +27,8 @@ function ServiceHistory() {
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
-                localStorage.setItem('data-raw', encryptData(JSON.stringify(response?.rawData?.data)))
+                console.log(uan)
+                localStorage.setItem('data-raw-' + localStorage.getItem('user_uan'),encryptData(JSON.stringify(response?.rawData?.data)))
                 setListItems(response?.rawData?.data?.serviceHistory);
                 setProfileData(response?.rawData?.data?.profile);
                 setHome(response?.rawData?.data?.home)

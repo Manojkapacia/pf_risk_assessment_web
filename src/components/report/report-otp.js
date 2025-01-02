@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../../App.css';
 import '../../css/report/report-registation.css';
 import ReportCard from "../common/report-card";
@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import ToastMessage from './../common/toast-message';
 import { post } from '../common/api';
 import { encryptData } from '../common/encryption-decryption';
+import MESSAGES from '../constants/messages';
 
 function ReportOtp() {
     const otpLength = 6;
@@ -15,7 +16,22 @@ function ReportOtp() {
     const [otpValues, setOtpValues] = useState(Array(otpLength).fill(""));
     const [timer, setTimer] = useState(59);
     const [triggerApiCall, setTriggerApiCall] = useState(false);
+    const [message, setMessage] = useState({ type: "", content: "" });    
+    const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
+
     const navigate = useNavigate();
+
+    // Toast Message Auto Clear
+    useEffect(() => {
+        if (message.type) {
+        isMessageActive.current = true; // Set active state when a message is displayed
+        const timer = setTimeout(() => {
+            setMessage({ type: "", content: "" });
+            isMessageActive.current = false; // Reset active state
+        }, 2500);
+        return () => clearTimeout(timer);
+        }
+    }, [message]);
 
     useEffect(() => {
         let interval;
@@ -73,6 +89,7 @@ function ReportOtp() {
                 navigate('/');
                 setLoading(false);
             } else {
+                setMessage({ type: "success", content: response.message });
                 setLoading(false);
                 setTimer(59);
                 setTriggerApiCall(false);
@@ -85,6 +102,7 @@ function ReportOtp() {
                 navigate("/epfo-down")
             } else {
                 setLoading(false);
+                setMessage({ type: "error", content: MESSAGES.error.generic });
                 setTriggerApiCall(false);
                 console.error("Error fetching data:", error);
             }
@@ -94,6 +112,7 @@ function ReportOtp() {
     const handleRendOtpClick = () => {
         setTriggerApiCall(true);
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const otp = otpValues.join("");
@@ -102,6 +121,8 @@ function ReportOtp() {
             if (response.status === 401) {
                 localStorage.removeItem('user_uan')
                 navigate('/');
+            } else if (response.status === 400) {
+                setMessage({ type: "error", content: response.message });
             } else {
                 const uan = localStorage.getItem('user_uan')
                 localStorage.removeItem('data-for-report-reg-' + uan)
@@ -110,6 +131,7 @@ function ReportOtp() {
                 navigate("/account-summary", { state: { profileData, home, mobileNumber, listItems, reportUpdatedAtVar } });
             }
         } catch (error) {
+            setMessage({ type: "error", content: error.response?.data?.message });
             console.error("Error fetching data:", error);
         }
     }
@@ -117,6 +139,7 @@ function ReportOtp() {
 
     return (
         <div className="container">
+            {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-5 col-md-8 mt-3 mt-lg-0">
                     <div className='row'>
