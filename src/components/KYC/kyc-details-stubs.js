@@ -35,14 +35,24 @@ function KycDetailsBank() {
         return account;
     };
 
-    const handleIncorrect = () => {
+    const handleIncorrect = () => { 
+        const fieldsToCheck = ['bankAccountNumber', 'bankIFSC'];
+        setBankStatus((prev) => {
+            const updatedStatus = { ...prev };
+            fieldsToCheck.forEach((field) => {
+                if (profileData?.kycDetails?.[field] === '-') {
+                    updatedStatus[field] = false;
+                }
+            });
+            return updatedStatus;
+        });
+        
         setShowCheckbox(true)
         setShowContinueButton(true);
     };
 
     const handleContinueBtn = () => {
         const mergedStatues = {...kycStatus, ...BankStatus}
-        console.log(mergedStatues)
         localStorage.removeItem('data-for-org-' + uan)
         localStorage.removeItem('data-for-kyc-' + uan)
         const encodedData = encryptData(JSON.stringify({ listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
@@ -50,10 +60,20 @@ function KycDetailsBank() {
         navigate('/doc-scan', { state: {listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
     };
 
-    const handleCorrect = () => {
+    const handleCorrect = () => {        
+        const fieldsToCheck = ['bankAccountNumber', 'bankIFSC'];
+        setBankStatus((prev) => {
+            const updatedStatus = { ...prev };
+            fieldsToCheck.forEach((field) => {
+                if (profileData?.kycDetails?.[field] === '-') {
+                    updatedStatus[field] = false;
+                }
+            });
+            return updatedStatus;
+        });
+
         setShowContinueButton(false);
         const mergedStatues = {...kycStatus, ...BankStatus}
-        console.log(mergedStatues)
         localStorage.removeItem('data-for-org-' + uan)
         localStorage.removeItem('data-for-kyc-' + uan)
         const encodedData = encryptData(JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
@@ -94,7 +114,7 @@ function KycDetailsBank() {
                                                     ))}
                                                 </div>
                                                 {showCheckbox && (
-                                                    <input className="form-check-input changeCheckbox" type="checkbox" onChange={() => handleCheckboxChange('bankAccountNumber')}
+                                                    <input className="form-check-input changeCheckbox" type="checkbox" checked={!BankStatus.bankAccountNumber}  onChange={() => handleCheckboxChange('bankAccountNumber')}
                                                         id="flexCheckDefault" style={{
                                                             transform: 'scale(1.5)'
                                                         }} />
@@ -106,7 +126,7 @@ function KycDetailsBank() {
                                             <div className="d-flex justify-content-between align-items-center">
                                                 <p className="form-check-label kycValue mb-0">{profileData?.kycDetails?.bankIFSC}</p>
                                                 {showCheckbox && (
-                                                    <input className="form-check-input changeCheckbox" type="checkbox" onChange={() => handleCheckboxChange('bankIFSC')}
+                                                    <input className="form-check-input changeCheckbox" type="checkbox" checked={!BankStatus.bankIFSC} onChange={() => handleCheckboxChange('bankIFSC')}
                                                         id="flexCheckDefault" style={{
                                                             transform: 'scale(1.5)'
                                                         }} />

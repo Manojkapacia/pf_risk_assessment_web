@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../css/common/report-card.css";
 import { PersonCircle } from 'react-bootstrap-icons';
 
 function ReportCard({ profileData, homeData }) {
+    const [totalBalance, setTotalBalance] = useState("N/A")
+
+    useEffect(() => {
+        const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
+        const formatCurrency = (value) => `₹ ${value.toLocaleString("en-IN")}`;
+        // set total balance 
+        const totalBalance = homeData?.memberWiseBalances.reduce((accu, item) => {
+            return accu + parseCurrency(item.balance || "0");
+        }, 0)
+        setTotalBalance(formatCurrency(totalBalance))
+    }, [])
+
     return (
 
         <div className='row'>
@@ -15,7 +27,7 @@ function ReportCard({ profileData, homeData }) {
                     </div>
                     <div className="text-center mt-3">
                         <p className="reportValueText">Current Value</p>
-                        <span className='reportValueAmount'>{homeData?.totalBalance}</span>
+                        <span className='reportValueAmount'>{totalBalance}</span>
                     </div>
                     <hr className="text-white" />
                     <div className="d-flex justify-content-center">

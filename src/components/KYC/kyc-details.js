@@ -21,15 +21,56 @@ function KycDetails() {
     });
 
     const handleIncorrect = () => {
+        const fieldsToCheck = ['fullName', 'gender', 'fatherHusbandName','physicallyHandicapped','UAN', 'dateOfBirth', 'aadhaar' , 'pan' ];
+        setKycStatus((prev) => {
+            const updatedStatus = { ...prev };
+            fieldsToCheck.forEach((field) => {
+                if(field === 'UAN') {
+                    if (profileData?.profile?.[field] === '-') {
+                        updatedStatus[field] = false;
+                    }
+                } else if(field === 'aadhaar' || field === 'pan') {
+                    if (profileData?.kycDetails?.[field] === '-') {
+                        updatedStatus[field] = false;
+                    }
+                } else {
+                    if (profileData?.basicDetails?.[field] === '-') {
+                        updatedStatus[field] = false;
+                    }
+                }
+            });
+            return updatedStatus;
+        });
         setShowCheckbox(true)
         setShowContinueButton(true);
     };
 
     const handleCorrect = () => {
+        const fieldsToCheck = ['fullName', 'gender', 'fatherHusbandName','physicallyHandicapped','UAN', 'dateOfBirth', 'aadhaar' , 'pan' ];
+        setKycStatus((prev) => {
+            const updatedStatus = { ...prev };
+            fieldsToCheck.forEach((field) => {
+                if(field === 'UAN') {
+                    if (profileData?.profile?.[field] === '-') {
+                        updatedStatus[field] = false;
+                    }
+                } else if(field === 'aadhaar' || field === 'pan') {
+                    if (profileData?.kycDetails?.[field] === '-') {
+                        updatedStatus[field] = false;
+                    }
+                } else {
+                    if (profileData?.basicDetails?.[field] === '-') {
+                        updatedStatus[field] = false;
+                    }
+                }
+            });
+            return updatedStatus;
+        });
         setShowContinueButton(false);
         navigate('/kyc-details/bank', { state: { listItems,selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
 
     }
+
     const {listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home } = location.state || {};
 
     useEffect(() => {
@@ -47,7 +88,6 @@ function KycDetails() {
 
     const handleContinueBtn = () => {
         navigate('/kyc-details/bank', { state: {listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } })
-
     };
     
     return (
