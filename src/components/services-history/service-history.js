@@ -52,18 +52,18 @@ function ServiceHistory() {
         setActiveIndex(activeIndex === index ? null : index);
         setIsOpen(activeIndex === index ? false : true);
     };
-    
+
     const handleButtonClick = (type) => {
         const data = { listItems, uan, type, reportUpdatedAtVar, profileData };
         const encodedData = encryptData(JSON.stringify(data));
         localStorage.setItem('data-for-org-' + uan, encodedData);
-        navigate("/select-organization", { state: { listItems, uan, type,reportUpdatedAtVar,profileData,home } })
+        navigate("/select-organization", { state: { listItems, uan, type, reportUpdatedAtVar, profileData, home } })
     };
-    
+
     return (
-            <div className="container">
-                <div className="row d-flex justify-content-center align-items-center">
-                    {/* <div className="col-lg-4 col-md-8">
+        <div className="container">
+            <div className="row d-flex justify-content-center align-items-center">
+                {/* <div className="col-lg-4 col-md-8">
                         <div className='row'>
                             <div className='col-md-8 offset-md-2 mt-2 mt-sm-0'>
                                 <div className='welcomeLabelLogin mb-md-4'>
@@ -78,81 +78,85 @@ function ServiceHistory() {
                         </div>
                     </div> */}
 
-                    {/* Second column  */}
+                {/* Second column  */}
 
-                    <div className="col-lg-6 col-md-8">
-                        <div className='row'>
-                            <div className="col-lg-11">
-                                <div className='row'>
-                                    <div className="col-md-8 offset-md-2 pfRiskheading text-center">Please Confirm Service History</div>
+                <div className="col-lg-6 col-md-8">
+                    <div className='row'>
+                        <div className="col-lg-11">
+                            <div className='row'>
+                                <div className="col-md-8 offset-md-2 pfRiskheading text-center">Please Confirm Service History</div>
+                            </div>
+
+                            <div className='row'>
+                                <div className='col-md-8 offset-md-2 pfRiskSubHeading text-center'>
+                                    Verify if all information regarding your service history is correct before moving ahead
                                 </div>
+                            </div>
 
-                                <div className='row'>
-                                    <div className='col-md-8 offset-md-2 pfRiskSubHeading text-center'>
-                                        Verify if all information regarding your service history is correct before moving ahead
-                                    </div>
-                                </div>
+                            <div className="row mt-4">
+                                <div className="col-md-10 offset-md-1">
+                                    <div className="overflow-auto sideBar" style={{ maxHeight: '15rem' }}>
+                                        <ul className='list-group' >
+                                            {listItems?.history?.map((item, index) => (
+                                                <React.Fragment key={index}>
+                                                    {/* List Item */}
+                                                    <li
+                                                        className="list-group-item collapsHeading"
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() => handleItemClick(index)}
+                                                    >
+                                                        {item.company === "-"
+                                                            ? "NA"
+                                                            : item.company.length > 34
+                                                                ? item.company.substring(0, 34) + "..."
+                                                                : item.company}
+                                                        <span className='ms-2' style={{ marginLeft: 'auto' }}>{isOpen && activeIndex === index ? <BsChevronCompactUp /> : <BsChevronCompactDown />}</span><br></br>
 
-                                <div className="row mt-4">
-                                    <div className="col-md-10 offset-md-1">
-                                        <div className="overflow-auto sideBar" style={{ maxHeight: '15rem' }}>
-                                            <ul className='list-group' >
-                                                {listItems?.history?.map((item, index) => (
-                                                    <React.Fragment key={index}>
-                                                        {/* List Item */}
-                                                        <li
-                                                            className="list-group-item collapsHeading"
-                                                            style={{ cursor: "pointer" }}
-                                                            onClick={() => handleItemClick(index)}
-                                                        >
-                                                            {item.company === "-" ? 'NA' : item.company}
-                                                            <span className='ms-2' style={{ marginLeft: 'auto' }}>{isOpen && activeIndex === index ? <BsChevronCompactUp /> :<BsChevronCompactDown />}</span><br></br>
+                                                        <span className='timeDuration'>
+                                                            {ConvertPeriod(item.period)}
+                                                        </span>
+                                                    </li>
 
-                                                            <span className='timeDuration'>
-                                                                {ConvertPeriod(item.period)}
-                                                            </span>
-                                                        </li>
-
-                                                        {/* Dropdown Details */}
-                                                        {activeIndex === index && (
-                                                            <li className='list-group-item bg-light'>
-                                                                <div className="row">
-                                                                    <div className="col-5">
-                                                                        <span className='dropdownLabel'>Member ID :</span><br></br>
-                                                                        {/* <span className='dropdownLabel'>NCP Days :</span><br></br> */}
-                                                                        <span className='dropdownLabel'>Joining Date :</span><br></br>
-                                                                        <span className='dropdownLabel'>Exit Date :</span><br></br>
-                                                                    </div>
-                                                                    <div className="col-7 ps-0">
-                                                                        <span className='dropdownSublabel'>{item.details['Member Id']}</span><br></br>
-                                                                        {/* <span className='dropdownSublabel'>{item.details['NCP Days']}</span><br></br> */}
-                                                                        <span className='dropdownSublabel'>{item.details['Joining Date']}</span><br></br>
-                                                                        <span className='dropdownSublabel'>{item.details['Exit Date']}</span><br></br>
-                                                                    </div>
-
+                                                    {/* Dropdown Details */}
+                                                    {activeIndex === index && (
+                                                        <li className='list-group-item bg-light'>
+                                                            <div className="row">
+                                                                <div className="col-5">
+                                                                    <span className='dropdownLabel'>Member ID :</span><br></br>
+                                                                    {/* <span className='dropdownLabel'>NCP Days :</span><br></br> */}
+                                                                    <span className='dropdownLabel'>Joining Date :</span><br></br>
+                                                                    <span className='dropdownLabel'>Exit Date :</span><br></br>
                                                                 </div>
-                                                            </li>
-                                                        )}
-                                                    </React.Fragment>
-                                                ))}
-                                            </ul>
-                                        </div>
+                                                                <div className="col-7 ps-0">
+                                                                    <span className='dropdownSublabel'>{item.details['Member Id']}</span><br></br>
+                                                                    {/* <span className='dropdownSublabel'>{item.details['NCP Days']}</span><br></br> */}
+                                                                    <span className='dropdownSublabel'>{item.details['Joining Date']}</span><br></br>
+                                                                    <span className='dropdownSublabel'>{item.details['Exit Date']}</span><br></br>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    )}
+                                                </React.Fragment>
+                                            ))}
+                                        </ul>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div className='row my-3 mt-lg-5'>
-                                    <div className='col-md-6 col-sm-6'>
-                                        <button className='btn incorrectButton w-100' onClick={() => handleButtonClick('incorrect')}>This is incorrect</button>
-                                    </div>
-                                    <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                                        <button className='btn correctButton w-100' onClick={() => handleButtonClick('correct')}>This is correct</button>
-                                    </div>
+                            <div className='row my-3 mt-lg-5'>
+                                <div className='col-md-6 col-sm-6'>
+                                    <button className='btn incorrectButton w-100' onClick={() => handleButtonClick('incorrect')}>This is incorrect</button>
+                                </div>
+                                <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
+                                    <button className='btn correctButton w-100' onClick={() => handleButtonClick('correct')}>This is correct</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     )
 }
 
