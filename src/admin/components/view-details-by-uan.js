@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import '../../App.css';
 import Profile from './profile';
 // import * as XLSX from 'xlsx';
@@ -14,6 +14,7 @@ import Withdrawability from "./withdrawability";
 import { getUanNumber, login,post } from "../../components/common/api"
 import Transfer from "./transfers";
 import { useForm } from "react-hook-form";
+import debounce from "lodash.debounce";
 
 function ViewDetailsByUan() {
     const otpLength = 6;
@@ -161,10 +162,7 @@ function ViewDetailsByUan() {
         setCurrentPage(page);
     };
 
-    const handleSearch = async(e) => {
-        const input = e.target.value.trim();
-        setSearchUAN(input);
-    
+    const fetchSearchResults = async (input) => {
         if (input === "") {
             setUanList(searchList);
         } else {
@@ -185,7 +183,23 @@ function ViewDetailsByUan() {
             } finally {
             }
         }
+    }
+
+    const debouncedFetch = useMemo(() => debounce(fetchSearchResults, 1000), []);
+
+    const handleSearch = async(e) => {
+        const input = e.target.value.trim();
+        setSearchUAN(input);
+        debouncedFetch(input);
     };
+
+    // Cleanup debounce when component unmounts
+    React.useEffect(() => {
+        return () => {
+            debouncedFetch.cancel();
+        };
+    }, [debouncedFetch]);
+
     const handleOpenFirstModal = () => {
         setIsFirstModalOpen(true);
     };
@@ -368,8 +382,12 @@ function ViewDetailsByUan() {
                                         </div>
                                     </div>
                                 ))
-                            ) : ""}
-                            <nav aria-label="Page navigation example">
+                            ) : 
+                            <table className="table table-hover">
+                                 <tbody><tr><td className="text-center">No Data Found!!</td></tr></tbody>
+                            </table>
+                            }
+                            {uanList?.length > 9 ?<nav aria-label="Page navigation example">
                                 <ul className="pagination justify-content-end">
                                     <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
                                         <button
@@ -407,7 +425,8 @@ function ViewDetailsByUan() {
                                         </button>
                                     </li>
                                 </ul>
-                            </nav>
+                            </nav>:"" }
+                            
                         </div>
                     </div>
                 )}
