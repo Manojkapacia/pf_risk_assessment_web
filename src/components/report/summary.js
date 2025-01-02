@@ -16,6 +16,7 @@ import { getClosingBalance, getLastContribution } from '../../helper/data-transf
 import { getReportSubmissionMessage } from '../common/time-formatter';
 import { zohoRequest } from '../common/api';
 import moment from "moment";
+import ModalComponent from '../common/report-model';
 
 // Register required components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -23,10 +24,20 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 function AccountSummary( ) {
     const location = useLocation();
     const navigate = useNavigate()
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Function to open the modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
     const { profileData, home, mobileNumber, listItems, reportUpdatedAtVar} = location.state || {};
     const [balanceDetails, setBalanceDetails] = useState(null)
-    const [recentContribution, setRecentContribution] = useState(null)
+    const [recentContribution, setRecentContribution] = useState(null);
     const reportMessage = getReportSubmissionMessage()
 
     const [graphData, setGraphData] = useState({
@@ -185,11 +196,11 @@ function AccountSummary( ) {
                                         <div className="card shadow-sm p-3 h-100 d-flex flex-column">
                                             <h5 className="text-primary">Provident Fund Risk Score</h5>
                                             <div className="report-main-text mt-2">
-                                                Your report generation is<br></br>in progress
+                                                See if your PF is at a rick of getting stuck
                                             </div>
-                                            <p className="report-subheading-text mt-2">You will get your report on registered<br></br> number {reportMessage}</p>
+                                            {/* <p className="report-subheading-text mt-2">You will get your report on registered<br></br> number {reportMessage}</p> */}
                                             <div className="text-center mt-auto">
-                                                <p className="download-sample-btn" onClick={handleDownload} >Download Sample Report</p>
+                                                <p className="download-sample-btn mb-0" onClick={openModal} >Get Report</p>
                                             </div>
                                         </div>
                                     </div>
@@ -366,6 +377,7 @@ function AccountSummary( ) {
                             </div>
                         </div>
                     </div>
+                    <ModalComponent isOpen={isModalOpen} onClose={closeModal} />
                 </div>
             </div>
         </div>

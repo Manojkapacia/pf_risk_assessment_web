@@ -102,12 +102,12 @@ h5 {
 }
 
 .download-sample-btn {
-  padding: 0.4rem 0.8rem;
-  border-radius: 1.25rem;
-  background-color: #04184a;
-  color: #fff;
-  font-weight: 500;
-  font-size: 1.1rem;
+  padding: 0.8rem 0.8rem;
+  border-radius: 2rem;
+  background-color: #27DEBF;
+  color: #000;
+  font-weight: 400;
+  font-size: 1.25rem;
   cursor: pointer;
 }
 
