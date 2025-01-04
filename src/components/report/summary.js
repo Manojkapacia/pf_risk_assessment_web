@@ -24,16 +24,16 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 function AccountSummary( ) {
     const location = useLocation();
     const navigate = useNavigate()
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [reportModelOpen, setReportModel] = useState(false);
 
   // Function to open the modal
   const openModal = () => {
-    setIsModalOpen(true);
+    setReportModel(true);
   };
 
   // Function to close the modal
   const closeModal = () => {
-    setIsModalOpen(false);
+    setReportModel(false);
   };
     const { profileData, home, mobileNumber, listItems, reportUpdatedAtVar} = location.state || {};
     const [balanceDetails, setBalanceDetails] = useState(null)
@@ -158,16 +158,16 @@ function AccountSummary( ) {
                                             </div>
                                             <div className="row d-flex justify-content-between mt-3">
                                                 <div className="col-4">
-                                                    <p className="reportValueText">Current Value</p>
-                                                    <span className='reportValueAmount'>{home?.totalBalance !== 'N/A' ? `${home?.totalBalance}` : 'N/A'}</span>
+                                                    <p className="reportValueTextSub">Current Value</p>
+                                                    <span className='reportValueAmountSub'>{home?.totalBalance !== 'N/A' ? `${home?.totalBalance}` : 'N/A'}</span>
                                                 </div>
                                                 <div className="col-4">
-                                                    <p className="reportValueText">Last Contribution</p>
-                                                    <span className='reportValueAmount'>{recentContribution}</span>
+                                                    <p className="reportValueTextSub">Last Contribution</p>
+                                                    <span className='reportValueAmountSub'>{recentContribution}</span>
                                                 </div>
                                                 <div className="col-4">
-                                                    <p className="reportValueText">{balanceDetails?.year} Interest</p>
-                                                    <span className='reportValueAmount'>{balanceDetails?.currentYearInterestShare}</span>
+                                                    <p className="reportValueTextSub">{balanceDetails?.year} Interest</p>
+                                                    <span className='reportValueAmountSub'>{balanceDetails?.currentYearInterestShare}</span>
                                                 </div>
                                             </div>
                                             <div className="row d-flex justify-content-between mt-3">
@@ -184,10 +184,10 @@ function AccountSummary( ) {
                                                     <span className='reportValueAmountSub' title={listItems?.history[0]?.company}>{listItems?.history[0]?.company.length > 10 ? listItems?.history[0]?.company.slice(0, 10) + "..." : listItems?.history[0]?.company }</span>
                                                 </div>
                                             </div>
-                                            <div className="text-center mt-4" onClick={handleRefresh}>
+                                            {/* <div className="text-center mt-4" onClick={handleRefresh}>
                                                 <p className="refreshBtn">Refresh Data</p>
-                                            </div>                                            
-                                            <div className="row">
+                                            </div> */}
+                                            <div className="row mt-3 mt-lg-4">
                                                 <div className="updatedDate">Last updated on {moment(reportUpdatedAtVar).format("DD-MM-YYYY")}</div>
                                             </div>
                                         </div>
@@ -368,7 +368,7 @@ function AccountSummary( ) {
                                                     }}
                                                 />
                                                 {/* <div className="d-flex align-items-center justify-content-center">
-                                                    <p className="download-sample-btn">Book Consultation Now</p>
+                                                    <p className="download-sample-btn mb-0">Book Consultation Now</p>
                                                 </div> */}
                                             </div>
                                         </div>
@@ -377,7 +377,7 @@ function AccountSummary( ) {
                             </div>
                         </div>
                     </div>
-                    <ModalComponent isOpen={isModalOpen} onClose={closeModal} />
+                    <ModalComponent isOpen={reportModelOpen} onClose={closeModal} />
                 </div>
             </div>
         </div>

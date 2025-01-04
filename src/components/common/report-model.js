@@ -6,19 +6,21 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import ToastMessage from './toast-message';
 import { post } from './api';
+import { getReportSubmissionMessage } from './../common/time-formatter';
 import sucessImage from './../../assets/images/icons-success.gif';
 
 const ModalComponent = ({ isOpen, onClose }) => {
     const otpLength = 6;
     const [otpValues, setOtpValues] = useState(Array(otpLength).fill(""));
-    const [timer, setTimer] = useState(59);
-    const [triggerApiCall, setTriggerApiCall] = useState(false);
+    const [timer, setTimer] = useState(45);
     const [loading, setLoading] = useState(false);
     const [otploader, setOtpLoader] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
     const [showOtpModel, setShowOtpModel] = useState(false);
     const [showReportScreen, setReportScreen] = useState(false);
     const [formData, setFormData] = useState(null);
+    const isBtnAssessmentEnabled = otpValues.every((field) => field !== "");
+    const reportMessage = getReportSubmissionMessage()
     const navigate = useNavigate();
     const {
         register,
@@ -40,7 +42,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
                 localStorage.removeItem('user_uan');
                 setMessage({ type: "error", content: response.message });
                 setTimeout(() => setMessage({ type: "", content: "" }), 2000);
-                navigate('/');
+                navigate('/account-summary');
             } else {
                 setLoading(false);
                 setShowOtpModel(true);
@@ -58,7 +60,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
     const handleRendOtpClick = async () => {
         if (formData) {
             await onSubmit(formData);
-            setTimer(59);
+            setTimer(45);
         }
     };
 
@@ -86,17 +88,17 @@ const ModalComponent = ({ isOpen, onClose }) => {
     };
 
     React.useEffect(() => {
-            let interval;
-            if (showOtpModel && timer > 0) {
-                interval = setInterval(() => {
-                    setTimer((prevTimer) => prevTimer - 1);
-                }, 1000);
-            } else if (timer === 0) {
-                clearInterval(interval);
-            }
-    
-            return () => clearInterval(interval); // Cleanup on component unmount or re-render
-        }, [showOtpModel, timer]);
+        let interval;
+        if (showOtpModel && timer > 0) {
+            interval = setInterval(() => {
+                setTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+        } else if (timer === 0) {
+            clearInterval(interval);
+        }
+
+        return () => clearInterval(interval); // Cleanup on component unmount or re-render
+    }, [showOtpModel, timer]);
 
     const closeModel = () => {
         setTimeout(() => {
@@ -104,7 +106,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
             setShowOtpModel(false);
             setReportScreen(false);
             onClose();
-        }, 1000);
+        }, 500);
     }
     const handleSubmitOtp = async (e) => {
         e.preventDefault();
@@ -115,7 +117,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
             setOtpLoader(false);
             if (response.status === 401) {
                 localStorage.removeItem('user_uan')
-                navigate('/');
+                navigate('/account-summary');
             } else if (response.status === 400) {
                 setMessage({ type: "error", content: response.message });
             } else {
@@ -160,15 +162,18 @@ const ModalComponent = ({ isOpen, onClose }) => {
                                 {loading && (
                                     <div className="loader-overlay">
                                         <div className="loader-container">
-                                            <img className='loader-img' src={loaderGif} alt="Loading..." />
-                                            <p className="loader-text">Verifying Mobile Number</p>
+                                            {otploader ?
+                                                <div className="loader">
+                                                    <img className='loader-img' src={otpLoaderGif} alt="Loading..." />
+                                                    <p className="loader-text">Verifying Your OTP</p>
+                                                </div>
+                                                :
+                                                <div className="loader">
+                                                    <img className='loader-img' src={loaderGif} alt="Loading..." />
+                                                    <p className="loader-text">Verifying Mobile Number</p>
+                                                </div>
+                                            }
                                         </div>
-                                        {otploader &&
-                                            <div className="loader-container">
-                                                <img className='loader-img' src={otpLoaderGif} alt="Loading..." />
-                                                <p className="loader-text">Verifying Your OTP</p>
-                                            </div>
-                                        }
                                     </div>
                                 )}
                                 <div className="container">
@@ -182,7 +187,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
                                                     <form onSubmit={handleSubmit(onSubmit)}>
                                                         <div className="input-group mt-5">
                                                             <input
-                                                                type="text"
+                                                                type="text" style={{border:"2px solid gray"}}
                                                                 className="form-control"
                                                                 placeholder="Enter your WhatsApp number"
                                                                 autoComplete='off' maxLength={10} inputMode="numeric"
@@ -197,7 +202,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
                                                                     e.target.value = e.target.value.replace(/[^0-9]/g, "");
                                                                 }}
                                                             />
-                                                            <span className="input-group-text bg-white">
+                                                            <span className="input-group-text bg-white" style={{border: '2px solid gray'}}>
                                                                 <Whatsapp className="text-success" />
                                                             </span>
                                                         </div>
@@ -227,18 +232,23 @@ const ModalComponent = ({ isOpen, onClose }) => {
                                                                 />
                                                             ))}
                                                         </div>
-                                                        <div className="d-flex justify-content-between align-items-center mt-2">
-                                                    {timer > 1 ? <p className='text-danger mb-0'>OTP expires in {timer} seconds.</p>
-                                                        : <p className='text-danger mb-0'>OTP expired</p>}
-                                                    <a
-                                                        className="text-decoration-none labelSubHeading float-end mt-2"
-                                                        style={{ cursor: "pointer" }} onClick={handleRendOtpClick}>
-                                                        Resend OTP
-                                                    </a>
-                                                </div>
+                                                        <div className="row">
+                                                            <div className="col text-end mt-2">
+                                                                <a
+                                                                    className="text-decoration-none labelSubHeading float-end mt-2"
+                                                                    style={{ cursor: "pointer" }} onClick={handleRendOtpClick}>
+                                                                    Resend OTP
+                                                                </a>
+                                                            </div>
+
+                                                        </div>
 
                                                         <div className='text-center mt-3 mt-lg-5'>
-                                                            <button className="pfRiskButtons py-2 px-5">
+                                                            <div className="text-center" style={{ fontWeight: "500", fontSize: "1.1rem" }}>
+                                                                {timer > 1 ? <p className='text-danger'>OTP expires in {timer} seconds.</p>
+                                                                    : <p className='text-danger'>OTP expired</p>}
+                                                            </div>
+                                                            <button className="pfRiskButtons py-2 px-5" disabled={!isBtnAssessmentEnabled || timer < 1}>
                                                                 Get Report
                                                             </button>
                                                         </div>
@@ -253,7 +263,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
                                                 <div className='row'>
                                                     <div className='col-md-8 offset-md-2 text-center'>
                                                         <p style={{ fontSize: '1.5rem', fontWeight: '300', lineHeight: '1.3' }}>All Set!<br></br>
-                                                            You will get your report sent to you in next 4 hours</p>
+                                                            You will get your report sent to you {reportMessage}</p>
                                                     </div>
                                                 </div>
                                                 <div className='text-center mt-3'>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ToastMessage = ({ message, type = 'success', position = 'top-center', autoClose = 3000 }) => {
+const ToastMessage = ({ message, type = 'success', position = 'top-center', autoClose = 5000 }) => {
     useEffect(() => {
         if (message) {
             switch (type) {

@@ -15,8 +15,8 @@ function OtpComponent() {
 
     const [otp, setOtp] = useState(Array(6).fill(""));
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState({ type: "", content: "" });    
-    const [timer, setTimer] = useState(59);
+    const [message, setMessage] = useState({ type: "", content: "" });
+    const [timer, setTimer] = useState(45);
     const [triggerApiCall, setTriggerApiCall] = useState(false);
     const [mobileNumber, setMobileNumber] = useState("");
     const [otpVerified, setOtpVerified] = useState(false)
@@ -27,7 +27,7 @@ function OtpComponent() {
     const { UAN, Pws, type = "", regMobileNumber = "" } = location.state || {};
 
     useEffect(() => {
-        setMobileNumber(regMobileNumber)        
+        setMobileNumber(regMobileNumber)
         if (type === "back-screen") {
             refreshOtp()
         }
@@ -54,12 +54,12 @@ function OtpComponent() {
     // Toast Message Auto Clear
     useEffect(() => {
         if (message.type) {
-        isMessageActive.current = true; // Set active state when a message is displayed
-        const timer = setTimeout(() => {
-            setMessage({ type: "", content: "" });
-            isMessageActive.current = false; // Reset active state
-        }, 2500);
-        return () => clearTimeout(timer);
+            isMessageActive.current = true; // Set active state when a message is displayed
+            const timer = setTimeout(() => {
+                setMessage({ type: "", content: "" });
+                isMessageActive.current = false; // Reset active state
+            }, 2500);
+            return () => clearTimeout(timer);
         }
     }, [message]);
 
@@ -78,7 +78,7 @@ function OtpComponent() {
                     localStorage.removeItem('user_uan')
                     navigate('/');
                 } else {
-                    setTimer(59);
+                    setTimer(45);
                     setTriggerApiCall(false);
                     setMessage({ type: "success", content: result.message });
                     setMobileNumber(ExtractMobile(result.message))
@@ -106,7 +106,7 @@ function OtpComponent() {
                     setMessage({ type: "error", content: result.message });
                 } else {
                     setMessage({ type: "success", content: result.message });
-                    setTimer(59);
+                    setTimer(45);
                     setTriggerApiCall(false);
                     setMobileNumber(ExtractMobile(result.message))
                 }
@@ -160,14 +160,14 @@ function OtpComponent() {
                 setIsVerifyingOtp(true)
                 setLoading(true);
                 const result = await post(endpoint, { otp: otp.join('') });
-                
+
                 if (result.status === 400) {
                     setMessage({ type: "error", content: result.message });
                 } else {
                     // setMessage({ type: "success", content: MESSAGES.success.otpVerified });
                     setOtpVerified(true)
-                    localStorage.setItem("user_uan", UAN);  
-                    localStorage.setItem('data-cred-' + UAN, encryptData(Pws))  
+                    localStorage.setItem("user_uan", UAN);
+                    localStorage.setItem('data-cred-' + UAN, encryptData(Pws))
                     setTimeout(() => {
                         navigate("/service-history");
                         setLoading(false)
@@ -211,7 +211,7 @@ function OtpComponent() {
                             <div className="col-sm-8 col-md-11 offset-md-1">
                                 <div className="pfRiskheading text-center">Welcome to India's First Digital PF check up</div>
                                 <div className="pfRiskSubHeading text-center">
-                                Please Enter OTP to Begin checkup
+                                    Please Enter OTP to Begin checkup
                                 </div>
                             </div>
                         </div>
@@ -238,25 +238,28 @@ function OtpComponent() {
                                             />
                                         ))}
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-center mt-2">
-                                        {timer > 1 ? <p className='text-danger mb-0'>OTP expires in {timer} seconds.</p>
-                                            : <p className='text-danger mb-0'>OTP expired</p>}
-                                        <a
-                                            className="text-decoration-none labelSubHeading"
-                                            onClick={type === "back-screen" ? refreshOtp : resendOtp} style={{ cursor: "pointer" }}>
-                                            Resend OTP
-                                        </a>
+                                    <div className="row">
+                                        <div className="col text-end mt-2">
+                                            <a
+                                                className="text-decoration-none labelSubHeading"
+                                                onClick={type === "back-screen" ? refreshOtp : resendOtp} style={{ cursor: "pointer" }}>
+                                                Resend OTP
+                                            </a>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
-                            <div className="row my-2 mt-lg-5 pt-lg-4">
+                            <div className="row my-2 mt-lg-5 pt-lg-1">
                                 <div className="col-md-11 col-sm-8 offset-md-1">
-                                    <button type="submit" className="btn w-100 pfRiskButtons" disabled={!isBtnAssessmentEnabled}>
+                                    <div className="text-center" style={{fontWeight: "500", fontSize:"1.1rem"}}>
+                                        {timer > 1 ? <p className='text-danger'>OTP expires in {timer} seconds.</p>
+                                            : <p className='text-danger'>OTP expired</p>}
+                                    </div>
+                                    <button type="submit" className="btn w-100 pfRiskButtons" disabled={!isBtnAssessmentEnabled || timer < 1}>
                                         Start Assessment
                                     </button>
                                     <div className='text-center'>
-                                        <span className='termConditionText d-inline-block mt-1'>By clicking on ‘Start Assessment’, you allow Finright to access your PF account to provide you best possible 
+                                        <span className='termConditionText d-inline-block mt-1'>By clicking on ‘Start Assessment’, you allow Finright to access your PF account to provide you best possible
                                             support to fix your PF issues and agree to our<br></br>
                                             <span style={{ fontWeight: "700" }}>Terms & Conditions</span>
                                         </span>

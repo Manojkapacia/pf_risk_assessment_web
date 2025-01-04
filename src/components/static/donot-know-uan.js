@@ -21,7 +21,7 @@ const DonotKnowUan = () => {
                                     </div>
                                     <div className='textClasses ms-3'>
                                         <span className='iconHeading'>Send SMS</span><br></br>
-                                        <span className='iconSubHeading'>to EPFO official service (on +91- 9875463210)</span>
+                                        <span className='iconSubHeading'>to EPFO official service (on +91- 7738299899)</span>
                                     </div>
                                 </div>
                             </div>
@@ -32,7 +32,7 @@ const DonotKnowUan = () => {
                                     </div>
                                     <div className='textClasses ms-3'>
                                         <span className='iconHeading'>Give missed call</span><br></br>
-                                        <span className='iconSubHeading'>to EPFO (on +91- 9875463210)</span>
+                                        <span className='iconSubHeading'>to EPFO (on +91- 9966044425)</span>
                                     </div>
                                 </div>
                             </div>

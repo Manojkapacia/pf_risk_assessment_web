@@ -104,12 +104,12 @@ function LoginComponent() {
                 if (error.status === 401) {
                     setLoading(false);
                     setMessage({ type: "error", content: MESSAGES.error.invalidEpfoCredentials });
-                } if (error.status >= 500) {
+                }else if (error.status >= 500) {
                     navigate("/epfo-down")
                 } else {
                     setLoading(false);
                     setMessage({ type: "error", content: error.message });
-                    navigate("/epfo-down");
+                    // navigate("/epfo-down");
                 }
             }
         }
@@ -221,7 +221,7 @@ function LoginComponent() {
                         <div className="d-flex justify-content-center mt-3">
                             <span className='securityText py-2 px-3 d-flex align-items-center' onClick={toggleText} style={{ cursor: "pointer" }}>
                                 <img src={dataProtect} alt="Risk Assessment" className='dataImage me-1' />
-                                Your privacy is our priority. We take data security seriously
+                                Your privacy is our priority.We have implemented End to End Encryption to keep your data safe.
                             </span>
                         </div>
                         {isVisible &&
