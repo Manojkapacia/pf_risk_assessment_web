@@ -37,7 +37,8 @@ function AccountSummary( ) {
   };
     const { profileData, home, mobileNumber, listItems, reportUpdatedAtVar} = location.state || {};
     const [balanceDetails, setBalanceDetails] = useState(null)
-    const [recentContribution, setRecentContribution] = useState(null);
+    const [recentContribution, setRecentContribution] = useState(null)
+    const [totalBalance, setTotalBalance] = useState("N/A")
     const reportMessage = getReportSubmissionMessage()
 
     const [graphData, setGraphData] = useState({
@@ -74,12 +75,19 @@ function AccountSummary( ) {
 
         if(data) {
             const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
+            const formatCurrency = (value) => `₹ ${value.toLocaleString("en-IN")}`;
 
             const balances = getClosingBalance(data?.passbooks)
             setBalanceDetails(balances)
 
             const lastContribution = getLastContribution(data)
             setRecentContribution(lastContribution)
+
+            // set total balance 
+            const totalBalance = data?.home?.memberWiseBalances.reduce((accu, item) => {
+                return accu + parseCurrency(item.balance || "0");
+            }, 0)
+            setTotalBalance(formatCurrency(totalBalance))
 
             const { employeeShare, employerShare, pensionShare, interestShare } = balances;
             setGraphData((prevData) => ({
@@ -131,7 +139,7 @@ function AccountSummary( ) {
  
     const handleRefresh = () => {
         const UAN = localStorage.getItem('user_uan')
-        const Pws = localStorage.getItem('data-cred-' + UAN)
+        const Pws = decryptData(localStorage.getItem('data-cred-' + UAN))
         navigate("/otpAssessment", { state: { UAN, Pws, type: "back-screen" } });
     }
 
@@ -158,8 +166,8 @@ function AccountSummary( ) {
                                             </div>
                                             <div className="row d-flex justify-content-between mt-3">
                                                 <div className="col-4">
-                                                    <p className="reportValueTextSub">Current Value</p>
-                                                    <span className='reportValueAmountSub'>{home?.totalBalance !== 'N/A' ? `${home?.totalBalance}` : 'N/A'}</span>
+                                                    <p className="reportValueText">Current Value</p>
+                                                    <span className='reportValueAmount'>{totalBalance}</span>
                                                 </div>
                                                 <div className="col-4">
                                                     <p className="reportValueTextSub">Last Contribution</p>
