@@ -14,9 +14,8 @@ import { decryptData } from '../common/encryption-decryption';
 import { useEffect, useState } from 'react';
 import { getClosingBalance, getLastContribution } from '../../helper/data-transform';
 import { getReportSubmissionMessage } from '../common/time-formatter';
-import { zohoRequest } from '../common/api';
 import moment from "moment";
-import ModalComponent from '../common/report-model';
+import ModalComponent from './registration-modal.';
 
 // Register required components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -67,6 +66,7 @@ function AccountSummary( ) {
     };
 
     useEffect(() => {
+        setReportModel(true);
         let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
         let value = "account-summary";
         localStorage.setItem(dynamicKey, value);
@@ -105,26 +105,6 @@ function AccountSummary( ) {
                 ],
             }));
         }
-        // zoho lead creation
-        const formData = {
-            Last_Name: profileData?.basicDetails?.fullName,
-            Mobile: mobileNumber?.phoneNumber,
-            Email: "",
-            Wants_To: "Withdrawal Checkup",
-            Lead_Status: "Open",
-            Lead_Source: "",
-            Campaign_Id: ""
-        };
-        const ZohoAPi = async (formData) => {
-            try {
-                const result = await zohoRequest(formData);
-                if (result.data.data[0].status === "success") {
-                }
-            } catch (error) {
-                console.error('Error submitting form:', error);
-            }
-        }
-        ZohoAPi(formData);
     }, [])
 
     const handleDownload = () => {
@@ -208,7 +188,7 @@ function AccountSummary( ) {
                                             </div>
                                             {/* <p className="report-subheading-text mt-2">You will get your report on registered<br></br> number {reportMessage}</p> */}
                                             <div className="text-center mt-auto">
-                                                <p className="download-sample-btn mb-0" onClick={openModal} >Get Report</p>
+                                                <p className="download-sample-btn mb-0" onClick={handleDownload} >Download Sample Report</p>
                                             </div>
                                         </div>
                                     </div>
@@ -385,7 +365,7 @@ function AccountSummary( ) {
                             </div>
                         </div>
                     </div>
-                    <ModalComponent isOpen={reportModelOpen} onClose={closeModal} />
+                    <ModalComponent profileData={profileData} isOpen={reportModelOpen} onClose={closeModal} />
                 </div>
             </div>
         </div>

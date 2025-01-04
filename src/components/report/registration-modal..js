@@ -4,12 +4,13 @@ import otpLoaderGif from './../../assets/images/otp.gif';
 import { Whatsapp } from "react-bootstrap-icons";
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import ToastMessage from './toast-message';
-import { post } from './api';
-import { getReportSubmissionMessage } from './../common/time-formatter';
+import ToastMessage from '../common/toast-message';
+import { post } from '../common/api';
+import { getReportSubmissionMessage } from '../common/time-formatter';
 import sucessImage from './../../assets/images/icons-success.gif';
+import { zohoRequest} from '../common/api';
 
-const ModalComponent = ({ isOpen, onClose }) => {
+const ModalComponent = ({profileData, isOpen, onClose }) => {
     const otpLength = 6;
     const [otpValues, setOtpValues] = useState(Array(otpLength).fill(""));
     const [timer, setTimer] = useState(45);
@@ -42,7 +43,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
                 localStorage.removeItem('user_uan');
                 setMessage({ type: "error", content: response.message });
                 setTimeout(() => setMessage({ type: "", content: "" }), 2000);
-                navigate('/account-summary');
+                navigate('/doc-scan');
             } else {
                 setLoading(false);
                 setShowOtpModel(true);
@@ -52,8 +53,13 @@ const ModalComponent = ({ isOpen, onClose }) => {
                 // navigate('/report-otp', { state: { profileData, home, mobileNumber, listItems, reportUpdatedAtVar} });
             }
         } catch (error) {
-            setLoading(false);
-            console.error("Error fetching data:", error);
+            if (error.status >= 500) {
+                setLoading(false);
+                navigate("/epfo-down")
+            } else {
+                setLoading(false);
+                console.error("Error fetching data:", error);
+            }
         }
     }
 
@@ -111,18 +117,21 @@ const ModalComponent = ({ isOpen, onClose }) => {
     const handleSubmitOtp = async (e) => {
         e.preventDefault();
         const otp = otpValues.join("");
+        setLoading(true);
         setOtpLoader(true);
         try {
             const response = await post('/auth/confirm-otp', { otp: otp });
-            setOtpLoader(false);
+            setLoading(false);
+        setOtpLoader(false);
             if (response.status === 401) {
                 localStorage.removeItem('user_uan')
-                navigate('/account-summary');
+                navigate('/doc-scan');
             } else if (response.status === 400) {
                 setMessage({ type: "error", content: response.message });
             } else {
                 setShowOtpModel(false);
                 setReportScreen(true);
+                ZohoAPiCall();
                 // const uan = localStorage.getItem('user_uan')
                 // localStorage.removeItem('data-for-report-reg-' + uan)
                 // const encodedData = encryptData(JSON.stringify({profileData, home, mobileNumber, listItems, reportUpdatedAtVar}));
@@ -130,9 +139,40 @@ const ModalComponent = ({ isOpen, onClose }) => {
                 // navigate("/account-summary", { state: { profileData, home, mobileNumber, listItems, reportUpdatedAtVar } });
             }
         } catch (error) {
-            setMessage({ type: "error", content: error.response?.data?.message });
-            console.error("Error fetching data:", error);
+            if (error.status >= 500) {
+                setOtpLoader(false);
+                setLoading(false);
+                navigate("/epfo-down")
+            } else {
+                setLoading(false);
+                setOtpLoader(false);
+                setMessage({ type: "error", content: error.response?.data?.message });
+                console.error("Error fetching data:", error);
+            }
         }
+    }
+
+    // zoho lead creation
+    const ZohoAPiCall= ()=> {
+        const zohoReqData = {
+                    Last_Name: profileData?.basicDetails?.fullName,
+                    Mobile: formData?.phoneNumber,
+                    Email: "",
+                    Wants_To: "Withdrawal Checkup",
+                    Lead_Status: "Open",
+                    Lead_Source: "",
+                    Campaign_Id: ""
+                };
+                const ZohoAPi = async (Data) => {
+                    try {
+                        const result = await zohoRequest(Data);
+                        if (result.data.data[0].status === "success") {
+                        }
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                    }
+                }
+                ZohoAPi(zohoReqData);
     }
 
     if (!isOpen) return null; // Don't render the modal if it's not open
@@ -187,7 +227,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
                                                     <form onSubmit={handleSubmit(onSubmit)}>
                                                         <div className="input-group mt-5">
                                                             <input
-                                                                type="text" style={{border:"2px solid gray"}}
+                                                                type="text" style={{ border: "2px solid gray" }}
                                                                 className="form-control"
                                                                 placeholder="Enter your WhatsApp number"
                                                                 autoComplete='off' maxLength={10} inputMode="numeric"
@@ -202,7 +242,7 @@ const ModalComponent = ({ isOpen, onClose }) => {
                                                                     e.target.value = e.target.value.replace(/[^0-9]/g, "");
                                                                 }}
                                                             />
-                                                            <span className="input-group-text bg-white" style={{border: '2px solid gray'}}>
+                                                            <span className="input-group-text bg-white" style={{ border: '2px solid gray' }}>
                                                                 <Whatsapp className="text-success" />
                                                             </span>
                                                         </div>
