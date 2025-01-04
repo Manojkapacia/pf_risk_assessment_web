@@ -45,11 +45,7 @@ function ReportOtp() {
         return () => clearInterval(interval);
     }, [timer]);
 
-    useEffect(() => {
-        if (triggerApiCall) {
-            reSendOtp();
-        }
-    }, [triggerApiCall]);
+    
 
     const handleOtpChange = (value, index) => {
         if (!/^\d*$/.test(value)) return;
@@ -74,6 +70,11 @@ function ReportOtp() {
         }
     };
 
+    useEffect(() => {
+        if (triggerApiCall) {
+            reSendOtp();
+        }
+    }, [triggerApiCall]);
 
     const reSendOtp = async () => {
         const transformedNumber = {

@@ -23,15 +23,15 @@
 
 .reportValueTextSub {
   font-weight: 500;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   line-height: 1;
   margin-bottom: 0px;
 }
 
 .reportValueAmountSub {
-  font-weight: 800;
+  font-weight: 700;
   margin-top: 0;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 .updatedDate {
@@ -102,12 +102,12 @@ h5 {
 }
 
 .download-sample-btn {
-  padding: 0.4rem 0.8rem;
-  border-radius: 1.25rem;
+  padding: 0.8rem 0.8rem;
+  border-radius: 2rem;
   background-color: #04184a;
   color: #fff;
-  font-weight: 500;
-  font-size: 1.1rem;
+  font-weight: 400;
+  font-size: 1.25rem;
   cursor: pointer;
 }
 
