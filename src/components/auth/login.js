@@ -42,7 +42,7 @@ function LoginComponent() {
             const timer = setTimeout(() => {
                 setMessage({ type: "", content: "" });
                 isMessageActive.current = false; // Reset active state
-            }, 2500);
+            }, 5000);
             return () => clearTimeout(timer);
         }
     }, [message]);
@@ -88,7 +88,7 @@ function LoginComponent() {
                 if (result.status === 400) {
                     setMessage({ type: "error", content: result.message });
                 } else {
-                    setMessage({ type: "success", content: result.message });
+                    if(result.message === "User Successfully Verified") setMessage({ type: "success", content: result.message });
                     setTimeout(() => {
                         if (result.message === "User Successfully Verified") {
                             localStorage.setItem("user_uan", formData.uan);                            
@@ -98,7 +98,7 @@ function LoginComponent() {
                             const regMobileNumber = ExtractMobile(result.message)
                             navigate("/otpAssessment", { state: { UAN: formData.uan, Pws: formData.password, type: "", regMobileNumber } });
                         }
-                    }, 2000);
+                    }, 3000);
                 }
             } catch (error) {
                 if (error.status === 401) {

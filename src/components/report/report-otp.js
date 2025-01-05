@@ -28,7 +28,7 @@ function ReportOtp() {
         const timer = setTimeout(() => {
             setMessage({ type: "", content: "" });
             isMessageActive.current = false; // Reset active state
-        }, 2500);
+        }, 5000);
         return () => clearTimeout(timer);
         }
     }, [message]);

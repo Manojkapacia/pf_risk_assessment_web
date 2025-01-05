@@ -43,14 +43,14 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
                 setLoading(false);
                 localStorage.removeItem('user_uan');
                 setMessage({ type: "error", content: response.message });
-                setTimeout(() => setMessage({ type: "", content: "" }), 2000);
+                setTimeout(() => setMessage({ type: "", content: "" }), 5000);
                 navigate('/doc-scan');
             } else {
                 setLoading(false);
                 setShowOtpModel(true);
                 setFormData(mobileNumber);
                 setMessage({ type: "success", content: response.message });
-                setTimeout(() => setMessage({ type: "", content: "" }), 2000);
+                setTimeout(() => setMessage({ type: "", content: "" }), 5000);
             }
         } catch (error) {
             if (error.status >= 500) {
@@ -192,7 +192,7 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <p className="modal-title" style={{ fontSize: '1.5rem', fontWeight: '600' }}>Your report genration is in progress</p>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModel}></button>
+                            {/* <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModel}></button> */}
                         </div>
                         <div className="modal-body">
                             <>

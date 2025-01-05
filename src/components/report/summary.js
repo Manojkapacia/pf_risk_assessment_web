@@ -13,7 +13,6 @@ import { Stepper } from 'react-form-stepper';
 import { decryptData } from '../common/encryption-decryption';
 import { useEffect, useState } from 'react';
 import { getClosingBalance, getLastContribution } from '../../helper/data-transform';
-import { getReportSubmissionMessage } from '../common/time-formatter';
 import moment from "moment";
 import ModalComponent from './registration-modal.';
 
@@ -25,11 +24,6 @@ function AccountSummary() {
     const navigate = useNavigate()
     const [reportModelOpen, setReportModel] = useState(false);
 
-    // Function to open the modal
-    const openModal = () => {
-        setReportModel(true);
-    };
-
     // Function to close the modal
     const closeModal = () => {
         setReportModel(false);
@@ -38,7 +32,6 @@ function AccountSummary() {
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [recentContribution, setRecentContribution] = useState(null)
     const [totalBalance, setTotalBalance] = useState("N/A")
-    const reportMessage = getReportSubmissionMessage()
 
     const [graphData, setGraphData] = useState({
         labels: ["Employee Share", "Employer Share", "Pension Share", "Interest Earned"],
@@ -148,7 +141,7 @@ function AccountSummary() {
                                             <div className="row d-flex justify-content-between mt-3">
                                                 <div className="col-4">
                                                     <p className="reportValueText">Current Value</p>
-                                                    <span className='reportValueAmount'>{totalBalance}</span>
+                                                    <span className='reportValueAmountSub'>{totalBalance}</span>
                                                 </div>
                                                 <div className="col-4">
                                                     <p className="reportValueTextSub">Last Contribution</p>
@@ -185,7 +178,7 @@ function AccountSummary() {
                                         <div className="card shadow-sm p-3 h-100 d-flex flex-column">
                                             <h5 className="text-primary">Provident Fund Risk Score</h5>
                                             <div className="report-main-text mt-2">
-                                                See if your PF is at a rick of getting stuck
+                                                See if your PF is at a risk of getting stuck
                                             </div>
                                             {/* <p className="report-subheading-text mt-2">You will get your report on registered<br></br> number {reportMessage}</p> */}
                                             <div className="text-center mt-auto">
