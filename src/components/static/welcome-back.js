@@ -34,14 +34,9 @@ const WelcomeBack = () => {
             const key = 'data-for-scan-' + UAN
             const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
             navigate(`/${currentRoute}`, { state: retrievedData })
-        }         
-        if(currentRoute && currentRoute === 'report-registation') {
-            const key = 'data-for-report-reg-' + UAN
-            const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
-            navigate(`/${currentRoute}`, { state: retrievedData })
-        }         
+        }        
         if(currentRoute && currentRoute === 'account-summary') {
-            const key = 'data-for-report-submit-' + UAN
+            const key = 'data-for-account-summary-' + UAN
             const retrievedData = JSON.parse(decryptData(localStorage.getItem(key)));
             navigate(`/${currentRoute}`, { state: retrievedData })
         }         

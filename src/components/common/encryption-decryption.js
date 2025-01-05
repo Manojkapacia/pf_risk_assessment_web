@@ -19,6 +19,7 @@ export const encryptData = (data) => {
 // Function to decrypt data
 export const decryptData = (ciphertext) => {
   try {
+    if(!ciphertext) return
     const bytes = CryptoJS.AES.decrypt(ciphertext, SECRET_KEY);
     const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
     return decryptedData;

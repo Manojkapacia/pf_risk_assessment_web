@@ -20,21 +20,21 @@ import ModalComponent from './registration-modal.';
 // Register required components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function AccountSummary( ) {
+function AccountSummary() {
     const location = useLocation();
     const navigate = useNavigate()
     const [reportModelOpen, setReportModel] = useState(false);
 
-  // Function to open the modal
-  const openModal = () => {
-    setReportModel(true);
-  };
+    // Function to open the modal
+    const openModal = () => {
+        setReportModel(true);
+    };
 
-  // Function to close the modal
-  const closeModal = () => {
-    setReportModel(false);
-  };
-    const { profileData, home, mobileNumber, listItems, reportUpdatedAtVar} = location.state || {};
+    // Function to close the modal
+    const closeModal = () => {
+        setReportModel(false);
+    };
+    const { profileData, home, listItems, reportUpdatedAtVar } = location.state || {};
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [recentContribution, setRecentContribution] = useState(null)
     const [totalBalance, setTotalBalance] = useState("N/A")
@@ -66,14 +66,15 @@ function AccountSummary( ) {
     };
 
     useEffect(() => {
-        setReportModel(true);
+        const isUserVerified = decryptData(localStorage.getItem('finright-reg-verified-' + localStorage.getItem('user_uan')))
+        if(!(Boolean(isUserVerified))) setReportModel(true);
         let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
         let value = "account-summary";
         localStorage.setItem(dynamicKey, value);
-        
-        const data = JSON.parse(decryptData(localStorage.getItem('data-raw-' + localStorage.getItem('user_uan')))) 
 
-        if(data) {
+        const data = JSON.parse(decryptData(localStorage.getItem('data-raw-' + localStorage.getItem('user_uan'))))
+
+        if (data) {
             const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
             const formatCurrency = (value) => `₹ ${value.toLocaleString("en-IN")}`;
 
@@ -116,7 +117,7 @@ function AccountSummary( ) {
         link.click();
         document.body.removeChild(link);
     };
- 
+
     const handleRefresh = () => {
         const UAN = localStorage.getItem('user_uan')
         const Pws = decryptData(localStorage.getItem('data-cred-' + UAN))
@@ -125,7 +126,7 @@ function AccountSummary( ) {
 
     const getMemberWiseBalance = (memberId) => {
         const memberDetails = home?.memberWiseBalances.find((item) => item.memberId === memberId)
-        if(!memberDetails) return 'N/A'
+        if (!memberDetails) return 'N/A'
         return memberDetails?.balance.replace(/[₹]/g, "")
     }
 
@@ -169,7 +170,7 @@ function AccountSummary( ) {
                                                 </div>
                                                 <div className="col-4">
                                                     <p className="reportValueTextSub">Current Employer</p>
-                                                    <span className='reportValueAmountSub' title={listItems?.history[0]?.company}>{listItems?.history[0]?.company.length > 10 ? listItems?.history[0]?.company.slice(0, 10) + "..." : listItems?.history[0]?.company }</span>
+                                                    <span className='reportValueAmountSub' title={listItems?.history[0]?.company}>{listItems?.history[0]?.company.length > 10 ? listItems?.history[0]?.company.slice(0, 10) + "..." : listItems?.history[0]?.company}</span>
                                                 </div>
                                             </div>
                                             {/* <div className="text-center mt-4" onClick={handleRefresh}>
@@ -205,7 +206,7 @@ function AccountSummary( ) {
                                                     </div>
                                                     <div className="mb-3">
                                                         <strong className="personal-heading">Gender:</strong>
-                                                        <div className="personal-value">{profileData?.basicDetails?.gender === "M" ? "Male": "Female"}</div>
+                                                        <div className="personal-value">{profileData?.basicDetails?.gender === "M" ? "Male" : "Female"}</div>
                                                     </div>
                                                     <div className="mb-3">
                                                         <strong className="personal-heading">Physically Handicapped:</strong>
@@ -241,23 +242,23 @@ function AccountSummary( ) {
                                             <table className="table">
                                                 <thead>
                                                     <tr>
-                                                        <th style={{'padding-left': '0px'}}>Employer</th>
+                                                        <th style={{ paddingLeft: 0 }}>Employer</th>
                                                         <th>Tenure</th>
                                                         <th>Experience</th>
                                                         <th>Balance</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                {listItems?.history.length !== 0 ? listItems?.history?.map((item, index) => (
-                                                    <tr key={index}>
-                                                        <td style={{'padding-left': '0px'}}>{item?.company}</td>
-                                                        <td>{item?.period}</td>
-                                                        <td>{item?.details?.['Total Service'].replace(/\b\d+\s*Days\b/i, "").trim()}</td>
-                                                        <td>{getMemberWiseBalance(item?.details?.['Member Id'])}</td>
-                                                    </tr>
-                                                )) : <tr key={0}>
-                                                    <td colSpan={3}>No Employement History</td>
-                                                </tr>}
+                                                    {listItems?.history.length !== 0 ? listItems?.history?.map((item, index) => (
+                                                        <tr key={index}>
+                                                            <td style={{ paddingLeft: 0 }}>{item?.company}</td>
+                                                            <td>{item?.period}</td>
+                                                            <td>{item?.details?.['Total Service'].replace(/\b\d+\s*Days\b/i, "").trim()}</td>
+                                                            <td>{getMemberWiseBalance(item?.details?.['Member Id'])}</td>
+                                                        </tr>
+                                                    )) : <tr key={0}>
+                                                        <td colSpan={3}>No Employement History</td>
+                                                    </tr>}
                                                 </tbody>
                                             </table>
                                             <p className="text-end text-muted">Last updated on 28-12-2024</p>
@@ -349,10 +350,10 @@ function AccountSummary( ) {
                                                         activeTextColor: '#fff',
                                                         inactiveTextColor: '#999',
                                                     }}
-                                                    stepStyleConfig={{
+                                                    stepstyleconfig={{
                                                         completedIcon: <BsCheck color="#fff" />,
-                                                        activeIcon: '•', 
-                                                        inactiveIcon: '○', 
+                                                        activeIcon: '•',
+                                                        inactiveIcon: '○',
                                                     }}
                                                 />
                                                 {/* <div className="d-flex align-items-center justify-content-center">

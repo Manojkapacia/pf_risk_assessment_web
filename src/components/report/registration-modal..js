@@ -9,6 +9,7 @@ import { post } from '../common/api';
 import { getReportSubmissionMessage } from '../common/time-formatter';
 import sucessImage from './../../assets/images/icons-success.gif';
 import { zohoRequest} from '../common/api';
+import { encryptData } from '../common/encryption-decryption';
 
 const ModalComponent = ({profileData, isOpen, onClose }) => {
     const otpLength = 6;
@@ -50,7 +51,6 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
                 setFormData(mobileNumber);
                 setMessage({ type: "success", content: response.message });
                 setTimeout(() => setMessage({ type: "", content: "" }), 2000);
-                // navigate('/report-otp', { state: { profileData, home, mobileNumber, listItems, reportUpdatedAtVar} });
             }
         } catch (error) {
             if (error.status >= 500) {
@@ -114,6 +114,7 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
             onClose();
         }, 500);
     }
+
     const handleSubmitOtp = async (e) => {
         e.preventDefault();
         const otp = otpValues.join("");
@@ -132,11 +133,7 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
                 setShowOtpModel(false);
                 setReportScreen(true);
                 ZohoAPiCall();
-                // const uan = localStorage.getItem('user_uan')
-                // localStorage.removeItem('data-for-report-reg-' + uan)
-                // const encodedData = encryptData(JSON.stringify({profileData, home, mobileNumber, listItems, reportUpdatedAtVar}));
-                // localStorage.setItem('data-for-report-submit-' + uan, encodedData);
-                // navigate("/account-summary", { state: { profileData, home, mobileNumber, listItems, reportUpdatedAtVar } });
+                localStorage.setItem('finright-reg-verified-' + localStorage.getItem('user_uan'), encryptData('true'))
             }
         } catch (error) {
             if (error.status >= 500) {
