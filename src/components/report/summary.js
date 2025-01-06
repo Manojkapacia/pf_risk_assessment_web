@@ -14,7 +14,8 @@ import { decryptData } from '../common/encryption-decryption';
 import { useEffect, useState } from 'react';
 import { getClosingBalance, getLastContribution } from '../../helper/data-transform';
 import moment from "moment";
-import ModalComponent from './registration-modal.';
+import ModalComponent from './registration-modal';
+import ConsultationModal from './consultation-modal'
 
 // Register required components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -22,12 +23,18 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 function AccountSummary() {
     const location = useLocation();
     const navigate = useNavigate()
-    const [reportModelOpen, setReportModel] = useState(false);
-
+    const [reportModalOpen, setReportModal] = useState(false);
+    const [consultationModal, setConsultationModal] = useState(false);
     // Function to close the modal
-    const closeModal = () => {
-        setReportModel(false);
+    const closeReportModal = () => {
+        setReportModal(false);
     };
+    const consultationModalOpen= () =>{
+        setConsultationModal(true);
+    }
+    const consultationModalClose= () =>{
+        setConsultationModal(false);
+    }
     const { profileData, home, listItems, reportUpdatedAtVar } = location.state || {};
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [recentContribution, setRecentContribution] = useState(null)
@@ -60,7 +67,7 @@ function AccountSummary() {
 
     useEffect(() => {
         const isUserVerified = decryptData(localStorage.getItem('finright-reg-verified-' + localStorage.getItem('user_uan')))
-        if(!(Boolean(isUserVerified))) setReportModel(true);
+        if(!(Boolean(isUserVerified))) setReportModal(true);
         let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
         let value = "account-summary";
         localStorage.setItem(dynamicKey, value);
@@ -350,7 +357,7 @@ function AccountSummary() {
                                                     }}
                                                 />
                                                 {/* <div className="d-flex align-items-center justify-content-center">
-                                                    <p className="download-sample-btn mb-0">Book Consultation Now</p>
+                                                    <p className="download-sample-btn mb-0" onClick={consultationModalOpen}>Book Consultation Now</p>
                                                 </div> */}
                                             </div>
                                         </div>
@@ -359,7 +366,8 @@ function AccountSummary() {
                             </div>
                         </div>
                     </div>
-                    <ModalComponent profileData={profileData} isOpen={reportModelOpen} onClose={closeModal} />
+                    <ModalComponent profileData={profileData} isOpen={reportModalOpen} onClose={closeReportModal} />
+                    <ConsultationModal isOpen={consultationModal} onClose={consultationModalClose}></ConsultationModal>
                 </div>
             </div>
         </div>
