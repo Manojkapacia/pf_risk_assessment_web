@@ -107,9 +107,9 @@ function KycDetailsBank() {
                                                     {showFullAccountNumber ? profileData?.kycDetails?.bankAccountNumber
                                                         : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
                                                     {profileData?.kycDetails?.bankAccountNumber !== '-' && (showFullAccountNumber ? (
-                                                        <EyeSlash className="text-primary fs-5 ms-2" onClick={toggleAccountVisibility} />
+                                                        <EyeSlash className="text-primary fs-5 ms-2 cursor-pointer" onClick={toggleAccountVisibility} />
                                                     ) : (
-                                                        <Eye className="text-primary fs-5 ms-2"
+                                                        <Eye className="text-primary fs-5 ms-2 cursor-pointer"
                                                             onClick={toggleAccountVisibility} />
                                                     ))}
                                                 </div>
