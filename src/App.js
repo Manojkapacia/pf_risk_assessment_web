@@ -45,7 +45,7 @@ function App() {
         <Route path="/donot-know-uan" element={<GuestGuard><DonotKnowUan /></GuestGuard>} />
         <Route path="/epfo-down" element={<EpfoDown/>} />
         <Route path="/forgot-password" element={<GuestGuard><ForgotPassword /></GuestGuard>} />
-        <Route path="/welcome-back" element={<AuthGuard><WelcomeBack /></AuthGuard>} />
+        {/* <Route path="/welcome-back" element={<AuthGuard><WelcomeBack /></AuthGuard>} /> */}
         <Route path="/operation/login" element={<AdminGuestGuard><AdminLogin /></AdminGuestGuard>} />
         <Route path="/operation/view-details" element={<AuthGuardAdmin><ViewDetailsByUan /></AuthGuardAdmin>} />
         <Route path="/kyc-details" element={<AuthGuard><KycDetails/></AuthGuard>}/>
