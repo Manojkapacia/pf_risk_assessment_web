@@ -72,7 +72,7 @@ function ServiceHistory() {
             navigate('/');
         } else {
             try {
-                const result = await logout();
+                await logout();
                 localStorage.removeItem('user_uan');
                 navigate('/');
             } catch (error) {

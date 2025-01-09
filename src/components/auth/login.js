@@ -92,9 +92,9 @@ function LoginComponent() {
             try {
                 setLoading(true);
                 const result = await login(formData.uan, formData.password.trim());
-                setLoading(false);
 
                 if (result.status === 400) {
+                    setLoading(false); 
                     setMessage({ type: "error", content: result.message });
                 } else {
                     if (result.message === "User Successfully Verified") setMessage({ type: "success", content: result.message });
@@ -107,6 +107,7 @@ function LoginComponent() {
                             const regMobileNumber = ExtractMobile(result.message)
                             navigate("/otpAssessment", { state: { UAN: formData.uan, Pws: formData.password, type: "", regMobileNumber } });
                         }
+                        setLoading(false); 
                     }, 3000);
                 }
             } catch (error) {
