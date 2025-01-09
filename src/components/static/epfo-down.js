@@ -1,10 +1,11 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import '../../App.css';
 import '../../css/static/uan-static.css';
 import { Telephone } from "react-bootstrap-icons";
 import { useForm } from "react-hook-form";
 import { zohoRequest } from "./../common/api";
 import ToastMessage from '../common/toast-message'
+import { FaExclamationCircle } from "react-icons/fa";
 
 const EpfoDown = () => {
     const [message, setMessage] = useState({ type: "", content: "" });
@@ -15,35 +16,35 @@ const EpfoDown = () => {
         formState: { errors },
     } = useForm();
 
-    const handleClick = () => { 
+    const handleClick = () => {
         setIsDisabled(true);
         setTimeout(() => {
-          setIsDisabled(false);
+            setIsDisabled(false);
         }, 5000);
-      };
+    };
 
     const onSubmit = async (data) => {
         const formData = {
-            ...data, 
+            ...data,
             Wants_To: "Check Withdraw-ability",
-            Lead_Status :"Open",
+            Lead_Status: "Open",
             Campaign_Id: "6329452000003870254"
-          };
+        };
         try {
-          const result = await zohoRequest(formData);
-          if (result.data.data[0].status === "success") {
-            const newTabUrl = "https://www.finright.in/submitted-successfully";
-            window.open(newTabUrl, "_blank", "noopener,noreferrer");
-        } else {
-            setMessage({ type: "error", content: result.message });
+            const result = await zohoRequest(formData);
+            if (result.data.data[0].status === "success") {
+                const newTabUrl = "https://www.finright.in/submitted-successfully";
+                window.open(newTabUrl, "_blank", "noopener,noreferrer");
+            } else {
+                setMessage({ type: "error", content: result.message });
+                setTimeout(() => setMessage({ type: "", content: "" }), 2000);
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            setMessage({ type: "error", content: error.message });
             setTimeout(() => setMessage({ type: "", content: "" }), 2000);
         }
-        } catch (error) {
-          console.error('Error submitting form:', error);
-          setMessage({ type: "error", content: error.message });
-          setTimeout(() => setMessage({ type: "", content: "" }), 2000);
-        }
-      };
+    };
 
     return (
         <div className="container-fluid">
@@ -55,9 +56,18 @@ const EpfoDown = () => {
                 <div className="col-md-7 col-lg-6">
                     <div className='row'>
                         <div className='col-md-10'>
-                            <span className='epfoLabel'>Oops! Looks like EPF servers are down,</span><br></br>
+                            <card className="card bg-white p-3 shadow-sm">
+                                <div className='d-flex align-items-center'>
+                                    <FaExclamationCircle className='text-danger' style={{ fontSize: '1.2rem', marginRight: '0.7rem' }} />
+                                    <span className="text-danger">Looks like EPFO Servers are down. </span>
+                                </div>
+                                <p className="text-danger mt-4" style={{ marginLeft: '1.8rem' }}>​Please try again after sometime or you can share your contact
+                                    details and our expert will call you back.
+                                </p>
+                            </card>
+                            {/* <span className='epfoLabel'>Oops! Looks like EPF servers are down,</span><br></br>
                             <span className='epfoLabel ' style={{ color: '#2460DA' }}>FinRight is still Up</span><br></br>
-                            <span className='labelText '>Leave your Details with us and we will call back to discuss your case</span>
+                            <span className='labelText '>Leave your Details with us and we will call back to discuss your case</span> */}
                         </div>
                     </div>
                     <div className='row mt-md-4 mt-2'>
@@ -75,7 +85,7 @@ const EpfoDown = () => {
                                         <label className='epfoFormlabel'>Mobile number<span style={{ color: "red" }}>*</span></label>
                                         <input type='tel' className='form-control' placeholder='Eg-00000 00000'
                                             autoComplete='off' maxLength={10} inputMode="numeric"
-                                            name="Mobile" 
+                                            name="Mobile"
                                             {...register("Mobile", {
                                                 required: "Mobile Number is required",
                                                 pattern: {
@@ -90,7 +100,7 @@ const EpfoDown = () => {
                                     </div>
                                     <div className='col-md-6'>
                                         <label className='epfoFormlabel'>Email</label>
-                                        <input type='email' className='form-control' placeholder='loramid@gmail.com' 
+                                        <input type='email' className='form-control' placeholder='loramid@gmail.com'
                                             autoComplete='off' name='Email'
                                             {...register("Email", {
                                                 // required: "Email is required",
@@ -143,14 +153,14 @@ const EpfoDown = () => {
                                             </div>
                                         </div>
                                         {errors.Lead_Source && (
-                                                <span className="text-danger">{errors.Lead_Source.message}</span>
-                                            )}
+                                            <span className="text-danger">{errors.Lead_Source.message}</span>
+                                        )}
 
 
                                     </div>
                                     <div className='col-md-12 mt-md-4 my-2 d-md-flex justify-content-md-start d-flex justify-content-center'>
-                                        <button className='requestButton px-3 py-1' type="submit" 
-                                        disabled={isDisabled} onClick={handleClick}>
+                                        <button className='requestButton px-3 py-1' type="submit"
+                                            disabled={isDisabled} onClick={handleClick}>
                                             <Telephone className='me-2 mb-1' size={13} title="Phone Icon" />
                                             {isDisabled ? "Please Wait..." : "Request a call"}
                                         </button>
