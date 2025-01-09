@@ -71,7 +71,7 @@ function SelectOrganization() {
                                                         <li><span className='selectHeading'>{item.company}</span><br></br>
                                                             <span className='selectTime px-2'>{ConvertPeriod(item.period)}</span>
                                                             <div className="form-check mt-2 ps-0 d-flex justify-content-start">
-                                                                <input className="large-checkbox me-3" type="checkbox" value=""
+                                                                <input className="large-checkbox me-3" type="radio" value=""
                                                                     checked={selectedId === index} onChange={() => handleCheckboxChange(index)} />
                                                                 <div className="form-check-label checkboxText">
                                                                     Still working here

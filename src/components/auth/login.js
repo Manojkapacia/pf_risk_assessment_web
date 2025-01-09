@@ -15,6 +15,7 @@ import IPData from '../../assets/images/PIdata.png';
 import Encryption from '../../assets/images/encryption.png';
 import dataProtect from '../../assets/images/dataProtect.png';
 import { encryptData } from '../common/encryption-decryption';
+import { AiOutlineFileProtect } from "react-icons/ai";
 
 function LoginComponent() {
     const [formData, setFormData] = useState({ uan: "", password: "" });
@@ -25,15 +26,23 @@ function LoginComponent() {
     const [loading, setLoading] = useState(false);
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
     const [isVisible, setIsVisible] = useState(false);
+    const [showIframe, setShowIframe] = useState(false);
 
     const toggleText = () => {
-      setIsVisible(!isVisible);
+        setIsVisible(!isVisible);
     };
     const navigate = useNavigate();
 
     useEffect(() => {
         setIsFormValid(Object.values(errors).every((err) => !err) && formData.uan && formData.password);
     }, [errors, formData]);
+
+    const termsCondition = () => {
+        setShowIframe(true);
+    }
+    const handleCloseIframe = () => {
+        setShowIframe(false);
+    };
 
     // Toast Message Auto Clear
     useEffect(() => {
@@ -88,11 +97,11 @@ function LoginComponent() {
                     setLoading(false); 
                     setMessage({ type: "error", content: result.message });
                 } else {
-                    if(result.message === "User Successfully Verified") setMessage({ type: "success", content: result.message });
+                    if (result.message === "User Successfully Verified") setMessage({ type: "success", content: result.message });
                     setTimeout(() => {
                         if (result.message === "User Successfully Verified") {
-                            localStorage.setItem("user_uan", formData.uan);                            
-                            localStorage.setItem('data-cred-' + formData.uan, encryptData(formData.password))  
+                            localStorage.setItem("user_uan", formData.uan);
+                            localStorage.setItem('data-cred-' + formData.uan, encryptData(formData.password))
                             navigate("/welcome-back", { state: { UAN: formData.uan, Pws: formData.password } })
                         } else {
                             const regMobileNumber = ExtractMobile(result.message)
@@ -105,7 +114,7 @@ function LoginComponent() {
                 if (error.status === 401) {
                     setLoading(false);
                     setMessage({ type: "error", content: MESSAGES.error.invalidEpfoCredentials });
-                }else if (error.status >= 500) {
+                } else if (error.status >= 500) {
                     navigate("/epfo-down")
                 } else {
                     setLoading(false);
@@ -142,7 +151,7 @@ function LoginComponent() {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="pfRiskheading text-center" style={{ fontWeight: "700" }}>
-                                    India’s First AI based Provident Fund (PF) Check up</div>
+                                    Check if Your Provident Fund (PF) is Accessible and Withdrawable</div>
                                 <div className="pfRiskSubHeading text-center" style={{ color: "#000000" }}>
                                     Login with your EPF UAN and Password
                                 </div>
@@ -219,36 +228,67 @@ function LoginComponent() {
                                 </div>
                             </div>
                         </form>
+                        <div className='text-center'>
+                            <span className='d-inline-block mt-1' style={{ fontSize: '1rem' }}>
+                                By clicking continue, you agree to our
+                                <span style={{ color: 'blue', cursor: 'pointer' }} onClick={termsCondition}> Terms & Conditions</span>
+                            </span>
+                        </div>
                         <div className="d-flex justify-content-center mt-3">
                             <span className='securityText py-2 px-3 d-flex align-items-center' onClick={toggleText} style={{ cursor: "pointer" }}>
-                                <img src={dataProtect} alt="Risk Assessment" className='dataImage me-1' />
-                                Your privacy is our priority.We have implemented End to End Encryption to keep your data safe.
+                                {/* <img src={dataProtect} alt="Risk Assessment" className='dataImage me-1' /> */}
+                                <AiOutlineFileProtect style={{ fontSize: "1.2rem", marginRight: "0.4rem" }} />
+                                Your data is 100% safe and secure
                             </span>
                         </div>
                         {isVisible &&
-                        <div className="d-flex justify-content-center mt-3">
-                            <div className='d-flex flex-column  align-items-center text-center'>
-                                <img src={multiFactor} alt="Risk Assessment" className='iconImage ' />
-                                <span className="iconText">
-                                    Two-Factor Auth
-                                </span>
-                            </div>
-                            <div className='d-flex flex-column align-items-center text-center mx-5'>
-                                <img src={Encryption} alt="Risk Assessment" className='iconImage' />
-                                <span className="iconText">
-                                    End-to-End Encryption
-                                </span>
-                            </div>
-                            <div className='d-flex flex-column align-items-center text-center'>
-                                <img src={IPData} alt="Risk Assessment" className='iconImage' />
-                                <span className="iconText">
-                                    Masking of PI data
-                                </span>
-                            </div>
+                            <div className="d-flex justify-content-center mt-3">
+                                <div className='d-flex flex-column  align-items-center text-center'>
+                                    <img src={multiFactor} alt="Risk Assessment" className='iconImage ' />
+                                    <span className="iconText">
+                                        Two-Factor Auth
+                                    </span>
+                                </div>
+                                <div className='d-flex flex-column align-items-center text-center mx-5'>
+                                    <img src={Encryption} alt="Risk Assessment" className='iconImage' />
+                                    <span className="iconText">
+                                        End-to-End Encryption
+                                    </span>
+                                </div>
+                                <div className='d-flex flex-column align-items-center text-center'>
+                                    <img src={IPData} alt="Risk Assessment" className='iconImage' />
+                                    <span className="iconText">
+                                        Masking of PI data
+                                    </span>
+                                </div>
 
-                        </div>
+                            </div>
                         }
                     </div>
+                    {showIframe && (
+                        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+                            <div className="modal-dialog modal-xl modal-dialog-centered">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Terms & Conditions</h5>
+                                        <button type="button" className="btn-close" onClick={handleCloseIframe}></button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <iframe
+                                            src="https://www.finright.in/terms-conditions" // Replace with your desired URL
+                                            style={{
+                                                width: "100%",
+                                                height: "30rem",
+                                                border: "none",
+                                            }}
+                                            title="Iframe Example"
+                                        ></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </div>
         </>

@@ -109,7 +109,7 @@ function AccountSummary() {
     }, [])
 
     const handleDownload = () => {
-        const pdfPath = "/PFCheck-up-Report.pdf";
+        const pdfPath = "/Sample PF Health Report.pdf";
         const link = document.createElement("a");
         link.href = pdfPath;
         link.download = "PF-Check-up-Report.pdf";

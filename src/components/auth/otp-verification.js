@@ -256,14 +256,14 @@ function OtpComponent() {
                                             : <p className='text-danger'>OTP expired</p>}
                                     </div>
                                     <button type="submit" className="btn w-100 pfRiskButtons" disabled={!isBtnAssessmentEnabled || timer < 1}>
-                                        Start Assessment
+                                        Submit OTP
                                     </button>
-                                    <div className='text-center'>
+                                    {/* <div className='text-center'>
                                         <span className='termConditionText d-inline-block mt-1'>By clicking on ‘Start Assessment’, you allow Finright to access your PF account to provide you best possible
                                             support to fix your PF issues and agree to our<br></br>
                                             <span style={{ fontWeight: "700" }}>Terms & Conditions</span>
                                         </span>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </form>

@@ -8,9 +8,9 @@ const Logo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const logoutButton = ["/", "/activate-uan", "/donot-know-uan", "/forgot-password",
-    "/operation/login"
+    "/operation/login", "/otpAssessment"
   ];
-  const backToAssessmentButton = ["/activate-uan", "/donot-know-uan", "/forgot-password"];
+  const backToAssessmentButton = ["/activate-uan", "/donot-know-uan", "/forgot-password","/otpAssessment"];
   const HideLogoutButtons = logoutButton.includes(location.pathname);
   const backToAssessment = backToAssessmentButton.includes(location.pathname);
   const [message, setMessage] = useState({ type: "", content: "" });
@@ -55,8 +55,7 @@ const Logo = () => {
             <span
               className="text-end"
               style={{ cursor: 'pointer', color: "blue" }}
-              onClick={() => navigate("/")}
-            >
+              onClick={() => navigate("/")}>
               Back
             </span>
           )}
