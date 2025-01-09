@@ -190,7 +190,7 @@ function OtpComponent() {
                 <div className="loader-overlay">
                     <div className="loader-container">
                         <img className='loader-img' src={loaderGif} alt="Loading..." />
-                        {!otpVerified && <p className="loader-text">{type === "back-screen" && !isVerifyingOtp ? 'Checking credentials' : 'Verifying OTP and Fetching details'}</p>}
+                        {!otpVerified && <p className="loader-text">{!isVerifyingOtp ? 'Checking credentials' : 'Verifying OTP and Fetching details'}</p>}
                         {otpVerified && <p className="loader-text">{'OTP Verified Successfully, Navigating to Home Screen...'}</p>}
                     </div>
                 </div>

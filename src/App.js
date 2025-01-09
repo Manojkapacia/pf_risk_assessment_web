@@ -34,11 +34,11 @@ function App() {
       {/* <Logo /> */}
       <Layout>
       <Routes>
-        <Route path="/" element={<LoginComponent />} />
-        <Route path="/otpAssessment" element={<OtpComponent />} />
+        <Route path="/" element={<GuestGuard><LoginComponent /></GuestGuard>} />
+        <Route path="/otpAssessment" element={<GuestGuard><OtpComponent /></GuestGuard>} />
         <Route path="/doc-scan" element={<AuthGuard><DocumentScanning /></AuthGuard>} />
         <Route path="/service-history" element={<AuthGuard><ServiceHistory /></AuthGuard>} />
-        <Route path="/select-organization" element={<SelectOrganization />} />
+        <Route path="/select-organization" element={<AuthGuard><SelectOrganization /></AuthGuard>} />
         <Route path="/create-account" element={<AuthGuard><CreateAccount /></AuthGuard>} />
         <Route path="/create-account-otp" element={<AuthGuard><OtpCreateAccount /></AuthGuard>} />
         <Route path="/activate-uan" element={<GuestGuard><ActivateUan /></GuestGuard>} />
