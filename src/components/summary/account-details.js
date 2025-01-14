@@ -1,6 +1,7 @@
 import React from "react";
 import SummaryCard from "./summary-card";
 import ClaimRejection from "./claim-rejection";
+import './../../css/summary/account-details.css'
 function AccountDetails() {
 
     const employmentData = [
@@ -31,81 +32,76 @@ function AccountDetails() {
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
-                <div className='col-md-5 mt-4'>
+                <div className='col-lg-5 col-md-6 my-4'>
                     <SummaryCard></SummaryCard>
-                    <div className="card shadow-sm p-3 my-4">
-                        <h5 className="text-center fw-bold mb-4">Employment History</h5>
+                    <div className="card shadow-sm py-3 px-lg-3 mt-3">
+                        <p className="text-center employmentHistory">Employment History</p>
                         <table className="table mb-0">
                             <thead>
                                 <tr>
-                                    <th>Employer</th>
-                                    <th>Tenure</th>
-                                    <th>Experience</th>
-                                    <th>Balance</th>
+                                    <th className="employmentTabelHeading">Employer</th>
+                                    <th className="employmentTabelHeading">Tenure</th>
+                                    <th className="employmentTabelHeading">Experience</th>
+                                    <th className="employmentTabelHeading">Balance</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {employmentData.map((data, index) => (
                                     <tr key={index}>
                                         <td>
-                                            <div className="fw-bold">{data.employer}</div>
-                                            <div className="text-muted" style={{ fontSize: "14px" }}>
+                                            <div className="employmentData">{data.employer}</div>
+                                            <div className=" employmentData">
                                                 Member ID: {data.memberId}
                                             </div>
                                         </td>
-                                        <td>{data.tenure}</td>
-                                        <td>{data.experience}</td>
-                                        <td>{data.balance}</td>
+                                        <td className="employmentData">{data.tenure}</td>
+                                        <td className="employmentData">{data.experience}</td>
+                                        <td className="employmentData">{data.balance}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
-                        <div className="text-center fw-bold mb-3">
+                        <div className="text-center employmentHistory mt-2">
                             Total Service: {totalService}
                         </div>
                     </div>
 
                     <div
-                        className="card shadow-sm  mt-4 px-5"
-                        style={{
-                            borderRadius: "1rem",
-                            padding: "1rem",
-                            backgroundColor: "#ffffff",
-                        }} >
+                        className="card shadow-sm  mt-3 px-3 px-lg-5 py-3">
 
-                        <div className="text-center mb-2">
-                            <h5 className="fw-bold">Overview</h5>
+                        <div className="text-center">
+                            <h5 className="employmentHistory">Overview</h5>
                         </div>
 
                         <table className="table">
                             <tbody>
                                 <tr>
-                                    <td>Total Service</td>
-                                    <td>
+                                    <td className="overViewTabelData">Total Service</td>
+                                    <td className="overViewTabelSubData">
                                     7 years 3 Months
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>No. Of Employers</td>
-                                    <td>
+                                    <td className="overViewTabelData">No. Of Employers</td>
+                                    <td className="overViewTabelSubData">
                                         3
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Current Employer</td>
-                                    <td>
+                                    <td className="overViewTabelData">Current Employer</td>
+                                    <td className="overViewTabelSubData">
                                     Morningstar India Pvt. Ltd
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Current Value</td>
-                                    <td>
+                                    <td className="overViewTabelData">Current Value</td>
+                                    <td className="overViewTabelSubData">
                                     ₹ 22,50,000
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Last Contribution</td>
-                                    <td>
+                                    <td className="overViewTabelData">Last Contribution</td>
+                                    <td className="overViewTabelSubData">
                                     ₹ 22,50,000
                                     </td>
                                 </tr>
@@ -120,25 +116,19 @@ function AccountDetails() {
                     </div>
 
                     <div
-                        className="card shadow-sm  my-4 px-5"
-                        style={{
-                            borderRadius: "1rem",
-                            padding: "1rem",
-                            backgroundColor: "#ffffff",
-                        }} >
+                        className="card shadow-sm  mt-3 py-3 px-3 px-lg-5">
                             <div className="row">
-                                <h5 className="text-center">Personal Details</h5>
+                                <h5 className="text-center employmentHistory">Personal Details</h5>
                                 <div className="col-6">
-                                    <p className="mb-0">Fathers Name:</p>
-                                    <p className="">DARSHAN</p>
+                                    <p className="mb-0 personalDetText">Fathers Name:</p>
+                                    <p className="personalDetSubtext">DARSHAN</p>
                                 </div>
                                 <div className="col-6">
-                                    <p className="mb-0">Date of Birth:</p>
-                                    <p>17/11/1993</p>
+                                    <p className="mb-0 personalDetText">Date of Birth:</p>
+                                    <p className="personalDetSubtext">17/11/1993</p>
                                 </div>
                             </div>
                     </div>
-
                     <ClaimRejection></ClaimRejection>
                 </div>
             </div>

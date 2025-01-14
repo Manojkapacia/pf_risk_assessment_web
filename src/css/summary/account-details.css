@@ -1,0 +1,29 @@
+.employmentHistory{
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+.employmentTabelHeading{
+    font-size: 0.67rem !important;
+    font-weight: 400 !important;
+    color: #00124F !important;
+}
+.employmentData{
+    font-size: 0.70rem;
+    font-weight: 300;
+}
+.overViewTabelData{
+    font-size: 0.90rem;
+    font-weight: 600;
+}
+.overViewTabelSubData{
+    font-size: 0.90rem;
+    font-weight: 300;  
+}
+.personalDetText{
+    font-size: 1rem;
+    font-weight: 600;
+}
+.personalDetSubtext{
+    font-size: 1rem;
+    font-weight: 300; 
+}

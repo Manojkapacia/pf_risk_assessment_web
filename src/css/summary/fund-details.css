@@ -1,0 +1,17 @@
+.fundDistribution{
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+.fundTabelHeading{
+    font-size: 0.67rem !important;
+    font-weight: 400 !important;
+    color: #00124F !important;
+}
+.fundTabelText{
+    font-size: 1rem;
+    font-weight: 300; 
+}
+.fundRoiCardText{
+    font-size: 1.25rem;
+    font-weight: 400;  
+}
