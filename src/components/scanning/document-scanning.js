@@ -164,8 +164,8 @@ const DocumentScanning = () => {
                         {isProcessing && <div className="row mx-0 progress-card d-flex justify-content-center align-items-center">
                             <div className="col-7">
                                 <div className="progress-details">
-                                    <span className="fw-boldHeading">{currentCategory?.category?.toLowerCase() === 'transfer' ? 'Passbook Records' : currentCategory?.category}</span><br></br>
-                                    <span className='subText'>Checking {currentCategory?.category?.toLowerCase() === 'transfer' ? 'Passbook Records' : currentCategory?.category} details</span>
+                                    {/* <span className="fw-boldHeading">{currentCategory?.category}</span><br></br> */}
+                                    <span className='subText'>Checking {currentCategory?.category} details</span>
                                 </div>
                             </div>
                             <div className="col-5">
@@ -243,7 +243,7 @@ const DocumentScanning = () => {
                         <div className="col-lg-7 mt-3">
                             <div className='row'>
                                 <div className='col-md-8 offset-md-2'>
-                                    <div className="pfRiskheading text-center" style={{ fontWeight: "700" }}>{isProcessing ? "Scanning your PF Account" : "Scan Complete"}</div>
+                                    <div className="pfRiskheading text-center" style={{ fontWeight: "700" }}>{isProcessing ? "Checking your PF account for any issues..." : "Scan Complete"}</div>
                                     {/* {isProcessing && <p className="pfRiskSubHeading text-center" style={{color:"#000000"}}>
                                         Last year 25% of EPF claims got rejected and people were blocked from accessing 
                                         their own money when they needed it the most</p>} */}
@@ -257,7 +257,7 @@ const DocumentScanning = () => {
                                         {isProcessing && currentCategory?.category === category.category && (
                                             <>
                                                 <span className='d-flex flex-start align-items-center'>
-                                                    <BsClock className='smaller-icon' /> &nbsp;Checking {category.category.toLowerCase() === 'transfer' ? 'Passbook Records' : category.category}
+                                                    <BsClock className='smaller-icon' /> &nbsp;Checking {category.category}
                                                 </span>
                                                 <span className="pending">Processing...</span>
                                             </>
@@ -266,7 +266,7 @@ const DocumentScanning = () => {
                                         {isProcessing && index < Math.floor(progress / (100 / categories.length)) && (
                                             <>
                                                 <span className='d-flex flex-start align-items-center'>
-                                                    <BsCheck2Circle className='smaller-icon' /> &nbsp;{category.category.toLowerCase() === 'transfer' ? 'Passbook Records' : category.category}
+                                                    <BsCheck2Circle className='smaller-icon' /> &nbsp;{category.category}
                                                 </span>
                                                 <span className="success">Done</span>
                                             </>
@@ -275,7 +275,7 @@ const DocumentScanning = () => {
                                         {isProcessing && currentCategory?.category !== category.category && index >= Math.floor(progress / (100 / categories.length)) && (
                                             <>
                                                 <span className='d-flex flex-start align-items-center'>
-                                                    <BsClock className="smaller-icon" />&nbsp; Checking {category.category.toLowerCase() === 'transfer' ? 'Passbook Records' : category.category }
+                                                    <BsClock className="smaller-icon" />&nbsp; Checking {category.category}
                                                 </span>
                                                 <span className="pending">Pending</span>
                                             </>

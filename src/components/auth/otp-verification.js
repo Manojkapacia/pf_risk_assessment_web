@@ -160,26 +160,28 @@ function OtpComponent() {
                 setIsVerifyingOtp(true)
                 setLoading(true);
                 const result = await post(endpoint, { otp: otp.join('') });
-
-                if (result.status === 400) {
-                    setMessage({ type: "error", content: result.message });
-                } else {
-                    // setMessage({ type: "success", content: MESSAGES.success.otpVerified });
-                    setOtpVerified(true)
-                    localStorage.setItem("user_uan", UAN);
-                    localStorage.setItem('data-cred-' + UAN, encryptData(Pws))
-                    setTimeout(() => {
-                        navigate("/service-history");
-                        setLoading(false)
-                    }, 1000);
-                }
+                // setMessage({ type: "success", content: MESSAGES.success.otpVerified });
+                setOtpVerified(true)
+                localStorage.setItem("user_uan", UAN);
+                localStorage.setItem('data-cred-' + UAN, encryptData(Pws))
+                setTimeout(() => {
+                    navigate("/service-history");
+                    setLoading(false)
+                }, 1000);
             } catch (error) {
-                setMessage({ type: "error", content: MESSAGES.error.generic });
-                if (error.status >= 500) {
-                    navigate("/epfo-down")
+                setLoading(false)
+                setTimer(0)
+                if (error?.status === 400) {
+                    setMessage({ type: "error", content: MESSAGES.error.invalidOtpServer });
+                } else {
+                    setMessage({ type: "error", content: MESSAGES.error.generic });
+                    if (error.status >= 500) {
+                        navigate("/epfo-down")
+                    }
                 }
             }
         } else {
+            setLoading(false)
             setMessage({ type: "error", content: MESSAGES.error.invalidOtp });
         }
     };
@@ -190,7 +192,7 @@ function OtpComponent() {
                 <div className="loader-overlay">
                     <div className="loader-container">
                         <img className='loader-img' src={loaderGif} alt="Loading..." />
-                        {!otpVerified && <p className="loader-text">{type === "back-screen" && !isVerifyingOtp ? 'Checking credentials' : 'Verifying OTP and Fetching details'}</p>}
+                        {!otpVerified && <p className="loader-text">{!isVerifyingOtp ? 'Checking credentials' : 'Verifying OTP and Fetching details'}</p>}
                         {otpVerified && <p className="loader-text">{'OTP Verified Successfully, Navigating to Home Screen...'}</p>}
                     </div>
                 </div>

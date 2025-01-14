@@ -8,6 +8,7 @@ const MESSAGES = {
     error: {
         invalidEpfoCredentials: "Invalid UAN or password. Try resetting password with the mobile number registred with finright or EPFO",
         invalidOtp: "The OTP entered is invalid. Please try again.",
+        invalidOtpServer: "The OTP entered is invalid. Please try again by clicking on Resend.",
         correctEmail:"Please enter the correct email",
         uanInvalidLength: "UAN must be a 12-digit number.",        
         password: {
