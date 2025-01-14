@@ -13,15 +13,21 @@ import {
     Title, Filler
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useLocation } from "react-router-dom";
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
     Title, Filler);
 
-function FundDetails() {
+function FundDetails() { 
+    const location = useLocation()   
+    const { summaryData } = location.state || {};
+    console.log(summaryData)
+
     const [fundRoi, setFundRoi] = useState(true);
     const [pension, setPension] = useState(true);
+    
     const FundRoiDetails = () => {
         if (fundRoi) {
             setFundRoi(false);
@@ -30,6 +36,7 @@ function FundDetails() {
             setFundRoi(true);
         }
     }
+
     const pensionDetails = () => {
         if (pension) {
             setPension(false);
@@ -38,6 +45,7 @@ function FundDetails() {
             setPension(true);
         }
     }
+
     const data = {
         labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
         datasets: [

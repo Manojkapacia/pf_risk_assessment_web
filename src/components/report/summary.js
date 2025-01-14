@@ -25,16 +25,16 @@ function AccountSummary() {
     const navigate = useNavigate()
     const [reportModalOpen, setReportModal] = useState(false);
     const [consultationModal, setConsultationModal] = useState(false);
+
     // Function to close the modal
     const closeReportModal = () => {
         setReportModal(false);
     };
-    const consultationModalOpen= () =>{
-        setConsultationModal(true);
-    }
+
     const consultationModalClose= () =>{
         setConsultationModal(false);
     }
+    
     const { profileData, home, listItems, reportUpdatedAtVar } = location.state || {};
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [recentContribution, setRecentContribution] = useState(null)

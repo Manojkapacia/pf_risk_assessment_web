@@ -2,7 +2,11 @@ import React from "react";
 import SummaryCard from "./summary-card";
 import ClaimRejection from "./claim-rejection";
 import './../../css/summary/account-details.css'
+import { useLocation } from "react-router-dom";
 function AccountDetails() {
+    const location = useLocation()
+    const { summaryData } = location.state || {};
+    console.log(summaryData)
 
     const employmentData = [
         {
@@ -29,6 +33,7 @@ function AccountDetails() {
     ];
 
     const totalService = "7 year 3 months";
+
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
