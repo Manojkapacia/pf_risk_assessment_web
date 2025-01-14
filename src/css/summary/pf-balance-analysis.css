@@ -1,0 +1,64 @@
+.pfAnalysisText{
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+}
+.totalCorpusChart{
+    background-color: #00124F;
+    height: 3rem;
+    width: 60%;
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+}
+.totalCorpusText{
+    background-color: #F9F9F9;
+    height: 3rem;
+    width: 40%;
+    position: relative;
+}
+.pfAmountAnalysis{
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+.pfTextanalysis{
+    font-size: 0.6rem;
+    font-weight: 400;
+}
+.withdrawalLimit{
+    background-color: #4880FF;
+    height: 3rem;
+    width: 49%;
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;
+}
+.blockAmountChart{
+    background-color: #FF4059;
+    height: 3rem;
+    width: 50%;
+    border-top-right-radius: 0.4rem;
+    border-bottom-right-radius: 0.4rem;  
+}
+.blockAmountText{
+    background-color: #F9F9F9;
+    height: 3rem;
+    width: 60%;
+    position: relative;
+}
+.pfTabelheading{
+    font-size: 0.63rem !important;
+    font-weight: 500 !important;
+}
+.pfTabeltext{
+    font-size: 1rem;
+    font-weight: 300
+}
+.withdrawalText{
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+/* @media (min-width: 1300px) {
+    .setCardHeight{
+        height: 21rem !important;
+    }
+  } */
