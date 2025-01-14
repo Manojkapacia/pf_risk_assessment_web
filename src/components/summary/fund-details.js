@@ -4,6 +4,7 @@ import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { Doughnut } from "react-chartjs-2";
 import { BsCircleFill } from "react-icons/bs";
 import ClaimRejection from "./claim-rejection";
+import './../../css/summary/fund-details.css';
 import {
     Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale,
     LinearScale,
@@ -129,11 +130,11 @@ function FundDetails() {
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
-                <div className='col-md-5 mt-4'>
+                <div className='col-md-7 col-lg-5 my-4'>
                     <SummaryCard></SummaryCard>
 
-                    <div className="card shadow-sm px-5 py-3 my-4 d-flex flex-column">
-                        <h5 className="text-center">Fund Distribution</h5>
+                    <div className="card shadow-sm px-2 px-lg-4 py-3 my-3 d-flex flex-column">
+                        <p className="text-center fundDistribution">Fund Distribution</p>
                         <div className="d-flex justify-content-center align-items-center">
                             <div className="doughnut-chart">
                                 <Doughnut data={data} options={options} />
@@ -142,34 +143,34 @@ function FundDetails() {
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th>Particular</th>
-                                    <th>Amount</th>
+                                    <th className="fundTabelHeading">Particular</th>
+                                    <th className="fundTabelHeading">Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><BsCircleFill style={{ 'color': '#27DEBF' }} />&nbsp;&nbsp;Employee Share </td>
-                                    <td>10000</td>
+                                    <td className="fundTabelText"><BsCircleFill style={{ 'color': '#27DEBF' }} />&nbsp;&nbsp;Employee Share </td>
+                                    <td className="fundTabelText">10000</td>
                                 </tr>
                                 <tr>
-                                    <td><BsCircleFill style={{ 'color': '#00124F' }} />&nbsp;&nbsp;Employer Share</td>
-                                    <td>8000</td>
+                                    <td className="fundTabelText"><BsCircleFill style={{ 'color': '#00124F' }} />&nbsp;&nbsp;Employer Share</td>
+                                    <td className="fundTabelText">8000</td>
                                 </tr>
                                 <tr>
-                                    <td><BsCircleFill style={{ 'color': '#4880FF' }} />&nbsp;&nbsp;Pension Share</td>
-                                    <td>6000</td>
+                                    <td className="fundTabelText"><BsCircleFill style={{ 'color': '#4880FF' }} />&nbsp;&nbsp;Pension Share</td>
+                                    <td className="fundTabelText">6000</td>
                                 </tr>
                                 <tr>
-                                    <td><BsCircleFill style={{ 'color': '#ABD5FD' }} />&nbsp;&nbsp;Interest Earned</td>
-                                    <td>4000</td>
+                                    <td className="fundTabelText"><BsCircleFill style={{ 'color': '#ABD5FD' }} />&nbsp;&nbsp;Interest Earned</td>
+                                    <td className="fundTabelText">4000</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div className="card shadow-sm px-2 py-3 my-4">
-                        <h5 className="text-center">Fund Growth</h5>
+                    <div className="card shadow-sm px-lg-2 py-3 my-3">
+                        <h5 className="text-center fundDistribution">Fund Growth</h5>
                         <Line data={data1} options={options1} />
-                        <h5 className="text-center mt-3">Fund Contributions</h5>
+                        <h5 className="text-center fundDistribution mt-3">Fund Contributions</h5>
                         <table className="table text-center">
                             <thead>
                                 <tr>
@@ -261,67 +262,54 @@ function FundDetails() {
                     </div>
                     {fundRoi ?
                         (
-                            <div className="card shadow-sm mx-auto"
-                                style={{
-                                    borderRadius: "10px",
-                                    padding: "1rem",
-                                    backgroundColor: "#ffffff",
-                                }}
-                            >
-                                <div className="text-center mb-3">
-                                    <h5 className="fw-bold">Fund ROI</h5>
+                            <div className="card shadow-sm mx-auto py-3 my-3">
+                                <div className="text-center">
+                                    <p className="fundDistribution">Fund ROI</p>
                                 </div>
 
                                 <div className="d-flex align-items-center">
-                                    {/* Left Side - Table */}
-                                    <div className="w-100 px-5">
+                                    <div className="w-100 px-2 px-lg-4">
                                         <table className="table">
                                             <thead>
                                                 <tr>
-                                                    <th>Particular</th>
-                                                    <th>Value</th>
+                                                    <th className="fundTabelHeading">Particular</th>
+                                                    <th className="fundTabelHeading">Value</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>Total Amount Contributed by You</td>
-                                                    <td>₹ 21,11,5000</td>
+                                                    <td className="fundTabelText">Total Amount Contributed by You</td>
+                                                    <td className="fundTabelText">₹ 21,11,5000</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>PF Interest Rate</td>
-                                                    <td>8.5%</td>
+                                                    <td className="fundTabelText">PF Interest Rate</td>
+                                                    <td className="fundTabelText">8.5%</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>TDS on Withdrawal</td>
-                                                    <td>₹ 12,500</td>
+                                                    <td className="fundTabelText">TDS on Withdrawal</td>
+                                                    <td className="fundTabelText">₹ 12,500</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
 
                                     {/* Right Side - Chevron Icon */}
-                                    <div className="ms-3">
+                                    <div className="me-1 me-lg-3">
                                         <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="text-muted" onClick={FundRoiDetails} />
                                     </div>
                                 </div>
                             </div>
                         ) : (
-                            <div className="card shadow-sm  my-4"
-                                style={{
-                                    borderRadius: "10px",
-                                    padding: "1rem",
-                                    backgroundColor: "#ffffff",
-                                    height: '16rem'
-                                }}>
-                                <div className="text-center mb-3">
-                                    <h5 className="fw-bold">Fund ROI</h5>
+                            <div className="card shadow-sm mx-auto py-3 my-3">
+                                <div className="text-center">
+                                    <p className="fundDistribution">Fund ROI</p>
                                 </div>
 
                                 <div className="d-flex align-items-center">
-                                    <div className="me-3">
+                                    <div className="mx-2 mx-lg-3">
                                         <FaChevronLeft size={20} style={{ cursor: 'pointer' }} className="text-muted" onClick={FundRoiDetails} />
                                     </div>
-                                    <div className="w-100 px-4">
+                                    <div className="w-100 px-2 px-lg-4 fundRoiCardText">
                                         <ul className="list-group">
                                             <li>If the user is employed for more than 5 years
                                                 throughout all the employments under this UAN then TDS will not be deducted
@@ -336,67 +324,55 @@ function FundDetails() {
                     }
 
                     {pension ? (
-                        <div className="card shadow-sm my-4"
-                            style={{
-                                borderRadius: "10px",
-                                padding: "1rem",
-                                backgroundColor: "#ffffff",
-                                height: '16rem'
-                            }}>
-                            <div className="text-center mb-3">
-                                <h5 className="fw-bold">Pension</h5>
+                        <div className="card shadow-sm py-3 my-3">
+                            <div className="text-center">
+                                <p className="fundDistribution">Pension</p>
                             </div>
 
                             <div className="d-flex align-items-center">
-                                <div className="w-100 px-4">
+                                <div className="w-100 px-2 px-lg-4">
                                     <table className="table">
                                         <thead>
                                             <tr>
-                                                <th>Particular</th>
-                                                <th>Value</th>
+                                                <th className="fundTabelHeading">Particular</th>
+                                                <th className="fundTabelHeading">Value</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>Total Pension Balance</td>
-                                                <td>₹ 21,11,5000</td>
+                                                <td className="fundTabelText">Total Pension Balance</td>
+                                                <td className="fundTabelText">₹ 21,11,5000</td>
                                             </tr>
                                             <tr>
-                                                <td>Lump sum Pension Withdrawal limit</td>
-                                                <td>₹ 12,5000</td>
+                                                <td className="fundTabelText">Lump sum Pension Withdrawal limit</td>
+                                                <td className="fundTabelText">₹ 12,5000</td>
                                             </tr>
                                             <tr>
-                                                <td>Monthly Pension Amount at Retirement</td>
-                                                <td>₹ 12,500</td>
+                                                <td className="fundTabelText">Monthly Pension Amount at Retirement</td>
+                                                <td className="fundTabelText">₹ 12,500</td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
 
-                                <div className="ms-3">
+                                <div className="me-lg-3 me-1">
                                     <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="text-muted" onClick={pensionDetails} />
                                 </div>
                             </div>
                         </div>
                     ) : (
 
-                        <div className="card shadow-sm  my-4"
-                            style={{
-                                borderRadius: "10px",
-                                padding: "1rem",
-                                backgroundColor: "#ffffff",
-                                height: '16rem'
-                            }}>
-                            <div className="text-center mb-3">
-                                <h5 className="fw-bold">Pension</h5>
+                        <div className="card shadow-sm mx-auto py-3 my-3">
+                            <div className="text-center">
+                                <p className="fundDistribution">Pension</p>
                             </div>
 
                             <div className="d-flex align-items-center">
-                                <div className="me-3">
+                                <div className="mx-2 mx-lg-3">
                                     <FaChevronLeft style={{ cursor: 'pointer' }} size={20} className="text-muted" onClick={pensionDetails} />
                                 </div>
-                                <div className="w-100 px-4">
-                                    <ul className="list-group">
+                                <div className="w-100 px-2 px-lg-4">
+                                    <ul className="list-group fundRoiCardText">
                                         <li>Employee can withdraw entire pension share as lump sum if
                                             total employment history is less than 5 years
                                         </li>
