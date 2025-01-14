@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import '../../App.css';
 import '../../css/summary/total-summary.css';
 import { FaRegClock } from "react-icons/fa";
@@ -5,12 +6,92 @@ import PfBalanceAnalysis from './pf-balance-analysis';
 import NextStep from './next-step';
 import SummaryCard from './summary-card';
 import ClaimRejection from './claim-rejection';
+import { decryptData } from '../common/encryption-decryption';
+import { getClosingBalance, getLastContribution } from '../../helper/data-transform';
+import { useLocation } from 'react-router-dom';
+import ConsultationModal from '../report/consultation-modal';
+import ModalComponent from '../report/registration-modal';
+import { get } from '../common/api';
+import ToastMessage from '../common/toast-message';
+
 function TotalSummary() {
+    const location = useLocation();
+
+    const [reportModalOpen, setReportModal] = useState(false);
+    const [consultationModal, setConsultationModal] = useState(false);
+    const [message, setMessage] = useState({ type: "", content: "" });
+    const [loading, setLoading] = useState(false);
+
+    // Function to close the modal
+    const closeReportModal = () => {
+        setReportModal(false);
+    };
+    
+    const consultationModalClose= () =>{
+        setConsultationModal(false);
+    }
+
+    const { profileData } = location.state || {};
+    const [summaryData, setSummaryData] = useState(null)
+    const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
+
+    // call the api to fetch the user report
+    const fetchData = async() => {
+        try {
+            setLoading(true);
+            const result = await get('/data/report/fetchByUan');
+            setLoading(false);
+
+            if (result.status === 400) {
+                setMessage({ type: "error", content: result.message });
+            } else {
+                setSummaryData(result.data)
+            }
+        } catch (error) {
+            setLoading(false);
+            setMessage({ type: "error", content: error.message });
+        }
+    } 
+
+    useEffect(() => {
+        // check if user had registerd self with Finright 
+        const isUserVerified = decryptData(localStorage.getItem('finright-reg-verified-' + localStorage.getItem('user_uan')))
+        if(!(Boolean(isUserVerified))) setReportModal(true);
+
+        // set the current page route
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
+        let value = "full-summary";
+        localStorage.setItem(dynamicKey, value);
+        // call the function to get report and raw data by UAN
+        fetchData()
+    }, [])
+
+    // Toast Message Auto Clear
+    useEffect(() => {
+        if (message.type) {
+            isMessageActive.current = true; // Set active state when a message is displayed
+            const timer = setTimeout(() => {
+                setMessage({ type: "", content: "" });
+                isMessageActive.current = false; // Reset active state
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
+    
     return (
+        <>
+        {loading && (
+            <div className="loader-overlay">
+                <div className="loader-container">
+                    <p className="loader-text">Fetching Report, Please wait...</p>
+                </div>
+            </div>
+        )}
         <div className="container">
+            {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="row d-flex justify-content-center align-items-center">
                 <div className='col-lg-5 col-md-6 mt-4'>
-                    <SummaryCard></SummaryCard>
+                    <SummaryCard summaryData={summaryData}></SummaryCard>
                     <PfBalanceAnalysis></PfBalanceAnalysis>
 
                     <div className="card resolution-card text-white px-4 py-3 my-3">
@@ -332,12 +413,14 @@ function TotalSummary() {
                     </div>
                     
                     <ClaimRejection></ClaimRejection>
-
                     <NextStep></NextStep>
 
                 </div>
+                <ModalComponent profileData={profileData} isOpen={reportModalOpen} onClose={closeReportModal} />
+                <ConsultationModal isOpen={consultationModal} onClose={consultationModalClose} />
             </div>
         </div>
+        </>
     )
 }
 

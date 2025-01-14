@@ -1,20 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './../../css/summary/summary-card.css';
 import { useNavigate, useLocation } from 'react-router-dom';
-function SummaryCard() {
+import { getClosingBalance, getLastContribution } from "../../helper/data-transform";
+
+function SummaryCard({summaryData}) {
     const navigate = useNavigate();
     const location = useLocation();
+    const [balanceDetails, setBalanceDetails] = useState(null)
+    const [recentContribution, setRecentContribution] = useState(null)
+    const [totalBalance, setTotalBalance] = useState("N/A")
+
     const fullSummaryCardButton = ["/full-summary"];
     const fullSummaryCard = fullSummaryCardButton.includes(location.pathname);
+
     const fundDetails = () => {
-        navigate('/fund-details')
+        navigate('/fund-details', {state: {summaryData}})
     }
+
     const accountSummary = () => {
-        navigate('/account-details');
+        navigate('/account-details', {state: {summaryData}});
     }
+
     const getfullSummary = () => {
         navigate("/full-summary");
     }
+
+    useEffect(() => {
+        if (summaryData?.rawData) {
+            const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
+            const formatCurrency = (value) => `₹ ${value.toLocaleString("en-IN")}`;
+
+            const balances = getClosingBalance(summaryData.rawData?.passbooks)
+            setBalanceDetails(balances)
+
+            const lastContribution = getLastContribution(summaryData?.rawData)
+            setRecentContribution(lastContribution)
+
+            // set total balance 
+            const totalBalance = summaryData.rawData?.home?.memberWiseBalances.reduce((accu, item) => {
+                return accu + parseCurrency(item.balance || "0");
+            }, 0)
+            setTotalBalance(formatCurrency(totalBalance))
+        }
+    }, [])
+
     return (
         <div className="card text-white totalSummaryCard">
             <div className="text-center mt-3">
