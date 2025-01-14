@@ -8,9 +8,9 @@ const Logo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const logoutButton = ["/", "/activate-uan", "/donot-know-uan", "/forgot-password",
-    "/operation/login", "/otpAssessment"
+    "/operation/login", "/otpAssessment","/epfo-down"
   ];
-  const backToAssessmentButton = ["/activate-uan", "/donot-know-uan", "/forgot-password","/otpAssessment"];
+  const backToAssessmentButton = ["/activate-uan", "/donot-know-uan", "/forgot-password","/epfo-down"];
   const HideLogoutButtons = logoutButton.includes(location.pathname);
   const backToAssessment = backToAssessmentButton.includes(location.pathname);
   const [message, setMessage] = useState({ type: "", content: "" });

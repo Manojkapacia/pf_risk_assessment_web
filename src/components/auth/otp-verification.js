@@ -209,22 +209,28 @@ function OtpComponent() {
                         </div>
                     </div> */}
                     <div className="col-lg-6 col-md-8">
-                        <div className="row">
+                        {/* <div className="row">
                             <div className="col-sm-8 col-md-11 offset-md-1">
                                 <div className="pfRiskheading text-center">Welcome to India's First Digital PF check up</div>
                                 <div className="pfRiskSubHeading text-center">
                                     Please Enter OTP to Begin checkup
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         <form onSubmit={handleSubmit}>
                             <div className="row">
-                                <div className="col-sm-8 col-md-11 offset-md-1">
-                                    <div className="otpLabel mt-2 mt-lg-5 pt-lg-5">
-                                        Enter OTP sent to your EPF registered number {mobileNumber}
+                                <div className="col-sm-8 col-md-10 offset-md-1">
+                                    <div className="d-flex align-items-center otpLabel" onClick={() => navigate("/")}
+                                    style={{cursor:'pointer' }}>
+                                        <i className="bi bi-arrow-left me-2"></i>
+                                        <span>Back</span>
                                     </div>
-                                    <div className="d-flex">
+                                    <label style={{ fontSize: '2rem', fontWeight: '400' }}>Enter OTP</label>
+                                    <div className="otpLabel">
+                                        OTP sent to your mobile number {mobileNumber}
+                                    </div>
+                                    <div className="d-flex mt-3">
                                         {Array.from({ length: 6 }).map((_, index) => (
                                             <input
                                                 key={index}
@@ -251,21 +257,21 @@ function OtpComponent() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row my-2 mt-lg-5 pt-lg-1">
-                                <div className="col-md-11 col-sm-8 offset-md-1">
-                                    <div className="text-center" style={{fontWeight: "500", fontSize:"1.1rem"}}>
-                                        {timer > 1 ? <p className='text-danger'>OTP expires in {timer} seconds.</p>
-                                            : <p className='text-danger'>OTP expired</p>}
+                            <div className="row mt-lg-3">
+                                <div className="col-md-10 col-sm-8 offset-md-1">
+                                    <div className="text-center" style={{ fontWeight: "400", fontSize: "1rem" }}>
+                                        {timer > 1 ? <p className=''>Waiting for OTP ? Resend in :<span style={{ color: '#304DFF' }}> {" "}{timer}</span></p>
+                                            : <p className=''>OTP expired</p>}
                                     </div>
-                                    <button type="submit" className="btn w-100 pfRiskButtons" disabled={!isBtnAssessmentEnabled || timer < 1}>
-                                        Submit OTP
-                                    </button>
-                                    {/* <div className='text-center'>
-                                        <span className='termConditionText d-inline-block mt-1'>By clicking on ‘Start Assessment’, you allow Finright to access your PF account to provide you best possible
-                                            support to fix your PF issues and agree to our<br></br>
-                                            <span style={{ fontWeight: "700" }}>Terms & Conditions</span>
-                                        </span>
-                                    </div> */}
+                                    <div className="d-flex justify-content-center">
+                                        <button
+                                            type="submit"
+                                            className="btn pfRiskButtons px-5"
+                                            disabled={!isBtnAssessmentEnabled || timer < 1}
+                                        >
+                                            Submit OTP
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
