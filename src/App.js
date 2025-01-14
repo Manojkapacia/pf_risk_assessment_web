@@ -26,6 +26,9 @@ import ReportSubmit from "./components/report/report-submit"
 import PageNotFound from './components/static/page-not-found'
 import Layout from './components/common/layout';
 import AccountSummary from './components/report/summary';
+import TotalSummary from './components/summary/total-summary';
+import AccountDetails from './components/summary/account-details';
+import FundDetails from './components/summary/fund-details';
 
 function App() {
   return (
@@ -54,6 +57,9 @@ function App() {
         <Route path="/report-otp" element={<AuthGuard><ReportOtp/></AuthGuard>}/>
         <Route path="/report-submit" element={<AuthGuard><ReportSubmit/></AuthGuard>}/>
         <Route path="/account-summary" element={<AuthGuard><AccountSummary/></AuthGuard>}/>
+        <Route path='/full-summary' element={<AuthGuard><TotalSummary/></AuthGuard>}/>
+        <Route path='/account-details' element={<AuthGuard><AccountDetails/></AuthGuard>}/>
+        <Route path='/fund-details' element={<AuthGuard><FundDetails/></AuthGuard>}/>
         <Route path="*" element={<PageNotFound/>} />
       </Routes>
       </Layout>
