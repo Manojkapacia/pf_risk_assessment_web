@@ -8,8 +8,8 @@
     color: #00124F !important;
 }
 .employmentData{
-    font-size: 0.70rem;
-    font-weight: 300;
+    font-size: 0.67rem !important;
+    font-weight: 300 !important;
 }
 .overViewTabelData{
     font-size: 0.90rem;

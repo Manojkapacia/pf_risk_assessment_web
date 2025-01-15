@@ -397,7 +397,7 @@ function FundDetails() {
                         </div>
                     )}
 
-                    <ClaimRejection></ClaimRejection>
+                    <ClaimRejection reportData={summaryData}></ClaimRejection>
                 </div>
             </div>
         </div>

@@ -733,7 +733,7 @@ function TotalSummary() {
                         }                        
                     </div>
                     
-                    <ClaimRejection blockedAmt={summaryData?.reportData?.totalAmountStuck}></ClaimRejection>
+                    <ClaimRejection reportData={summaryData}></ClaimRejection>
                     <NextStep></NextStep>
 
                 </div>
