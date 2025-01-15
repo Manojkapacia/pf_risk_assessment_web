@@ -24,12 +24,11 @@ function ServiceHistory() {
     const fetchData = async () => {
         try {
             const response = await get('auth/data');
-            setreportUpdatedAt(response.rawData.meta.createdTime);
             if (response.status === 401) {
                 localStorage.removeItem('user_uan')
                 navigate('/');
             } else {
-                console.log(response?.rawData?.data?.error)
+                setreportUpdatedAt(response?.rawData?.meta?.createdTime);
                 localStorage.setItem('data-raw-' + localStorage.getItem('user_uan'), encryptData(JSON.stringify(response?.rawData?.data)))
                 setListItems(response?.rawData?.data?.serviceHistory);
                 setProfileData(response?.rawData?.data?.profile);

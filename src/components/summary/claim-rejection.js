@@ -1,7 +1,8 @@
 import React from "react";
 import HighRisk from './../../assets/images/highRiskImage.svg';
+import { formatCurrency } from "../../helper/data-transform";
 
-function ClaimRejection() {
+function ClaimRejection({blockedAmt}) {
     return (
         <div className="card rejection-card text-white px-4 mt-3">
             <div className="row">
@@ -25,7 +26,7 @@ function ClaimRejection() {
                 </div>
                 <div className="col-lg-5 mt-2 mb-2 mt-lg-0 d-flex align-items-center justify-content-center justify-content-lg-start">
                     <div className="text-center text-lg-start">
-                        <p className="mb-0" style={{ fontSize: '1.5rem', fontWeight: '700' }}>₹ 12,13,456</p>
+                        <p className="mb-0" style={{ fontSize: '1.5rem', fontWeight: '700' }}>{formatCurrency(blockedAmt)}</p>
                         <p className="mb-0" style={{ fontSize: '1rem', fontWeight: '600', lineHeight: '1.1' }}>
                             Stuck due to identified Issues
                         </p>
