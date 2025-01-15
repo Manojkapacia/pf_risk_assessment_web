@@ -102,8 +102,8 @@ function LoginComponent() {
                         if (result.message === "User Successfully Verified") {
                             localStorage.setItem("user_uan", formData.uan);
                             localStorage.setItem('data-cred-' + formData.uan, encryptData(formData.password))
-                            navigate("/welcome-back", { state: { UAN: formData.uan, Pws: formData.password } })
-                        } else {
+                            navigate("/service-history");
+                            } else {
                             const regMobileNumber = ExtractMobile(result.message)
                             navigate("/otpAssessment", { state: { UAN: formData.uan, Pws: formData.password, type: "", regMobileNumber } });
                         }
@@ -140,13 +140,6 @@ function LoginComponent() {
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row d-flex justify-content-center align-items-center">
-                    {/* <div className="col-lg-4 col-md-8">
-                        <div className="row">
-                            <div className="col-md-12 text-center">
-                                <SideContent></SideContent>
-                            </div>
-                        </div>
-                    </div> */}
                     <div className="col-lg-5 col-md-8 mt-3 mt-lg-0 ms-0 ms-lg-3">
                         <div className="row">
                             <div className="col-md-12">
@@ -215,7 +208,6 @@ function LoginComponent() {
                                         <span style={{ cursor: 'pointer' }}
                                             onClick={() => navigate("/forgot-password")}>Forgot Password?</span>
                                     </div>
-                                    {/* <span className='alreadyText'>Already have an account? <span className='loginText'> Login here</span></span> */}
                                 </div>
                             </div>
 
@@ -236,8 +228,7 @@ function LoginComponent() {
                         </div>
                         <div className="d-flex justify-content-center mt-3">
                             <span className='securityText py-2 px-3 d-flex align-items-center' onClick={toggleText} style={{ cursor: "pointer" }}>
-                                {/* <img src={dataProtect} alt="Risk Assessment" className='dataImage me-1' /> */}
-                                <AiOutlineFileProtect style={{ fontSize: "1.2rem", marginRight: "0.4rem" }} />
+                               <AiOutlineFileProtect style={{ fontSize: "1.2rem", marginRight: "0.4rem" }} />
                                 Your data is 100% safe and secure
                             </span>
                         </div>
@@ -275,7 +266,7 @@ function LoginComponent() {
                                     </div>
                                     <div className="modal-body">
                                         <iframe
-                                            src="https://www.finright.in/terms-conditions" // Replace with your desired URL
+                                            src="https://www.finright.in/terms-conditions" 
                                             style={{
                                                 width: "100%",
                                                 height: "30rem",
