@@ -114,7 +114,7 @@ function ServiceHistory() {
                 {/* Second column  */}
 
                 <div className="col-lg-6 col-md-8">
-                    <div className='row'>
+                    {/* <div className='row'>
                         <div className="col-lg-11">
                             <div className='row'>
                                 {errorKey !== null ?
@@ -122,16 +122,12 @@ function ServiceHistory() {
                                         <div className="modal modal-overlay fade show" style={{ display: 'block' }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div className="modal-dialog modal-dialog-centered">
                                                 <div className="modal-content">
-                                                    {/* <div className="modal-header">
-                                                    <p className="modal-title" style={{ fontSize: '1.5rem', fontWeight: '600' }}>Your report genration is in progress</p>
-                                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModel}></button>
-                                                </div> */}
                                                     <div className="modal-body">
                                                         <div className="container">
                                                             <div className="row d-flex justify-content-center align-items-center">
 
                                                                 <div className="col-lg-12 mt-3 mt-lg-0">
-                                                                    <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3',color:'red' }}>
+                                                                    <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3', color: 'red' }}>
                                                                         Your account password has expired, Please reset it using EPFO member portal
                                                                     </p>
                                                                     <div className='text-center mt-5'>
@@ -162,7 +158,6 @@ function ServiceHistory() {
                                                     <ul className='list-group' >
                                                         {listItems?.history?.map((item, index) => (
                                                             <React.Fragment key={index}>
-                                                                {/* List Item */}
                                                                 <li
                                                                     className="list-group-item collapsHeading"
                                                                     style={{ cursor: "pointer" }}
@@ -180,19 +175,16 @@ function ServiceHistory() {
                                                                     </span>
                                                                 </li>
 
-                                                                {/* Dropdown Details */}
                                                                 {activeIndex === index && (
                                                                     <li className='list-group-item bg-light'>
                                                                         <div className="row">
                                                                             <div className="col-5">
                                                                                 <span className='dropdownLabel'>Member ID :</span><br></br>
-                                                                                {/* <span className='dropdownLabel'>NCP Days :</span><br></br> */}
                                                                                 <span className='dropdownLabel'>Joining Date :</span><br></br>
                                                                                 <span className='dropdownLabel'>Exit Date :</span><br></br>
                                                                             </div>
                                                                             <div className="col-7 ps-0">
                                                                                 <span className='dropdownSublabel'>{item.details['Member Id']}</span><br></br>
-                                                                                {/* <span className='dropdownSublabel'>{item.details['NCP Days']}</span><br></br> */}
                                                                                 <span className='dropdownSublabel'>{item.details['Joining Date']}</span><br></br>
                                                                                 <span className='dropdownSublabel'>{item.details['Exit Date']}</span><br></br>
                                                                             </div>
@@ -220,6 +212,54 @@ function ServiceHistory() {
                             </div>
 
 
+                        </div>
+                    </div> */}
+                    <div>
+                        <p className='confirmHistory'>Please Confirm Employement History</p>
+                        <p className='capturedCorrect'>Verify if the below captured details are correct</p>
+                        <div className="card shadow-sm py-3 px-lg-5 mt-3">
+                            <p className="text-center employmentServiceHis">Employment History</p>
+                            <table className="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th className="employmentTabel">Employer</th>
+                                        <th className="employmentTabel">Tenure</th>
+                                        <th className="employmentTabel">Experience</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className="employmentTabelData">Morningstar India Pvt. Ltd</td>
+                                        <td className="employmentTabelData">21 Feb’24 to Present</td>
+                                        <td className="employmentTabelData">1 year 0 months</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="employmentTabelData">Morningstar India Pvt. Ltd</td>
+                                        <td className="employmentTabelData">21 Feb’24 to Present</td>
+                                        <td className="employmentTabelData">1 year 0 months</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="employmentTabelData">Morningstar India Pvt. Ltd</td>
+                                        <td className="employmentTabelData">21 Feb’24 to Present</td>
+                                        <td className="employmentTabelData">1 year 0 months</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div className="text-center employmentService mt-2">
+                                Total Service: 7 year 3 months
+                            </div>
+                        </div>
+                        <div className='row'>
+                            <div className='col-md-10 offset-md-1'>
+                                <div className='row my-3 mt-lg-5'>
+                                    <div className='col-md-6 col-sm-6'>
+                                        <button className='btn incorrectButton w-100 py-3'>This is incorrect</button>
+                                    </div>
+                                    <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
+                                        <button className='btn correctButton w-100 py-3'>This is correct</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
