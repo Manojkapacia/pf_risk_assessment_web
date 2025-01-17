@@ -1,36 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SummaryCard from "./summary-card";
 import ClaimRejection from "./claim-rejection";
 import './../../css/summary/account-details.css'
 import { useLocation } from "react-router-dom";
+import { formatCurrency, getClosingBalance, getLastContribution } from "../../helper/data-transform";
+
 function AccountDetails() {
     const location = useLocation()
+    const [balanceDetails, setBalanceDetails] = useState(null)
+    const [lastContribution, setLastContribution] = useState(0)
+    
     const { summaryData } = location.state || {};
     const ServiceHistoryData = summaryData?.rawData?.data?.serviceHistory;
     const profileData = summaryData?.rawData?.data?.profile;
     
-    console.log("sUMMARY fILE", summaryData);
     const getMemberWiseBalance = (memberId) => {
         const memberDetails = summaryData?.rawData?.data?.home?.memberWiseBalances.find((item) => item.memberId === memberId)
         if (!memberDetails) return 'N/A'
         return memberDetails?.balance
     }
-    const lastContribution= ()=>{
-        const employeeShare = summaryData?.reportData?.lastContribution?.employeeShare;
-        const employerShare =summaryData?.reportData?.lastContribution?.employerShare;
-        const pensionShare =summaryData?.reportData?.lastContribution?.pensionShare;
-        const parseNumber = (str) => parseFloat(str.replace(/,/g, ""));
-        const total = parseNumber(employeeShare || '0') + parseNumber(employerShare || '0') +
-         parseNumber(pensionShare || '0');
-         return total
-    }
-    const totalService = ServiceHistoryData?.overview?.['Total Experience'].split(" ").slice(0, 4).join(" ");
+
+    useEffect(() => {
+        if (summaryData?.rawData) {
+            const balances = getClosingBalance(summaryData?.rawData?.data?.passbooks)
+            setBalanceDetails(balances)
+
+            const lastContribution = getLastContribution(summaryData?.rawData?.data)
+            setLastContribution(lastContribution)
+        }
+    }, [])
 
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
                 <div className='col-lg-5 col-md-6 my-4'>
-                    <SummaryCard></SummaryCard>
+                    <SummaryCard summaryData={summaryData}></SummaryCard>
                     <div className="card shadow-sm py-3 px-lg-3 mt-3">
                         <p className="text-center employmentHistory">Employment History</p>
                         <table className="table mb-0">
@@ -59,7 +63,7 @@ function AccountDetails() {
                             </tbody>
                         </table>
                         <div className="text-center employmentHistory mt-2">
-                            Total Service: {totalService}
+                            Total Service: {summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'].replace(/\b\d+\s*Days\b/i, "").trim()}
                         </div>
                     </div>
 
@@ -75,7 +79,7 @@ function AccountDetails() {
                                 <tr>
                                     <td className="overViewTabelData">Total Service</td>
                                     <td className="overViewTabelSubData">
-                                        {totalService}
+                                        {summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'].replace(/\b\d+\s*Days\b/i, "").trim()}
                                     </td>
                                 </tr>
                                 <tr>
@@ -99,13 +103,13 @@ function AccountDetails() {
                                 <tr>
                                     <td className="overViewTabelData">Last Contribution</td>
                                     <td className="overViewTabelSubData">
-                                        ₹ {lastContribution()}
+                                        {lastContribution}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="overViewTabelData">FY’24 Interest</td>
+                                    <td className="overViewTabelData">{balanceDetails?.year} Interest</td>
                                     <td className="overViewTabelSubData">
-                                        ₹ 22,50,000
+                                        {balanceDetails?.currentYearInterestShare}
                                     </td>
                                 </tr>
                             </tbody>

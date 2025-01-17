@@ -116,7 +116,7 @@ function TotalSummary() {
     const getSelectedCategoryData = (category) => {
         if (!summaryData?.reportData?.withdrawabilityCheckupReport) return;
         const categoryData = summaryData?.reportData?.withdrawabilityCheckupReport.find((item) => item.category.toUpperCase() === category.toUpperCase())
-        console.log(categoryData?.subCategory.flatMap(sub => sub.errorMessages).filter(msg => msg).join(', '))
+
         return {
             totalCritical: categoryData?.totalCritical,
             totalMedium: categoryData?.totalMedium,
@@ -325,7 +325,7 @@ function TotalSummary() {
 
                             {(getSelectedSubCategoryData('KYC')?.criticalCount > 0 || getSelectedSubCategoryData('KYC')?.mediumCount > 0) && 
                                 <div
-                                    className={getSelectedSubCategoryData('KYC')?.criticalCount > 0 ? "text-danger mt-2" : "text-warning mt-2"}>
+                                    className={getSelectedSubCategoryData('KYC')?.criticalCount > 0 ? "text-danger mt-2" : "text-warning-custom mt-2"}>
                                     <p className='kycSubText mb-0'>
                                         <i className="bi bi-exclamation-circle-fill me-2"></i>
                                         <b>{getSelectedSubCategoryData('KYC')?.totalErrorCount} Issues Found: </b>{getSelectedSubCategoryData('KYC')?.consolidatedErrorMessage}. Incomplete KYC will result
@@ -462,7 +462,7 @@ function TotalSummary() {
                         </table>
                         {(getSelectedCategoryData('Employment History')?.totalCritical > 0 || getSelectedCategoryData('Employment History')?.totalMedium > 0) && 
                             <div
-                                className={getSelectedCategoryData('Employment History')?.totalCritical > 0 ? "text-danger" : "text-warning"}>                            
+                                className={getSelectedCategoryData('Employment History')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>                            
                                 <p className='mb-0 kycSubText'>
                                     <i className="bi bi-exclamation-circle-fill me-2"></i>
                                     <b>{getSelectedCategoryData('Employment History')?.totalCritical + getSelectedCategoryData('Employment History')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Employment History')?.consolidatedErrorMessage}
@@ -506,7 +506,7 @@ function TotalSummary() {
                                             {(getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount === 0 && getSelectedSubCategoryData('Amount_Consolidation')?.mediumCount > 0) &&
                                                 <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
                                                     <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                    {getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount} medium issue found
+                                                    {getSelectedSubCategoryData('Amount_Consolidation')?.mediumCount} medium issue found
                                                 </span>
                                             }
                                             {(getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount === 0 && getSelectedSubCategoryData('Amount_Consolidation')?.mediumCount === 0) &&
@@ -531,7 +531,7 @@ function TotalSummary() {
                                             {(getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.mediumCount > 0) &&
                                                 <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
                                                     <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                    {getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount} medium issue found
+                                                    {getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.mediumCount} medium issue found
                                                 </span>
                                             }
                                             {(getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.mediumCount === 0) &&
@@ -556,7 +556,7 @@ function TotalSummary() {
                                             {(getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.mediumCount > 0) &&
                                                 <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
                                                     <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                    {getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount} medium issue found
+                                                    {getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.mediumCount} medium issue found
                                                 </span>
                                             }
                                             {(getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.mediumCount === 0) &&
@@ -572,7 +572,7 @@ function TotalSummary() {
                         </table>
                         {(getSelectedCategoryData('PF Contributions')?.totalCritical > 0 || getSelectedCategoryData('PF Contributions')?.totalMedium > 0) && 
                             <div
-                                className={getSelectedCategoryData('PF Contributions')?.totalCritical > 0 ? "text-danger" : "text-warning"}>                            
+                                className={getSelectedCategoryData('PF Contributions')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>                            
                                 <p className='mb-0 kycSubText'>
                                     <i className="bi bi-exclamation-circle-fill me-2"></i>
                                     <b>{getSelectedCategoryData('PF Contributions')?.totalCritical + getSelectedCategoryData('PF Contributions')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('PF Contributions')?.consolidatedErrorMessage}
@@ -632,7 +632,7 @@ function TotalSummary() {
                         </table>
                         {(getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 || getSelectedCategoryData('EPF Pension Records')?.totalMedium > 0) && 
                             <div
-                                className={getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 ? "text-danger" : "text-warning"}>                            
+                                className={getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>                            
                                 <p className='mb-0 kycSubText'>
                                     <i className="bi bi-exclamation-circle-fill me-2"></i>
                                     <b>{getSelectedCategoryData('EPF Pension Records')?.totalCritical + getSelectedCategoryData('EPF Pension Records')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('EPF Pension Records')?.consolidatedErrorMessage}
@@ -675,7 +675,7 @@ function TotalSummary() {
                                             {(getSelectedSubCategoryData('Transfer_Out')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_Out')?.mediumCount > 0) &&
                                                 <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
                                                     <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                    {getSelectedSubCategoryData('Transfer_Out')?.criticalCount} medium issue found
+                                                    {getSelectedSubCategoryData('Transfer_Out')?.mediumCount} medium issue found
                                                 </span>
                                             }
                                             {(getSelectedSubCategoryData('Transfer_Out')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_Out')?.mediumCount === 0) &&
@@ -700,7 +700,7 @@ function TotalSummary() {
                                             {(getSelectedSubCategoryData('Transfer_In')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_In')?.mediumCount > 0) &&
                                                 <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
                                                     <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                    {getSelectedSubCategoryData('Transfer_In')?.criticalCount} medium issue found
+                                                    {getSelectedSubCategoryData('Transfer_In')?.mediumCount} medium issue found
                                                 </span>
                                             }
                                             {(getSelectedSubCategoryData('Transfer_In')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_In')?.mediumCount === 0) &&
@@ -716,7 +716,7 @@ function TotalSummary() {
                         </table>
                         {(getSelectedCategoryData('Passbook Records')?.totalCritical > 0 || getSelectedCategoryData('Passbook Records')?.totalMedium > 0) && 
                             <div
-                                className={getSelectedCategoryData('Passbook Records')?.totalCritical > 0 ? "text-danger" : "text-warning"}>                            
+                                className={getSelectedCategoryData('Passbook Records')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>                            
                                 <p className='mb-0 kycSubText'>
                                     <i className="bi bi-exclamation-circle-fill me-2"></i>
                                     <b>{getSelectedCategoryData('Passbook Records')?.totalCritical + getSelectedCategoryData('Passbook Records')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Passbook Records')?.consolidatedErrorMessage}

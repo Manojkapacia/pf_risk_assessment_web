@@ -28,12 +28,13 @@ export const getClosingBalance = (passbooks) => {
       totalEmployerShare += parseCurrency(employerShare);
       totalPensionShare += parseCurrency(pensionShare);
     }
-
+  
     // get latest year interest
     if (passbook[latestYear] && passbook[latestYear].interestDetails) {
       const { employeeShare, employerShare, pensionShare } = passbook[latestYear].interestDetails;
       currentYearInterestShare += parseCurrency(employeeShare) + parseCurrency(employerShare) + parseCurrency(pensionShare);
     }
+
 
     // get complete interest details
     for (const year of years) {

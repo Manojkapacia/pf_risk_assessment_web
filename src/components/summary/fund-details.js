@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SummaryCard from "./summary-card";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { Doughnut } from "react-chartjs-2";
@@ -14,20 +14,22 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { useLocation } from "react-router-dom";
+import { formatCurrency, getClosingBalance } from "../../helper/data-transform";
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
     Title, Filler);
 
-function FundDetails() { 
-    const location = useLocation()   
+function FundDetails() {
+    const location = useLocation()
     const { summaryData } = location.state || {};
-    console.log(summaryData)
 
     const [fundRoi, setFundRoi] = useState(true);
     const [pension, setPension] = useState(true);
-    
+    const [balanceDetails, setBalanceDetails] = useState(null)
+    const [fundYears, setFundYears] = useState(null)
+
     const FundRoiDetails = () => {
         if (fundRoi) {
             setFundRoi(false);
@@ -46,33 +48,20 @@ function FundDetails() {
         }
     }
 
-    const data = {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
+    // Doughnut Chart for Fund Distribution
+    const [fundDistributionChartData, setFundDistributionChartData] = useState({
+        labels: ["Employee Share", "Employer Share", "Pension Share", "Interest Earned"],
         datasets: [
             {
-                label: "Votes",
-                data: [12, 19, 3, 5],
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(255, 206, 86, 0.2)",
-                    // "rgba(75, 192, 192, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                ],
-                borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    // "rgba(75, 192, 192, 1)",
-                    "rgba(153, 102, 255, 1)",
-                ],
-                borderWidth: 1,
+                label: "Amount",
+                data: [0, 0, 0, 0],
+                backgroundColor: ["#27DEBF", "#00124F", "#4880FF", "#ABD5FD"],
+                hoverOffset: 4,
             },
         ],
-    };
+    });
 
     const options = {
-        // cutout: "60%",
         maintainAspectRatio: false,
         plugins: {
             legend: {
@@ -84,68 +73,158 @@ function FundDetails() {
             },
         },
     };
+    // End
 
-    const data1 = {
-        labels: ["FY15", "FY16", "FY17", "FY18", "FY19", "FY20"], // X-axis labels
+    // Line Chart for Fund Growth
+    const [fundGrowthChartData, setFundGrowthChartData] = useState({
+        labels: ["FY22", "FY23", "FY24"], // X-axis labels
         datasets: [
             {
-                label: "Category A",
-                data: [1000, 3000, 7000, 12000, 20000, 30000],
-                borderColor: "#007bff",
-                backgroundColor: "rgba(0, 123, 255, 0.5)",
-                fill: true,
+                label: "Employee Share",
+                data: [0,0,0],
+                borderColor: "#27DEBF",
+                // backgroundColor: "rgba(39, 222, 191, 0.4)",
+                fill: false
             },
             {
-                label: "Category B",
-                data: [2000, 4000, 9000, 15000, 25000, 35000],
-                borderColor: "#28a745",
-                backgroundColor: "rgba(40, 167, 69, 0.5)",
-                fill: true,
+                label: "Employer Share",
+                data: [0,0,0],
+                borderColor: "#00124F",
+                // backgroundColor: "rgba(0, 18, 79, 0.4)",
+                fill: false
             },
             {
-                label: "Category C",
-                data: [500, 2000, 4000, 8000, 12000, 18000],
-                borderColor: "#ffc107",
-                backgroundColor: "rgba(255, 193, 7, 0.5)",
-                fill: true,
+                label: "Pension Share",
+                data: [0,0,0],
+                borderColor: "#4880FF",
+                // backgroundColor: "rgba(72, 128, 255, 0.4)",
+                fill: false
             },
+            {
+                label: "Interest Share",
+                data: [0,0,0],
+                borderColor: "#ABD5FD",
+                // backgroundColor: "rgba(171, 213, 253, 0.4)",
+                fill: false
+            }
         ],
-    };
+    });
 
-    // Chart options
-    const options1 = {
+    const optionsFundGrowth = {
         responsive: true,
         plugins: {
             legend: {
                 position: "top",
                 display: false
-            },
-            //   title: {
-            //     display: true,
-            //     text: "Stacked Area Chart Example",
-            //   },
+            }
         },
         scales: {
             x: {
                 stacked: true,
             },
             y: {
-                stacked: true,
+                // stacked: true,
+                // suggestedMax: 100000,
+                ticks: {
+                    callback: function (value) {
+                        if (value >= 1000000) {
+                            return (value / 1000000).toFixed(0) + 'M'; // Million
+                        } else if (value >= 1000) {
+                            return (value / 1000).toFixed(0) + 'K'; // Thousand
+                        } else {
+                            return value; // Direct number
+                        }
+                    }
+                }
             },
         },
     };
+    // End
+
+    const generateChartData = (data) => {
+        const labels = Object.keys(data).map(year => `FY'${year.slice(-2)}`);
+
+        const datasets = [
+            {
+                label: "Employee Share",
+                data: Object.values(data).map(item => item.totalEmployeeShare),
+                borderColor: "#27DEBF",
+                // backgroundColor: "rgba(39, 222, 191, 0.4)",
+                fill: false
+            },
+            {
+                label: "Employer Share",
+                data: Object.values(data).map(item => item.totalEmployerShare),
+                borderColor: "#00124F",
+                // backgroundColor: "rgba(0, 18, 79, 0.4)",
+                fill: false
+            },
+            {
+                label: "Pension Share",
+                data: Object.values(data).map(item => item.totalPensionShare),
+                borderColor: "#4880FF",
+                // backgroundColor: "rgba(72, 128, 255, 0.4)",
+                fill: false
+            },
+            {
+                label: "Interest Share",
+                data: Object.values(data).map(item => item.totalInterestShare),
+                borderColor: "#ABD5FD",
+                // backgroundColor: "rgba(171, 213, 253, 0.4)",
+                fill: false
+            }
+        ];
+
+        return { labels, datasets };
+    };
+
+    useEffect(() => {
+        if (summaryData?.rawData) {
+            const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
+
+            const balances = getClosingBalance(summaryData?.rawData?.data?.passbooks)
+            setBalanceDetails(balances)
+
+            // set fund distribution chart data
+            const { employeeShare, employerShare, pensionShare, interestShare } = balances;
+            console.log(balances)
+            setFundDistributionChartData((prevData) => ({
+                ...prevData,
+                datasets: [
+                    {
+                        ...prevData.datasets[0],
+                        data: [
+                            parseCurrency(employeeShare),
+                            parseCurrency(employerShare),
+                            parseCurrency(pensionShare),
+                            parseCurrency(interestShare)
+                        ],
+                    },
+                ],
+            }));
+
+            // set fund growth chart data
+            const chartData = generateChartData(summaryData?.reportData?.fundValues);
+            setFundGrowthChartData(chartData)
+
+            // set FY years from Fund Values 
+            setFundYears(Object.keys(summaryData?.reportData?.fundValues));
+            console.log(Object.keys(summaryData?.reportData?.fundValues))
+        }
+    }, [summaryData])
 
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
                 <div className='col-md-7 col-lg-5 my-4'>
-                    <SummaryCard></SummaryCard>
+                    <SummaryCard summaryData={summaryData}></SummaryCard>
 
+                    {/* Fund Distribution Chart  */}
                     <div className="card shadow-sm px-2 px-lg-4 py-3 my-3 d-flex flex-column">
                         <p className="text-center fundDistribution">Fund Distribution</p>
                         <div className="d-flex justify-content-center align-items-center">
                             <div className="doughnut-chart">
-                                <Doughnut data={data} options={options} />
+                                <Doughnut data={fundDistributionChartData} options={options} />
                             </div>
                         </div>
                         <table className="table">
@@ -158,116 +237,59 @@ function FundDetails() {
                             <tbody>
                                 <tr>
                                     <td className="fundTabelText"><BsCircleFill style={{ 'color': '#27DEBF' }} />&nbsp;&nbsp;Employee Share </td>
-                                    <td className="fundTabelText">10000</td>
+                                    <td className="fundTabelText">{balanceDetails?.employeeShare}</td>
                                 </tr>
                                 <tr>
                                     <td className="fundTabelText"><BsCircleFill style={{ 'color': '#00124F' }} />&nbsp;&nbsp;Employer Share</td>
-                                    <td className="fundTabelText">8000</td>
+                                    <td className="fundTabelText">{balanceDetails?.employerShare}</td>
                                 </tr>
                                 <tr>
                                     <td className="fundTabelText"><BsCircleFill style={{ 'color': '#4880FF' }} />&nbsp;&nbsp;Pension Share</td>
-                                    <td className="fundTabelText">6000</td>
+                                    <td className="fundTabelText">{balanceDetails?.pensionShare}</td>
                                 </tr>
                                 <tr>
                                     <td className="fundTabelText"><BsCircleFill style={{ 'color': '#ABD5FD' }} />&nbsp;&nbsp;Interest Earned</td>
-                                    <td className="fundTabelText">4000</td>
+                                    <td className="fundTabelText">{balanceDetails?.interestShare}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
+                    {/* Fund Growth Chart */}
                     <div className="card shadow-sm px-lg-2 py-3 my-3">
                         <h5 className="text-center fundDistribution">Fund Growth</h5>
-                        <Line data={data1} options={options1} />
+                        <Line data={fundGrowthChartData} options={optionsFundGrowth} />
                         <h5 className="text-center fundDistribution mt-3">Fund Contributions</h5>
                         <table className="table text-center">
                             <thead>
                                 <tr>
                                     <th style={{ fontSize: '0.63rem', fontWeight: '400' }}>Particular</th>
-                                    <th style={{ fontSize: '0.63rem', fontWeight: '400' }}>FY15</th>
-                                    <th style={{ fontSize: '0.63rem', fontWeight: '400' }}>FY16</th>
-                                    <th style={{ fontSize: '0.63rem', fontWeight: '400' }}>FY17</th>
-                                    <th style={{ fontSize: '0.63rem', fontWeight: '400' }}>FY18</th>
-                                    <th style={{ fontSize: '0.63rem', fontWeight: '400' }}>FY19</th>
+                                    {fundYears?.map(year => (
+                                        <th key={year} style={{ fontSize: '0.63rem', fontWeight: '400' }}>FY'{year.slice(-2)}</th>
+                                    ))}
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className="" style={{ fontSize: '0.67rem', fontWeight: '300' }}>
-                                        Amount You Contributed
-                                    </td>
-                                    <td style={{ fontSize: '0.65rem', fontWeight: '300' }}> ₹ 21,11,5000</td>
-                                    <td style={{ fontSize: '0.65rem', fontWeight: '300' }}>₹ 21,11,5000</td>
-                                    <td style={{ fontSize: '0.65rem', fontWeight: '300' }}>₹ 21,11,5000</td>
-                                    <td style={{ fontSize: '0.65rem', fontWeight: '300' }}>₹ 21,11,5000</td>
-                                    <td style={{ fontSize: '0.65rem', fontWeight: '300' }}>₹ 21,11,5000</td>
+                                    <td style={{ fontSize: '0.67rem', fontWeight: '300' }}>Amount You Contributed</td>
+                                    {fundYears?.map(year => (
+                                        <td key={year} style={{ fontSize: '0.65rem', fontWeight: '300' }}>
+                                            ₹ {summaryData?.reportData?.fundValues[year].totalEmployeeShare.toLocaleString()}
+                                        </td>
+                                    ))}
                                 </tr>
                                 <tr>
-                                    <td style={{ fontSize: '0.67rem', fontWeight: '300' }}>
-                                        Amount Contributed by Employer
-                                    </td>
-                                    <td style={{ fontSize: '0.45rem', fontWeight: '300' }}>
-                                        <div className="d-flex align-items-center mt-1">
-                                            <span
-                                                className="dot me-1"
-                                                style={{
-                                                    backgroundColor: "#4880FF",
-                                                    width: "0.7rem",
-                                                    height: "0.7rem",
-                                                    display: "inline-block",
-                                                    borderRadius: "50%",
-                                                }}
-                                            ></span>
-                                            ₹ 21,11,5000
-                                        </div>
-                                    </td>
-                                    <td style={{ fontSize: '0.45rem', fontWeight: '300' }}>₹ 21,11,5000</td>
-                                    <td style={{ fontSize: '0.45rem', fontWeight: '300' }}>₹ 21,11,5000</td>
-                                    <td style={{ fontSize: '0.45rem', fontWeight: '300' }}>₹ 21,11,5000</td>
-                                    <td style={{ fontSize: '0.45rem', fontWeight: '300' }}>₹ 21,11,5000</td>
+                                    <td style={{ fontSize: '0.67rem', fontWeight: '300' }}>Amount Contributed by Employer</td>
+                                    {fundYears?.map(year => (
+                                        <td key={year} style={{ fontSize: '0.65rem', fontWeight: '300' }}>
+                                            ₹ {summaryData?.reportData?.fundValues[year].totalEmployerShare.toLocaleString()}
+                                        </td>
+                                    ))}
                                 </tr>
-                                {/* <tr>
-                                    <td>
-                                        <span
-                                            className="dot me-2"
-                                            style={{
-                                                backgroundColor: "#ABD5FD",
-                                                width: "12px",
-                                                height: "12px",
-                                                display: "inline-block",
-                                                borderRadius: "50%",
-                                            }}
-                                        ></span>
-                                        Pension Accumulated
-                                    </td>
-                                    <td>₹ 21,11,5000</td>
-                                    <td>₹ 21,11,5000</td>
-                                    <td>₹ 21,11,5000</td>
-                                    <td>₹ 21,11,5000</td>
-                                    <td>₹ 21,11,5000</td>
-                                </tr> */}
-                                {/* <tr>
-                                    <td>
-                                        <span
-                                            className="dot me-2"
-                                            style={{
-                                                backgroundColor: "#27DEBF",
-                                                width: "12px",
-                                                height: "12px",
-                                                display: "inline-block",
-                                                borderRadius: "50%",
-                                            }}
-                                        ></span>
-                                        Interest Earned
-                                    </td>
-                                    <td>₹ 21,11,5000</td>
-                                    <td>₹ 21,11,5000</td>
-                                    <td>₹ 21,11,5000</td>
-                                    <td>₹ 21,11,5000</td>
-                                    <td>₹ 21,11,5000</td>
-                                </tr> */}
                             </tbody>
                         </table>
                     </div>
+
                     {fundRoi ?
                         (
                             <div className="card shadow-sm mx-auto py-3 my-3">
@@ -287,7 +309,7 @@ function FundDetails() {
                                             <tbody>
                                                 <tr>
                                                     <td className="fundTabelText">Total Amount Contributed by You</td>
-                                                    <td className="fundTabelText">₹ 21,11,5000</td>
+                                                    <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="fundTabelText">PF Interest Rate</td>
@@ -295,7 +317,7 @@ function FundDetails() {
                                                 </tr>
                                                 <tr>
                                                     <td className="fundTabelText">TDS on Withdrawal</td>
-                                                    <td className="fundTabelText">₹ 12,500</td>
+                                                    <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.tdsOnWithdrawal) || "-"}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -349,15 +371,16 @@ function FundDetails() {
                                         <tbody>
                                             <tr>
                                                 <td className="fundTabelText">Total Pension Balance</td>
-                                                <td className="fundTabelText">₹ 21,11,5000</td>
+                                                <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.amountContributed?.totalPensionShare) || "-"}</td>
                                             </tr>
                                             <tr>
                                                 <td className="fundTabelText">Lump sum Pension Withdrawal limit</td>
-                                                <td className="fundTabelText">₹ 12,5000</td>
+                                                <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.pensionWithdrability?.withdrawableAmount) || "-"}</td>
                                             </tr>
                                             <tr>
                                                 <td className="fundTabelText">Monthly Pension Amount at Retirement</td>
-                                                <td className="fundTabelText">₹ 12,500</td>
+                                                {summaryData?.reportData?.pensionWithdrability?.message === "" && <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.pensionWithdrability?.pensionAmountPerMonth) || "-"}</td>}
+                                                {summaryData?.reportData?.pensionWithdrability?.message !== "" && <td className="fundTabelText">{summaryData?.reportData?.pensionWithdrability?.message}</td>}
                                             </tr>
                                         </tbody>
                                     </table>
