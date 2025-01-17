@@ -24,6 +24,15 @@ function SummaryCard({summaryData}) {
         navigate("/full-summary");
     }
 
+    function formatDuration(duration) {
+        if(duration){
+        const parts = duration?.split(" ");
+        const years = parts[0] !== "0" ? `${parts[0]} Yrs` : "";
+        const months = parts[2] !== "0" ? `${parts[2]} M` : "";
+        return [years, months].filter(Boolean).join(" ");
+        }
+      }
+
     useEffect(() => {
         if (summaryData?.rawData) {
             const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
@@ -52,7 +61,7 @@ function SummaryCard({summaryData}) {
             <div className="d-flex justify-content-around mx-2">
                 <div>
                     <p className="cardDetails mb-0"> Total Service </p>
-                    <p className='cardSubdetails'>{summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'].replace(/\b\d+\s*Days\b/i, "").trim()}</p>
+                    <p className='cardSubdetails'>{formatDuration(summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'])}</p>
                 </div>
                 <div>
                     <p className="cardDetails mb-0">Current Employer</p>
