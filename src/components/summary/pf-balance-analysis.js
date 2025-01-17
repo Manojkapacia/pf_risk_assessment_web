@@ -1,42 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './../../css/summary/pf-balance-analysis.css';
 import { BsCircleFill } from "react-icons/bs";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { formatCurrency, getClosingBalance } from '../../helper/data-transform';
 
 
 // Register required elements
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function PfBalanceAnalysis() {
+function PfBalanceAnalysis({summaryData}) {
     const [activeCard, setActiveCard] = useState("main");
-    const data = {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple"],
+    const [withdrawalChartWidth, setWithdrawalChartWidth] = useState("");
+    const [blockedChartWidth, setBlockedChartWidth] = useState("");
+    const [blockedAmountPercentage, setBlockedAmountPercentage] = useState("");
+    const [balanceDetails, setBalanceDetails] = useState(null)
+
+    const [graphData, setGraphData] = useState({
+        labels: ["Employee Share", "Employer Share", "Pension Share", "Interest Earned"],
         datasets: [
             {
-                label: "Votes",
-                data: [12, 19, 3, 5],
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.2)",
-                    "rgba(54, 162, 235, 0.2)",
-                    "rgba(255, 206, 86, 0.2)",
-                    // "rgba(75, 192, 192, 0.2)",
-                    "rgba(153, 102, 255, 0.2)",
-                ],
-                borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    // "rgba(75, 192, 192, 1)",
-                    "rgba(153, 102, 255, 1)",
-                ],
-                borderWidth: 1,
+                label: "Amount",
+                data: [0, 0, 0, 0],
+                backgroundColor: ["#27DEBF", "#00124F", "#4880FF", "#ABD5FD"],
+                hoverOffset: 4,
             },
         ],
-    };
+    });
+
     const options = {
-        // cutout: "60%",
         maintainAspectRatio: false,
         plugins: {
             legend: {
@@ -49,6 +42,50 @@ function PfBalanceAnalysis() {
         },
     };
 
+    useEffect(() => {
+        // set width % for graph line
+        if(summaryData?.reportData) setChartWidths()
+
+        // set graph data
+        if (summaryData?.rawData) {
+            const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
+
+            const balances = getClosingBalance(summaryData?.rawData?.data?.passbooks)
+            setBalanceDetails(balances)
+
+            const { employeeShare, employerShare, pensionShare, interestShare } = balances;
+            setGraphData((prevData) => ({
+                ...prevData,
+                datasets: [
+                    {
+                        ...prevData.datasets[0],
+                        data: [
+                            parseCurrency(employeeShare),
+                            parseCurrency(employerShare),
+                            parseCurrency(pensionShare),
+                            parseCurrency(interestShare)
+                        ],
+                    },
+                ],
+            }));
+        }
+    }, [summaryData])
+
+    const setChartWidths = () => {
+        // set widthdrawal width 
+        const withdrawalWidth = Number(Number((summaryData?.reportData?.maxWithdrawableLimit * 100) / summaryData?.reportData?.totalPfBalance).toFixed(0))
+        const withdrawalFinalWidth = (withdrawalWidth * 0.60).toFixed(0); // 60% of the calculated width
+        setWithdrawalChartWidth(withdrawalFinalWidth + '%')
+
+        // set blocked amount width
+        const blockedWidth = Number(Number((summaryData?.reportData?.totalAmountStuck * 100) / summaryData?.reportData?.totalPfBalance).toFixed(0))
+        const blockedFinalWidth = (blockedWidth * 0.60).toFixed(0); // 60% of the calculated width
+        setBlockedChartWidth(blockedFinalWidth + '%')
+        
+        // set original blocked amount width
+        setBlockedAmountPercentage(blockedWidth + "%")
+    }
+
     return (
         <>
             {activeCard === "main" && (
@@ -58,7 +95,7 @@ function PfBalanceAnalysis() {
                         <div className="totalCorpusChart"></div>
                         <div className="text-end totalCorpusText mt-0  d-flex justify-content-between align-items-center">
                             <div className='ms-2'>
-                                <span className="pfAmountAnalysis mb-0">₹ 22,50,000</span>
+                                <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalPfBalance)}</span>
                                 <div className='pfTextanalysis'>Total Corpus</div>
                             </div>
                             <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("toalCorpus")}>
@@ -68,11 +105,11 @@ function PfBalanceAnalysis() {
                     </div>
 
                     <div className="d-flex align-items-center bg-light position-relative border-top border-bottom">
-                        <div className="withdrawalLimit"></div>
+                        <div className="withdrawalLimit" style={{width: withdrawalChartWidth}}></div>
                         <div className="mt-0  d-flex justify-content-between align-items-center"
                             style={{ width: '50%' }}>
                             <div className='ms-2'>
-                                <span className="pfAmountAnalysis mb-0">₹ 15,50,000</span>
+                                <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.maxWithdrawableLimit)}</span>
                                 <div className='pfTextanalysis'>Maximum withdrawal Limit</div>
                             </div>
                             <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("withdrawalLimit")}>
@@ -83,10 +120,10 @@ function PfBalanceAnalysis() {
                     </div>
 
                     <div className="d-flex align-items-center bg-light position-relative border-top border-bottom">
-                        <div className="blockAmountChart"></div>
+                        <div className="blockAmountChart" style={{width: blockedChartWidth}}></div>
                         <div className="blockAmountText mt-0  d-flex justify-content-between align-items-center">
                             <div className='ms-2'>
-                                <span className="pfAmountAnalysis mb-0">₹ 12,13,456</span>
+                                <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalAmountStuck)}</span>
                                 <div className='pfTextanalysis'>Blocked Amount</div>
                             </div>
                             <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("blockAmount")}>
@@ -94,10 +131,18 @@ function PfBalanceAnalysis() {
                             </div>
                         </div>
                     </div>
-                    <span className="text-danger pfAnalysisText mt-3">
-                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                        54% of your total PF Corpus is stuck due to Issues
-                    </span>
+                    {summaryData?.reportData?.totalAmountStuck > 0 && 
+                        <span className="text-danger pfAnalysisText mt-3">
+                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                            {blockedAmountPercentage} of your total PF Corpus is stuck due to Issues
+                        </span>
+                    }
+                    {summaryData?.reportData?.totalAmountStuck === 0 && 
+                        <span className="text-success pfAnalysisText mt-3">
+                            <i className="bi bi-check-circle-fill me-2"></i>
+                            No PF Corups is blocked
+                        </span>
+                    }
                 </div>
             )}
 
@@ -110,7 +155,7 @@ function PfBalanceAnalysis() {
                     <div className="row align-items-center mt-4">
                         <div className="col-lg-5 d-flex justify-content-center">
                             <div className="doughnut-chart">
-                                <Doughnut data={data} options={options} />
+                                <Doughnut data={graphData} options={options} />
                             </div>
                         </div>
                         <div className="col-lg-7">
@@ -126,25 +171,25 @@ function PfBalanceAnalysis() {
                                         <td className='pfTabeltext'>
                                             <BsCircleFill style={{ color: "#27DEBF" }} /> &nbsp;&nbsp;Employee Share
                                         </td>
-                                        <td className='pfTabeltext'>5000</td>
+                                        <td className='pfTabeltext'>{balanceDetails?.employeeShare}</td>
                                     </tr>
                                     <tr>
                                         <td className='pfTabeltext'>
                                             <BsCircleFill style={{ color: "#00124F" }} /> &nbsp;&nbsp;Employer Share
                                         </td>
-                                        <td className='pfTabeltext'>4000</td>
+                                        <td className='pfTabeltext'>{balanceDetails?.employerShare}</td>
                                     </tr>
                                     <tr>
                                         <td className='pfTabeltext'>
                                             <BsCircleFill style={{ color: "#4880FF" }} /> &nbsp;&nbsp;Pension Share
                                         </td>
-                                        <td className='pfTabeltext'>1000</td>
+                                        <td className='pfTabeltext'>{balanceDetails?.pensionShare}</td>
                                     </tr>
                                     <tr>
                                         <td className='pfTabeltext'>
                                             <BsCircleFill style={{ color: "#ABD5FD" }} /> &nbsp;&nbsp;Interest Earned
                                         </td>
-                                        <td className='pfTabeltext'>2500</td>
+                                        <td className='pfTabeltext'>{balanceDetails?.interestShare}</td>
                                     </tr>
                                 </tbody>
                             </table>

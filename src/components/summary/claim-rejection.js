@@ -3,6 +3,7 @@ import HighRisk from './../../assets/images/highRiskImage.svg';
 import Moderate from './../../assets/images/moderateImage.svg';
 import LowRisk from './../../assets/images/lowRiskImage.svg';
 import NoRisk from './../../assets/images/NoRiskImage.svg';
+import { formatCurrency } from "../../helper/data-transform";
 
 function ClaimRejection(reportData) {
     const riskProbability = reportData?.reportData?.reportData?.claimRejectionProbability.toLowerCase();
@@ -58,7 +59,7 @@ function ClaimRejection(reportData) {
                 </div>
                 <div className="col-lg-5 mt-2 mb-2 mt-lg-0 d-flex align-items-center justify-content-center justify-content-lg-start">
                     <div className="text-center text-lg-start">
-                        <p className="mb-0" style={{ fontSize: '1.5rem', fontWeight: '700' }}> ₹ {reportData?.reportData?.reportData?.totalAmountStuck}</p>
+                        <p className="mb-0" style={{ fontSize: '1.5rem', fontWeight: '700' }}>{formatCurrency(reportData?.reportData?.reportData?.totalAmountStuck)}</p>
                         <p className="mb-0" style={{ fontSize: '1rem', fontWeight: '600', lineHeight: '1.1' }}>
                             Stuck due to identified Issues
                         </p>

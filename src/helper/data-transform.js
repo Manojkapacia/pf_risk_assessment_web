@@ -101,3 +101,8 @@ export const getLastContribution = (data) => {
 
   return contribution;
 }
+
+export const formatCurrency = (value) => {
+  if(!value) return 
+  return `₹ ${value.toLocaleString("en-IN")}`
+}

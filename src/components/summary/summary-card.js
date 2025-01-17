@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import './../../css/summary/summary-card.css';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getClosingBalance, getLastContribution } from "../../helper/data-transform";
+import { formatCurrency } from "../../helper/data-transform";
 
 function SummaryCard({summaryData}) {
     const navigate = useNavigate();
     const location = useLocation();
-    const [balanceDetails, setBalanceDetails] = useState(null)
-    const [recentContribution, setRecentContribution] = useState(null)
+
     const [totalBalance, setTotalBalance] = useState("N/A")
 
     const fullSummaryCardButton = ["/full-summary"];
@@ -30,14 +29,8 @@ function SummaryCard({summaryData}) {
             const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
             const formatCurrency = (value) => `₹ ${value.toLocaleString("en-IN")}`;
 
-            const balances = getClosingBalance(summaryData.rawData?.passbooks)
-            setBalanceDetails(balances)
-
-            const lastContribution = getLastContribution(summaryData?.rawData)
-            setRecentContribution(lastContribution)
-
             // set total balance 
-            const totalBalance = summaryData.rawData?.home?.memberWiseBalances.reduce((accu, item) => {
+            const totalBalance = summaryData?.rawData?.data?.home?.memberWiseBalances.reduce((accu, item) => {
                 return accu + parseCurrency(item.balance || "0");
             }, 0)
             setTotalBalance(formatCurrency(totalBalance))
@@ -47,27 +40,27 @@ function SummaryCard({summaryData}) {
     return (
         <div className="card text-white totalSummaryCard">
             <div className="text-center mt-3">
-                <label className="cardLabel">Ashirwad Tomar</label>
-                <p className="cardNumber"> UAN: 111111110056</p>
+                <label className="cardLabel">{summaryData?.rawData?.data?.profile?.fullName}</label>
+                <p className="cardNumber"> UAN: {summaryData?.rawData?.data?.profile?.UAN}</p>
             </div>
 
             <div className="text-center mb-2">
                 <p className="currentBalence mb-0"> Current Balance </p>
-                <p className="balanceValue"> ₹22,50,000 </p>
+                <p className="balanceValue"> {formatCurrency(summaryData?.reportData?.totalPfBalance)} </p>
             </div>
 
             <div className="d-flex justify-content-around mx-2">
                 <div>
                     <p className="cardDetails mb-0"> Total Service </p>
-                    <p className='cardSubdetails'>7 yrs 3 mos</p>
+                    <p className='cardSubdetails'>{summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'].replace(/\b\d+\s*Days\b/i, "").trim()}</p>
                 </div>
                 <div>
                     <p className="cardDetails mb-0">Current Employer</p>
-                    <p className='cardSubdetails'> Morningstar India Pvt. Ltd. </p>
+                    <p className='cardSubdetails' title={summaryData?.rawData?.data?.home?.currentEstablishmentDetails?.establishmentName}>{summaryData?.rawData?.data?.home?.currentEstablishmentDetails?.establishmentName.length > 15 ? summaryData?.rawData?.data?.home?.currentEstablishmentDetails?.establishmentName.slice(0, 18) + "..." : summaryData?.rawData?.data?.home?.currentEstablishmentDetails?.establishmentName}</p>
                 </div>
                 <div>
                     <p className="cardDetails mb-0" ># of Employers</p>
-                    <p className='cardSubdetails'>3</p>
+                    <p className='cardSubdetails'>{summaryData?.rawData?.data?.serviceHistory?.history.length}</p>
                 </div>
             </div>
 
