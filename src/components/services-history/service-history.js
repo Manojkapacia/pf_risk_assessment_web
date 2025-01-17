@@ -113,7 +113,7 @@ function ServiceHistory() {
                 {/* Second column  */}
 
                 <div className="col-lg-6 col-md-8">
-                    {/* <div className='row'>
+                    <div className='row'>
                         <div className="col-lg-11">
                             <div className='row'>
                                 {errorKey !== null ?
@@ -212,8 +212,8 @@ function ServiceHistory() {
 
 
                         </div>
-                    </div> */}
-                    <div>
+                    </div>
+                    {/* <div>
                         <p className='confirmHistory'>Please Confirm Employement History</p>
                         <p className='capturedCorrect'>Verify if the below captured details are correct</p>
                         <div className="card shadow-sm py-3 px-lg-5 mt-3">
@@ -260,7 +260,7 @@ function ServiceHistory() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

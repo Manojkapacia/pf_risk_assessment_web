@@ -275,8 +275,7 @@ function LoginComponent() {
                     )}
 
                 </div> */}
-                <p className='d-lg-block d-none' style={{color:'#304DFF', fontSize: '1.5rem',fontWeight: '700'}}>Home</p>
-                <div className="row d-flex justify-content-center align-items-center setTopMargin">
+                <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-lg-5 col-md-8">
                         <div className='card shadow-sm position-relative'>
                             <img
