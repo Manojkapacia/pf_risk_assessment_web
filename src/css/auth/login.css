@@ -43,6 +43,33 @@ input.form-control::placeholder {
   font-size: 1rem;
   font-weight: 400;
 }
+.termCondition{
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 400;
+}
+.finRightImage{
+  height: 7rem;
+  width: 7rem;
+}
+.setTopMargin{
+  margin-top: 5rem !important;
+}
+
+@media only screen and (max-width: 500px) {
+  .termCondition{
+    color: #000000;
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+  .finRightImage{
+    height: 3.5rem;
+    width: 3.5rem;
+  }
+  .setTopMargin{
+    margin-top: 4rem !important;
+  }
+ }
 
 @media only screen and (max-width: 770px) {
  .pfRiskLoginImage{

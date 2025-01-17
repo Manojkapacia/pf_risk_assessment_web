@@ -1,10 +1,11 @@
 
 .securityText{
-    font-weight: 400;
-    font-size: 0.80rem;
-    color: #078960;
+    font-weight: 300;
+    font-size: 1rem;
+    color: #304DFF;
     background-color: #fff;
     border-radius: 2rem;
+    border: 1px solid;
   }
   .dataImage{
     height: 1rem;
