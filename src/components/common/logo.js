@@ -10,9 +10,11 @@ const Logo = () => {
   const logoutButton = ["/", "/activate-uan", "/donot-know-uan", "/forgot-password",
     "/operation/login", "/otpAssessment","/epfo-down"
   ];
+  const loginPage= ['/']
   const backToAssessmentButton = ["/activate-uan", "/donot-know-uan", "/forgot-password","/epfo-down"];
   const HideLogoutButtons = logoutButton.includes(location.pathname);
   const backToAssessment = backToAssessmentButton.includes(location.pathname);
+  const hideLoginHeader = loginPage.includes(location.pathname);
   const [message, setMessage] = useState({ type: "", content: "" });
 
   const handleLogout = async () => {
@@ -35,19 +37,15 @@ const Logo = () => {
   return (
     <div>
       {message.type && <ToastMessage message={message.content} type={message.type} />}
-
-      <nav className="d-flex justify-content-between align-items-center p-2 p-md-3" style={{ backgroundColor: "#ffffff" }}>
-        {/* Logo */}
+      {!hideLoginHeader ? 
+        <nav className="d-flex justify-content-between align-items-center p-2 p-md-3" style={{ backgroundColor: "#ffffff" }}>
         <img src={FinRightlogo} alt="Logo" className="logo" />
-
-        {/* Buttons */}
         <div className="d-flex align-items-center">
           {!HideLogoutButtons && (
             <span
               className="text-end"
               style={{ cursor: 'pointer', color: "blue" }}
-              onClick={handleLogout}
-            >
+              onClick={handleLogout} >
               Log out
             </span>
           )}
@@ -60,7 +58,9 @@ const Logo = () => {
             </span>
           )}
         </div>
-      </nav>
+      </nav> : ''
+      }
+      
     </div>
   );
 };

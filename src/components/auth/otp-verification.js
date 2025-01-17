@@ -246,22 +246,18 @@ function OtpComponent() {
                                             />
                                         ))}
                                     </div>
-                                    <div className="row">
-                                        <div className="col text-end mt-2">
-                                            <a
-                                                className="text-decoration-none labelSubHeading"
-                                                onClick={type === "back-screen" ? refreshOtp : resendOtp} style={{ cursor: "pointer" }}>
-                                                Resend OTP
-                                            </a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                            <div className="row mt-lg-3">
+                            <div className="row my-lg-3 my-2">
                                 <div className="col-md-10 col-sm-8 offset-md-1">
                                     <div className="text-center" style={{ fontWeight: "400", fontSize: "1rem" }}>
-                                        {timer > 1 ? <p className=''>Waiting for OTP ? Resend in :<span style={{ color: '#304DFF' }}> {" "}{timer}</span></p>
-                                            : <p className=''>OTP expired</p>}
+                                        <p className='mt-2'>Waiting for OTP ? Resend in :{timer > 1 ? <span className='otpText'> {" "}{timer}</span>
+                                            :<a
+                                            className="text-decoration-none otpText"
+                                            onClick={type === "back-screen" ? refreshOtp : resendOtp}>{" "}
+                                            Resend OTP
+                                        </a>}
+                                        </p>
                                     </div>
                                     <div className="d-flex justify-content-center">
                                         <button

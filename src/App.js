@@ -34,37 +34,35 @@ function App() {
   return (
     <div className='flex-grow-1 overflow-auto setBackGround'>
       <Router>
-      {/* <Logo /> */}
-      <Layout>
-      <Routes>
-        <Route path="/" element={<GuestGuard><LoginComponent /></GuestGuard>} />
-        <Route path="/otpAssessment" element={<GuestGuard><OtpComponent /></GuestGuard>} />
-        <Route path="/doc-scan" element={<AuthGuard><DocumentScanning /></AuthGuard>} />
-        <Route path="/service-history" element={<AuthGuard><ServiceHistory /></AuthGuard>} />
-        <Route path="/select-organization" element={<AuthGuard><SelectOrganization /></AuthGuard>} />
-        <Route path="/create-account" element={<AuthGuard><CreateAccount /></AuthGuard>} />
-        <Route path="/create-account-otp" element={<AuthGuard><OtpCreateAccount /></AuthGuard>} />
-        <Route path="/activate-uan" element={<GuestGuard><ActivateUan /></GuestGuard>} />
-        <Route path="/donot-know-uan" element={<GuestGuard><DonotKnowUan /></GuestGuard>} />
-        <Route path="/epfo-down" element={<EpfoDown/>} />
-        <Route path="/forgot-password" element={<GuestGuard><ForgotPassword /></GuestGuard>} />
-        {/* <Route path="/welcome-back" element={<AuthGuard><WelcomeBack /></AuthGuard>} /> */}
-        <Route path="/operation/login" element={<AdminGuestGuard><AdminLogin /></AdminGuestGuard>} />
-        <Route path="/operation/view-details" element={<AuthGuardAdmin><ViewDetailsByUan /></AuthGuardAdmin>} />
-        <Route path="/kyc-details" element={<AuthGuard><KycDetails/></AuthGuard>}/>
-        <Route path="/kyc-details/bank" element={<AuthGuard><KycDetailsBank/></AuthGuard>}/>
-        <Route path="/report-registation" element={<AuthGuard><ReportRegistation/></AuthGuard>}/>
-        <Route path="/report-otp" element={<AuthGuard><ReportOtp/></AuthGuard>}/>
-        <Route path="/report-submit" element={<AuthGuard><ReportSubmit/></AuthGuard>}/>
-        <Route path="/account-summary" element={<AuthGuard><AccountSummary/></AuthGuard>}/>
-        <Route path='/full-summary' element={<AuthGuard><TotalSummary/></AuthGuard>}/>
-        <Route path='/account-details' element={<AuthGuard><AccountDetails/></AuthGuard>}/>
-        <Route path='/fund-details' element={<AuthGuard><FundDetails/></AuthGuard>}/>
-        <Route path="*" element={<PageNotFound/>} />
-      </Routes>
-      </Layout>
-      
-    </Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<GuestGuard><LoginComponent /></GuestGuard>} />
+            <Route path="/otpAssessment" element={<GuestGuard><OtpComponent /></GuestGuard>} />
+            <Route path="/doc-scan" element={<AuthGuard><DocumentScanning /></AuthGuard>} />
+            <Route path="/service-history" element={<AuthGuard><ServiceHistory /></AuthGuard>} />
+            <Route path="/select-organization" element={<AuthGuard><SelectOrganization /></AuthGuard>} />
+            <Route path="/create-account" element={<AuthGuard><CreateAccount /></AuthGuard>} />
+            <Route path="/create-account-otp" element={<AuthGuard><OtpCreateAccount /></AuthGuard>} />
+            <Route path="/activate-uan" element={<GuestGuard><ActivateUan /></GuestGuard>} />
+            <Route path="/donot-know-uan" element={<GuestGuard><DonotKnowUan /></GuestGuard>} />
+            <Route path="/epfo-down" element={<EpfoDown />} />
+            <Route path="/forgot-password" element={<GuestGuard><ForgotPassword /></GuestGuard>} />
+            <Route path="/operation/login" element={<AdminGuestGuard><AdminLogin /></AdminGuestGuard>} />
+            <Route path="/operation/view-details" element={<AuthGuardAdmin><ViewDetailsByUan /></AuthGuardAdmin>} />
+            <Route path="/kyc-details" element={<AuthGuard><KycDetails /></AuthGuard>} />
+            <Route path="/kyc-details/bank" element={<AuthGuard><KycDetailsBank /></AuthGuard>} />
+            <Route path="/report-registation" element={<AuthGuard><ReportRegistation /></AuthGuard>} />
+            <Route path="/report-otp" element={<AuthGuard><ReportOtp /></AuthGuard>} />
+            <Route path="/report-submit" element={<AuthGuard><ReportSubmit /></AuthGuard>} />
+            <Route path="/account-summary" element={<AuthGuard><AccountSummary /></AuthGuard>} />
+            <Route path='/full-summary' element={<AuthGuard><TotalSummary /></AuthGuard>} />
+            <Route path='/account-details' element={<AuthGuard><AccountDetails /></AuthGuard>} />
+            <Route path='/fund-details' element={<AuthGuard><FundDetails /></AuthGuard>} />
+            <Route path="*" element={<PageNotFound />} />
+
+          </Routes>
+        </Layout>
+      </Router>
     </div>
   );
 }

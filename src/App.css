@@ -5,21 +5,21 @@
 }
 
 .pfRiskButtons:disabled {
-  background-color: #d6d6d6 !important;
-  color: #000000 !important;
+  background-color: #9F9F9F !important;
+  color: #ffffff !important;
   cursor: not-allowed;
 }
 
 .pfRiskheading{
   /* font-family :Roboto; */
   color: #000000;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .pfRiskSubHeading{
-  color:#797979;
-  font-size: 0.81rem;
+  color:#000000;
+  font-size: 1rem;
   font-weight: 400;
 }
 
@@ -143,5 +143,12 @@
   .pfRiskAssessmentImage{
     height: 16.5rem;
     width: 100%; 
+  }
+}
+@media only screen and (max-width: 500px) {
+  .pfRiskheading{
+    color: #000000;
+    font-size: 1rem;
+    font-weight: 500; 
   }
 }

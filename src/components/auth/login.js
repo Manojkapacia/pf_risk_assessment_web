@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import '../../css/auth/login.css';
 import '../../App.css';
-import './../../css/common/side-content.css'
+import './../../css/common/side-content.css';
+import './../common/loader.css';
 import { useNavigate } from 'react-router-dom';
 import ValidationError from '../common/validate-error';
 import ToastMessage from '../common/toast-message';
@@ -16,6 +17,9 @@ import Encryption from '../../assets/images/encryption.png';
 import dataProtect from '../../assets/images/dataProtect.png';
 import { encryptData } from '../common/encryption-decryption';
 import { AiOutlineFileProtect } from "react-icons/ai";
+import finRightLogo from './../../assets/images/finRight.png';
+import backgroundImage from './../../assets/images/backgroundLogin.svg';
+import thumbPrimary from './../../assets/images/thumbPrimary.svg';
 
 function LoginComponent() {
     const [formData, setFormData] = useState({ uan: "", password: "" });
@@ -81,6 +85,8 @@ function LoginComponent() {
     };
 
     const handleSubmit = async (e) => {
+        console.log(formData);
+        
         e.preventDefault();
         const newErrors = {
             uan: validateField("uan", formData.uan),
@@ -94,7 +100,7 @@ function LoginComponent() {
                 const result = await login(formData.uan, formData.password.trim());
 
                 if (result.status === 400) {
-                    setLoading(false); 
+                    setLoading(false);
                     setMessage({ type: "error", content: result.message });
                 } else {
                     if (result.message === "User Successfully Verified") setMessage({ type: "success", content: result.message });
@@ -103,11 +109,11 @@ function LoginComponent() {
                             localStorage.setItem("user_uan", formData.uan);
                             localStorage.setItem('data-cred-' + formData.uan, encryptData(formData.password))
                             navigate("/service-history");
-                            } else {
+                        } else {
                             const regMobileNumber = ExtractMobile(result.message)
                             navigate("/otpAssessment", { state: { UAN: formData.uan, Pws: formData.password, type: "", regMobileNumber } });
                         }
-                        setLoading(false); 
+                        setLoading(false);
                     }, 3000);
                 }
             } catch (error) {
@@ -127,6 +133,7 @@ function LoginComponent() {
 
     const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
+
     return (
         <>
             {loading && (
@@ -137,9 +144,17 @@ function LoginComponent() {
                     </div>
                 </div>
             )}
-            <div className="container">
+            <div className="container-fluid" 
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                height: '100vh',
+                width: '100%',
+            }}
+            >
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
-                <div className="row d-flex justify-content-center align-items-center">
+                {/* <div className="row d-flex justify-content-center align-items-center">
                     <div className="col-lg-5 col-md-8 mt-3 mt-lg-0 ms-0 ms-lg-3">
                         <div className="row">
                             <div className="col-md-12">
@@ -256,6 +271,123 @@ function LoginComponent() {
                             </div>
                         }
                     </div>
+                    
+                    )}
+
+                </div> */}
+                <p className='d-lg-block d-none' style={{color:'#304DFF', fontSize: '1.5rem',fontWeight: '700'}}>Home</p>
+                <div className="row d-flex justify-content-center align-items-center setTopMargin">
+                    <div className="col-lg-5 col-md-8">
+                        <div className='card shadow-sm position-relative'>
+                            <img
+                                src={finRightLogo}
+                                alt="FinRight Logo"
+                                className="rounded-circle finRightImage position-absolute start-50 translate-middle"
+                            />
+                            <p className="pfRiskheading text-center" style={{ marginTop: '4rem' }}>
+                                Check if Your Provident Fund (PF) is <br></br>Accessible and Withdrawable
+                            </p>
+                            <p className="pfRiskSubHeading text-center">
+                                Login with your EPF UAN and Password
+                            </p>
+                            <form className='px-3' onSubmit={handleSubmit}>
+                                <div className='row'>
+                                    <div className='col-md-10 offset-md-1'>
+                                        <label className="loginLabel">UAN Number:</label>
+                                        <input className="form-control uanNumber mt-2"
+                                            type="number"
+                                            placeholder="Enter your 12 digit UAN number"
+                                            name="uan"
+                                            autoComplete='off'
+                                            value={formData.uan}
+                                            onChange={handleInputChange}
+                                            maxLength={12}
+                                            required/>
+                                            <ValidationError message={errors.uan} />
+                                        <div className="text-end labelSubHeading mt-2" >
+                                            <span style={{ cursor: 'pointer' }}
+                                                onClick={() => navigate("/donot-know-uan")}>I don't know my UAN
+                                            </span>
+                                        </div>
+
+                                        <label className="loginLabel">Password:</label>
+                                        <div className="position-relative">
+                                        <input
+                                            className="form-control uanNumber mt-2"
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder="Enter your EPFO password"
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                        <ValidationError message={errors.password} />
+                                        <span
+                                            className="position-absolute top-50 end-0 translate-middle-y me-3"
+                                            style={{ cursor: 'pointer', zIndex: 1 }}
+                                            onClick={togglePasswordVisibility}
+                                            aria-label="Toggle password visibility"
+                                        >
+                                            {showPassword ? <FaEye /> : <FaEyeSlash />}
+                                        </span>
+                                    </div>
+                                        <div className="text-end labelSubHeading mt-2" >
+                                            <span style={{ cursor: 'pointer' }}
+                                                onClick={() => navigate("/forgot-password")}>Forgot Password?
+                                            </span>
+                                        </div>
+
+                                        <div className="d-flex justify-content-center mt-3">
+                                            <button
+                                                type="submit" style={{ fontSize: '1rem', padding: '0.5rem 5rem' }}
+                                                className="btn btn-lg pfRiskButtons" disabled={!isFormValid}>
+                                                Login
+                                            </button>
+                                        </div>
+
+                                        <div className='text-center'>
+                                            <span className='d-inline-block termCondition mt-1'>
+                                                By Log in, you agree to our
+                                                <span style={{ color: '#304DFF', cursor: 'pointer' }} onClick={termsCondition}> Terms & Conditions</span>
+                                            </span>
+                                        </div>
+                                        <div className="d-flex justify-content-center mt-3 mb-4">
+                                            <span className='securityText py-2 px-3 d-flex align-items-center' onClick={toggleText} style={{ cursor: "pointer" }}>
+                                                <AiOutlineFileProtect style={{ fontSize: "1.2rem", marginRight: "0.4rem" }} />
+                                                Your data is 100% safe and secure
+                                            </span>
+                                        </div>
+
+                                        {isVisible &&
+                                            <div className="d-flex justify-content-center my-3">
+                                                <div className='d-flex flex-column  align-items-center text-center'>
+                                                    <img src={multiFactor} alt="Risk Assessment" className='iconImage ' />
+                                                    <span className="iconText">
+                                                        Two-Factor Auth
+                                                    </span>
+                                                </div>
+                                                <div className='d-flex flex-column align-items-center text-center mx-5'>
+                                                    <img src={Encryption} alt="Risk Assessment" className='iconImage' />
+                                                    <span className="iconText">
+                                                        End-to-End Encryption
+                                                    </span>
+                                                </div>
+                                                <div className='d-flex flex-column align-items-center text-center'>
+                                                    <img src={IPData} alt="Risk Assessment" className='iconImage' />
+                                                    <span className="iconText">
+                                                        Masking of PI data
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        }
+                                    </div>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
                     {showIframe && (
                         <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
                             <div className="modal-dialog modal-xl modal-dialog-centered">
@@ -266,7 +398,7 @@ function LoginComponent() {
                                     </div>
                                     <div className="modal-body">
                                         <iframe
-                                            src="https://www.finright.in/terms-conditions" 
+                                            src="https://www.finright.in/terms-conditions"
                                             style={{
                                                 width: "100%",
                                                 height: "30rem",
@@ -279,7 +411,6 @@ function LoginComponent() {
                             </div>
                         </div>
                     )}
-
                 </div>
             </div>
         </>

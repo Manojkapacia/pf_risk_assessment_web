@@ -76,4 +76,30 @@
     background-color: #888;
     border-radius: 0.1rem;
 }
-  
+.confirmHistory{
+    font-size: 2.3rem;
+    font-weight: 600;
+    text-align: center;
+}
+.capturedCorrect{
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center; 
+}
+.employmentServiceHis{
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+.employmentTabel{
+    font-size: 0.63rem !important;
+    font-weight: 400 !important;
+    color: #00124F !important;
+}
+.employmentTabelData{
+    font-size: 1rem !important;
+    font-weight: 300 !important;
+}
+.employmentService{
+    font-size: 1rem ;
+    font-weight: 700;
+}
