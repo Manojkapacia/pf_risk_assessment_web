@@ -63,7 +63,7 @@ function ClaimRejection(reportData) {
                         <p className="mb-0" style={{ fontSize: '1rem', fontWeight: '600', lineHeight: '1.1' }}>
                             Stuck due to identified Issues
                         </p>
-                        <button className="resolveButton mt-2" style={{ color: '#FA3E3E' }}>Resolve My Issues</button>
+                        <button className="resolveButton mt-2 py-1">Resolve My Issues</button>
                     </div>
                 </div>
 

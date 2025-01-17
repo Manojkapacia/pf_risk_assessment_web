@@ -81,28 +81,28 @@ function FundDetails() {
         datasets: [
             {
                 label: "Employee Share",
-                data: [0,0,0],
+                data: [0, 0, 0],
                 borderColor: "#27DEBF",
                 // backgroundColor: "rgba(39, 222, 191, 0.4)",
                 fill: false
             },
             {
                 label: "Employer Share",
-                data: [0,0,0],
+                data: [0, 0, 0],
                 borderColor: "#00124F",
                 // backgroundColor: "rgba(0, 18, 79, 0.4)",
                 fill: false
             },
             {
                 label: "Pension Share",
-                data: [0,0,0],
+                data: [0, 0, 0],
                 borderColor: "#4880FF",
                 // backgroundColor: "rgba(72, 128, 255, 0.4)",
                 fill: false
             },
             {
                 label: "Interest Share",
-                data: [0,0,0],
+                data: [0, 0, 0],
                 borderColor: "#ABD5FD",
                 // backgroundColor: "rgba(171, 213, 253, 0.4)",
                 fill: false
@@ -260,34 +260,44 @@ function FundDetails() {
                         <h5 className="text-center fundDistribution">Fund Growth</h5>
                         <Line data={fundGrowthChartData} options={optionsFundGrowth} />
                         <h5 className="text-center fundDistribution mt-3">Fund Contributions</h5>
-                        <table className="table text-center">
-                            <thead>
-                                <tr>
-                                    <th style={{ fontSize: '0.63rem', fontWeight: '400' }}>Particular</th>
-                                    {fundYears?.map(year => (
-                                        <th key={year} style={{ fontSize: '0.63rem', fontWeight: '400' }}>FY'{year.slice(-2)}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style={{ fontSize: '0.67rem', fontWeight: '300' }}>Amount You Contributed</td>
-                                    {fundYears?.map(year => (
-                                        <td key={year} style={{ fontSize: '0.65rem', fontWeight: '300' }}>
-                                            ₹ {summaryData?.reportData?.fundValues[year].totalEmployeeShare.toLocaleString()}
-                                        </td>
-                                    ))}
-                                </tr>
-                                <tr>
-                                    <td style={{ fontSize: '0.67rem', fontWeight: '300' }}>Amount Contributed by Employer</td>
-                                    {fundYears?.map(year => (
-                                        <td key={year} style={{ fontSize: '0.65rem', fontWeight: '300' }}>
-                                            ₹ {summaryData?.reportData?.fundValues[year].totalEmployerShare.toLocaleString()}
-                                        </td>
-                                    ))}
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div
+                            className="table-responsive"
+                            style={{
+                                overflowX: "auto",
+                                whiteSpace: "nowrap",
+                                maxWidth: "100%",
+                            }}
+                        >
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th style={{ fontSize: '0.80rem', fontWeight: '400' }}>Particular</th>
+                                        {fundYears?.map(year => (
+                                            <th key={year} style={{ fontSize: '0.80rem', fontWeight: '400' }}>FY'{year.slice(-2)}</th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style={{ fontSize: '0.85rem', fontWeight: '300' }}>Amount You Contributed</td>
+                                        {fundYears?.map(year => (
+                                            <td key={year} style={{ fontSize: '0.80rem', fontWeight: '300' }}>
+                                                ₹ {summaryData?.reportData?.fundValues[year].totalEmployeeShare.toLocaleString()}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                    <tr>
+                                        <td style={{ fontSize: '0.67rem', fontWeight: '300' }}>Amount Contributed by Employer</td>
+                                        {fundYears?.map(year => (
+                                            <td key={year} style={{ fontSize: '0.65rem', fontWeight: '300' }}>
+                                                ₹ {summaryData?.reportData?.fundValues[year].totalEmployerShare.toLocaleString()}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
 
                     {fundRoi ?

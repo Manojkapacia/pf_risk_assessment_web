@@ -20,6 +20,15 @@ function AccountDetails() {
         return memberDetails?.balance
     }
 
+    function formatDuration(duration) {
+        if(duration){
+        const parts = duration?.split(" ");
+        const years = parts[0] !== "0" ? `${parts[0]} Yrs` : "";
+        const months = parts[2] !== "0" ? `${parts[2]} M` : "";
+        return [years, months].filter(Boolean).join(" ");
+        }
+      }
+
     useEffect(() => {
         if (summaryData?.rawData) {
             const balances = getClosingBalance(summaryData?.rawData?.data?.passbooks)
@@ -52,18 +61,18 @@ function AccountDetails() {
                                         <td>
                                             <div className="employmentData">{data?.company}</div>
                                             <div className="employmentData">
-                                                Member ID: {data?.details?.['Member Id']}
+                                                {data?.details?.['Member Id']}
                                             </div>
                                         </td>
                                         <td className="employmentData">{data?.period}</td>
-                                        <td className="employmentData">{data?.details?.['Total Service']}</td>
-                                        <td className="employmentData">{getMemberWiseBalance(data?.details?.['Member Id'])}</td>
+                                        <td className="employmentData">{formatDuration(data?.details?.['Total Service'])}</td>
+                                        <td className="employmentData" style={{width: '4rem'}}>{getMemberWiseBalance(data?.details?.['Member Id'])}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                         <div className="text-center employmentHistory mt-2">
-                            Total Service: {summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'].replace(/\b\d+\s*Days\b/i, "").trim()}
+                            Total Service: {formatDuration(summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'])}
                         </div>
                     </div>
 
@@ -79,7 +88,7 @@ function AccountDetails() {
                                 <tr>
                                     <td className="overViewTabelData">Total Service</td>
                                     <td className="overViewTabelSubData">
-                                        {summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'].replace(/\b\d+\s*Days\b/i, "").trim()}
+                                        {formatDuration(summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'])}
                                     </td>
                                 </tr>
                                 <tr>

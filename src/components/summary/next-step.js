@@ -62,7 +62,7 @@ const NextStep = () => {
                   left: "1.2rem",
                   top: "2.5rem",
                   width: "0.13rem",
-                  height: "3.5rem",
+                  height: "4rem",
                   backgroundColor: "gray",
                   zIndex: 0,
                 }}
@@ -70,8 +70,13 @@ const NextStep = () => {
             )}
 
             <div className="d-flex justify-content-between align-items-center">
-              <p className="mb-1 ms-lg-3"
-                style={{ fontWeight: step.status === "completed" ? "bold" : "normal",fontSize:'1rem' }}>
+              <p
+                className="mb-1 ms-lg-3 ms-2"
+                style={{
+                  fontWeight: step.status === "completed" ? "bold" : "normal",
+                  fontSize: "1rem",
+                }}
+              >
                 {step.label}{" "}
                 {step.status === "completed" && (
                   <span className="text-success" style={{ fontSize: "0.85rem" }}>
@@ -81,14 +86,29 @@ const NextStep = () => {
               </p>
 
               {step.actions && (
-                <div className="d-flex  mt-2">
+                <div
+                  className="d-flex mt-2 flex-column flex-lg-row"
+                  style={{
+                    rowGap: "0.5rem",
+                    columnGap: "0.5rem",
+                  }}
+                >
                   {step.actions.map((action, idx) => (
-                    <button style={{ backgroundColor: '#00124F', fontSize: '0.80rem', borderRadius: '2rem' }}
+                    <button
+                      style={{
+                        backgroundColor: "#00124F",
+                        fontSize: "0.80rem",
+                        borderRadius: "2rem",
+                      }}
                       key={idx}
-                      className={`btn btn-${action.type} me-1 ms-lg-3  btn-sm d-flex align-items-center`}
+                      className={`btn btn-${action.type} btn-sm d-flex align-items-center ms-3`}
                     >
-                      {action.label === "Schedule call" && <FaCalendarAlt className="me-1" />}
-                      {action.label === "Call now" && <FaPhoneAlt className="me-1" />}
+                      {action.label === "Schedule call" && (
+                        <FaCalendarAlt className="me-1" />
+                      )}
+                      {action.label === "Call now" && (
+                        <FaPhoneAlt className="me-1" />
+                      )}
                       {action.label}
                     </button>
                   ))}
@@ -103,3 +123,4 @@ const NextStep = () => {
 };
 
 export default NextStep;
+
