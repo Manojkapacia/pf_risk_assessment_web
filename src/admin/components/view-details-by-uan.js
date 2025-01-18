@@ -353,13 +353,13 @@ function ViewDetailsByUan() {
                                     value={searchUAN}
                                     onChange={handleSearch}
                                 />
-                                <button type="button" class="btn btn-primary" onClick={handleOpenFirstModal}>
+                                <button type="button" className="btn btn-primary" onClick={handleOpenFirstModal}>
                                     Add User
                                 </button>
                             </div>
                             {uanList?.length > 0 ? (
-                                uanList?.map((item) => (
-                                    <div className="card mb-2">
+                                uanList?.map((item, index) => (
+                                    <div className="card mb-2" key={index}>
                                         <div className="card-body">
                                             <div className="row">
                                                 <div className="col-md-5">
