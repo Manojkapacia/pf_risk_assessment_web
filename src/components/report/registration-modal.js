@@ -219,8 +219,10 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
 
                                         {!showReportScreen ?
                                             <div className="col-lg-12 mt-3 mt-lg-0">
-                                                <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Share your WhatsApp number to get your personalised report sent to you</p>
+                                                
                                                 {!showOtpModel ?
+                                                <>
+                                                <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Share your WhatsApp number to get your personalised report sent to you</p>
                                                     <form onSubmit={handleSubmit(onSubmit)}>
                                                         <div className="input-group mt-5">
                                                             <input
@@ -249,7 +251,11 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
                                                                 Verify Number
                                                             </button>
                                                         </div>
-                                                    </form> :
+                                                    </form>
+                                                </>
+                                                 :
+                                                    <>     
+                                                    <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Please enter your OTP</p>
 
                                                     <form onSubmit={handleSubmitOtp}>
                                                         <div className="d-flex">
@@ -290,6 +296,8 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
                                                             </button>
                                                         </div>
                                                     </form>
+                                                    </>
+                                                    
                                                 }
                                             </div>
                                             :
@@ -299,8 +307,8 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
                                                 </div>
                                                 <div className='row'>
                                                     <div className='col-md-8 offset-md-2 text-center'>
-                                                        <p style={{ fontSize: '1.5rem', fontWeight: '300', lineHeight: '1.3' }}>All Set!<br></br>
-                                                            You will get your report sent to you {reportMessage}</p>
+                                                        {/* <p style={{ fontSize: '1.5rem', fontWeight: '300', lineHeight: '1.3' }}>All Set!<br></br>
+                                                            You will get your report sent to you {reportMessage}</p> */}
                                                     </div>
                                                 </div>
                                                 <div className='text-center mt-3'>

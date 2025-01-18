@@ -116,11 +116,18 @@ function TotalSummary() {
     const getSelectedCategoryData = (category) => {
         if (!summaryData?.reportData?.withdrawabilityCheckupReport) return;
         const categoryData = summaryData?.reportData?.withdrawabilityCheckupReport.find((item) => item.category.toUpperCase() === category.toUpperCase())
-
+      
         return {
             totalCritical: categoryData?.totalCritical,
             totalMedium: categoryData?.totalMedium,
-            consolidatedErrorMessage: categoryData?.subCategory.flatMap(sub => sub.errorMessages).filter(msg => msg).join(', ')
+            consolidatedErrorMessage: categoryData?.subCategory
+            .flatMap(sub => sub.errorMessages)
+            .filter(msg => msg)
+            .map((msg, index) => (
+                <p key={index} style={{ marginBottom: '0.5rem' }} className='mb-0'>
+                    {msg}
+                </p>
+            ))
         }
     }
     
@@ -142,6 +149,7 @@ function TotalSummary() {
             <div className="row d-flex justify-content-center align-items-center">
                 <div className='col-lg-5 col-md-6 mt-4'>
                     <SummaryCard summaryData={summaryData}></SummaryCard>
+                    <ClaimRejection reportData={summaryData}></ClaimRejection>
                     <PfBalanceAnalysis summaryData={summaryData}></PfBalanceAnalysis>
 
                     {/* Resolution Time Section  */}
@@ -326,7 +334,7 @@ function TotalSummary() {
                             {(getSelectedSubCategoryData('KYC')?.criticalCount > 0 || getSelectedSubCategoryData('KYC')?.mediumCount > 0) && 
                                 <div
                                     className={getSelectedSubCategoryData('KYC')?.criticalCount > 0 ? "text-danger mt-2" : "text-warning-custom mt-2"}>
-                                    <p className='kycSubText mb-0'>
+                                    <p className='kycSubText mb-0 ' style={{fontWeight:'400'}}>
                                         <i className="bi bi-exclamation-circle-fill me-2"></i>
                                         <b>{getSelectedSubCategoryData('KYC')?.totalErrorCount} Issues Found: </b>{getSelectedSubCategoryData('KYC')?.consolidatedErrorMessage}. Incomplete KYC will result
                                         in <strong>Claim Rejections.</strong>
@@ -335,7 +343,7 @@ function TotalSummary() {
                             }
                             {(getSelectedSubCategoryData('KYC')?.criticalCount === 0 && getSelectedSubCategoryData('KYC')?.mediumCount === 0) && 
                                 <div className="text-success">
-                                    <p className='mb-0 kycSubText'>
+                                    <p className='mb-0 kycSubText' style={{fontWeight:'400'}}>
                                         <i className="bi bi-check-circle-fill me-2"></i>
                                         <b>No Issue Found, </b> All Good! 1 less thing to worry about.
                                     </p>
@@ -463,7 +471,7 @@ function TotalSummary() {
                         {(getSelectedCategoryData('Employment History')?.totalCritical > 0 || getSelectedCategoryData('Employment History')?.totalMedium > 0) && 
                             <div
                                 className={getSelectedCategoryData('Employment History')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>                            
-                                <p className='mb-0 kycSubText'>
+                                <p className='mb-0 kycSubText' style={{fontWeight:'400'}}>
                                     <i className="bi bi-exclamation-circle-fill me-2"></i>
                                     <b>{getSelectedCategoryData('Employment History')?.totalCritical + getSelectedCategoryData('Employment History')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Employment History')?.consolidatedErrorMessage}
                                 </p>
@@ -471,7 +479,7 @@ function TotalSummary() {
                         }
                         {(getSelectedCategoryData('Employment History')?.totalCritical === 0 && getSelectedCategoryData('Employment History')?.totalMedium === 0) && 
                             <div className="text-success">
-                                <p className='mb-0 kycSubText'>
+                                <p className='mb-0 kycSubText' style={{fontWeight:'400'}}>
                                     <i className="bi bi-check-circle-fill me-2"></i>
                                     <b>No Issue Found, </b> All Good! 1 less thing to worry about.
                                 </p>
@@ -573,7 +581,7 @@ function TotalSummary() {
                         {(getSelectedCategoryData('PF Contributions')?.totalCritical > 0 || getSelectedCategoryData('PF Contributions')?.totalMedium > 0) && 
                             <div
                                 className={getSelectedCategoryData('PF Contributions')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>                            
-                                <p className='mb-0 kycSubText'>
+                                <p className='mb-0 kycSubText' style={{fontWeight:'400'}}>
                                     <i className="bi bi-exclamation-circle-fill me-2"></i>
                                     <b>{getSelectedCategoryData('PF Contributions')?.totalCritical + getSelectedCategoryData('PF Contributions')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('PF Contributions')?.consolidatedErrorMessage}
                                 </p>
@@ -581,7 +589,7 @@ function TotalSummary() {
                         }
                         {(getSelectedCategoryData('PF Contributions')?.totalCritical === 0 && getSelectedCategoryData('PF Contributions')?.totalMedium === 0) && 
                             <div className="text-success">
-                                <p className='mb-0 kycSubText'>
+                                <p className='mb-0 kycSubText' style={{fontWeight:'400'}}>
                                     <i className="bi bi-check-circle-fill me-2"></i>
                                     <b>No Issue Found, </b> All Good! 1 less thing to worry about.
                                 </p>
@@ -633,7 +641,7 @@ function TotalSummary() {
                         {(getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 || getSelectedCategoryData('EPF Pension Records')?.totalMedium > 0) && 
                             <div
                                 className={getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>                            
-                                <p className='mb-0 kycSubText'>
+                                <p className='mb-0 kycSubText' style={{fontWeight:'400'}}>
                                     <i className="bi bi-exclamation-circle-fill me-2"></i>
                                     <b>{getSelectedCategoryData('EPF Pension Records')?.totalCritical + getSelectedCategoryData('EPF Pension Records')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('EPF Pension Records')?.consolidatedErrorMessage}
                                 </p>
@@ -641,7 +649,7 @@ function TotalSummary() {
                         }
                         {(getSelectedCategoryData('EPF Pension Records')?.totalCritical === 0 && getSelectedCategoryData('EPF Pension Records')?.totalMedium === 0) && 
                             <div className="text-success">
-                                <p className='mb-0 kycSubText'>
+                                <p className='mb-0 kycSubText' style={{fontWeight:'400'}}>
                                     <i className="bi bi-check-circle-fill me-2"></i>
                                     <b>No Issue Found, </b> All Good! 1 less thing to worry about.
                                 </p>
@@ -717,7 +725,7 @@ function TotalSummary() {
                         {(getSelectedCategoryData('Passbook Records')?.totalCritical > 0 || getSelectedCategoryData('Passbook Records')?.totalMedium > 0) && 
                             <div
                                 className={getSelectedCategoryData('Passbook Records')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>                            
-                                <p className='mb-0 kycSubText'>
+                                <p className='mb-0 kycSubText' style={{fontWeight:'400'}}>
                                     <i className="bi bi-exclamation-circle-fill me-2"></i>
                                     <b>{getSelectedCategoryData('Passbook Records')?.totalCritical + getSelectedCategoryData('Passbook Records')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Passbook Records')?.consolidatedErrorMessage}
                                 </p>
@@ -725,15 +733,13 @@ function TotalSummary() {
                         }
                         {(getSelectedCategoryData('Passbook Records')?.totalCritical === 0 && getSelectedCategoryData('Passbook Records')?.totalMedium === 0) && 
                             <div className="text-success">
-                                <p className='mb-0 kycSubText'>
+                                <p className='mb-0 kycSubText' style={{fontWeight:'400'}}>
                                     <i className="bi bi-check-circle-fill me-2"></i>
                                     <b>No Issue Found, </b> All Good! 1 less thing to worry about.
                                 </p>
                             </div>
                         }                        
                     </div>
-                    
-                    <ClaimRejection reportData={summaryData}></ClaimRejection>
                     <NextStep></NextStep>
 
                 </div>

@@ -12,8 +12,8 @@ const NextStep = () => {
       number: 2,
       label: "Consult with Expert",
       actions: [
-        { label: "Schedule call", type: "primary" },
-        { label: "Call now", type: "dark" },
+        { label: "Schedule call"},
+        { label: "Call now" },
       ],
     },
     {
@@ -99,9 +99,11 @@ const NextStep = () => {
                         backgroundColor: "#00124F",
                         fontSize: "0.80rem",
                         borderRadius: "2rem",
+                        border:'none',
+                        color: '#ffffff'
                       }}
                       key={idx}
-                      className={`btn btn-${action.type} btn-sm d-flex align-items-center ms-3`}
+                      className={`btn btn-${action.type} btn-sm d-flex align-items-center justify-content-center ms-3`}
                     >
                       {action.label === "Schedule call" && (
                         <FaCalendarAlt className="me-1" />

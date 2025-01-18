@@ -93,7 +93,7 @@ function PfBalanceAnalysis({summaryData}) {
                     <p className='pfAnalysisText'>PF Balance Analysis</p>
                     <div className="d-flex align-items-center bg-light position-relative mt-4 border-top border-bottom">
                         <div className="totalCorpusChart"></div>
-                        <div className="text-end totalCorpusText mt-0  d-flex justify-content-between align-items-center">
+                        <div className="mt-0  d-flex justify-content-between align-items-center">
                             <div className='ms-2'>
                                 <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalPfBalance)}</span>
                                 <div className='pfTextanalysis'>Total Corpus</div>
@@ -110,7 +110,7 @@ function PfBalanceAnalysis({summaryData}) {
                             style={{ width: '50%' }}>
                             <div className='ms-2'>
                                 <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.maxWithdrawableLimit)}</span>
-                                <div className='pfTextanalysis'>Maximum withdrawal Limit</div>
+                                <div className='pfTextanalysis'>Max withdrawal Limit</div>
                             </div>
                             <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("withdrawalLimit")}>
                                 {/* <i className="bi bi-chevron-right me-2" style={{ fontSize: '1.3rem', fontWeight: '800', cursor: 'pointer' }}></i> */}
