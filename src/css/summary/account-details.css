@@ -3,16 +3,16 @@
     font-weight: 600;
 }
 .employmentTabelHeading{
-    font-size: 0.67rem !important;
+    font-size: 0.90rem !important;
     font-weight: 400 !important;
     color: #00124F !important;
 }
 .employmentData{
-    font-size: 0.67rem !important;
+    font-size: 0.90rem !important;
     font-weight: 300 !important;
 }
 .overViewTabelData{
-    font-size: 0.90rem;
+    font-size: 0.90rem !important;
     font-weight: 600;
 }
 .overViewTabelSubData{
@@ -20,10 +20,10 @@
     font-weight: 300;  
 }
 .personalDetText{
-    font-size: 1rem;
+    font-size: 0.90rem;
     font-weight: 600;
 }
 .personalDetSubtext{
-    font-size: 1rem;
+    font-size: 0.90rem;
     font-weight: 300; 
 }

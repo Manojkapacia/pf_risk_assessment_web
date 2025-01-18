@@ -287,9 +287,9 @@ function FundDetails() {
                                         ))}
                                     </tr>
                                     <tr>
-                                        <td style={{ fontSize: '0.67rem', fontWeight: '300' }}>Amount Contributed by Employer</td>
+                                        <td style={{ fontSize: '0.85rem', fontWeight: '300' }}>Amount Contributed by Employer</td>
                                         {fundYears?.map(year => (
-                                            <td key={year} style={{ fontSize: '0.65rem', fontWeight: '300' }}>
+                                            <td key={year} style={{ fontSize: '0.80rem', fontWeight: '300' }}>
                                                 ₹ {summaryData?.reportData?.fundValues[year].totalEmployerShare.toLocaleString()}
                                             </td>
                                         ))}
@@ -319,15 +319,15 @@ function FundDetails() {
                                             <tbody>
                                                 <tr>
                                                     <td className="fundTabelText">Total Amount Contributed by You</td>
-                                                    <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}</td>
+                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="fundTabelText">PF Interest Rate</td>
-                                                    <td className="fundTabelText">8.5%</td>
+                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>8.5%</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="fundTabelText">TDS on Withdrawal</td>
-                                                    <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.tdsOnWithdrawal) || "-"}</td>
+                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.tdsOnWithdrawal) || "-"}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -381,16 +381,16 @@ function FundDetails() {
                                         <tbody>
                                             <tr>
                                                 <td className="fundTabelText">Total Pension Balance</td>
-                                                <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.amountContributed?.totalPensionShare) || "-"}</td>
+                                                <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalPensionShare) || "-"}</td>
                                             </tr>
                                             <tr>
                                                 <td className="fundTabelText">Lump sum Pension Withdrawal limit</td>
-                                                <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.pensionWithdrability?.withdrawableAmount) || "-"}</td>
+                                                <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.withdrawableAmount) || "-"}</td>
                                             </tr>
                                             <tr>
                                                 <td className="fundTabelText">Monthly Pension Amount at Retirement</td>
-                                                {summaryData?.reportData?.pensionWithdrability?.message === "" && <td className="fundTabelText">{formatCurrency(summaryData?.reportData?.pensionWithdrability?.pensionAmountPerMonth) || "-"}</td>}
-                                                {summaryData?.reportData?.pensionWithdrability?.message !== "" && <td className="fundTabelText">{summaryData?.reportData?.pensionWithdrability?.message}</td>}
+                                                {summaryData?.reportData?.pensionWithdrability?.message === "" && <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.pensionAmountPerMonth) || "-"}</td>}
+                                                {summaryData?.reportData?.pensionWithdrability?.message !== "" && <td className="fundTabelText" style={{minWidth: '5rem'}}>{summaryData?.reportData?.pensionWithdrability?.message}</td>}
                                             </tr>
                                         </tbody>
                                     </table>

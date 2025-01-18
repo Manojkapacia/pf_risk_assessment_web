@@ -9,11 +9,11 @@ function AccountDetails() {
     const location = useLocation()
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [lastContribution, setLastContribution] = useState(0)
-    
+
     const { summaryData } = location.state || {};
     const ServiceHistoryData = summaryData?.rawData?.data?.serviceHistory;
     const profileData = summaryData?.rawData?.data?.profile;
-    
+
     const getMemberWiseBalance = (memberId) => {
         const memberDetails = summaryData?.rawData?.data?.home?.memberWiseBalances.find((item) => item.memberId === memberId)
         if (!memberDetails) return 'N/A'
@@ -21,13 +21,13 @@ function AccountDetails() {
     }
 
     function formatDuration(duration) {
-        if(duration){
-        const parts = duration?.split(" ");
-        const years = parts[0] !== "0" ? `${parts[0]} Yrs` : "";
-        const months = parts[2] !== "0" ? `${parts[2]} M` : "";
-        return [years, months].filter(Boolean).join(" ");
+        if (duration) {
+            const parts = duration?.split(" ");
+            const years = parts[0] !== "0" ? `${parts[0]} Yrs` : "";
+            const months = parts[2] !== "0" ? `${parts[2]} M` : "";
+            return [years, months].filter(Boolean).join(" ");
         }
-      }
+    }
 
     useEffect(() => {
         if (summaryData?.rawData) {
@@ -46,31 +46,39 @@ function AccountDetails() {
                     <SummaryCard summaryData={summaryData}></SummaryCard>
                     <div className="card shadow-sm py-3 px-lg-3 mt-3">
                         <p className="text-center employmentHistory">Employment History</p>
-                        <table className="table mb-0">
-                            <thead>
-                                <tr>
-                                    <th className="employmentTabelHeading">Employer</th>
-                                    <th className="employmentTabelHeading">Tenure</th>
-                                    <th className="employmentTabelHeading">Experience</th>
-                                    <th className="employmentTabelHeading">Balance</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {ServiceHistoryData?.history?.map((data, index) => (
-                                    <tr key={index}>
-                                        <td>
-                                            <div className="employmentData">{data?.company}</div>
-                                            <div className="employmentData">
-                                                {data?.details?.['Member Id']}
-                                            </div>
-                                        </td>
-                                        <td className="employmentData">{data?.period}</td>
-                                        <td className="employmentData">{formatDuration(data?.details?.['Total Service'])}</td>
-                                        <td className="employmentData" style={{width: '4rem'}}>{getMemberWiseBalance(data?.details?.['Member Id'])}</td>
+                        <div
+                            className="table-responsive"
+                            style={{
+                                overflowX: "auto",
+                                whiteSpace: "nowrap",
+                                maxWidth: "100%",
+                            }}>
+                            <table className="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th className="employmentTabelHeading">Employer</th>
+                                        <th className="employmentTabelHeading">Tenure</th>
+                                        <th className="employmentTabelHeading">Experience</th>
+                                        <th className="employmentTabelHeading">Balance</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {ServiceHistoryData?.history?.map((data, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                <div className="employmentData">{data?.company}</div>
+                                                <div className="employmentData">
+                                                    {data?.details?.['Member Id']}
+                                                </div>
+                                            </td>
+                                            <td className="employmentData">{data?.period}</td>
+                                            <td className="employmentData">{formatDuration(data?.details?.['Total Service'])}</td>
+                                            <td className="employmentData" style={{ minWidth: '4rem' }}>{getMemberWiseBalance(data?.details?.['Member Id'])}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                         <div className="text-center employmentHistory mt-2">
                             Total Service: {formatDuration(summaryData?.rawData?.data?.serviceHistory?.overview?.['Total Experience'])}
                         </div>

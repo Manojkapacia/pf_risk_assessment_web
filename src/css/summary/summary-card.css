@@ -30,6 +30,16 @@
 }
 
 .cardButtonText{
-    font-size: 1rem;
+    font-size: 1rem !important;
     font-weight: 300;
+}
+@media only screen and (max-width: 500px) {
+    .cardSubdetails{
+        font-size: 0.80rem;
+        font-weight: 400;
+    }
+    .cardButtonText{
+        font-size: 0.80rem !important;
+        font-weight: 300;
+    }
 }

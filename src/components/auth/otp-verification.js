@@ -65,6 +65,7 @@ function OtpComponent() {
 
     //Refresh OTP
     const refreshOtp = async () => {
+        setOtp(Array(6).fill(""));
         if (UAN && Pws) {
             try {
                 setLoading(true);
@@ -95,6 +96,7 @@ function OtpComponent() {
 
     //Resend OTP
     const resendOtp = async (event) => {
+        setOtp(Array(6).fill(""));
         event.preventDefault();
         if (UAN && Pws) {
             try {
@@ -253,7 +255,7 @@ function OtpComponent() {
                                     <div className="text-center" style={{ fontWeight: "400", fontSize: "1rem" }}>
                                         <p className='mt-2'>Waiting for OTP ? Resend in :{timer > 1 ? <span className='otpText'> {" "}{timer}</span>
                                             :<a
-                                            className="text-decoration-none otpText"
+                                            className="text-decoration-none otpText" style={{cursor: 'pointer'}}
                                             onClick={type === "back-screen" ? refreshOtp : resendOtp}>{" "}
                                             Resend OTP
                                         </a>}
