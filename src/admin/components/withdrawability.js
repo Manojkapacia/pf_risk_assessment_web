@@ -15,7 +15,7 @@ function Withdrawability({ jsonData, onBack }) {
         setLoading(true);
         try {
             setLoading(true);
-            const result = await get('/data/report/fetchByUanForAdmin/' + jsonData?.meta.uan);
+            const result = await get('/admin/report/fetchByUanForAdmin/' + jsonData?.meta.uan);
 
             if (result.status === 400) {
                 setLoading(false);
@@ -45,7 +45,7 @@ function Withdrawability({ jsonData, onBack }) {
                         uanToSearch: jsonData?.meta.uan
                     };
 
-                    const response = await post('withdrawability-check', dataToSend);
+                    const response = await post('admin/withdrawability-check', dataToSend);
                     setLoading(false);
                     setReportData(response);
                 }
