@@ -48,7 +48,7 @@ const DocumentScanning = () => {
                 return;
             }
 
-            setCategories(response || []); // Ensure categories is always an array
+            setCategories(response?.withdrawabilityCheckupReport || []); // Ensure categories is always an array
 
             if (Array.isArray(response) && response.length) {
                 const totals = response.reduce((acc, category) => {
