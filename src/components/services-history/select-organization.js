@@ -32,20 +32,15 @@ function SelectOrganization() {
 
     const generateReportClick = () => {
         const selectedOrg = selectedId !== null ? updatedListItems[selectedId] : null;
-        localStorage.removeItem('data-for-org-' + uan)
-        const data = { selectedOrg, uan, type, reportUpdatedAtVar, profileData };
-        const encodedData = encryptData(JSON.stringify(data));
-        localStorage.setItem('data-for-kyc-' + uan, encodedData);
         navigate("/kyc-details", { state: { listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home } });
     }
-    console.log("data", listItems);
 
 
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-5 col-md-8">
-                    <div className='row'>
+                    {/* <div className='row'>
                         <div className="col-lg-11">
                             <div className='row'>
                                 <div className="col-md-10 offset-md-1 pfRiskheading text-center">Select Current Organization</div>
@@ -83,7 +78,7 @@ function SelectOrganization() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='row'>
                         <div className='col-md-12'>
                             {showlistOrganization ? (
@@ -102,7 +97,7 @@ function SelectOrganization() {
                                             <button className='btn NoButton w-100 py-3' onClick={() => setlistOrganization(false)}>No</button>
                                         </div>
                                         <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                                            <button className='btn yesButton w-100 py-3'>Yes</button>
+                                            <button className='btn yesButton w-100 py-3' onClick={generateReportClick}>Yes</button>
                                         </div>
                                     </div>
                                 </>) : (
@@ -119,7 +114,7 @@ function SelectOrganization() {
                                                         </div>
                                                         <div>
                                                             <input className='selectOrgRadioBtn' type="radio" name="currentEmployer"
-                                                                id="currentEmployer" />
+                                                                id="currentEmployer" checked={selectedId === index} onChange={() => handleCheckboxChange(index)} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -127,7 +122,7 @@ function SelectOrganization() {
                                         ))}
 
                                         <div className='text-center mb-3'>
-                                            <button className='btn yesButton w-50 py-3 mt-3'>Not working in any of these</button>
+                                            <button className='btn yesButton w-50 py-3 mt-3' onClick={generateReportClick}>{selectedId !== null ? 'Continue' : "Not working in any of these"}</button>
                                         </div>
                                     </div>
                                 </div>
