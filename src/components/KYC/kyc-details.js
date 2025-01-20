@@ -51,15 +51,15 @@ function KycDetails() {
             const updatedStatus = { ...prev };
             fieldsToCheck.forEach((field) => {
                 if(field === 'UAN') {
-                    if (profileData?.profile?.[field] === '-') {
+                    if (profileData?.profile?.[field] === '-' || profileData?.profile?.[field] === 'N/A') {
                         updatedStatus[field] = false;
                     }
                 } else if(field === 'aadhaar' || field === 'pan') {
-                    if (profileData?.kycDetails?.[field] === '-') {
+                    if (profileData?.kycDetails?.[field] === '-' || profileData?.kycDetails?.[field] === 'N/A') {
                         updatedStatus[field] = false;
                     }
                 } else {
-                    if (profileData?.basicDetails?.[field] === '-') {
+                    if (profileData?.basicDetails?.[field] === '-' || profileData?.basicDetails?.[field] === 'N/A') {
                         updatedStatus[field] = false;
                     }
                 }

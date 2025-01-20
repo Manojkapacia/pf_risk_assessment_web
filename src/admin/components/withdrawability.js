@@ -3,6 +3,7 @@ import { ArrowLeft } from 'react-bootstrap-icons';
 import '../../css/admin/withdrawability.css'
 import ToastMessage from "../../components/common/toast-message";
 import { get, post } from "../../components/common/api";
+import { formatCurrency } from "../../helper/data-transform";
 
 function Withdrawability({ jsonData, onBack }) {
     const [message, setMessage] = useState({ type: "", content: "" });
@@ -21,7 +22,7 @@ function Withdrawability({ jsonData, onBack }) {
                 setLoading(false);
                 setMessage({ type: "error", content: result.message });
             } else {
-                if (result.data) {            
+                if (result.data) {
                     setLoading(false);
                     setReportData(result.data)
                 } else {
@@ -122,16 +123,45 @@ function Withdrawability({ jsonData, onBack }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {rows && Object.entries(rows).map(([year, values]) => (
-                        <tr key={year}>
-                            <td>{year}</td>
-                            <td>{values?.totalEmployeeShare}</td>
-                            <td>{values?.totalEmployerShare}</td>
-                            <td>{values?.totalPensionShare}</td>
-                            <td>{values?.totalInterestShare}</td>
+                    {rows &&
+                        Object.entries(rows)
+                            .sort(([yearA], [yearB]) => yearB - yearA) // Sort by year (latest first)
+                            .map(([year, values]) => (
+                                <tr key={year}>
+                                    <td>{year}</td>
+                                    <td>{values?.totalEmployeeShare}</td>
+                                    <td>{values?.totalEmployerShare}</td>
+                                    <td>{values?.totalPensionShare}</td>
+                                    <td>{values?.totalInterestShare}</td>
+                                </tr>
+                            ))}
+                    {rows && (
+                        <tr>
+                            <td><b>Total</b></td>
+                            <td>
+                                <b>
+                                    {Object.values(rows).reduce((acc, curr) => acc + (curr.totalEmployeeShare || 0), 0)}
+                                </b>
+                            </td>
+                            <td>
+                                <b>
+                                    {Object.values(rows).reduce((acc, curr) => acc + (curr.totalEmployerShare || 0), 0)}
+                                </b>
+                            </td>
+                            <td>
+                                <b>
+                                    {Object.values(rows).reduce((acc, curr) => acc + (curr.totalPensionShare || 0), 0)}
+                                </b>
+                            </td>
+                            <td>
+                                <b>
+                                    {Object.values(rows).reduce((acc, curr) => acc + (curr.totalInterestShare || 0), 0)}
+                                </b>
+                            </td>
                         </tr>
-                    ))}
+                    )}
                 </tbody>
+
             </table>
         </div>
     );
@@ -157,13 +187,39 @@ function Withdrawability({ jsonData, onBack }) {
                         <div className="row">
                             <div className="col-md-6">
                                 <p>UAN: <strong>{reportData?.uan}</strong></p>
-                                <p>Total PF Balance: <strong>{reportData?.totalPfBalance}</strong></p>
-                                <p>Max Withdrawable Limit: <strong>{reportData?.maxWithdrawableLimit}</strong></p>
+                                <p>Total PF Balance: <strong>{formatCurrency(reportData?.totalPfBalance) || 0}</strong></p>
+                                <p>Maximum Withdrawable Limit: <strong>{formatCurrency(reportData?.maxWithdrawableLimit) || 0}</strong></p>
+                                <p>Total Amount Stuck: <strong>{formatCurrency(reportData?.totalAmountStuck) || 0}</strong></p>
+                                <p>Pension Withdrawable Amount : <strong>{formatCurrency(reportData?.pensionWithdrability?.withdrawableAmount) || 0}</strong></p>
+                                <p>TDS on Amount : <strong>{formatCurrency(reportData?.tdsOnWithdrawal) || 0}</strong></p>
                             </div>
                             <div className="col-md-6">
-                                <p>Estimated Resolution Time: <strong>{reportData?.estimatedResolutionTime}</strong></p>
-                                <p>Amount Withdrawable Within 30 Days: <strong>{reportData?.amountWithdrawableWithin30Days}</strong></p>
-                                <p>Claim Rejection Probability: <strong>{reportData?.claimRejectionProbability}</strong></p>
+                                <p>Estimated Resolution Time: <strong>{reportData?.estimatedResolutionTime || "-"}</strong></p>
+                                <p>Amount Withdrawable Within 30 Days: <strong>{formatCurrency(reportData?.amountWithdrawableWithin30Days) || 0}</strong></p>
+                                <p>Claim Rejection Probability: <strong>{reportData?.claimRejectionProbability || "-"}</strong></p>
+                                <p>Last 6 Contribution Average: <strong>{formatCurrency(reportData?.averageOfLastSixTransactions) || 0}</strong></p>
+                                <p>Pension Withdrawable Per Month : <strong>{formatCurrency(reportData?.pensionWithdrability?.pensionAmountPerMonth) || 0}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Amount Contributed */}
+                <div className="card mb-4">
+                    <div className="card-body">
+                        <h5 className="card-title text-center my-4">Amount Contributed Information</h5>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <p>Employee Share: <strong>{formatCurrency(reportData?.amountContributed?.totalEmployeeShare) || 0}</strong></p>
+                                <p>Employer Share: <strong>{formatCurrency(reportData?.amountContributed?.totalEmployerShare) || 0}</strong></p>
+                                <p>Pension Share: <strong>{formatCurrency(reportData?.amountContributed?.totalPensionShare) || 0}</strong></p>
+                                <p>Total Interest: <strong>{formatCurrency(reportData?.amountContributed?.totalInterestShare) || 0}</strong></p>
+                            </div>
+                            <div className="col-md-6">
+                                <p>Employee Share Interest: <strong>{formatCurrency(reportData?.amountContributed?.totalEmployeeShareInterest) || 0}</strong></p>
+                                <p>Employer Share Interest: <strong>{formatCurrency(reportData?.amountContributed?.totalEmployerShareInterest) || 0}</strong></p>
+                                <p>Pension Share Interest: <strong>{formatCurrency(reportData?.amountContributed?.totalPensionShareInterest) || 0}</strong></p>
+                                <p>Current Year Interest: <strong>{formatCurrency(reportData?.amountContributed?.currentYearInterestShare) || 0}</strong></p>
                             </div>
                         </div>
                     </div>
@@ -173,13 +229,13 @@ function Withdrawability({ jsonData, onBack }) {
                 <div className="card mb-4">
                     <div className="card-body">
                         <h5 className="card-title text-center my-4">Last Contribution</h5>
-                        <p>Wage Month: {reportData?.lastContribution?.wageMonth}</p>
-                        <p>Transaction Date: {reportData?.lastContribution?.transactionDate}</p>
-                        <p>Transaction Type: {reportData?.lastContribution?.transactionType}</p>
-                        <p>EPF Wages: {reportData?.lastContribution?.epfWages}</p>
-                        <p>EPS Wages: {reportData?.lastContribution?.epsWages}</p>
-                        <p>Employee Share: {reportData?.lastContribution?.employeeShare}</p>
-                        <p>Employer Share: {reportData?.lastContribution?.employerShare}</p>
+                        <p>Wage Month: <strong>{reportData?.lastContribution?.wageMonth || "-"}</strong></p>
+                        <p>Transaction Date: <strong>{reportData?.lastContribution?.transactionDate || "-"}</strong></p>
+                        <p>Transaction Type: <strong>{reportData?.lastContribution?.transactionType || "-"}</strong></p>
+                        <p>EPF Wages: <strong>{reportData?.lastContribution?.epfWages || 0}</strong></p>
+                        <p>EPS Wages: <strong>{reportData?.lastContribution?.epsWages || 0}</strong></p>
+                        <p>Employee Share: <strong>{reportData?.lastContribution?.employeeShare || 0}</strong></p>
+                        <p>Employer Share: <strong>{reportData?.lastContribution?.employerShare || 0}</strong></p>
                     </div>
                 </div>
 

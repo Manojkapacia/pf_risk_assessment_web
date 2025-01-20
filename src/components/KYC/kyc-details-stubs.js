@@ -40,7 +40,7 @@ function KycDetailsBank() {
         setBankStatus((prev) => {
             const updatedStatus = { ...prev };
             fieldsToCheck.forEach((field) => {
-                if (profileData?.kycDetails?.[field] === '-') {
+                if (profileData?.kycDetails?.[field] === '-' || profileData?.kycDetails?.[field] === 'N/A') {
                     updatedStatus[field] = false;
                 }
             });
