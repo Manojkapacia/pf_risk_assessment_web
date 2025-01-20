@@ -88,17 +88,17 @@ function KycDetailsBank() {
                 <div className="col-lg-6 col-md-8">
                     <div className='row'>
 
-                        <div className='col-md-10 offset-md-1 text-center'>
-                            <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>
-                                {showCheckbox ? 'Choose details that are incorrect' : 'Check if your bank account details are correctly captured'}
+                        <div className='col-md-12 text-center'>
+                            <span className='kycHeading d-flex justify-content-center'>
+                                {showCheckbox ? 'Select incorrect details' : 'Are your Bank a/c details correct ?'}
                             </span>
                         </div>
                     </div>
-                    <div className='row'>
+                    <div className='row mt-lg-5 mt-3'>
                         <div className='col-md-10 offset-md-1'>
-                            <div className="card  shadow-lg">
+                            <div className="card  shadow-sm mx-5">
                                 <div className="card-body">
-                                    <div className='row p-4'>
+                                    <div className='row py-4 px-3 my-4'>
                                         <div className='col-md-6'>
                                             <label className='kycLabel mt-3'>Bank A/C number</label>
 
@@ -107,9 +107,9 @@ function KycDetailsBank() {
                                                     {showFullAccountNumber ? profileData?.kycDetails?.bankAccountNumber
                                                         : formatAccountNumber(profileData?.kycDetails?.bankAccountNumber)}
                                                     {profileData?.kycDetails?.bankAccountNumber !== '-' && (showFullAccountNumber ? (
-                                                        <EyeSlash className="text-primary fs-5 ms-2 cursor-pointer" onClick={toggleAccountVisibility} />
+                                                        <EyeSlash className="text-primary fs-5 mx-2 cursor-pointer" onClick={toggleAccountVisibility} />
                                                     ) : (
-                                                        <Eye className="text-primary fs-5 ms-2 cursor-pointer"
+                                                        <Eye className="text-primary fs-5 mx-2 cursor-pointer"
                                                             onClick={toggleAccountVisibility} />
                                                     ))}
                                                 </div>
@@ -139,20 +139,22 @@ function KycDetailsBank() {
                         </div>
                     </div>
                     {!showContinueButton && (
-                        <div className='row my-3 mt-lg-5'>
+                        <div className='col-md-10 offset-md-1'>
+                            <div className='row my-3 mt-lg-5'>
                             <div className='col-md-6 col-sm-6'>
-                                <button className='btn incorrectButton w-100' onClick={handleIncorrect}>This is incorrect</button>
+                                <button className='btn incorrectButton w-100 py-3' onClick={handleIncorrect}>No</button>
                             </div>
                             <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                                <button className='btn correctButton w-100' onClick={handleCorrect}>This is correct</button>
+                                <button className='btn correctButton w-100 py-3' onClick={handleCorrect}>Yes</button>
                             </div>
+                        </div>
                         </div>
                     )}
                     {showContinueButton && (
-                        <div className="row my-3 mt-lg-5">
-                            <div className="col-md-6 offset-md-3 ">
-                                <button className="btn correctButton w-100" onClick={handleContinueBtn}>
-                                    Continue
+                        <div className="row my-3 mt-lg-5 mx-3">
+                            <div className="col-md-4 offset-md-4 ">
+                                <button className="btn correctButton w-100 py-3" onClick={handleContinueBtn}>
+                                    Next
                                 </button>
                             </div>
                         </div>
