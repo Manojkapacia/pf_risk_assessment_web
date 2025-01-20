@@ -95,16 +95,15 @@ function KycDetails() {
             <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-6 col-md-8">
                     <div className='row'>
-
-                        <div className='col-md-10 offset-md-1 text-center'>
-                            <span className='welcomeLabelLogin d-flex justify-content-center mb-3' style={{ fontWeight: "600" }}>
-                                {showCheckbox ? 'Choose details that are incorrect' : 'Check if your UAN details match your Aadhaar and PAN card'}
+                        <div className='col-md-12 text-center'>
+                            <span className='kycHeading d-flex justify-content-center'>
+                                {showCheckbox ? 'Select details that don’t match' : 'Do these details match your Aadhaar and PAN Card?'}
                             </span>
                         </div>
                     </div>
-                    <div className='row'>
+                    <div className='row mt-lg-5 mt-3'>
                         <div className='col-md-10 offset-md-1'>
-                            <div className="card  shadow-lg">
+                            <div className="card  shadow-sm mx-5">
                                 <div className="card-body">
                                     <div className='row p-4'>
                                         <div className='col-md-6'>
@@ -202,20 +201,22 @@ function KycDetails() {
                         </div>
                     </div>
                     {!showContinueButton && (
-                        <div className='row my-3 mt-lg-5'>
+                        <div className='col-md-10 offset-md-1'>
+                            <div className='row my-3 mt-lg-5 mx-3'>
                             <div className='col-md-6 col-sm-6'>
-                                <button className='btn incorrectButton w-100' onClick={handleIncorrect}>This is incorrect</button>
+                                <button className='btn incorrectButton w-100 py-3' onClick={handleIncorrect}>No</button>
                             </div>
                             <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                                <button className='btn correctButton w-100' onClick={handleCorrect}>This is correct</button>
+                                <button className='btn correctButton w-100 py-3' onClick={handleCorrect}>Yes, matches my Aadhaar</button>
                             </div>
+                        </div>
                         </div>
                     )}
                     {showContinueButton && (
                         <div className="row my-3 mt-lg-5">
-                            <div className="col-md-6 offset-md-3 ">
-                                <button className="btn correctButton w-100" onClick={handleContinueBtn}>
-                                    Continue
+                            <div className="col-md-4 offset-md-4 ">
+                                <button className="btn correctButton w-100 py-3" onClick={handleContinueBtn}>
+                                    Next
                                 </button>
                             </div>
                         </div>

@@ -24,8 +24,9 @@ const DocumentScanning = () => {
     const [isFetched, setIsFetched] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
     const [istTime, setIstTime] = useState(null);
+    const [timeLeft, setTimeLeft] = useState(120); 
 
-    const {listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } = location.state || {};
+    const { listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } = location.state || {};
 
     const navigate = useNavigate()
 
@@ -112,6 +113,25 @@ const DocumentScanning = () => {
         setCurrentCategory(categories[categoryIndex] || categories[categories.length - 1]);
     }, [progress, categories]);
 
+    useEffect(() => {
+        if (timeLeft === 0) return;
+
+        const timer = setInterval(() => {
+            setTimeLeft((prevTime) => prevTime - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timeLeft]);
+
+    // Format time as MM:SS
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${minutes.toString().padStart(2, "0")}:${secs
+            .toString()
+            .padStart(2, "0")}`;
+    };
+
     const viewScanResult = (category) => {
         setIsViewingResult(true);
         setCurrentViewResultCategory(category)
@@ -158,10 +178,13 @@ const DocumentScanning = () => {
                 />
             )}
             {message.type && <ToastMessage message={message.content} type={message.type} />}
-            <div className="container-fluid">
+            <div className="container">
                 <div className="row mx-sm-2 d-flex justify-content-center align-items-center">
-                    <div className="col-lg-4 col-md-8 mt-5 mt-lg-0">
-                        {isProcessing && <div className="row mx-0 progress-card d-flex justify-content-center align-items-center">
+                    <div className='col-md-12 mt-3'>
+                        <div className="docScanfHeading">{isProcessing ? "Checking your PF account for any issues" : "Scan Complete"}</div>
+                    </div>
+                    <div className="col-lg-5 col-md-8 ">
+                        {isProcessing && <div className="row mt-3 ms-0 progress-card d-flex justify-content-center align-items-center">
                             <div className="col-7">
                                 <div className="progress-details">
                                     {/* <span className="fw-boldHeading">{currentCategory?.category}</span><br></br> */}
@@ -236,104 +259,93 @@ const DocumentScanning = () => {
                                 </div>
                             </div>
                         }
-                        {istTime && <p>Last Updated Date: {istTime}</p>}
+                        <p className='mb-3 text-center' style={{fontSize: '1.3rem'}}>This might take some time :<b style={{color:'#304DFF'}}> {" "}{formatTime(timeLeft)} {''} min</b></p>
+
+                        {!isViewingResult &&
+                            <>
+                                <div className="tasks mb-2 mb-md-0">
+                                    {categories && categories.map((category, index) => (
+                                        <div key={index} className="task shadow-sm  my-3">
+
+                                            {isProcessing && currentCategory?.category === category.category && (
+                                                <>
+                                                    <span className='d-flex flex-start align-items-center'>
+                                                        <BsClock className='smaller-icon' /> &nbsp;Checking {category.category}
+                                                    </span>
+                                                    <span className="pending">Processing...</span>
+                                                </>
+                                            )}
+
+                                            {isProcessing && index < Math.floor(progress / (100 / categories.length)) && (
+                                                <>
+                                                    <span className='d-flex flex-start align-items-center'>
+                                                        <BsCheck2Circle className='smaller-icon' /> &nbsp;{category.category}
+                                                    </span>
+                                                    <span className="success">Done</span>
+                                                </>
+                                            )}
+
+                                            {isProcessing && currentCategory?.category !== category.category && index >= Math.floor(progress / (100 / categories.length)) && (
+                                                <>
+                                                    <span className='d-flex flex-start align-items-center'>
+                                                        <BsClock className="smaller-icon" />&nbsp; Checking {category.category}
+                                                    </span>
+                                                    <span className="pending">Pending</span>
+                                                </>
+                                            )}
+
+                                            {!isProcessing && (category.totalCritical === 0 && category.totalMedium === 0) &&
+                                                <div>
+                                                    <span className='d-flex flex-start align-items-center'><BsCheck2Circle className='success smaller-icon' /> &nbsp;{category.category}</span>
+                                                    <span className="success issue-count">No Issue Found</span>
+                                                </div>
+                                            }
+
+                                            {!isProcessing && (category.totalCritical > 0 && category.totalMedium === 0) &&
+                                                <div className='d-flex justify-content-between align-items-center w-100'>
+                                                    <span className=''>
+                                                        <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon' /> &nbsp;{category.category}</span>
+                                                        <span className="error issue-count">{category.totalCritical} Critical Issues Found</span>
+                                                    </span>
+                                                    {<BsChevronCompactRight className='chevron-icon error cursor-pointer' onClick={() => { viewScanResult(category) }} />}
+                                                </div>
+                                            }
+
+                                            {!isProcessing && (category.totalCritical === 0 && category.totalMedium > 0) &&
+                                                <div className='d-flex justify-content-between align-items-center w-100'>
+                                                    <span>
+                                                        <span className='d-flex align-items-center'><BsExclamationCircle className='pending smaller-icon' /> &nbsp;{category.category}</span>
+                                                        <span className="pending issue-count">{category.totalMedium} Medium Issues Found</span>
+                                                    </span>
+                                                    {<BsChevronCompactRight className='chevron-icon pending cursor-pointer' onClick={() => { viewScanResult(category) }} />}
+                                                </div>
+                                            }
+
+                                            {!isProcessing && (category.totalCritical > 0 && category.totalMedium > 0) &&
+                                                <div className='d-flex justify-content-between align-items-center w-100'>
+                                                    <span className=''>
+                                                        <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon' /> &nbsp;{category.category}</span>
+                                                        <span className="error issue-count">{category.totalCritical} Critical & {category.totalMedium} Medium Issues Found</span>
+                                                    </span>
+                                                    {<BsChevronCompactRight className='chevron-icon error cursor-pointer' onClick={() => { viewScanResult(category) }} />}
+                                                </div>
+                                            }
+                                        </div>
+                                    ))}
+                                </div>
+                                {!isProcessing && (totalCount.totalCritical > 0 || totalCount.totalMedium > 0) && <div className="row my-2 mt-lg-4">
+                                    <p className="text-center fw-bold">Don’t wait till its too late, protect your PF now</p>
+                                    <div className="col-md-10 offset-md-1">
+                                        <button type="submit" className="btn col-12 pfRiskButtons" onClick={() => navigate("/create-account")}>
+                                            Resolve My PF Issues
+                                        </button>
+                                    </div>
+                                </div>}
+                            </>
+                        }
                     </div>
 
-                    {!isViewingResult &&
-                        <div className="col-lg-7 mt-3">
-                            <div className='row'>
-                                <div className='col-md-8 offset-md-2'>
-                                    <div className="pfRiskheading text-center" style={{ fontWeight: "700" }}>{isProcessing ? "Checking your PF account for any issues..." : "Scan Complete"}</div>
-                                    {/* {isProcessing && <p className="pfRiskSubHeading text-center" style={{color:"#000000"}}>
-                                        Last year 25% of EPF claims got rejected and people were blocked from accessing 
-                                        their own money when they needed it the most</p>} */}
-                                </div>
-                            </div>
 
-                            <div className="tasks mb-2 mb-md-0">
-                                {categories && categories.map((category, index) => (
-                                    <div key={index} className="task">
-                                        {/* When processing is ongoing for current category */}
-                                        {isProcessing && currentCategory?.category === category.category && (
-                                            <>
-                                                <span className='d-flex flex-start align-items-center'>
-                                                    <BsClock className='smaller-icon' /> &nbsp;Checking {category.category}
-                                                </span>
-                                                <span className="pending">Processing...</span>
-                                            </>
-                                        )}
-                                        {/* When processing is done for current category */}
-                                        {isProcessing && index < Math.floor(progress / (100 / categories.length)) && (
-                                            <>
-                                                <span className='d-flex flex-start align-items-center'>
-                                                    <BsCheck2Circle className='smaller-icon' /> &nbsp;{category.category}
-                                                </span>
-                                                <span className="success">Done</span>
-                                            </>
-                                        )}
-                                        {/* When processing is ongoing but others category are still yet to processed */}
-                                        {isProcessing && currentCategory?.category !== category.category && index >= Math.floor(progress / (100 / categories.length)) && (
-                                            <>
-                                                <span className='d-flex flex-start align-items-center'>
-                                                    <BsClock className="smaller-icon" />&nbsp; Checking {category.category}
-                                                </span>
-                                                <span className="pending">Pending</span>
-                                            </>
-                                        )}
-
-                                        {/* After processing is complete and no critical/medium issues */}
-                                        {!isProcessing && (category.totalCritical === 0 && category.totalMedium === 0) &&
-                                            <div>
-                                                <span className='d-flex flex-start align-items-center'><BsCheck2Circle className='success smaller-icon' /> &nbsp;{category.category}</span>
-                                                <span className="success issue-count">No Issue Found</span>
-                                            </div>
-                                        }
-
-                                        {/* After processing is complete and only critical issues */}
-                                        {!isProcessing && (category.totalCritical > 0 && category.totalMedium === 0) &&
-                                            <div className='d-flex justify-content-between align-items-center w-100'>
-                                                <span className=''>
-                                                    <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon' /> &nbsp;{category.category}</span>
-                                                    <span className="error issue-count">{category.totalCritical} Critical Issues Found</span>
-                                                </span>
-                                                {<BsChevronCompactRight className='chevron-icon error cursor-pointer' onClick={() => { viewScanResult(category) }} />}
-                                            </div>
-                                        }
-
-                                        {/* After processing is complete and only medium issues */}
-                                        {!isProcessing && (category.totalCritical === 0 && category.totalMedium > 0) &&
-                                            <div className='d-flex justify-content-between align-items-center w-100'>
-                                                <span>
-                                                    <span className='d-flex align-items-center'><BsExclamationCircle className='pending smaller-icon' /> &nbsp;{category.category}</span>
-                                                    <span className="pending issue-count">{category.totalMedium} Medium Issues Found</span>
-                                                </span>
-                                                {<BsChevronCompactRight className='chevron-icon pending cursor-pointer' onClick={() => { viewScanResult(category) }} />}
-                                            </div>
-                                        }
-
-                                        {/* After processing is complete and both critical and medium issues */}
-                                        {!isProcessing && (category.totalCritical > 0 && category.totalMedium > 0) &&
-                                            <div className='d-flex justify-content-between align-items-center w-100'>
-                                                <span className=''>
-                                                    <span className='d-flex align-items-center'><BsExclamationCircle className='error smaller-icon' /> &nbsp;{category.category}</span>
-                                                    <span className="error issue-count">{category.totalCritical} Critical & {category.totalMedium} Medium Issues Found</span>
-                                                </span>
-                                                {<BsChevronCompactRight className='chevron-icon error cursor-pointer' onClick={() => { viewScanResult(category) }} />}
-                                            </div>
-                                        }
-                                    </div>
-                                ))}
-                            </div>
-                            {!isProcessing && (totalCount.totalCritical > 0 || totalCount.totalMedium > 0) && <div className="row my-2 mt-lg-4">
-                                <p className="text-center fw-bold">Don’t wait till its too late, protect your PF now</p>
-                                <div className="col-md-10 offset-md-1">
-                                    <button type="submit" className="btn col-12 pfRiskButtons" onClick={() => navigate("/create-account")}>
-                                        Resolve My PF Issues
-                                    </button>
-                                </div>
-                            </div>}
-                        </div>
-                    }
                     {isViewingResult &&
                         <div className="col-lg-7 d-flex flex-column justify-content-center align-items-center">
                             <ScanResult backButtonClicked={handleScanResultBack} selectedCategory={currentViewResultCategory} />

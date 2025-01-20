@@ -95,26 +95,10 @@ function ServiceHistory() {
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
-                {/* <div className="col-lg-4 col-md-8">
-                        <div className='row'>
-                            <div className='col-md-8 offset-md-2 mt-2 mt-sm-0'>
-                                <div className='welcomeLabelLogin mb-md-4'>
-                                    Step 1
-                                </div>
-                                <span className='EpfText'>Please confirm if the service history captured by EPF portal is correct?</span>
-                                <ul>
-                                    <li className="EpfText my-md-3">Check if all your previous and current employments are listed here</li>
-                                    <li className="EpfText">Verify if ‘Date of Joining’ and ‘Date of Exit’ is marked correctly for each organization </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div> */}
-
-                {/* Second column  */}
 
                 <div className="col-lg-6 col-md-8">
                     <div className='row'>
-                        <div className="col-lg-11">
+                        <div className="col-lg-12">
                             <div className='row'>
                                 {errorKey !== null ?
                                     <div style={overlayStyle}>
@@ -144,7 +128,7 @@ function ServiceHistory() {
                                     </div>
                                     :
                                     <>
-                                        <div className='row'>
+                                        {/* <div className='row'>
                                             <div className='col-md-8 offset-md-2 pfRiskSubHeading text-center'>
                                                 <div className="pfRiskheading text-center">Please Confirm Service History</div>
                                                 Verify if all information regarding your service history is correct before moving ahead
@@ -205,6 +189,48 @@ function ServiceHistory() {
                                             <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
                                                 <button className='btn correctButton w-100' onClick={() => handleButtonClick('correct')}>This is correct</button>
                                             </div>
+                                        </div> */}
+                                        <p className='confirmHistory'>Please Confirm Employement History</p>
+                                        <div className='row d-flex justify-content-center align-items-center'>
+                                            <div className='col-md-12'>
+                                                <p className='capturedCorrect'>Verify if the below captured details are correct</p>
+                                                <div className="card shadow-sm py-3 px-lg-5 mt-3">
+                                                    <p className="text-center employmentServiceHis">Employment History</p>
+                                                    <table className="table mb-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th className="employmentTabel">Employer</th>
+                                                                <th className="employmentTabel">Tenure</th>
+                                                                <th className="employmentTabel">Experience</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {listItems?.history?.map((item, index) => (
+                                                                <tr key={index}>
+                                                                    <td className="employmentTabelData">{item.company}</td>
+                                                                    <td className="employmentTabelData">{item.period}</td>
+                                                                    <td className="employmentTabelData">{item.details?.['Total Service']}</td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                    <div className="text-center employmentService mt-2">
+                                                        {listItems?.overview?.['Total Experience']}
+                                                    </div>
+                                                </div>
+                                                <div className='row'>
+                                                    <div className='col-md-10 offset-md-1'>
+                                                        <div className='row my-3 mt-lg-5'>
+                                                            <div className='col-md-6 col-sm-6'>
+                                                                <button className='btn incorrectButton w-100 py-3' onClick={() => handleButtonClick('incorrect')}>This is incorrect</button>
+                                                            </div>
+                                                            <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
+                                                                <button className='btn correctButton w-100 py-3' onClick={() => handleButtonClick('correct')}>This is correct</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </>
                                 }
@@ -213,54 +239,6 @@ function ServiceHistory() {
 
                         </div>
                     </div>
-                    {/* <div>
-                        <p className='confirmHistory'>Please Confirm Employement History</p>
-                        <p className='capturedCorrect'>Verify if the below captured details are correct</p>
-                        <div className="card shadow-sm py-3 px-lg-5 mt-3">
-                            <p className="text-center employmentServiceHis">Employment History</p>
-                            <table className="table mb-0">
-                                <thead>
-                                    <tr>
-                                        <th className="employmentTabel">Employer</th>
-                                        <th className="employmentTabel">Tenure</th>
-                                        <th className="employmentTabel">Experience</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className="employmentTabelData">Morningstar India Pvt. Ltd</td>
-                                        <td className="employmentTabelData">21 Feb’24 to Present</td>
-                                        <td className="employmentTabelData">1 year 0 months</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="employmentTabelData">Morningstar India Pvt. Ltd</td>
-                                        <td className="employmentTabelData">21 Feb’24 to Present</td>
-                                        <td className="employmentTabelData">1 year 0 months</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="employmentTabelData">Morningstar India Pvt. Ltd</td>
-                                        <td className="employmentTabelData">21 Feb’24 to Present</td>
-                                        <td className="employmentTabelData">1 year 0 months</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div className="text-center employmentService mt-2">
-                                Total Service: 7 year 3 months
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className='col-md-10 offset-md-1'>
-                                <div className='row my-3 mt-lg-5'>
-                                    <div className='col-md-6 col-sm-6'>
-                                        <button className='btn incorrectButton w-100 py-3'>This is incorrect</button>
-                                    </div>
-                                    <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                                        <button className='btn correctButton w-100 py-3'>This is correct</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </div>

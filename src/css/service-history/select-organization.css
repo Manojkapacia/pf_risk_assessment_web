@@ -24,6 +24,39 @@
     font-size: 0.9rem;
     font-weight: 500;
 }
+.headingCurrentEmp{
+    font-size: 2.3rem;
+    font-weight: 600;
+    text-align: center;
+}
+.currentOrgText{
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+.currentOrgsubText{
+    font-size: 1rem;
+    font-weight: 300;
+}
+.NoButton{
+    border: 1px solid #00124F !important;
+    color: #00124F!important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    border-radius: 2rem !important;
+}
+
+.yesButton{
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    background-color: #00124F!important;
+    border-radius: 2rem !important;
+}
+.selectOrgRadioBtn {
+    width: 1.2rem;
+    height: 1.2rem;
+    transform: scale(1.5);
+}
 
 .selectsideBar::-webkit-scrollbar {
     width: 0.2rem;

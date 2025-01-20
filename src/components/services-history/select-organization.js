@@ -9,14 +9,14 @@ import { encryptData } from '../common/encryption-decryption';
 function SelectOrganization() {
     const location = useLocation();
     const navigate = useNavigate();
-
+    const [showlistOrganization, setlistOrganization] = useState(true);
     const [selectedId, setSelectedId] = useState(null);
-    const { listItems, uan, type,reportUpdatedAtVar,profileData,home } = location.state || {};
+    const { listItems, uan, type, reportUpdatedAtVar, profileData, home } = location.state || {};
 
     useEffect(() => {
-        let dynamicKey = "current_page_" + localStorage.getItem('user_uan'); ; 
-        let value = "select-organization";   
-        localStorage.setItem(dynamicKey, value); 
+        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');;
+        let value = "select-organization";
+        localStorage.setItem(dynamicKey, value);
     }, []);
 
     // Ensure listItems is an array before applying map
@@ -36,25 +36,15 @@ function SelectOrganization() {
         const data = { selectedOrg, uan, type, reportUpdatedAtVar, profileData };
         const encodedData = encryptData(JSON.stringify(data));
         localStorage.setItem('data-for-kyc-' + uan, encodedData);
-        navigate("/kyc-details", { state: {listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData,home} });
+        navigate("/kyc-details", { state: { listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home } });
     }
-    
+    console.log("data", listItems);
+
+
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
-                {/* <div className="col-lg-4 col-md-8">
-                    <div className='row'>
-                        <div className='col-md-8 offset-md-2 mt-2 mt-sm-0'>
-                        <div className='welcomeLabelLogin mb-md-4'>
-                            Step 2
-                        </div>
-                        <span className='EpfText'>Please choose if your are currently working in any of the companies listed here</span>
-                        </div>
-                    </div>
-                </div> */}
-
-
-                <div className="col-lg-6 col-md-8">
+                <div className="col-lg-5 col-md-8">
                     <div className='row'>
                         <div className="col-lg-11">
                             <div className='row'>
@@ -94,6 +84,59 @@ function SelectOrganization() {
                             </div>
                         </div>
                     </div>
+                    <div className='row'>
+                        <div className='col-md-12'>
+                            {showlistOrganization ? (
+                                <>
+                                    <p className='headingCurrentEmp'>Is this your current Employer?</p>
+                                    <div className="card shadow-sm py-3 px-lg-4 mx-4 px-3" style={{ marginBottom: '7rem', marginTop: '5rem' }}>
+                                        {updatedListItems?.length > 0 && (
+                                            <div key={0}>
+                                                <p className="currentOrgText mb-0">{updatedListItems[0].company}</p>
+                                                <p className="currentOrgsubText">{updatedListItems[0].period}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className='row my-3'>
+                                        <div className='col-md-6 col-sm-6'>
+                                            <button className='btn NoButton w-100 py-3' onClick={() => setlistOrganization(false)}>No</button>
+                                        </div>
+                                        <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
+                                            <button className='btn yesButton w-100 py-3'>Yes</button>
+                                        </div>
+                                    </div>
+                                </>) : (
+                                <div className='row'>
+                                    <div className='col-md-12'>
+                                        <p className='headingCurrentEmp'>Choose your current Employer</p>
+                                        {updatedListItems.map((item, index) => (
+                                            <div key={index}>
+                                                <div className="card shadow-sm py-3 px-lg-4 mt-3 mx-4">
+                                                    <div className="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <p className='currentOrgText mb-0'>{item.company}</p>
+                                                            <p className='currentOrgsubText'>{item.period}</p>
+                                                        </div>
+                                                        <div>
+                                                            <input className='selectOrgRadioBtn' type="radio" name="currentEmployer"
+                                                                id="currentEmployer" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                        <div className='text-center mb-3'>
+                                            <button className='btn yesButton w-50 py-3 mt-3'>Not working in any of these</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                        </div>
+                    </div>
+
+
 
                 </div>
             </div>
