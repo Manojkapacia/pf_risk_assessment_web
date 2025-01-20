@@ -85,8 +85,6 @@ function LoginComponent() {
     };
 
     const handleSubmit = async (e) => {
-        console.log(formData);
-        
         e.preventDefault();
         const newErrors = {
             uan: validateField("uan", formData.uan),
