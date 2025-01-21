@@ -35,12 +35,14 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                         id={`collapse-${index}`}
                                         className="accordion-collapse collapse"
                                         aria-labelledby={`heading-${index}`}
-                                        data-bs-parent="#passbookAccordion"
+                                        data-bs-parent="#passbookAccordion" style={{ backgroundColor: '#ffffff' }}
                                     >
                                         <div className="accordion-body">
                                             {passbook.isTrust === 'true' ? (<h4>This passbook belongs to a trust</h4>)
                                                 : (
-                                                    Object.entries(passbook).map(([year, yearData], yearIndex) => (
+                                                    Object.entries(passbook)
+                                                    ?.sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
+                                                    ?.map(([year, yearData], yearIndex) => (
                                                         <div key={yearIndex}>
                                                             <h5
                                                                 style={{
@@ -56,7 +58,7 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                                             <div
                                                                 id={`details-${memberId}-${year}`}
                                                                 className="collapse"
-                                                                style={{ marginLeft: "20px" }}
+                                                                style={{ marginLeft: "1rem" }}
                                                             >
                                                                 <div className="mt-3">
                                                                     <div className="mb-4">

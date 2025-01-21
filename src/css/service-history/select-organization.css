@@ -25,13 +25,18 @@
     font-weight: 500;
 }
 .headingCurrentEmp{
-    font-size: 2rem;
+    font-size: 2rem ;
     font-weight: 600;
     text-align: center;
 }
+.setMarginTopBtm{
+    margin-top: 3rem !important;
+    margin-bottom: 4rem !important;
+}
+
 .currentOrgText{
-    font-size: 1.2rem;
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 300;
 }
 .currentOrgsubText{
     font-size: 1rem;
@@ -76,10 +81,24 @@
     width: 100%;
     height: 22rem;
 }
-
+@media only screen and (max-width: 500px) {
+    .headingCurrentEmp{
+      font-size: 1.5rem;
+      font-weight: 500; 
+    }
+    .setMarginTopBtm{
+        margin-top: 4rem !important;
+        margin-bottom: 4rem !important; 
+    }
+  }
 @media only screen and (max-width: 770px) {
     .selectImage {
       width: 100%; 
       height: 16.5rem;
+    }
+  }
+  @media (min-width: 768px) {
+    .selectOrgBtn.yesButton {
+      width: 50% !important;
     }
   }

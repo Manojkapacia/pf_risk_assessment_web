@@ -24,6 +24,7 @@ function Profile({ jsonData, onBack }) {
                             <p><strong>Full Name:</strong> {jsonData.data.profile.fullName}</p>
                             <p><strong>Phone:</strong> {jsonData.data.profile.phone}</p>
                             <p><strong>Email:</strong> {jsonData.data.profile.email}</p>
+
                             <div className="accordion" id="accordionExample">
                                 {/* Accordion Item 1 */}
                                 <div className="accordion-item">
@@ -33,7 +34,7 @@ function Profile({ jsonData, onBack }) {
                                             type="button"
                                             data-bs-toggle="collapse"
                                             data-bs-target="#collapseOne"
-                                            aria-expanded="false"
+                                            aria-expanded="true"
                                             aria-controls="collapseOne"
                                         >
                                             <strong>BasicDetails:</strong>
@@ -41,9 +42,8 @@ function Profile({ jsonData, onBack }) {
                                     </h2>
                                     <div
                                         id="collapseOne"
-                                        className="accordion-collapse collapse"
+                                        className="accordion-collapse collapse show"
                                         aria-labelledby="headingOne"
-                                        data-bs-parent="#accordionExample"
                                     >
                                         <div className="accordion-body">
                                             <p><strong>Full Name:</strong> {jsonData.data.profile.basicDetails?.fullName}</p>
@@ -59,13 +59,13 @@ function Profile({ jsonData, onBack }) {
 
                                 {/* Accordion Item 2 */}
                                 <div className="accordion-item">
-                                    <h2 className="accordion-header" id="headnigTwo">
+                                    <h2 className="accordion-header" id="headingTwo">
                                         <button
-                                            className="accordion-button collapsed"
+                                            className="accordion-button"
                                             type="button"
                                             data-bs-toggle="collapse"
                                             data-bs-target="#collapseTwo"
-                                            aria-expanded="false"
+                                            aria-expanded="true"
                                             aria-controls="collapseTwo"
                                         >
                                             <strong>KYC Details:</strong>
@@ -73,9 +73,8 @@ function Profile({ jsonData, onBack }) {
                                     </h2>
                                     <div
                                         id="collapseTwo"
-                                        className="accordion-collapse collapse"
+                                        className="accordion-collapse collapse show"
                                         aria-labelledby="headingTwo"
-                                        data-bs-parent="#accordionExample"
                                     >
                                         <div className="accordion-body">
                                             <p><strong>Aadhar Card:</strong> {jsonData.data.profile.kycDetails?.aadhaar}</p>
@@ -88,13 +87,13 @@ function Profile({ jsonData, onBack }) {
 
                                 {/* Accordion Item 3 */}
                                 <div className="accordion-item">
-                                    <h2 className="accordion-header" id="headnigThree">
+                                    <h2 className="accordion-header" id="headingThree">
                                         <button
-                                            className="accordion-button collapsed"
+                                            className="accordion-button"
                                             type="button"
                                             data-bs-toggle="collapse"
                                             data-bs-target="#collapseThree"
-                                            aria-expanded="false"
+                                            aria-expanded="true"
                                             aria-controls="collapseThree"
                                         >
                                             <strong>KYC Verification Details:</strong>
@@ -102,22 +101,23 @@ function Profile({ jsonData, onBack }) {
                                     </h2>
                                     <div
                                         id="collapseThree"
-                                        className="accordion-collapse collapse"
+                                        className="accordion-collapse collapse show"
                                         aria-labelledby="headingThree"
-                                        data-bs-parent="#accordionExample"
                                     >
                                         <div className="accordion-body">
                                             <p><strong>Bio Metric Status:</strong> {jsonData.data.profile?.kycVerificationDetails?.bioMetricVerificationStatus}</p>
                                             <p><strong>Demo Graphic Verification Status:</strong> {
-                                            jsonData.data.profile?.kycVerificationDetails?.demographicVerificationStatus !== undefined &&
-                                            jsonData.data.profile?.kycVerificationDetails?.demographicVerificationStatus !== null ?
-                                            jsonData.data.profile?.kycVerificationDetails?.demographicVerificationStatus : "N"
+                                                jsonData.data.profile?.kycVerificationDetails?.demographicVerificationStatus !== undefined &&
+                                                    jsonData.data.profile?.kycVerificationDetails?.demographicVerificationStatus !== null ?
+                                                    jsonData.data.profile?.kycVerificationDetails?.demographicVerificationStatus : "N"
                                             }</p>
                                             <p><strong>OTP Based Verification Status:</strong> {jsonData.data.profile?.kycVerificationDetails?.otpBasedVerificationStatus}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>

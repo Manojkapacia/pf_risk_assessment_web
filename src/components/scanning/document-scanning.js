@@ -259,7 +259,7 @@ const DocumentScanning = () => {
                                 </div>
                             </div>
                         }
-                        <p className='mb-3 text-center' style={{fontSize: '1.3rem'}}>This might take some time :<b style={{color:'#304DFF'}}> {" "}{formatTime(timeLeft)} {''} min</b></p>
+                        <p className='mb-3 mt-1 text-center' style={{fontSize: '1.2rem'}}>This might take some time :<b style={{color:'#304DFF'}}> {" "}{formatTime(timeLeft)} {''} min</b></p>
 
                         {!isViewingResult &&
                             <>

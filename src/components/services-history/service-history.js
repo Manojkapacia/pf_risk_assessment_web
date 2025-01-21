@@ -79,6 +79,31 @@ function ServiceHistory() {
             }
         }
     };
+    const getYearsAndMonths = (data) => {
+        if(data){
+            const match = data?.match(/(\d+)\s*Years?\s*(\d+)?\s*Months?/);
+        if (match) {
+          const years = parseInt(match[1], 10) || 0;
+          const months = parseInt(match[2], 10) || 0;
+      
+          const yearString = years === 1 ? "1 Year" : `${years} Years`;
+          const monthString = months === 1 ? "1 Month" : `${months} Months`;
+    
+          return `${yearString} ${monthString}`;
+        }
+        return "0 Years 0 Months"; // Default if no match
+        }
+        
+      };
+      function formatDuration(duration) {
+        if (duration) {
+          const parts = duration.split(" ");
+          const years = parts[0] !== "0" ? `${parts[0]} Yr${parts[0] > 1 ? "s" : ""}` : "";
+          const months = parts[2] !== "0" ? `${parts[2]} M` : "";
+          return [years, months].filter(Boolean).join(" ");
+        }
+        return "";
+      }
     const overlayStyle = {
         position: 'fixed',
         top: '0',
@@ -190,7 +215,6 @@ function ServiceHistory() {
                                             </div>
                                         </div> */}
                                         <p className='confirmHistory'>Please Confirm Employement History</p>
-                                        <div className='row d-flex justify-content-center align-items-center'>
                                             <div className='col-md-12'>
                                                 <p className='capturedCorrect'>Verify if the below captured details are correct</p>
                                                 <div className="card shadow-sm py-3 px-lg-5 mt-3">
@@ -208,29 +232,28 @@ function ServiceHistory() {
                                                                 <tr key={index}>
                                                                     <td className="employmentTabelData">{item.company}</td>
                                                                     <td className="employmentTabelData">{item.period}</td>
-                                                                    <td className="employmentTabelData">{item.details?.['Total Service']}</td>
+                                                                    <td className="employmentTabelData">{formatDuration(item.details?.['Total Service'])}</td>
                                                                 </tr>
                                                             ))}
                                                         </tbody>
                                                     </table>
                                                     <div className="text-center employmentService mt-2">
-                                                        {listItems?.overview?.['Total Experience']}
+                                                        {formatDuration(listItems?.overview?.['Total Experience'])}
                                                     </div>
                                                 </div>
                                                 <div className='row'>
                                                     <div className='col-md-10 offset-md-1'>
                                                         <div className='row my-3 mt-lg-5'>
                                                             <div className='col-md-6 col-sm-6'>
-                                                                <button className='btn incorrectButton w-100 py-3' onClick={() => handleButtonClick('incorrect')}>This is incorrect</button>
+                                                                <button className='btn incorrectButton w-100 py-2 py-md-3' onClick={() => handleButtonClick('incorrect')}>This is incorrect</button>
                                                             </div>
                                                             <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                                                                <button className='btn correctButton w-100 py-3' onClick={() => handleButtonClick('correct')}>This is correct</button>
+                                                                <button className='btn correctButton w-100 py-2 py-md-3' onClick={() => handleButtonClick('correct')}>This is correct</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                     </>
                                 }
                             </div>
