@@ -16,23 +16,23 @@ const NextStep = () => {
         { label: "Call now" },
       ],
     },
+    // {
+    //   number: 3,
+    //   label: "Issue Resolution",
+    // },
     {
       number: 3,
-      label: "Issue Resolution",
-    },
-    {
-      number: 4,
       label: "Get Risk Report",
     },
     {
-      number: 5,
+      number: 4,
       label: "Tension Free Withdrawal",
     },
   ];
 
   return (
-    <div className="card shadow-sm my-3 py-3 px-2 d-flex align-items-center">
-      <h5 className="text-center">Next Steps</h5>
+    <div className="card shadow-sm my-3 pt-3 px-2 d-flex align-items-start ps-4">
+      <h5 className="text-center mb-3">Next Steps</h5>
       <div className="stepper">
         {steps.map((step, index) => (
           <div
@@ -93,7 +93,7 @@ const NextStep = () => {
                     columnGap: "0.5rem",
                   }}
                 >
-                  {step.actions.map((action, idx) => (
+                  {/* {step.actions.map((action, idx) => (
                     <button
                       style={{
                         backgroundColor: "#00124F",
@@ -113,7 +113,7 @@ const NextStep = () => {
                       )}
                       {action.label}
                     </button>
-                  ))}
+                  ))} */}
                 </div>
               )}
             </div>

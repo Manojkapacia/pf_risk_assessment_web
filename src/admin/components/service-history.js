@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useStateReact} from "react";
 import { Eye, ArrowLeft } from "react-bootstrap-icons";
 
 function ServiceHistory({ jsonData, onBack }) {
@@ -13,17 +13,14 @@ function ServiceHistory({ jsonData, onBack }) {
     // };
 
 
-    const [expandedRows, setExpandedRows] = useState([]);
-
+    const [expandedRows, setExpandedRows] = React.useState(data.map((_, index) => index));
     const toggleRow = (index) => {
         setExpandedRows((prevState) => {
-            // Check if the row is already expanded
             if (prevState.includes(index)) {
-                // Remove it from the array (collapse)
                 return prevState.filter((row) => row !== index);
             } else {
                 // Add it to the array (expand)
-                return [index,...prevState];
+                return [index, ...prevState];
             }
         });
     };
@@ -151,7 +148,7 @@ function ServiceHistory({ jsonData, onBack }) {
                                 <div className="accordion-header bg-light p-3 border">
                                     <h5>Details for: {item.company}</h5>
                                 </div>
-                                <div className="accordion-body border p-3">
+                                <div className="accordion-body border p-3" style={{backgroundColor: '#ffffff'}}>
                                     <p><strong>Member ID:</strong> {item.details['Member Id'] || "N/A"}</p>
                                     <p><strong>Est Id:</strong> {item.details['Est Id'] || "N/A"}</p>
                                     <p><strong>NCP Days:</strong> {item.details['NCP Days'] || "N/A"}</p>

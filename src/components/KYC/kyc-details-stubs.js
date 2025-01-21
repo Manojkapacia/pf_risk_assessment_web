@@ -11,7 +11,7 @@ function KycDetailsBank() {
     const [showFullAccountNumber, setShowFullAccountNumber] = useState(false);
     const [showCheckbox, setShowCheckbox] = useState(false);
 
-    const {listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home, kycStatus } = location.state || {};
+    const { listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home, kycStatus } = location.state || {};
     const [BankStatus, setBankStatus] = useState({
         bankAccountNumber: true,
         bankIFSC: true
@@ -23,7 +23,7 @@ function KycDetailsBank() {
             [field]: !prev[field],
         }));
     };
-    
+
     const toggleAccountVisibility = () => {
         setShowFullAccountNumber(!showFullAccountNumber);
     };
@@ -35,7 +35,7 @@ function KycDetailsBank() {
         return account;
     };
 
-    const handleIncorrect = () => { 
+    const handleIncorrect = () => {
         const fieldsToCheck = ['bankAccountNumber', 'bankIFSC'];
         setBankStatus((prev) => {
             const updatedStatus = { ...prev };
@@ -46,21 +46,21 @@ function KycDetailsBank() {
             });
             return updatedStatus;
         });
-        
+
         setShowCheckbox(true)
         setShowContinueButton(true);
     };
 
     const handleContinueBtn = () => {
-        const mergedStatues = {...kycStatus, ...BankStatus}
+        const mergedStatues = { ...kycStatus, ...BankStatus }
         localStorage.removeItem('data-for-org-' + uan)
         localStorage.removeItem('data-for-kyc-' + uan)
         const encodedData = encryptData(JSON.stringify({ listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
         localStorage.setItem('data-for-scan-' + uan, encodedData);
-        navigate('/doc-scan', { state: {listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
+        navigate('/doc-scan', { state: { listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
     };
 
-    const handleCorrect = () => {        
+    const handleCorrect = () => {
         const fieldsToCheck = ['bankAccountNumber', 'bankIFSC'];
         setBankStatus((prev) => {
             const updatedStatus = { ...prev };
@@ -73,12 +73,12 @@ function KycDetailsBank() {
         });
 
         setShowContinueButton(false);
-        const mergedStatues = {...kycStatus, ...BankStatus}
+        const mergedStatues = { ...kycStatus, ...BankStatus }
         localStorage.removeItem('data-for-org-' + uan)
         localStorage.removeItem('data-for-kyc-' + uan)
         const encodedData = encryptData(JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
         localStorage.setItem('data-for-scan-' + uan, encodedData);
-        navigate('/doc-scan', { state: { listItems,selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
+        navigate('/doc-scan', { state: { listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
     }
 
 
@@ -96,7 +96,7 @@ function KycDetailsBank() {
                     </div>
                     <div className='row mt-lg-5 mt-3'>
                         <div className='col-md-10 offset-md-1'>
-                            <div className="card  shadow-sm mx-5">
+                            <div className="card  shadow-sm mx-lg-5">
                                 <div className="card-body">
                                     <div className='row py-4 px-3 my-4'>
                                         <div className='col-md-6'>
@@ -114,7 +114,7 @@ function KycDetailsBank() {
                                                     ))}
                                                 </div>
                                                 {showCheckbox && (
-                                                    <input className="form-check-input changeCheckbox" type="checkbox" checked={!BankStatus.bankAccountNumber}  onChange={() => handleCheckboxChange('bankAccountNumber')}
+                                                    <input className="form-check-input changeCheckbox" type="checkbox" checked={!BankStatus.bankAccountNumber} onChange={() => handleCheckboxChange('bankAccountNumber')}
                                                         id="flexCheckDefault" style={{
                                                             transform: 'scale(1.5)'
                                                         }} />
@@ -140,20 +140,20 @@ function KycDetailsBank() {
                     </div>
                     {!showContinueButton && (
                         <div className='col-md-10 offset-md-1'>
-                            <div className='row my-3 mt-lg-5'>
-                            <div className='col-md-6 col-sm-6'>
-                                <button className='btn incorrectButton w-100 py-3' onClick={handleIncorrect}>No</button>
+                            <div className='row mt-4 mb-3 mb-lg-0 mt-lg-5 mx-lg-3'>
+                                <div className='col-md-6 col-sm-6'>
+                                    <button className='btn incorrectButton w-100 py-lg-3 py-2' onClick={handleIncorrect}>No</button>
+                                </div>
+                                <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
+                                    <button className='btn correctButton w-100 py-lg-3 py-2' onClick={handleCorrect}>Yes</button>
+                                </div>
                             </div>
-                            <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                                <button className='btn correctButton w-100 py-3' onClick={handleCorrect}>Yes</button>
-                            </div>
-                        </div>
                         </div>
                     )}
                     {showContinueButton && (
-                        <div className="row my-3 mt-lg-5 mx-3">
+                        <div className="row mb-3 mb-lg-0 mt-4 mt-lg-5">
                             <div className="col-md-4 offset-md-4 ">
-                                <button className="btn correctButton w-100 py-3" onClick={handleContinueBtn}>
+                                <button className="btn correctButton w-100 py-lg-3 py-2" onClick={handleContinueBtn}>
                                     Next
                                 </button>
                             </div>

@@ -8,10 +8,10 @@ import ToastMessage from '../common/toast-message';
 import { post } from '../common/api';
 import { getReportSubmissionMessage } from '../common/time-formatter';
 import sucessImage from './../../assets/images/icons-success.gif';
-import { zohoRequest} from '../common/api';
+import { zohoRequest } from '../common/api';
 import { encryptData } from '../common/encryption-decryption';
 
-const ModalComponent = ({profileData, isOpen, onClose }) => {
+const ModalComponent = ({ profileData, isOpen, onClose }) => {
     const otpLength = 6;
     const [otpValues, setOtpValues] = useState(Array(otpLength).fill(""));
     const [timer, setTimer] = useState(45);
@@ -66,6 +66,7 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
     const handleRendOtpClick = async () => {
         if (formData) {
             await onSubmit(formData);
+            setOtpValues(Array(6).fill(""));
             setTimer(45);
         }
     };
@@ -123,7 +124,7 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
         try {
             const response = await post('/auth/confirm-otp', { otp: otp });
             setLoading(false);
-        setOtpLoader(false);
+            setOtpLoader(false);
             if (response.status === 401) {
                 localStorage.removeItem('user_uan')
                 navigate('/doc-scan');
@@ -137,10 +138,12 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
             }
         } catch (error) {
             if (error.status >= 500) {
+                setOtpValues(Array(6).fill(""));
                 setOtpLoader(false);
                 setLoading(false);
                 navigate("/epfo-down")
             } else {
+                setOtpValues(Array(6).fill(""));
                 setLoading(false);
                 setOtpLoader(false);
                 setMessage({ type: "error", content: error.response?.data?.message });
@@ -150,26 +153,26 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
     }
 
     // zoho lead creation
-    const ZohoAPiCall= ()=> {
+    const ZohoAPiCall = () => {
         const zohoReqData = {
-                    Last_Name: profileData?.basicDetails?.fullName,
-                    Mobile: formData?.phoneNumber,
-                    Email: "",
-                    Wants_To: "Withdrawal Checkup",
-                    Lead_Status: "Open",
-                    Lead_Source: "",
-                    Campaign_Id: ""
-                };
-                const ZohoAPi = async (Data) => {
-                    try {
-                        const result = await zohoRequest(Data);
-                        if (result.data.data[0].status === "success") {
-                        }
-                    } catch (error) {
-                        console.error('Error submitting form:', error);
-                    }
+            Last_Name: profileData?.basicDetails?.fullName,
+            Mobile: formData?.phoneNumber,
+            Email: "",
+            Wants_To: "Withdrawal Checkup",
+            Lead_Status: "Open",
+            Lead_Source: "",
+            Campaign_Id: ""
+        };
+        const ZohoAPi = async (Data) => {
+            try {
+                const result = await zohoRequest(Data);
+                if (result.data.data[0].status === "success") {
                 }
-                ZohoAPi(zohoReqData);
+            } catch (error) {
+                console.error('Error submitting form:', error);
+            }
+        }
+        ZohoAPi(zohoReqData);
     }
 
     if (!isOpen) return null; // Don't render the modal if it's not open
@@ -191,7 +194,7 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <p className="modal-title" style={{ fontSize: '1.5rem', fontWeight: '600' }}>Your report genration is in progress</p>
+                            <p className="modal-title" style={{ fontSize: '1.5rem', fontWeight: '600' }} >{!showReportScreen ? 'Your report genration is in progress' : 'Congratulations, your report is now ready '}</p>
                             {/* <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModel}></button> */}
                         </div>
                         <div className="modal-body">
@@ -219,85 +222,80 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
 
                                         {!showReportScreen ?
                                             <div className="col-lg-12 mt-3 mt-lg-0">
-                                                
+
                                                 {!showOtpModel ?
-                                                <>
-                                                <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Share your WhatsApp number to get your personalised report sent to you</p>
-                                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                                        <div className="input-group mt-5">
-                                                            <input
-                                                                type="text" style={{ border: "2px solid gray" }}
-                                                                className="form-control"
-                                                                placeholder="Enter your WhatsApp number"
-                                                                autoComplete='off' maxLength={10} inputMode="numeric"
-                                                                {...register("phoneNumber", {
-                                                                    required: "Whatsapp Number is required",
-                                                                    pattern: {
-                                                                        value: /^\d{10}$/,
-                                                                        message: "Number must be exactly 10 digits",
-                                                                    }
-                                                                })}
-                                                                onInput={(e) => {
-                                                                    e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                                                                }}
-                                                            />
-                                                            <span className="input-group-text bg-white" style={{ border: '2px solid gray' }}>
-                                                                <Whatsapp className="text-success" />
-                                                            </span>
-                                                        </div>
-                                                        {errors.phoneNumber && <span className="text-danger">{errors.phoneNumber.message}</span>}
-                                                        <div className='text-center mb-3 mt-5'>
-                                                            <button className="pfRiskButtons py-2 px-5" type='submit'>
-                                                                Verify Number
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </>
-                                                 :
-                                                    <>     
-                                                    <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Please enter your OTP</p>
-
-                                                    <form onSubmit={handleSubmitOtp}>
-                                                        <div className="d-flex">
-                                                            {Array.from({ length: otpLength }).map((_, index) => (
+                                                    <>
+                                                        <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Share your WhatsApp number to get your personalised report sent to you</p>
+                                                        <form onSubmit={handleSubmit(onSubmit)}>
+                                                            <div className="input-group mt-5">
                                                                 <input
-                                                                    key={index}
-                                                                    id={`otp-input-${index}`}
-                                                                    type="number"
-                                                                    maxLength="1"
-                                                                    autoComplete='off'
-                                                                    name='otp'
-                                                                    className="otpInput form-control text-center mx-1 mt-2"
-                                                                    value={otpValues[index]}
-                                                                    onChange={(e) => handleOtpChange(e.target.value, index)}
-                                                                    onKeyDown={(e) => handleBackspace(e, index)}
-                                                                    aria-label={`OTP input ${index + 1}`}
+                                                                    type="text" style={{ border: "2px solid gray" }}
+                                                                    className="form-control"
+                                                                    placeholder="Enter your WhatsApp number"
+                                                                    autoComplete='off' maxLength={10} inputMode="numeric"
+                                                                    {...register("phoneNumber", {
+                                                                        required: "Whatsapp Number is required",
+                                                                        pattern: {
+                                                                            value: /^\d{10}$/,
+                                                                            message: "Number must be exactly 10 digits",
+                                                                        }
+                                                                    })}
+                                                                    onInput={(e) => {
+                                                                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                                                                    }}
                                                                 />
-                                                            ))}
-                                                        </div>
-                                                        <div className="row">
-                                                            <div className="col text-end mt-2">
-                                                                <a
-                                                                    className="text-decoration-none labelSubHeading float-end mt-2"
-                                                                    style={{ cursor: "pointer" }} onClick={handleRendOtpClick}>
-                                                                    Resend OTP
-                                                                </a>
+                                                                <span className="input-group-text bg-white" style={{ border: '2px solid gray' }}>
+                                                                    <Whatsapp className="text-success" />
+                                                                </span>
                                                             </div>
-
-                                                        </div>
-
-                                                        <div className='text-center mt-3 mt-lg-5'>
-                                                            <div className="text-center" style={{ fontWeight: "500", fontSize: "1.1rem" }}>
-                                                                {timer > 1 ? <p className='text-danger'>OTP expires in {timer} seconds.</p>
-                                                                    : <p className='text-danger'>OTP expired</p>}
+                                                            {errors.phoneNumber && <span className="text-danger">{errors.phoneNumber.message}</span>}
+                                                            <div className='text-center mb-3 mt-5'>
+                                                                <button className="pfRiskButtons py-2 px-5" type='submit'>
+                                                                    Verify Number
+                                                                </button>
                                                             </div>
-                                                            <button className="pfRiskButtons py-2 px-5" disabled={!isBtnAssessmentEnabled || timer < 1}>
-                                                                Get Report
-                                                            </button>
-                                                        </div>
-                                                    </form>
+                                                        </form>
                                                     </>
-                                                    
+                                                    :
+                                                    <>
+                                                        <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Please enter your OTP</p>
+
+                                                        <form onSubmit={handleSubmitOtp}>
+                                                            <div className="d-flex">
+                                                                {Array.from({ length: otpLength }).map((_, index) => (
+                                                                    <input
+                                                                        key={index}
+                                                                        id={`otp-input-${index}`}
+                                                                        type="number"
+                                                                        maxLength="1"
+                                                                        autoComplete='off'
+                                                                        name='otp'
+                                                                        className="otpInput form-control text-center mx-1 mt-2"
+                                                                        value={otpValues[index]}
+                                                                        onChange={(e) => handleOtpChange(e.target.value, index)}
+                                                                        onKeyDown={(e) => handleBackspace(e, index)}
+                                                                        aria-label={`OTP input ${index + 1}`}
+                                                                    />
+                                                                ))}
+                                                            </div>
+
+                                                            <div className='text-center mt-3 mt-lg-5'>
+                                                                <div className="text-center" style={{ fontWeight: "400", fontSize: "1rem" }}>
+                                                                        <p className='mt-2'>Waiting for OTP ? Resend in :{timer > 1 ? <span className='otpText'> {" "}{timer}</span>
+                                                                        : <a
+                                                                            className="text-decoration-none otpText" style={{ cursor: 'pointer' }}
+                                                                            onClick={handleRendOtpClick}>{" "}
+                                                                            Resend OTP
+                                                                        </a>}
+                                                                    </p>
+                                                                </div>
+                                                                <button className="pfRiskButtons py-2 px-5" disabled={!isBtnAssessmentEnabled || timer < 1}>
+                                                                    Get Report
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </>
+
                                                 }
                                             </div>
                                             :
@@ -313,7 +311,7 @@ const ModalComponent = ({profileData, isOpen, onClose }) => {
                                                 </div>
                                                 <div className='text-center mt-3'>
                                                     <button className="pfRiskButtons py-2" onClick={closeModel} style={{ paddingLeft: "5rem", paddingRight: "5rem" }}>
-                                                        OK
+                                                        View Report
                                                     </button>
                                                 </div>
                                             </div>

@@ -139,6 +139,19 @@ function TotalSummary() {
         }
     }
 
+    const maskAdharNumber = (number) => {
+        if (number) {
+            const lastFourDigits = number.slice(-4);
+            return `XXXXXXXX${lastFourDigits}`;
+        }
+    };
+    const maskPanNumber = (number) => {
+        if (number) {
+            const lastFourDigits = number.slice(-4);
+            return `XXXXXX${lastFourDigits}`;
+        }
+    };
+
     const getSelectedSubCategoryData = (subCategory) => {
         return categoryDetailsFromReport && categoryDetailsFromReport.find((item) => item.subCategory.toUpperCase() === subCategory.toUpperCase())
     }
@@ -286,7 +299,7 @@ function TotalSummary() {
                                     <div className="d-flex justify-content-between mb-2">
                                         <div>
                                             <label className="d-block kycHeadText">Aadhaar Number:</label>
-                                            <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.kycDetails?.aadhaar}</p>
+                                            <p className="mb-0 kycSubText">{maskAdharNumber(summaryData?.rawData?.data?.profile?.kycDetails?.aadhaar)}</p>
                                         </div>
                                         {isInvalid(('Aadhaar Number')) &&
                                             <span className="d-flex align-items-start text-danger kycDetailsCheck">
@@ -304,7 +317,7 @@ function TotalSummary() {
                                     <div className="d-flex justify-content-between mb-2">
                                         <div>
                                             <label className="d-block kycHeadText">PAN Number:</label>
-                                            <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.kycDetails?.pan}</p>
+                                            <p className="mb-0 kycSubText">{maskPanNumber(summaryData?.rawData?.data?.profile?.kycDetails?.pan)}</p>
                                         </div>
                                         {isInvalid(('Pan Number')) &&
                                             <span className="d-flex align-items-start text-danger kycDetailsCheck">

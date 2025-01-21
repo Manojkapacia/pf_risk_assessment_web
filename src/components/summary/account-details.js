@@ -22,12 +22,13 @@ function AccountDetails() {
 
     function formatDuration(duration) {
         if (duration) {
-            const parts = duration?.split(" ");
-            const years = parts[0] !== "0" ? `${parts[0]} Yrs` : "";
-            const months = parts[2] !== "0" ? `${parts[2]} M` : "";
-            return [years, months].filter(Boolean).join(" ");
+          const parts = duration.split(" ");
+          const years = parts[0] !== "0" ? `${parts[0]} Yr${parts[0] > 1 ? "s" : ""}` : "";
+          const months = parts[2] !== "0" ? `${parts[2]} M` : "";
+          return [years, months].filter(Boolean).join(" ");
         }
-    }
+        return "";
+      }
 
     useEffect(() => {
         if (summaryData?.rawData) {
@@ -38,6 +39,18 @@ function AccountDetails() {
             setLastContribution(lastContribution)
         }
     }, [])
+      const maskAdharNumber = (number) => {
+        if (number) {
+            const lastFourDigits = number.slice(-4);
+            return `XXXXXXXX${lastFourDigits}`;
+        }
+    };
+    const maskPanNumber = (number) => {
+        if (number) {
+            const lastFourDigits = number.slice(-4);
+            return `XXXXXX${lastFourDigits}`;
+        }
+    };
 
     return (
         <div className="container">
@@ -114,7 +127,7 @@ function AccountDetails() {
                                 <tr>
                                     <td className="overViewTabelData">Current Value</td>
                                     <td className="overViewTabelSubData">
-                                        ₹ {summaryData?.reportData?.totalPfBalance}
+                                        {formatCurrency(summaryData?.reportData?.totalPfBalance)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -163,11 +176,11 @@ function AccountDetails() {
                                 </div>
                                 <div className="d-flex flex-column">
                                     <p className="mb-0 personalDetText">Aadhaar Number:</p>
-                                    <p className="personalDetSubtext">{profileData?.kycDetails?.aadhaar}</p>
+                                    <p className="personalDetSubtext">{maskAdharNumber(profileData?.kycDetails?.aadhaar)}</p>
                                 </div>
                                 <div className="d-flex flex-column">
                                     <p className="mb-0 personalDetText">PAN Number:</p>
-                                    <p className="personalDetSubtext">{profileData?.kycDetails?.pan}</p>
+                                    <p className="personalDetSubtext">{maskPanNumber(profileData?.kycDetails?.pan)}</p>
                                 </div>
                                 <div className="d-flex flex-column">
                                     <p className="mb-0 personalDetText">IFSC Number:</p>

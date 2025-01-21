@@ -171,7 +171,8 @@ function OtpComponent() {
                     setLoading(false)
                 }, 1000);
             } catch (error) {
-                setLoading(false)
+                setLoading(false);
+                setOtp(Array(6).fill(""));
                 setTimer(0)
                 if (error?.status === 400) {
                     setMessage({ type: "error", content: MESSAGES.error.invalidOtpServer });
@@ -183,7 +184,8 @@ function OtpComponent() {
                 }
             }
         } else {
-            setLoading(false)
+            setLoading(false);
+            setOtp(Array(6).fill(""));
             setMessage({ type: "error", content: MESSAGES.error.invalidOtp });
         }
     };
