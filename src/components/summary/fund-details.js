@@ -294,6 +294,22 @@ function FundDetails() {
                                             </td>
                                         ))}
                                     </tr>
+                                    <tr>
+                                        <td style={{ fontSize: '0.85rem', fontWeight: '300' }}>Pension Accumulated</td>
+                                        {fundYears?.map(year => (
+                                            <td key={year} style={{ fontSize: '0.80rem', fontWeight: '300' }}>
+                                                ₹ {summaryData?.reportData?.fundValues[year].totalPensionShare.toLocaleString()}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                    <tr>
+                                        <td style={{ fontSize: '0.85rem', fontWeight: '300' }}>Interest Earned</td>
+                                        {fundYears?.map(year => (
+                                            <td key={year} style={{ fontSize: '0.80rem', fontWeight: '300' }}>
+                                                ₹ {summaryData?.reportData?.fundValues[year].totalInterestShare.toLocaleString()}
+                                            </td>
+                                        ))}
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
