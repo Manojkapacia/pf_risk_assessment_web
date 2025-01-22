@@ -102,7 +102,19 @@ function TotalSummary() {
                 criticalCount: sub.critical,
                 mediumCount: sub.medium,
                 totalErrorCount: sub.critical + sub.medium,
-                consolidatedErrorMessage: sub.errorMessages.join(', ') || "No error messages available"
+                consolidatedErrorMessage: sub?.errorMessages?.filter((msg) => msg)
+                ?.map((msg, index) => (
+                    <div
+                        key={index}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'flex-start'
+                        }}
+                    >
+                        <span style={{ marginRight: '0.5rem' }}>{index + 1}.</span>
+                        <span style={{ textAlign: 'left', flex: 1 }}>{msg}.</span>
+                    </div>
+                ))
             }));
         }).flat(); // Flattening to avoid nested arrays
 
@@ -133,7 +145,7 @@ function TotalSummary() {
                         }}
                     >
                         <span style={{ marginRight: '0.5rem' }}>{index + 1}.</span>
-                        <span style={{ textAlign: 'left', flex: 1 }}>{msg}</span>
+                        <span style={{ textAlign: 'left', flex: 1 }}>{msg}.</span>
                     </div>
                 ))
         }
@@ -154,6 +166,7 @@ function TotalSummary() {
 
     const getSelectedSubCategoryData = (subCategory) => {
         return categoryDetailsFromReport && categoryDetailsFromReport.find((item) => item.subCategory.toUpperCase() === subCategory.toUpperCase())
+        
     }
 
     return (
@@ -357,8 +370,7 @@ function TotalSummary() {
                                         className={getSelectedSubCategoryData('KYC')?.criticalCount > 0 ? "text-danger mt-2" : "text-warning-custom mt-2"}>
                                         <p className='kycSubText mb-0 ' style={{ fontWeight: '400' }}>
                                             <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                            <b>{getSelectedSubCategoryData('KYC')?.totalErrorCount} Issues Found: </b>{getSelectedSubCategoryData('KYC')?.consolidatedErrorMessage}. Incomplete KYC will result
-                                            in <strong>Claim Rejections.</strong>
+                                            <b>{getSelectedSubCategoryData('KYC')?.totalErrorCount} Issues Found: </b>{getSelectedSubCategoryData('KYC')?.consolidatedErrorMessage}
                                         </p>
                                     </div>
                                 }

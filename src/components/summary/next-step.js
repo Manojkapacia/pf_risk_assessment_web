@@ -22,7 +22,7 @@ const NextStep = () => {
     // },
     {
       number: 3,
-      label: "Get Risk Report",
+      label: "Resolve your PF Issues",
     },
     {
       number: 4,
