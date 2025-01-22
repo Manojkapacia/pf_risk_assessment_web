@@ -80,30 +80,30 @@ function ServiceHistory() {
         }
     };
     const getYearsAndMonths = (data) => {
-        if(data){
+        if (data) {
             const match = data?.match(/(\d+)\s*Years?\s*(\d+)?\s*Months?/);
-        if (match) {
-          const years = parseInt(match[1], 10) || 0;
-          const months = parseInt(match[2], 10) || 0;
-      
-          const yearString = years === 1 ? "1 Year" : `${years} Years`;
-          const monthString = months === 1 ? "1 Month" : `${months} Months`;
-    
-          return `${yearString} ${monthString}`;
+            if (match) {
+                const years = parseInt(match[1], 10) || 0;
+                const months = parseInt(match[2], 10) || 0;
+
+                const yearString = years === 1 ? "1 Year" : `${years} Years`;
+                const monthString = months === 1 ? "1 Month" : `${months} Months`;
+
+                return `${yearString} ${monthString}`;
+            }
+            return "0 Years 0 Months"; // Default if no match
         }
-        return "0 Years 0 Months"; // Default if no match
-        }
-        
-      };
-      function formatDuration(duration) {
+
+    };
+    function formatDuration(duration) {
         if (duration) {
-          const parts = duration.split(" ");
-          const years = parts[0] !== "0" ? `${parts[0]} Yr${parts[0] > 1 ? "s" : ""}` : "";
-          const months = parts[2] !== "0" ? `${parts[2]} M` : "";
-          return [years, months].filter(Boolean).join(" ");
+            const parts = duration.split(" ");
+            const years = parts[0] !== "0" ? `${parts[0]} Yr${parts[0] > 1 ? "s" : ""}` : "";
+            const months = parts[2] !== "0" ? `${parts[2]} M` : "";
+            return [years, months].filter(Boolean).join(" ");
         }
         return "";
-      }
+    }
     const overlayStyle = {
         position: 'fixed',
         top: '0',
@@ -152,108 +152,46 @@ function ServiceHistory() {
                                     </div>
                                     :
                                     <>
-                                        {/* <div className='row'>
-                                            <div className='col-md-8 offset-md-2 pfRiskSubHeading text-center'>
-                                                <div className="pfRiskheading text-center">Please Confirm Service History</div>
-                                                Verify if all information regarding your service history is correct before moving ahead
-                                            </div>
-                                        </div>
-
-                                        <div className="row mt-4">
-                                            <div className="col-md-10 offset-md-1">
-                                                <div className="overflow-auto sideBar" style={{ maxHeight: '15rem' }}>
-                                                    <ul className='list-group' >
-                                                        {listItems?.history?.map((item, index) => (
-                                                            <React.Fragment key={index}>
-                                                                <li
-                                                                    className="list-group-item collapsHeading"
-                                                                    style={{ cursor: "pointer" }}
-                                                                    onClick={() => handleItemClick(index)}
-                                                                >
-                                                                    {item.company === "-"
-                                                                        ? "NA"
-                                                                        : item.company.length > 34
-                                                                            ? item.company.substring(0, 34) + "..."
-                                                                            : item.company}
-                                                                    <span className='ms-2' style={{ marginLeft: 'auto' }}>{isOpen && activeIndex === index ? <BsChevronCompactUp /> : <BsChevronCompactDown />}</span><br></br>
-
-                                                                    <span className='timeDuration'>
-                                                                        {ConvertPeriod(item.period)}
-                                                                    </span>
-                                                                </li>
-
-                                                                {activeIndex === index && (
-                                                                    <li className='list-group-item bg-light'>
-                                                                        <div className="row">
-                                                                            <div className="col-5">
-                                                                                <span className='dropdownLabel'>Member ID :</span><br></br>
-                                                                                <span className='dropdownLabel'>Joining Date :</span><br></br>
-                                                                                <span className='dropdownLabel'>Exit Date :</span><br></br>
-                                                                            </div>
-                                                                            <div className="col-7 ps-0">
-                                                                                <span className='dropdownSublabel'>{item.details['Member Id']}</span><br></br>
-                                                                                <span className='dropdownSublabel'>{item.details['Joining Date']}</span><br></br>
-                                                                                <span className='dropdownSublabel'>{item.details['Exit Date']}</span><br></br>
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </li>
-                                                                )}
-                                                            </React.Fragment>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className='row my-3 mt-lg-5'>
-                                            <div className='col-md-6 col-sm-6'>
-                                                <button className='btn incorrectButton w-100' onClick={() => handleButtonClick('incorrect')}>This is incorrect</button>
-                                            </div>
-                                            <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                                                <button className='btn correctButton w-100' onClick={() => handleButtonClick('correct')}>This is correct</button>
-                                            </div>
-                                        </div> */}
                                         <p className='confirmHistory'>Please Confirm Employement History</p>
-                                            <div className='col-md-12'>
-                                                <p className='capturedCorrect'>Verify if the below captured details are correct</p>
-                                                <div className="card shadow-sm py-3 px-lg-5 mt-3">
-                                                    <p className="text-center employmentServiceHis">Employment History</p>
-                                                    <table className="table mb-0">
-                                                        <thead>
-                                                            <tr>
-                                                                <th className="employmentTabel">Employer</th>
-                                                                <th className="employmentTabel">Tenure</th>
-                                                                <th className="employmentTabel">Experience</th>
+                                        <div className='col-md-12'>
+                                            <p className='capturedCorrect'>Verify if the below captured details are correct</p>
+                                            <div className="card shadow-sm py-3 px-lg-5 mt-3">
+                                                <p className="text-center employmentServiceHis">Employment History</p>
+                                                <table className="table mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th className="employmentTabel">Employer</th>
+                                                            <th className="employmentTabel">Tenure</th>
+                                                            <th className="employmentTabel">Experience</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {listItems?.history?.map((item, index) => (
+                                                            <tr key={index}>
+                                                                <td className="employmentTabelData">{item.company}</td>
+                                                                <td className="employmentTabelData">{item.period}</td>
+                                                                <td className="employmentTabelData">{formatDuration(item.details?.['Total Service'])}</td>
                                                             </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {listItems?.history?.map((item, index) => (
-                                                                <tr key={index}>
-                                                                    <td className="employmentTabelData">{item.company}</td>
-                                                                    <td className="employmentTabelData">{item.period}</td>
-                                                                    <td className="employmentTabelData">{formatDuration(item.details?.['Total Service'])}</td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    </table>
-                                                    <div className="text-center employmentService mt-2">
-                                                        {formatDuration(listItems?.overview?.['Total Experience'])}
-                                                    </div>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                                <div className="text-center employmentService mt-2">
+                                                    {formatDuration(listItems?.overview?.['Total Experience'])}
                                                 </div>
-                                                <div className='row'>
-                                                    <div className='col-md-10 offset-md-1'>
-                                                        <div className='row my-3 mt-lg-5'>
-                                                            <div className='col-md-6 col-sm-6'>
-                                                                <button className='btn incorrectButton w-100 py-2 py-md-3' onClick={() => handleButtonClick('incorrect')}>This is incorrect</button>
-                                                            </div>
-                                                            <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
-                                                                <button className='btn correctButton w-100 py-2 py-md-3' onClick={() => handleButtonClick('correct')}>This is correct</button>
-                                                            </div>
+                                            </div>
+                                            <div className='row'>
+                                                <div className='col-md-10 offset-md-1'>
+                                                    <div className='row my-3 mt-lg-5'>
+                                                        <div className='col-md-6 col-sm-6'>
+                                                            <button className='btn incorrectButton w-100 py-2 py-md-3' onClick={() => handleButtonClick('incorrect')}>This is incorrect</button>
+                                                        </div>
+                                                        <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
+                                                            <button className='btn correctButton w-100 py-2 py-md-3' onClick={() => handleButtonClick('correct')}>This is correct</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                     </>
                                 }
                             </div>

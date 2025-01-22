@@ -24,7 +24,7 @@ const DocumentScanning = () => {
     const [isFetched, setIsFetched] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
     const [istTime, setIstTime] = useState(null);
-    const [timeLeft, setTimeLeft] = useState(120); 
+    const [timeLeft, setTimeLeft] = useState(120);
 
     const { listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus, profileData, home } = location.state || {};
 
@@ -92,10 +92,10 @@ const DocumentScanning = () => {
                         clearInterval(interval);
                         localStorage.removeItem('data-for-org-' + uan)
                         localStorage.removeItem('data-for-scan-' + uan)
-                        const encodedData = encryptData(JSON.stringify({profileData, home, listItems, reportUpdatedAtVar}));
+                        const encodedData = encryptData(JSON.stringify({ profileData, home, listItems, reportUpdatedAtVar }));
                         localStorage.setItem('data-for-account-summary-' + uan, encodedData);
-                        navigate("/full-summary",{ state: {profileData, home, listItems, reportUpdatedAtVar}})
-                        return prev;                        
+                        navigate("/full-summary", { state: { profileData, home, listItems, reportUpdatedAtVar } })
+                        return prev;
                     }
                 });
             }, 100);
@@ -259,7 +259,7 @@ const DocumentScanning = () => {
                                 </div>
                             </div>
                         }
-                        <p className='mb-3 mt-1 text-center' style={{fontSize: '1.2rem'}}>This might take some time :<b style={{color:'#304DFF'}}> {" "}{formatTime(timeLeft)} {''} min</b></p>
+                        <p className='mb-3 mt-1 text-center' style={{ fontSize: '1.2rem' }}>This might take some time :<b style={{ color: '#304DFF' }}> {" "}{formatTime(timeLeft)} {''} min</b></p>
 
                         {!isViewingResult &&
                             <>

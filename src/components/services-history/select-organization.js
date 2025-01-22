@@ -3,14 +3,12 @@ import '../../css/service-history/service-history.css';
 import '../../css/service-history/select-organization.css';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ConvertPeriod } from '../common/date-convertor';
-import { encryptData } from '../common/encryption-decryption';
 
 function SelectOrganization() {
     const location = useLocation();
     const navigate = useNavigate();
     const [showlistOrganization, setlistOrganization] = useState(true);
-    const [selectedId, setSelectedId] = useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(0);
     const { listItems, uan, type, reportUpdatedAtVar, profileData, home } = location.state || {};
 
     useEffect(() => {
@@ -27,11 +25,11 @@ function SelectOrganization() {
 
     // Handle checkbox change
     const handleCheckboxChange = (id) => {
-        setSelectedId(id === selectedId ? null : id);
+        setSelectedIndex(id === selectedIndex ? null : id);
     };
 
     const generateReportClick = () => {
-        const selectedOrg = selectedId !== null ? updatedListItems[selectedId] : null;
+        const selectedOrg = selectedIndex !== null ? updatedListItems[selectedIndex] : null;
         navigate("/kyc-details", { state: { listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home } });
     }
 
@@ -40,45 +38,6 @@ function SelectOrganization() {
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-5 col-md-8">
-                    {/* <div className='row'>
-                        <div className="col-lg-11">
-                            <div className='row'>
-                                <div className="col-md-10 offset-md-1 pfRiskheading text-center">Select Current Organization</div>
-                            </div>
-
-                            <div className="row mt-4">
-                                <div className="col-md-8 offset-md-2">
-                                    <div className="overflow-auto selectsideBar" style={{ maxHeight: '15rem' }}>
-                                        <form>
-                                            {updatedListItems.map((item, index) => (
-                                                <div key={index}>
-                                                    <ul className='list-group ms-4' >
-                                                        <li><span className='selectHeading'>{item.company}</span><br></br>
-                                                            <span className='selectTime px-2'>{ConvertPeriod(item.period)}</span>
-                                                            <div className="form-check mt-2 ps-0 d-flex justify-content-start">
-                                                                <input className="large-checkbox me-3" type="radio" value=""
-                                                                    checked={selectedId === index} onChange={() => handleCheckboxChange(index)} />
-                                                                <div className="form-check-label checkboxText">
-                                                                    Still working here
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            ))}
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className='row mt-4'>
-                                <div className='col-md-12 my-3 my-lg-0'>
-                                    <button className='btn correctButton w-100' onClick={generateReportClick}>
-                                        {selectedId !== null ? 'Continue' : "Not working in any of these"}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
                     <div className='row'>
                         <div className='col-md-12'>
                             {showlistOrganization ? (
@@ -115,7 +74,7 @@ function SelectOrganization() {
                                                             </div>
                                                             <div>
                                                                 <input className='selectOrgRadioBtn' type="radio" name="currentEmployer"
-                                                                    id="currentEmployer" checked={selectedId === index} onChange={() => handleCheckboxChange(index)} />
+                                                                    id="currentEmployer" checked={selectedIndex === index} onChange={() => handleCheckboxChange(index)} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -127,7 +86,7 @@ function SelectOrganization() {
                                                 className="btn selectOrgBtn yesButton w-100 w-md-50 py-2 py-md-3"
                                                 onClick={generateReportClick}
                                             >
-                                                {selectedId !== null ? 'Next' : 'Not working in any of these'}
+                                                {selectedIndex !== null ? 'Next' : 'Not working in any of these'}
                                             </button>
                                         </div>
                                     </div>
