@@ -13,6 +13,7 @@ import ConsultationModal from '../report/consultation-modal';
 import ModalComponent from '../report/registration-modal';
 import { get } from '../common/api';
 import ToastMessage from '../common/toast-message';
+import ReportPaymentModal from './reportPaymentModal'
 
 function TotalSummary() {
     const location = useLocation();
@@ -25,6 +26,16 @@ function TotalSummary() {
     const [summaryData, setSummaryData] = useState(null)
     const [categoryDetailsFromReport, setCategoryDetailsFromReport] = useState([])
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
+    const [isBlurred, setIsBlurred] = useState(true);
+
+    const handleReportModal = (value) => {
+        setIsBlurred(value);
+        console.log('Modal Closed:', value);
+    };
+
+    const handleModalOpen = () => {
+        setIsBlurred(true);
+    };
 
     // Function to close the modal
     const closeReportModal = () => {
@@ -103,18 +114,18 @@ function TotalSummary() {
                 mediumCount: sub.medium,
                 totalErrorCount: sub.critical + sub.medium,
                 consolidatedErrorMessage: sub?.errorMessages?.filter((msg) => msg)
-                ?.map((msg, index) => (
-                    <div
-                        key={index}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'flex-start'
-                        }}
-                    >
-                        <span style={{ marginRight: '0.5rem' }}>{index + 1}.</span>
-                        <span style={{ textAlign: 'left', flex: 1 }}>{msg}.</span>
-                    </div>
-                ))
+                    ?.map((msg, index) => (
+                        <div
+                            key={index}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'flex-start'
+                            }}
+                        >
+                            <span style={{ marginRight: '0.5rem' }}>{index + 1}.</span>
+                            <span style={{ textAlign: 'left', flex: 1 }}>{msg}.</span>
+                        </div>
+                    ))
             }));
         }).flat(); // Flattening to avoid nested arrays
 
@@ -166,7 +177,7 @@ function TotalSummary() {
 
     const getSelectedSubCategoryData = (subCategory) => {
         return categoryDetailsFromReport && categoryDetailsFromReport.find((item) => item.subCategory.toUpperCase() === subCategory.toUpperCase())
-        
+
     }
 
     return (
@@ -184,7 +195,7 @@ function TotalSummary() {
                     <div className='col-lg-5 col-md-6 mt-4'>
                         <SummaryCard summaryData={summaryData}></SummaryCard>
                         <ClaimRejection reportData={summaryData}></ClaimRejection>
-                        <PfBalanceAnalysis summaryData={summaryData}></PfBalanceAnalysis>
+                        <PfBalanceAnalysis summaryData={summaryData} setBlurEffect={isBlurred}></PfBalanceAnalysis>
 
                         {/* Resolution Time Section  */}
                         <div className="card resolution-card text-white px-4 py-3 my-3">
@@ -214,167 +225,312 @@ function TotalSummary() {
                             <div className="text-center">
                                 <p className="KycHeading">KYC Verification</p>
                             </div>
-                            <div className="row">
-                                <div className="col-xl-6">
-                                    <div className="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <label className="d-block kycHeadText">{summaryData?.rawData?.data?.profile?.basicDetails?.relation.toUpperCase() === 'F' ? "Father's Name" : "Husband's Name"}:</label>
-                                            <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.basicDetails?.fatherHusbandName}</p>
+                            <div className={`${isBlurred ? 'blur-content' : ''}`}>
+                                <div className="row">
+                                    <div className="col-xl-6">
+                                        <div className="d-flex justify-content-between mb-2">
+                                            <div>
+                                                <label className="d-block kycHeadText">{summaryData?.rawData?.data?.profile?.basicDetails?.relation.toUpperCase() === 'F' ? "Father's Name" : "Husband's Name"}:</label>
+                                                <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.basicDetails?.fatherHusbandName}</p>
+                                            </div>
+                                            {isInvalid(('Father/Husband Name')) &&
+                                                <span className="d-flex align-items-start text-danger kycDetailsCheck">
+                                                    <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                    Incorrect
+                                                </span>
+                                            }
+                                            {!isInvalid(('Father/Husband Name')) &&
+                                                <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
+                                                    <i className="bi bi-check-circle-fill me-2"></i>
+                                                    Verified
+                                                </span>
+                                            }
                                         </div>
-                                        {isInvalid(('Father/Husband Name')) &&
-                                            <span className="d-flex align-items-start text-danger kycDetailsCheck">
-                                                <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                Incorrect
-                                            </span>
-                                        }
-                                        {!isInvalid(('Father/Husband Name')) &&
-                                            <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
-                                                <i className="bi bi-check-circle-fill me-2"></i>
-                                                Verified
-                                            </span>
-                                        }
-                                    </div>
-                                    <div className="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <label className="d-block kycHeadText">Gender:</label>
-                                            <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.basicDetails?.gender.toUpperCase() === "M" ? "Male" : "Female"}</p>
+                                        <div className="d-flex justify-content-between mb-2">
+                                            <div>
+                                                <label className="d-block kycHeadText">Gender:</label>
+                                                <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.basicDetails?.gender.toUpperCase() === "M" ? "Male" : "Female"}</p>
+                                            </div>
+                                            {isInvalid(('Gender')) &&
+                                                <span className="d-flex align-items-start text-danger kycDetailsCheck">
+                                                    <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                    Incorrect
+                                                </span>
+                                            }
+                                            {!isInvalid(('Gender')) &&
+                                                <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
+                                                    <i className="bi bi-check-circle-fill me-2"></i>
+                                                    Verified
+                                                </span>
+                                            }
                                         </div>
-                                        {isInvalid(('Gender')) &&
-                                            <span className="d-flex align-items-start text-danger kycDetailsCheck">
-                                                <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                Incorrect
-                                            </span>
-                                        }
-                                        {!isInvalid(('Gender')) &&
-                                            <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
-                                                <i className="bi bi-check-circle-fill me-2"></i>
-                                                Verified
-                                            </span>
-                                        }
-                                    </div>
-                                    <div className="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <label className="d-block kycHeadText">Phy. Handicapped:</label>
-                                            <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.basicDetails?.physicallyHandicapped.toUpperCase() === "N" ? "None" : "Yes"}</p>
+                                        <div className="d-flex justify-content-between mb-2">
+                                            <div>
+                                                <label className="d-block kycHeadText">Phy. Handicapped:</label>
+                                                <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.basicDetails?.physicallyHandicapped.toUpperCase() === "N" ? "None" : "Yes"}</p>
+                                            </div>
+                                            {isInvalid(('Physically Handicapped')) &&
+                                                <span className="d-flex align-items-start text-danger kycDetailsCheck">
+                                                    <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                    Incorrect
+                                                </span>
+                                            }
+                                            {!isInvalid(('Physically Handicapped')) &&
+                                                <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
+                                                    <i className="bi bi-check-circle-fill me-2"></i>
+                                                    Verified
+                                                </span>
+                                            }
                                         </div>
-                                        {isInvalid(('Physically Handicapped')) &&
-                                            <span className="d-flex align-items-start text-danger kycDetailsCheck">
-                                                <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                Incorrect
-                                            </span>
-                                        }
-                                        {!isInvalid(('Physically Handicapped')) &&
-                                            <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
-                                                <i className="bi bi-check-circle-fill me-2"></i>
-                                                Verified
-                                            </span>
-                                        }
-                                    </div>
-                                    <div className="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <label className="d-block kycHeadText">Bank A/C Number:</label>
-                                            <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.kycDetails?.bankAccountNumber}</p>
+                                        <div className="d-flex justify-content-between mb-2">
+                                            <div>
+                                                <label className="d-block kycHeadText">Bank A/C Number:</label>
+                                                <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.kycDetails?.bankAccountNumber}</p>
+                                            </div>
+                                            {isInvalid(('Bank Account Number')) &&
+                                                <span className="d-flex align-items-start text-danger kycDetailsCheck">
+                                                    <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                    Incorrect
+                                                </span>
+                                            }
+                                            {!isInvalid(('Bank Account Number')) &&
+                                                <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
+                                                    <i className="bi bi-check-circle-fill me-2"></i>
+                                                    Verified
+                                                </span>
+                                            }
                                         </div>
-                                        {isInvalid(('Bank Account Number')) &&
-                                            <span className="d-flex align-items-start text-danger kycDetailsCheck">
-                                                <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                Incorrect
-                                            </span>
-                                        }
-                                        {!isInvalid(('Bank Account Number')) &&
-                                            <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
-                                                <i className="bi bi-check-circle-fill me-2"></i>
-                                                Verified
-                                            </span>
-                                        }
                                     </div>
-                                </div>
 
-                                <div className="col-xl-6">
-                                    <div className="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <label className="d-block kycHeadText">Date of Birth:</label>
-                                            <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.basicDetails?.dateOfBirth}</p>
+                                    <div className="col-xl-6">
+                                        <div className="d-flex justify-content-between mb-2">
+                                            <div>
+                                                <label className="d-block kycHeadText">Date of Birth:</label>
+                                                <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.basicDetails?.dateOfBirth}</p>
+                                            </div>
+                                            {isInvalid(('Date of Birth')) &&
+                                                <span className="d-flex align-items-start text-danger kycDetailsCheck">
+                                                    <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                    Incorrect
+                                                </span>
+                                            }
+                                            {!isInvalid(('Date of Birth')) &&
+                                                <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
+                                                    <i className="bi bi-check-circle-fill me-2"></i>
+                                                    Verified
+                                                </span>
+                                            }
                                         </div>
-                                        {isInvalid(('Date of Birth')) &&
-                                            <span className="d-flex align-items-start text-danger kycDetailsCheck">
-                                                <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                Incorrect
-                                            </span>
-                                        }
-                                        {!isInvalid(('Date of Birth')) &&
-                                            <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
-                                                <i className="bi bi-check-circle-fill me-2"></i>
-                                                Verified
-                                            </span>
-                                        }
-                                    </div>
-                                    <div className="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <label className="d-block kycHeadText">Aadhaar Number:</label>
-                                            <p className="mb-0 kycSubText">{maskAdharNumber(summaryData?.rawData?.data?.profile?.kycDetails?.aadhaar)}</p>
+                                        <div className="d-flex justify-content-between mb-2">
+                                            <div>
+                                                <label className="d-block kycHeadText">Aadhaar Number:</label>
+                                                <p className="mb-0 kycSubText">{maskAdharNumber(summaryData?.rawData?.data?.profile?.kycDetails?.aadhaar)}</p>
+                                            </div>
+                                            {isInvalid(('Aadhaar Number')) &&
+                                                <span className="d-flex align-items-start text-danger kycDetailsCheck">
+                                                    <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                    Incorrect
+                                                </span>
+                                            }
+                                            {!isInvalid(('Aadhaar Number')) &&
+                                                <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
+                                                    <i className="bi bi-check-circle-fill me-2"></i>
+                                                    Verified
+                                                </span>
+                                            }
                                         </div>
-                                        {isInvalid(('Aadhaar Number')) &&
-                                            <span className="d-flex align-items-start text-danger kycDetailsCheck">
-                                                <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                Incorrect
-                                            </span>
-                                        }
-                                        {!isInvalid(('Aadhaar Number')) &&
-                                            <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
-                                                <i className="bi bi-check-circle-fill me-2"></i>
-                                                Verified
-                                            </span>
-                                        }
-                                    </div>
-                                    <div className="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <label className="d-block kycHeadText">PAN Number:</label>
-                                            <p className="mb-0 kycSubText">{maskPanNumber(summaryData?.rawData?.data?.profile?.kycDetails?.pan)}</p>
+                                        <div className="d-flex justify-content-between mb-2">
+                                            <div>
+                                                <label className="d-block kycHeadText">PAN Number:</label>
+                                                <p className="mb-0 kycSubText">{maskPanNumber(summaryData?.rawData?.data?.profile?.kycDetails?.pan)}</p>
+                                            </div>
+                                            {isInvalid(('Pan Number')) &&
+                                                <span className="d-flex align-items-start text-danger kycDetailsCheck">
+                                                    <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                    Incorrect
+                                                </span>
+                                            }
+                                            {!isInvalid(('Pan Number')) &&
+                                                <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
+                                                    <i className="bi bi-check-circle-fill me-2"></i>
+                                                    Verified
+                                                </span>
+                                            }
                                         </div>
-                                        {isInvalid(('Pan Number')) &&
-                                            <span className="d-flex align-items-start text-danger kycDetailsCheck">
-                                                <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                Incorrect
-                                            </span>
-                                        }
-                                        {!isInvalid(('Pan Number')) &&
-                                            <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
-                                                <i className="bi bi-check-circle-fill me-2"></i>
-                                                Verified
-                                            </span>
-                                        }
-                                    </div>
-                                    <div className="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <label className="d-block kycHeadText">IFSC Number:</label>
-                                            <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.kycDetails?.bankIFSC}</p>
+                                        <div className="d-flex justify-content-between mb-2">
+                                            <div>
+                                                <label className="d-block kycHeadText">IFSC Number:</label>
+                                                <p className="mb-0 kycSubText">{summaryData?.rawData?.data?.profile?.kycDetails?.bankIFSC}</p>
+                                            </div>
+                                            {isInvalid(('Bank IFSC')) &&
+                                                <span className="d-flex align-items-start text-danger kycDetailsCheck">
+                                                    <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                    Incorrect
+                                                </span>
+                                            }
+                                            {!isInvalid(('Bank IFSC')) &&
+                                                <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
+                                                    <i className="bi bi-check-circle-fill me-2"></i>
+                                                    Verified
+                                                </span>
+                                            }
                                         </div>
-                                        {isInvalid(('Bank IFSC')) &&
-                                            <span className="d-flex align-items-start text-danger kycDetailsCheck">
-                                                <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                Incorrect
-                                            </span>
-                                        }
-                                        {!isInvalid(('Bank IFSC')) &&
-                                            <span className="d-flex align-items-start text-success me-2 kycDetailsCheck">
-                                                <i className="bi bi-check-circle-fill me-2"></i>
-                                                Verified
-                                            </span>
-                                        }
                                     </div>
-                                </div>
 
-                                {(getSelectedSubCategoryData('KYC')?.criticalCount > 0 || getSelectedSubCategoryData('KYC')?.mediumCount > 0) &&
+                                    {(getSelectedSubCategoryData('KYC')?.criticalCount > 0 || getSelectedSubCategoryData('KYC')?.mediumCount > 0) &&
+                                        <div
+                                            className={getSelectedSubCategoryData('KYC')?.criticalCount > 0 ? "text-danger mt-2" : "text-warning-custom mt-2"}>
+                                            <p className='kycSubText mb-0 ' style={{ fontWeight: '400' }}>
+                                                <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                <b>{getSelectedSubCategoryData('KYC')?.totalErrorCount} Issues Found: </b>{getSelectedSubCategoryData('KYC')?.consolidatedErrorMessage}
+                                            </p>
+                                        </div>
+                                    }
+                                    {(getSelectedSubCategoryData('KYC')?.criticalCount === 0 && getSelectedSubCategoryData('KYC')?.mediumCount === 0) &&
+                                        <div className="text-success">
+                                            <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
+                                                <i className="bi bi-check-circle-fill me-2"></i>
+                                                <b>No Issue Found, </b> All Good! 1 less thing to worry about.
+                                            </p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            {isBlurred && (
+                                <div className="center-button">
+                                    <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
+                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
+                                </div>
+                            )}
+                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
+                        </div>
+
+                        {/* Employee History Check Section  */}
+                        <div className={`card shadow-sm mt-3 px-4 py-3 blur-container position-relative`}>
+                            <div className="text-center">
+                                <p className="KycHeading mb-0">Employment History</p>
+                            </div>
+                            <div className={`${isBlurred ? 'blur-content' : ''}`}>
+                                <table className="table mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th className='kycDetailsCheck' scope="col">Check</th>
+                                            <th className='kycDetailsCheck' scope="col">Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className='kycSubText'>Full Employment History</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Employement_Record')?.criticalCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Employement_Record')?.criticalCount} critical issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Employement_Record')?.criticalCount === 0 && getSelectedSubCategoryData('Employement_Record')?.mediumCount > 0) &&
+                                                        <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
+                                                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Employement_Record')?.mediumCount} medium issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Employement_Record')?.criticalCount === 0 && getSelectedSubCategoryData('Employement_Record')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className='kycSubText'>Full Withdraw-ability</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount} critical issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount === 0 && getSelectedSubCategoryData('Full_Withdrawability')?.mediumCount > 0) &&
+                                                        <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
+                                                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Full_Withdrawability')?.mediumCount} medium issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount === 0 && getSelectedSubCategoryData('Full_Withdrawability')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className='kycSubText'>Date of Exit</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Date_Of_Exit')?.criticalCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Date_Of_Exit')?.criticalCount} critical issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Date_Of_Exit')?.criticalCount === 0 && getSelectedSubCategoryData('Date_Of_Exit')?.mediumCount > 0) &&
+                                                        <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
+                                                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Date_Of_Exit')?.mediumCount} medium issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Date_Of_Exit')?.criticalCount === 0 && getSelectedSubCategoryData('Date_Of_Exit')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className='kycSubText'>Service Overlap</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Service_Overlap')?.criticalCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Service_Overlap')?.criticalCount} critical issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Service_Overlap')?.criticalCount === 0 && getSelectedSubCategoryData('Service_Overlap')?.mediumCount > 0) &&
+                                                        <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
+                                                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Service_Overlap')?.mediumCount} medium issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Service_Overlap')?.criticalCount === 0 && getSelectedSubCategoryData('Service_Overlap')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                {(getSelectedCategoryData('Employment History')?.totalCritical > 0 || getSelectedCategoryData('Employment History')?.totalMedium > 0) &&
                                     <div
-                                        className={getSelectedSubCategoryData('KYC')?.criticalCount > 0 ? "text-danger mt-2" : "text-warning-custom mt-2"}>
-                                        <p className='kycSubText mb-0 ' style={{ fontWeight: '400' }}>
+                                        className={getSelectedCategoryData('Employment History')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
+                                        <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
                                             <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                            <b>{getSelectedSubCategoryData('KYC')?.totalErrorCount} Issues Found: </b>{getSelectedSubCategoryData('KYC')?.consolidatedErrorMessage}
+                                            <b>{getSelectedCategoryData('Employment History')?.totalCritical + getSelectedCategoryData('Employment History')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Employment History')?.consolidatedErrorMessage}
                                         </p>
                                     </div>
                                 }
-                                {(getSelectedSubCategoryData('KYC')?.criticalCount === 0 && getSelectedSubCategoryData('KYC')?.mediumCount === 0) &&
+                                {(getSelectedCategoryData('Employment History')?.totalCritical === 0 && getSelectedCategoryData('Employment History')?.totalMedium === 0) &&
                                     <div className="text-success">
                                         <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
                                             <i className="bi bi-check-circle-fill me-2"></i>
@@ -382,142 +538,15 @@ function TotalSummary() {
                                         </p>
                                     </div>
                                 }
-                            </div>
 
-                        </div>
-
-                        {/* Employee History Check Section  */}
-                        <div className="card shadow-sm mt-3 px-4 py-3">
-                            <div className="text-center">
-                                <p className="KycHeading mb-0">Employment History</p>
                             </div>
-                            <table className="table mt-2">
-                                <thead>
-                                    <tr>
-                                        <th className='kycDetailsCheck' scope="col">Check</th>
-                                        <th className='kycDetailsCheck' scope="col">Result</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className='kycSubText'>Full Employment History</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Employement_Record')?.criticalCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Employement_Record')?.criticalCount} critical issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Employement_Record')?.criticalCount === 0 && getSelectedSubCategoryData('Employement_Record')?.mediumCount > 0) &&
-                                                    <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
-                                                        <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Employement_Record')?.mediumCount} medium issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Employement_Record')?.criticalCount === 0 && getSelectedSubCategoryData('Employement_Record')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='kycSubText'>Full Withdraw-ability</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount} critical issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount === 0 && getSelectedSubCategoryData('Full_Withdrawability')?.mediumCount > 0) &&
-                                                    <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
-                                                        <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Full_Withdrawability')?.mediumCount} medium issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount === 0 && getSelectedSubCategoryData('Full_Withdrawability')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='kycSubText'>Date of Exit</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Date_Of_Exit')?.criticalCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Date_Of_Exit')?.criticalCount} critical issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Date_Of_Exit')?.criticalCount === 0 && getSelectedSubCategoryData('Date_Of_Exit')?.mediumCount > 0) &&
-                                                    <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
-                                                        <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Date_Of_Exit')?.mediumCount} medium issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Date_Of_Exit')?.criticalCount === 0 && getSelectedSubCategoryData('Date_Of_Exit')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='kycSubText'>Service Overlap</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Service_Overlap')?.criticalCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Service_Overlap')?.criticalCount} critical issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Service_Overlap')?.criticalCount === 0 && getSelectedSubCategoryData('Service_Overlap')?.mediumCount > 0) &&
-                                                    <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
-                                                        <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Service_Overlap')?.mediumCount} medium issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Service_Overlap')?.criticalCount === 0 && getSelectedSubCategoryData('Service_Overlap')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            {(getSelectedCategoryData('Employment History')?.totalCritical > 0 || getSelectedCategoryData('Employment History')?.totalMedium > 0) &&
-                                <div
-                                    className={getSelectedCategoryData('Employment History')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
-                                    <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
-                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                        <b>{getSelectedCategoryData('Employment History')?.totalCritical + getSelectedCategoryData('Employment History')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Employment History')?.consolidatedErrorMessage}
-                                    </p>
+                            {/* {isBlurred && (
+                                <div className="center-button">
+                                    <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
+                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report Just ₹99/-</button>
                                 </div>
-                            }
-                            {(getSelectedCategoryData('Employment History')?.totalCritical === 0 && getSelectedCategoryData('Employment History')?.totalMedium === 0) &&
-                                <div className="text-success">
-                                    <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
-                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                        <b>No Issue Found, </b> All Good! 1 less thing to worry about.
-                                    </p>
-                                </div>
-                            }
+                            )} */}
+                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
                         </div>
 
                         {/* Contribution Check Section */}
@@ -525,7 +554,7 @@ function TotalSummary() {
                             <div className="text-center">
                                 <p className="KycHeading mb-0">PF Contributions</p>
                             </div>
-
+                            <div className={`${isBlurred ? 'blur-content' : ''}`}>
                             <table className="table mt-2">
                                 <thead>
                                     <tr>
@@ -628,6 +657,14 @@ function TotalSummary() {
                                     </p>
                                 </div>
                             }
+                            </div>
+                            {isBlurred && (
+                                <div className="center-button">
+                                    <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
+                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report <br></br>Just ₹99/-</button>
+                                </div>
+                            )}
+                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
                         </div>
 
                         {/* Pension Check Section */}
@@ -635,7 +672,7 @@ function TotalSummary() {
                             <div className="text-center">
                                 <p className="KycHeading mb-0">EPS Pension Records</p>
                             </div>
-
+                            <div className={`${isBlurred ? 'blur-content' : ''}`}>
                             <table className="table mt-2">
                                 <thead>
                                     <tr>
@@ -688,13 +725,15 @@ function TotalSummary() {
                                     </p>
                                 </div>
                             }
+                            </div>
+                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
                         </div>
 
                         <div className="card shadow-sm mt-3 px-4 py-3">
                             <div className="text-center">
                                 <p className="KycHeading mb-0">Transfer Records</p>
                             </div>
-
+                            <div className={`${isBlurred ? 'blur-content' : ''}`}>
                             <table className="table mt-2">
                                 <thead>
                                     <tr>
@@ -772,8 +811,16 @@ function TotalSummary() {
                                     </p>
                                 </div>
                             }
+                            </div>
+                            {isBlurred && (
+                                <div className="center-button">
+                                    <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
+                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
+                                </div>
+                            )}
+                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
                         </div>
-                        <NextStep></NextStep>
+                        <NextStep setBlurEffect={isBlurred}></NextStep>
 
                     </div>
                     <ModalComponent profileData={profileData} isOpen={reportModalOpen} onClose={closeReportModal} />

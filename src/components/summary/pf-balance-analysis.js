@@ -10,7 +10,7 @@ import { formatCurrency, getClosingBalance } from '../../helper/data-transform';
 // Register required elements
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function PfBalanceAnalysis({summaryData}) {
+function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
     const [activeCard, setActiveCard] = useState("main");
     const [withdrawalChartWidth, setWithdrawalChartWidth] = useState("");
     const [blockedChartWidth, setBlockedChartWidth] = useState("");
@@ -44,7 +44,7 @@ function PfBalanceAnalysis({summaryData}) {
 
     useEffect(() => {
         // set width % for graph line
-        if(summaryData?.reportData) setChartWidths()
+        if (summaryData?.reportData) setChartWidths()
 
         // set graph data
         if (summaryData?.rawData) {
@@ -81,7 +81,7 @@ function PfBalanceAnalysis({summaryData}) {
         const blockedWidth = Number(Number((summaryData?.reportData?.totalAmountStuck * 100) / summaryData?.reportData?.totalPfBalance).toFixed(0))
         const blockedFinalWidth = (blockedWidth * 0.60).toFixed(0); // 60% of the calculated width
         setBlockedChartWidth(blockedFinalWidth + '%')
-        
+
         // set original blocked amount width
         setBlockedAmountPercentage(blockedWidth + "%")
     }
@@ -91,58 +91,66 @@ function PfBalanceAnalysis({summaryData}) {
             {activeCard === "main" && (
                 <div className="card pf-card shadow-sm setCardHeight py-3 mt-3">
                     <p className='pfAnalysisText'>PF Balance Analysis</p>
-                    <div className="d-flex align-items-center bg-light position-relative mt-4 border-top border-bottom">
-                        <div className="totalCorpusChart"></div>
-                        <div className="mt-0  d-flex justify-content-between align-items-center">
-                            <div className='ms-2'>
-                                <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalPfBalance)}</span>
-                                <div className='pfTextanalysis'>Total Corpus</div>
-                            </div>
-                            <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("toalCorpus")}>
-                                <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="me-2" />
+                    <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
+                        <div className="d-flex align-items-center bg-light position-relative mt-4 border-top border-bottom">
+                            <div className="totalCorpusChart"></div>
+                            <div className="mt-0  d-flex justify-content-between align-items-center">
+                                <div className='ms-2'>
+                                    <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalPfBalance)}</span>
+                                    <div className='pfTextanalysis'>Total Corpus</div>
+                                </div>
+                                <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("toalCorpus")}>
+                                    <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="me-2" />
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="d-flex align-items-center bg-light position-relative border-top border-bottom">
-                        <div className="withdrawalLimit" style={{width: withdrawalChartWidth}}></div>
-                        <div className="mt-0  d-flex justify-content-between align-items-center"
-                            style={{ width: '50%' }}>
-                            <div className='ms-2'>
-                                <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.maxWithdrawableLimit)}</span>
-                                <div className='pfTextanalysis'>Max withdrawal Limit</div>
-                            </div>
-                            <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("withdrawalLimit")}>
-                                {/* <i className="bi bi-chevron-right me-2" style={{ fontSize: '1.3rem', fontWeight: '800', cursor: 'pointer' }}></i> */}
-                                <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="me-2" />
+                        <div className="d-flex align-items-center bg-light position-relative border-top border-bottom">
+                            <div className="withdrawalLimit" style={{ width: withdrawalChartWidth }}></div>
+                            <div className="mt-0  d-flex justify-content-between align-items-center"
+                                style={{ width: '50%' }}>
+                                <div className='ms-2'>
+                                    <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.maxWithdrawableLimit)}</span>
+                                    <div className='pfTextanalysis'>Max withdrawal Limit</div>
+                                </div>
+                                <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("withdrawalLimit")}>
+                                    {/* <i className="bi bi-chevron-right me-2" style={{ fontSize: '1.3rem', fontWeight: '800', cursor: 'pointer' }}></i> */}
+                                    <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="me-2" />
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="d-flex align-items-center bg-light position-relative border-top border-bottom">
-                        <div className="blockAmountChart" style={{width: blockedChartWidth}}></div>
-                        <div className="blockAmountText mt-0  d-flex justify-content-between align-items-center">
-                            <div className='ms-2'>
-                                <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalAmountStuck)}</span>
-                                <div className='pfTextanalysis'>Blocked Amount</div>
-                            </div>
-                            <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("blockAmount")}>
-                                <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="me-2" />
+                        <div className="d-flex align-items-center bg-light position-relative border-top border-bottom">
+                            <div className="blockAmountChart" style={{ width: blockedChartWidth }}></div>
+                            <div className="blockAmountText mt-0  d-flex justify-content-between align-items-center">
+                                <div className='ms-2'>
+                                    <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalAmountStuck)}</span>
+                                    <div className='pfTextanalysis'>Blocked Amount</div>
+                                </div>
+                                <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("blockAmount")}>
+                                    <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="me-2" />
+                                </div>
                             </div>
                         </div>
+                        {summaryData?.reportData?.totalAmountStuck > 0 &&
+                            <span className="text-danger pfAnalysisText mt-3">
+                                <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                {blockedAmountPercentage} of your total PF Corpus is stuck due to Issues
+                            </span>
+                        }
+                        {summaryData?.reportData?.totalAmountStuck === 0 &&
+                            <span className="text-success pfAnalysisText mt-3">
+                                <i className="bi bi-check-circle-fill me-2"></i>
+                                No PF Corups is blocked
+                            </span>
+                        }
                     </div>
-                    {summaryData?.reportData?.totalAmountStuck > 0 && 
-                        <span className="text-danger pfAnalysisText mt-3">
-                            <i className="bi bi-exclamation-circle-fill me-2"></i>
-                            {blockedAmountPercentage} of your total PF Corpus is stuck due to Issues
-                        </span>
-                    }
-                    {summaryData?.reportData?.totalAmountStuck === 0 && 
-                        <span className="text-success pfAnalysisText mt-3">
-                            <i className="bi bi-check-circle-fill me-2"></i>
-                            No PF Corups is blocked
-                        </span>
-                    }
+                    {setBlurEffect && (
+                            <div className="center-button">
+                                <button className="btn" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
+                            </div>
+                        )}
                 </div>
             )}
 

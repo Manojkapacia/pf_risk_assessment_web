@@ -89,6 +89,37 @@
 .textClasses{
     line-height: 1.2;
 }
+.oppsHeading{
+    font-size: 2rem;
+    font-weight: 400;
+    font-family: Roboto;
+}
+.oppsText{
+    font-size: 1.25rem;
+    font-weight: 400;
+    font-family: Roboto;
+}
+.oppsTryAgainBtn{
+    background-color: #00124F !important;
+    color: #ffffff !important;
+    border-radius: 2rem !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+}
+.oppsReqCallBtn{
+    background-color: #ffffff !important;
+    color: #00124F !important;
+    border-radius: 2rem !important;
+    border: 1px solid #00124F !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+}
+.oppsInputField{
+    border-radius: 0.3rem;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    height: 3.3rem;                                
+}
 
 @media (max-width: 700px) {
     .responsive-padding {
