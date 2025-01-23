@@ -66,13 +66,7 @@ function AccountSummary() {
     };
 
     useEffect(() => {
-        const isUserVerified = decryptData(localStorage.getItem('finright-reg-verified-' + localStorage.getItem('user_uan')))
-        if(!(Boolean(isUserVerified))) setReportModal(true);
-        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
-        let value = "account-summary";
-        localStorage.setItem(dynamicKey, value);
-
-        const data = JSON.parse(decryptData(localStorage.getItem('data-raw-' + localStorage.getItem('user_uan'))))
+        const data = JSON.parse(decryptData(localStorage.getItem('data_raw_' + localStorage.getItem('user_uan'))))
 
         if (data) {
             const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
@@ -117,12 +111,6 @@ function AccountSummary() {
         link.click();
         document.body.removeChild(link);
     };
-
-    const handleRefresh = () => {
-        const UAN = localStorage.getItem('user_uan')
-        const Pws = decryptData(localStorage.getItem('data-cred-' + UAN))
-        navigate("/otpAssessment", { state: { UAN, Pws, type: "back-screen" } });
-    }
 
     const getMemberWiseBalance = (memberId) => {
         const memberDetails = home?.memberWiseBalances.find((item) => item.memberId === memberId)

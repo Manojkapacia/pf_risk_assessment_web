@@ -22,7 +22,8 @@ const MESSAGES = {
         invalidOpnLogin: 'Invalid Credentails',
         logoutError : 'Unauthorized: Session expired or invalid',
         ZOHOError: "Provide new details",
-        generic: "Server Error, Please try again later"
+        generic: "Server Error, Please try again later",
+        paymentUrlNotFound: "We encountered an issue while processing your payment. Please try again later."
     },
     labels: {
         otp: "Enter OTP",
@@ -33,9 +34,9 @@ const MESSAGES = {
         requiredField: (type) => `${type} is required.`,
     },
     api: {
-        baseUrl: 'https://uat.finright.in/'
+        // baseUrl: 'https://uat.finright.in/'
         // baseUrl: 'https://epf.finright.in/'
-        // baseUrl: 'http://localhost:3001'
+        baseUrl: 'http://localhost:3001'
     }
 };
 

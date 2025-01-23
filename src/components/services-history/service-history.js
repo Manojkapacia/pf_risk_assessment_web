@@ -25,11 +25,11 @@ function ServiceHistory() {
         try {
             const response = await get('auth/data');
             if (response.status === 401) {
-                localStorage.removeItem('user_uan')
+                localStorage.clear()
                 navigate('/');
             } else {
                 setreportUpdatedAt(response?.rawData?.meta?.createdTime);
-                localStorage.setItem('data-raw-' + localStorage.getItem('user_uan'), encryptData(JSON.stringify(response?.rawData?.data)))
+                localStorage.setItem('data_raw_' + localStorage.getItem('user_uan'), encryptData(JSON.stringify(response?.rawData?.data)))
                 setListItems(response?.rawData?.data?.serviceHistory);
                 setProfileData(response?.rawData?.data?.profile);
                 setHome(response?.rawData?.data?.home);
@@ -43,9 +43,6 @@ function ServiceHistory() {
 
     // Accessing the state
     useEffect(() => {
-        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
-        let value = "service-history";
-        localStorage.setItem(dynamicKey, value);
         setUan(localStorage.getItem('user_uan'))
         fetchData(); // Call API when component loads
     }, []);
@@ -56,9 +53,6 @@ function ServiceHistory() {
     };
 
     const handleButtonClick = (type) => {
-        const data = { listItems, uan, type, reportUpdatedAtVar, profileData };
-        const encodedData = encryptData(JSON.stringify(data));
-        localStorage.setItem('data-for-org-' + uan, encodedData);
         navigate("/select-organization", { state: { listItems, uan, type, reportUpdatedAtVar, profileData, home } })
     };
 

@@ -76,7 +76,7 @@ function OtpComponent() {
                     setMessage({ type: "error", content: result.message });
                 } else if (result.status === 401) {
                     setLoading(false);
-                    localStorage.removeItem('user_uan')
+                    localStorage.clear()
                     navigate('/');
                 } else {
                     setTimer(45);
@@ -165,7 +165,7 @@ function OtpComponent() {
                 // setMessage({ type: "success", content: MESSAGES.success.otpVerified });
                 setOtpVerified(true)
                 localStorage.setItem("user_uan", UAN);
-                localStorage.setItem('data-cred-' + UAN, encryptData(Pws))
+                localStorage.setItem('data_cred_' + UAN, encryptData(Pws))
                 setTimeout(() => {
                     navigate("/service-history");
                     setLoading(false)

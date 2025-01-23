@@ -53,10 +53,6 @@ function KycDetailsBank() {
 
     const handleContinueBtn = () => {
         const mergedStatues = { ...kycStatus, ...BankStatus }
-        localStorage.removeItem('data-for-org-' + uan)
-        localStorage.removeItem('data-for-kyc-' + uan)
-        const encodedData = encryptData(JSON.stringify({ listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
-        localStorage.setItem('data-for-scan-' + uan, encodedData);
         navigate('/doc-scan', { state: { listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
     };
 
@@ -74,10 +70,6 @@ function KycDetailsBank() {
 
         setShowContinueButton(false);
         const mergedStatues = { ...kycStatus, ...BankStatus }
-        localStorage.removeItem('data-for-org-' + uan)
-        localStorage.removeItem('data-for-kyc-' + uan)
-        const encodedData = encryptData(JSON.stringify({ selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home }));
-        localStorage.setItem('data-for-scan-' + uan, encodedData);
         navigate('/doc-scan', { state: { listItems, selectedOrg, uan, type, reportUpdatedAtVar, kycStatus: mergedStatues, profileData, home } })
     }
 

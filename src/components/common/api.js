@@ -79,8 +79,10 @@ export const post = async (endpoint, data) => {
     if (error.response && error.response.status === 401) {
       return { message: MESSAGES.error.unauthorized, status: 401 };
     }
-    console.error('POST request failed:', error);
-    throw error;
+    if (error.response && error.response.status === 400) {
+      return { message: error?.response?.data?.error, status: 400 };
+    }
+    throw error
   }
 };
 

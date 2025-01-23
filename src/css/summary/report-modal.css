@@ -1,0 +1,27 @@
+.loader-overlay-pay-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    z-index: 9999; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-container-pay-modal {
+    text-align: center;
+}
+
+.loader-img-pay-modal {
+    width: 400px; /* Adjust size as needed */
+    height: auto;
+}
+
+.loader-text-pay-modal {
+    margin-top: 1rem;
+    font-size: 1.8rem;
+    color: #000;
+}

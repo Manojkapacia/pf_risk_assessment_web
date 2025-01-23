@@ -20,14 +20,6 @@ function ReportRegistation() {
         handleSubmit,
         formState: { errors },
     } = useForm();
-
-  
-    useEffect(() => {
-        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');;
-        let value = "report-registation";
-        localStorage.setItem(dynamicKey, value);
-    }, []);
-
     
     const onSubmit = async (mobileNumber) => {
         const transformedNumber = {

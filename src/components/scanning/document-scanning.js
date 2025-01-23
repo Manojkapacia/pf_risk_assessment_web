@@ -44,7 +44,7 @@ const DocumentScanning = () => {
             const response = await post('withdrawability-check', dataToSend);
             if (response.status === 401) {
                 setLoading(false);
-                localStorage.removeItem('user_uan')
+                localStorage.clear()
                 navigate('/');
                 return;
             }
@@ -71,9 +71,6 @@ const DocumentScanning = () => {
     };
 
     useEffect(() => {
-        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');;
-        let value = "doc-scan";
-        localStorage.setItem(dynamicKey, value);
         if (!isFetched) {
             fetchReport();
         }
@@ -90,10 +87,6 @@ const DocumentScanning = () => {
                     } else {
                         setIsProcessing(false);
                         clearInterval(interval);
-                        localStorage.removeItem('data-for-org-' + uan)
-                        localStorage.removeItem('data-for-scan-' + uan)
-                        const encodedData = encryptData(JSON.stringify({ profileData, home, listItems, reportUpdatedAtVar }));
-                        localStorage.setItem('data-for-account-summary-' + uan, encodedData);
                         navigate("/full-summary", { state: { profileData, home, listItems, reportUpdatedAtVar } })
                         return prev;
                     }

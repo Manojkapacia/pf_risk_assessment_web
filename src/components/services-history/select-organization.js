@@ -11,12 +11,6 @@ function SelectOrganization() {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const { listItems, uan, type, reportUpdatedAtVar, profileData, home } = location.state || {};
 
-    useEffect(() => {
-        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');;
-        let value = "select-organization";
-        localStorage.setItem(dynamicKey, value);
-    }, []);
-
     // Ensure listItems is an array before applying map
     const updatedListItems = listItems?.history ? listItems?.history?.map(item => ({
         ...item,
