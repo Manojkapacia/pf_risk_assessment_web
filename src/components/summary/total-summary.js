@@ -28,7 +28,7 @@ function TotalSummary() {
     const [summaryData, setSummaryData] = useState(null)
     const [categoryDetailsFromReport, setCategoryDetailsFromReport] = useState([])
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
-
+    let amountStuck= summaryData?.reportData?.totalAmountStuck
     const { profileData } = location.state || {};
 
     const handleReportModal = (value) => {
@@ -831,7 +831,7 @@ function TotalSummary() {
                             )}
                             <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
                         </div>
-                        <NextStep setBlurEffect={isBlurred}></NextStep>
+                        <NextStep setBlurEffect={isBlurred} amountStuck={amountStuck}></NextStep>
 
                     </div>
                     <ModalComponent profileData={profileData} isOpen={reportModalOpen} onClose={closeReportModal} />

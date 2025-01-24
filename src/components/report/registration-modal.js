@@ -190,7 +190,7 @@ const ModalComponent = ({ profileData, isOpen, onClose }) => {
     };
     return (
         <div style={overlayStyle}>
-            <div className="modal modal-overlay fade show" style={{ display: 'block' }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal modal-overlay fade show" style={{ display: 'block',zIndex: "999999" }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
