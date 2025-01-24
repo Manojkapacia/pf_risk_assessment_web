@@ -89,7 +89,7 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
         setAmountWithdrawable30Days(withdrawableAmountWidth + '%')
 
         // set original blocked amount width
-        setBlockedAmountPercentage(withdrawableAmount + "%")
+        setBlockedAmountPercentage(blockedWidth  + "%")
     }
 
     return (
@@ -133,7 +133,7 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
                             <div className="blockAmountText mt-0  d-flex justify-content-between align-items-center">
                                 <div className='ms-2'>
                                     <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalAmountStuck > 0 ?summaryData?.reportData?.totalAmountStuck : summaryData?.reportData?.amountWithdrawableWithin30Days )}</span>
-                                    <div className='pfTextanalysis'>{summaryData?.reportData?.totalAmountStuck > 0 ? 'Blocked Amount' : 'Amount Withdrawable within 30 Days'}</div>
+                                    <div className='pfTextanalysis'>{summaryData?.reportData?.totalAmountStuck > 0 ? 'Blocked Amount' : 'Withdrawable in 30 Days'}</div>
                                 </div>
                                 <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("blockAmount")}>
                                     <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="me-2" />
@@ -149,7 +149,7 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
                         {summaryData?.reportData?.totalAmountStuck === 0 &&
                             <span className="text-success d-flex justify-content-lg-center px-2 px-xl-0 mt-3" style={{fontSize: '1.20rem',fontWeight:'500'}}>
                                 <i className="bi bi-check-circle-fill me-2"></i>
-                                Yay! you have compelte access to your fund
+                                Yay! you have complete access to your fund
                             </span>
                         }
                     </div>
