@@ -141,140 +141,42 @@ function LoginComponent() {
                         <p className="loader-text">Verifying UAN Number and Password</p>
                     </div>
                 </div>
+            //     <div className="loader-overlay">
+            //     <div className="loader-container">
+            //         <div className="loader">
+            //             <img
+            //                 src={thumbPrimary} // Replace with your image URL
+            //                 alt="Loader Icon"
+            //                 className="loader-image"
+            //             />
+            //             <div className="progress-ring"></div>
+            //         </div>
+            //         <p className="loader-text">Verifying UAN Number and Password</p>
+            //     </div>
+            // </div>
             )}
-            <div className="container-fluid" 
-            style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                height: '100vh',
-                width: '100%',
-            }}
+            <div className="container-fluid"
+                style={{
+                    backgroundImage: `url(${backgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    height: '100vh',
+                    width: '100%',
+                }}
             >
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
-                {/* <div className="row d-flex justify-content-center align-items-center">
-                    <div className="col-lg-5 col-md-8 mt-3 mt-lg-0 ms-0 ms-lg-3">
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="pfRiskheading text-center" style={{ fontWeight: "700" }}>
-                                    Check if Your Provident Fund (PF) is Accessible and Withdrawable</div>
-                                <div className="pfRiskSubHeading text-center" style={{ color: "#000000" }}>
-                                    Login with your EPF UAN and Password
-                                </div>
-                            </div>
-                        </div>
-
-                        <form onSubmit={handleSubmit}>
-                            <div className="row mt-2 mt-lg-4">
-                                <div className="col-md-12">
-                                    <div className="d-flex justify-content-between">
-                                        <div className="loginLabel">UAN Number:</div>
-                                        <div className="labelSubHeading text-end">
-                                            <span style={{ cursor: 'pointer' }}
-                                                onClick={() => navigate("/activate-uan")}>Activate UAN
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <input
-                                        className="form-control uanNumber mt-2"
-                                        type="number"
-                                        placeholder="Enter your 12 digit UAN number"
-                                        name="uan"
-                                        autoComplete='off'
-                                        value={formData.uan}
-                                        onChange={handleInputChange}
-                                        maxLength={12}
-                                        required
-                                    />
-                                    <ValidationError message={errors.uan} />
-                                    <div className="text-end labelSubHeading mt-2" >
-                                        <span style={{ cursor: 'pointer' }}
-                                            onClick={() => navigate("/donot-know-uan")}>I don't know my UAN
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row mt-lg-3">
-                                <div className="col-md-12">
-                                    <div className="loginLabel">Password:</div>
-                                    <div className="position-relative">
-                                        <input
-                                            className="form-control uanNumber mt-2"
-                                            type={showPassword ? "text" : "password"}
-                                            placeholder="Enter your EPFO password"
-                                            name="password"
-                                            value={formData.password}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                        <span
-                                            className="position-absolute top-50 end-0 translate-middle-y me-3"
-                                            style={{ cursor: 'pointer', zIndex: 1 }}
-                                            onClick={togglePasswordVisibility}
-                                            aria-label="Toggle password visibility"
-                                        >
-                                            {showPassword ? <FaEye /> : <FaEyeSlash />}
-                                        </span>
-                                    </div>
-                                    <ValidationError message={errors.password} />
-                                    <div className="text-end labelSubHeading mt-2" >
-                                        <span style={{ cursor: 'pointer' }}
-                                            onClick={() => navigate("/forgot-password")}>Forgot Password?</span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div className="row my-2 mt-lg-4">
-                                <div className="col-md-12">
-                                    <button type="submit" className="btn col-12 pfRiskButtons" disabled={!isFormValid}>
-                                        Continue
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        <div className='text-center'>
-                            <span className='d-inline-block mt-1' style={{ fontSize: '1rem' }}>
-                                By clicking continue, you agree to our
-                                <span style={{ color: 'blue', cursor: 'pointer' }} onClick={termsCondition}> Terms & Conditions</span>
-                            </span>
-                        </div>
-                        <div className="d-flex justify-content-center mt-3">
-                            <span className='securityText py-2 px-3 d-flex align-items-center' onClick={toggleText} style={{ cursor: "pointer" }}>
-                               <AiOutlineFileProtect style={{ fontSize: "1.2rem", marginRight: "0.4rem" }} />
-                                Your data is 100% safe and secure
-                            </span>
-                        </div>
-                        {isVisible &&
-                            <div className="d-flex justify-content-center mt-3">
-                                <div className='d-flex flex-column  align-items-center text-center'>
-                                    <img src={multiFactor} alt="Risk Assessment" className='iconImage ' />
-                                    <span className="iconText">
-                                        Two-Factor Auth
-                                    </span>
-                                </div>
-                                <div className='d-flex flex-column align-items-center text-center mx-5'>
-                                    <img src={Encryption} alt="Risk Assessment" className='iconImage' />
-                                    <span className="iconText">
-                                        End-to-End Encryption
-                                    </span>
-                                </div>
-                                <div className='d-flex flex-column align-items-center text-center'>
-                                    <img src={IPData} alt="Risk Assessment" className='iconImage' />
-                                    <span className="iconText">
-                                        Masking of PI data
-                                    </span>
-                                </div>
-
-                            </div>
-                        }
-                    </div>
-                    
-                    )}
-
-                </div> */}
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-lg-5 col-md-8">
+                        {/* <div className="loader-container">
+                            <div className="loader">
+                                <img
+                                    src={thumbPrimary}
+                                    alt="Loader Icon"
+                                    className="loader-image"
+                                />
+                            </div>
+                        </div> */}
+                        
                         <div className='card shadow-sm position-relative'>
                             <img
                                 src={finRightLogo}
@@ -299,8 +201,8 @@ function LoginComponent() {
                                             value={formData.uan}
                                             onChange={handleInputChange}
                                             maxLength={12}
-                                            required/>
-                                            <ValidationError message={errors.uan} />
+                                            required />
+                                        <ValidationError message={errors.uan} />
                                         <div className="text-end labelSubHeading mt-2" >
                                             <span style={{ cursor: 'pointer' }}
                                                 onClick={() => navigate("/donot-know-uan")}>I don't know my UAN
@@ -309,25 +211,25 @@ function LoginComponent() {
 
                                         <label className="loginLabel">Password:</label>
                                         <div className="position-relative">
-                                        <input
-                                            className="form-control uanNumber mt-2"
-                                            type={showPassword ? "text" : "password"}
-                                            placeholder="Enter your EPFO password"
-                                            name="password"
-                                            value={formData.password}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                        <ValidationError message={errors.password} />
-                                        <span
-                                            className="position-absolute top-50 end-0 translate-middle-y me-3"
-                                            style={{ cursor: 'pointer', zIndex: 1 }}
-                                            onClick={togglePasswordVisibility}
-                                            aria-label="Toggle password visibility"
-                                        >
-                                            {showPassword ? <FaEye /> : <FaEyeSlash />}
-                                        </span>
-                                    </div>
+                                            <input
+                                                className="form-control uanNumber mt-2"
+                                                type={showPassword ? "text" : "password"}
+                                                placeholder="Enter your EPFO password"
+                                                name="password"
+                                                value={formData.password}
+                                                onChange={handleInputChange}
+                                                required
+                                            />
+                                            <ValidationError message={errors.password} />
+                                            <span
+                                                className="position-absolute top-50 end-0 translate-middle-y me-3"
+                                                style={{ cursor: 'pointer', zIndex: 1 }}
+                                                onClick={togglePasswordVisibility}
+                                                aria-label="Toggle password visibility"
+                                            >
+                                                {showPassword ? <FaEye /> : <FaEyeSlash />}
+                                            </span>
+                                        </div>
                                         <div className="text-end labelSubHeading mt-2" >
                                             <span style={{ cursor: 'pointer' }}
                                                 onClick={() => navigate("/forgot-password")}>Forgot Password?
@@ -410,6 +312,8 @@ function LoginComponent() {
                     )}
                 </div>
             </div>
+
+
         </>
     );
 }

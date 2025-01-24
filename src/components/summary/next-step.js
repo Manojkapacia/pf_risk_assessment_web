@@ -37,15 +37,14 @@ const NextStep = ({ setBlurEffect,amountStuck }) => {
     },
     {
       number: 2,
-      label: "Initialte Withdrawal Request",
+      label: "Initiate withdrawal request",
     },
     {
       number: 3,
-      label: "Amoutn Credited in your account",
+      label: "Amount Credited in your account",
     }
   ];
   const displayedSteps = amountStuck > 0 ?  steps: stepsAmountStuck;
-  console.log("stuck data", amountStuck, displayedSteps);
   
   return (
     <div className="card shadow-sm my-3 pt-3 px-2 ps-4">
