@@ -14,6 +14,7 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
     const [activeCard, setActiveCard] = useState("main");
     const [withdrawalChartWidth, setWithdrawalChartWidth] = useState("");
     const [blockedChartWidth, setBlockedChartWidth] = useState("");
+    const [amountWithdrawable30Days, setAmountWithdrawable30Days] = useState("");
     const [blockedAmountPercentage, setBlockedAmountPercentage] = useState("");
     const [balanceDetails, setBalanceDetails] = useState(null)
 
@@ -82,8 +83,13 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
         const blockedFinalWidth = (blockedWidth * 0.60).toFixed(0); // 60% of the calculated width
         setBlockedChartWidth(blockedFinalWidth + '%')
 
+        // set widthable amount width
+        const withdrawableAmount = Number(Number((summaryData?.reportData?.amountWithdrawableWithin30Days * 100) / summaryData?.reportData?.totalPfBalance).toFixed(0))
+        const withdrawableAmountWidth = (withdrawableAmount * 0.60).toFixed(0); // 60% of the calculated width
+        setAmountWithdrawable30Days(withdrawableAmountWidth + '%')
+
         // set original blocked amount width
-        setBlockedAmountPercentage(blockedWidth + "%")
+        setBlockedAmountPercentage(withdrawableAmount + "%")
     }
 
     return (
@@ -91,7 +97,9 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
             {activeCard === "main" && (
                 <div className="card pf-card shadow-sm setCardHeight py-3 mt-3">
                     <p className='pfAnalysisText'>PF Balance Analysis</p>
-                    <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
+                    <div 
+                    // className={`${setBlurEffect ? 'blur-content' : ''}`}
+                    >
                         <div className="d-flex align-items-center bg-light position-relative mt-4 border-top border-bottom">
                             <div className="totalCorpusChart"></div>
                             <div className="mt-0  d-flex justify-content-between align-items-center">
@@ -121,11 +129,11 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
                         </div>
 
                         <div className="d-flex align-items-center bg-light position-relative border-top border-bottom">
-                            <div className="blockAmountChart" style={{ width: blockedChartWidth }}></div>
+                            <div className="blockAmountChart" style={{ width:summaryData?.reportData?.totalAmountStuck > 0 ? blockedChartWidth :amountWithdrawable30Days}}></div>
                             <div className="blockAmountText mt-0  d-flex justify-content-between align-items-center">
                                 <div className='ms-2'>
-                                    <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalAmountStuck)}</span>
-                                    <div className='pfTextanalysis'>Blocked Amount</div>
+                                    <span className="pfAmountAnalysis mb-0">{formatCurrency(summaryData?.reportData?.totalAmountStuck > 0 ?summaryData?.reportData?.totalAmountStuck : summaryData?.reportData?.amountWithdrawableWithin30Days )}</span>
+                                    <div className='pfTextanalysis'>{summaryData?.reportData?.totalAmountStuck > 0 ? 'Blocked Amount' : 'Amount Withdrawable within 30 Days'}</div>
                                 </div>
                                 <div className="position-absolute end-0 top-50 translate-middle-y" onClick={() => setActiveCard("blockAmount")}>
                                     <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="me-2" />
@@ -139,18 +147,18 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
                             </span>
                         }
                         {summaryData?.reportData?.totalAmountStuck === 0 &&
-                            <span className="text-success px-4 pfAnalysisText mt-3">
+                            <span className="text-success d-flex justify-content-lg-center px-2 px-xl-0 mt-3" style={{fontSize: '1.20rem',fontWeight:'500'}}>
                                 <i className="bi bi-check-circle-fill me-2"></i>
-                                No PF Corups is blocked
+                                Yay! you have compelte access to your fund
                             </span>
                         }
                     </div>
-                    {setBlurEffect && (
+                    {/* {setBlurEffect && (
                             <div className="center-button">
                                 <button className="btn" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
                             </div>
-                        )}
+                        )} */}
                 </div>
             )}
 

@@ -21,7 +21,7 @@ function SummaryCard({ summaryData ,screenRef,setBlurEffect}) {
             const elementHeight = element.scrollHeight;
             const elementWidth = element.offsetWidth;
             const canvas = await html2canvas(element, {
-                scale: 2,
+                scale: 1,
                 width: elementWidth,
                 height: elementHeight,
                 scrollX: 0,

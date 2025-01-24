@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const NextStep = ({ setBlurEffect }) => {
+const NextStep = ({ setBlurEffect,amountStuck }) => {
   const steps = [
     {
       number: 1,
@@ -29,7 +29,24 @@ const NextStep = ({ setBlurEffect }) => {
       label: "Tension Free Withdrawal",
     },
   ];
-
+  const stepsAmountStuck = [
+    {
+      number: 1,
+      label: "PF Check-up",
+      status: "completed",
+    },
+    {
+      number: 2,
+      label: "Initialte Withdrawal Request",
+    },
+    {
+      number: 3,
+      label: "Amoutn Credited in your account",
+    }
+  ];
+  const displayedSteps = amountStuck > 0 ?  steps: stepsAmountStuck;
+  console.log("stuck data", amountStuck, displayedSteps);
+  
   return (
     <div className="card shadow-sm my-3 pt-3 px-2 ps-4">
       <div className="text-center">
@@ -37,7 +54,7 @@ const NextStep = ({ setBlurEffect }) => {
       </div>
       <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
         <div className="stepper">
-          {steps.map((step, index) => (
+          {displayedSteps.map((step, index) => (
             <div
               key={index}
               className="d-flex align-items-center mb-4"
@@ -57,7 +74,7 @@ const NextStep = ({ setBlurEffect }) => {
                 {step.number}
               </div>
 
-              {index < steps.length - 1 && (
+              {index < displayedSteps.length - 1 && (
                 <div
                   className="step-connector"
                   style={{

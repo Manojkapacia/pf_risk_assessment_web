@@ -17,7 +17,7 @@ function ClaimRejection(reportData) {
                             Your claim rejection <br /> probability
                         </p>
                     </div>
-                    <div className="d-flex justify-content-center justify-content-xl-end align-items-end mt-3 mt-xl-0" style={{ height: '6rem' }}>
+                    <div className="d-flex justify-content-center justify-content-xl-end align-items-end mt-4 mt-xl-0" style={{ height: '6rem' }}>
                         {riskProbability === 'high' ? (
                             <img
                                 className="img-fluid"
@@ -34,8 +34,8 @@ function ClaimRejection(reportData) {
                                 src={Moderate}
                                 alt="Moderate"
                                 style={{
-                                    width: '16rem',
-                                    height: '8rem',
+                                    width: '14rem',
+                                    height: '7rem',
                                 }}
                             />
                         ) : riskProbability === 'low' ? (
