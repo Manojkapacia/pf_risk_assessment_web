@@ -21,7 +21,7 @@ function SummaryCard({ summaryData ,screenRef,setBlurEffect}) {
             const elementHeight = element.scrollHeight;
             const elementWidth = element.offsetWidth;
             const canvas = await html2canvas(element, {
-                scale: 2,
+                scale: 1,
                 width: elementWidth,
                 height: elementHeight,
                 scrollX: 0,
@@ -114,7 +114,12 @@ function SummaryCard({ summaryData ,screenRef,setBlurEffect}) {
                             Fund Details
                         </button>
                         <div className="border-start" style={{ height: '2rem' }}></div>
-                        <button className="btn cardButtonText text-white border-0" onClick={handleDownloadPdf}>
+                        <button 
+                            className="btn cardButtonText text-white border-0" 
+                            onClick={handleDownloadPdf}
+                            style={{ filter: setBlurEffect ? "blur(1px)" : "none" }}
+                            disabled={setBlurEffect}
+                        >
                             <i className="bi bi-download me-2"></i> Report
                         </button>
                     </>
