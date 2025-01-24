@@ -469,7 +469,7 @@ function TotalSummary() {
                                                     {(getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount === 0 && getSelectedSubCategoryData('Full_Withdrawability')?.mediumCount > 0) &&
                                                         <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
                                                             <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                            {getSelectedSubCategoryData('Full_Withdrawability')?.mediumCount} medium issue found
+                                                            Not Eligible
                                                         </span>
                                                     }
                                                     {(getSelectedSubCategoryData('Full_Withdrawability')?.criticalCount === 0 && getSelectedSubCategoryData('Full_Withdrawability')?.mediumCount === 0) &&
@@ -533,7 +533,7 @@ function TotalSummary() {
                                         </tr>
                                     </tbody>
                                 </table>
-                                {(getSelectedCategoryData('Employment History')?.totalCritical > 0 || getSelectedCategoryData('Employment History')?.totalMedium > 0) &&
+                                {(getSelectedCategoryData('Employment History')?.totalCritical > 0) &&
                                     <div
                                         className={getSelectedCategoryData('Employment History')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
                                         <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
@@ -542,7 +542,7 @@ function TotalSummary() {
                                         </p>
                                     </div>
                                 }
-                                {(getSelectedCategoryData('Employment History')?.totalCritical === 0 && getSelectedCategoryData('Employment History')?.totalMedium === 0) &&
+                                {(getSelectedCategoryData('Employment History')?.totalCritical === 0) &&
                                     <div className="text-success">
                                         <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
                                             <i className="bi bi-check-circle-fill me-2"></i>

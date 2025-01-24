@@ -114,7 +114,12 @@ function SummaryCard({ summaryData ,screenRef,setBlurEffect}) {
                             Fund Details
                         </button>
                         <div className="border-start" style={{ height: '2rem' }}></div>
-                        <button className="btn cardButtonText text-white border-0" onClick={handleDownloadPdf}>
+                        <button 
+                            className="btn cardButtonText text-white border-0" 
+                            onClick={handleDownloadPdf}
+                            style={{ filter: setBlurEffect ? "blur(1px)" : "none" }}
+                            disabled={setBlurEffect}
+                        >
                             <i className="bi bi-download me-2"></i> Report
                         </button>
                     </>

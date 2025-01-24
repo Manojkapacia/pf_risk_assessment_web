@@ -17,7 +17,7 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
     const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
     const [loaderText, setLoaderText] = useState('Please wait...Redirecting to Payment Gateway');
-    const [paymentStatsData, setPaymentStatusData] = useState('Please wait...Redirecting to Payment Gateway');
+    const [paymentStatsData, setPaymentStatusData] = useState(null);
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
 
     // Toast Message Auto Clear
