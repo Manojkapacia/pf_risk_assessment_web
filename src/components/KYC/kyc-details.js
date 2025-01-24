@@ -85,12 +85,6 @@ function KycDetails() {
 
     const { listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home } = location.state || {};
 
-    useEffect(() => {
-        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
-        let value = "kyc-details";
-        localStorage.setItem(dynamicKey, value);
-    }, [])
-
     const handleCheckboxChange = (field) => {
         setKycStatus((prev) => ({
             ...prev,

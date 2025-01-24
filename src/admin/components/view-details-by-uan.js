@@ -98,8 +98,7 @@ function ViewDetailsByUan() {
                     const response = await get(`/admin/data/${uanNuber}`)
                     if (response.status === 401) {
                         setLoading(false);
-                        localStorage.removeItem('user_uan')
-                        localStorage.removeItem('admin_logged_in');
+                        localStorage.clear()
                         setShowUanDetails(false);
                         navigate('/operation/login');
                     } else {
@@ -122,8 +121,7 @@ function ViewDetailsByUan() {
             try {
                 const result = await getUanNumber(currentPage, itemsPerPage,search);
                 if (result.status === 401) {
-                    localStorage.removeItem('user_uan')
-                    localStorage.removeItem('admin_logged_in')
+                    localStorage.clear()
                     navigate('/operation/login');
                 } else {
                     setUanList(result.data.data);
@@ -169,8 +167,7 @@ function ViewDetailsByUan() {
             try {
                 const result = await getUanNumber(currentPage, itemsPerPage, input);
                 if (result.status === 401) {
-                    localStorage.removeItem('user_uan')
-                    localStorage.removeItem('admin_logged_in')
+                    localStorage.clear()
                     navigate('/operation/login');
                 } else {
                     setUanList(result?.data?.data);

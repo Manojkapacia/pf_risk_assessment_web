@@ -86,7 +86,7 @@ function ReportOtp() {
             const response = await post('/auth/generate-otp', transformedNumber);
             setLoading(false);
             if (response.status === 401) {
-                localStorage.removeItem('user_uan')
+                localStorage.clear()
                 navigate('/');
                 setLoading(false);
             } else {
@@ -120,15 +120,11 @@ function ReportOtp() {
         try {
             const response = await post('/auth/confirm-otp', { otp: otp });
             if (response.status === 401) {
-                localStorage.removeItem('user_uan')
+                localStorage.clear()
                 navigate('/');
             } else if (response.status === 400) {
                 setMessage({ type: "error", content: response.message });
             } else {
-                const uan = localStorage.getItem('user_uan')
-                localStorage.removeItem('data-for-report-reg-' + uan)
-                const encodedData = encryptData(JSON.stringify({profileData, home, mobileNumber, listItems, reportUpdatedAtVar}));
-                localStorage.setItem('data-for-report-submit-' + uan, encodedData);
                 navigate("/account-summary", { state: { profileData, home, mobileNumber, listItems, reportUpdatedAtVar } });
             }
         } catch (error) {

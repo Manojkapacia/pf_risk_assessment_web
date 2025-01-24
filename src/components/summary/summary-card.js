@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { formatCurrency } from "../../helper/data-transform";
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-function SummaryCard({ summaryData ,screenRef}) {
+function SummaryCard({ summaryData ,screenRef,setBlurEffect}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -43,11 +43,11 @@ function SummaryCard({ summaryData ,screenRef}) {
         };
 
     const fundDetails = () => {
-        navigate('/fund-details', { state: { summaryData } })
+        navigate('/fund-details', {state: {summaryData, setBlurEffect}})
     }
 
     const accountSummary = () => {
-        navigate('/account-details', { state: { summaryData } });
+        navigate('/account-details', {state: {summaryData, setBlurEffect}});
     }
 
     const getfullSummary = () => {

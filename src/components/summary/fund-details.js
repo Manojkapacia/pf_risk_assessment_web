@@ -23,7 +23,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,
 
 function FundDetails() {
     const location = useLocation()
-    const { summaryData } = location.state || {};
+    const { summaryData, setBlurEffect } = location.state || {};
 
     const [fundRoi, setFundRoi] = useState(true);
     const [pension, setPension] = useState(true);
@@ -217,7 +217,7 @@ function FundDetails() {
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
                 <div className='col-md-7 col-lg-5 my-4'>
-                    <SummaryCard summaryData={summaryData}></SummaryCard>
+                    <SummaryCard summaryData={summaryData} setBlurEffect={setBlurEffect}></SummaryCard>
 
                     {/* Fund Distribution Chart  */}
                     <div className="card shadow-sm px-2 px-lg-4 py-3 my-3 d-flex flex-column">
@@ -317,41 +317,43 @@ function FundDetails() {
                     </div>
 
                     {fundRoi ?
-                        (
-                            <div className="card shadow-sm mx-auto py-3 my-3">
-                                <div className="text-center">
-                                    <p className="fundDistribution">Fund ROI</p>
-                                </div>
-
-                                <div className="d-flex align-items-center">
-                                    <div className="w-100 px-2 px-lg-4">
-                                        <table className="table">
-                                            <thead>
-                                                <tr>
-                                                    <th className="fundTabelHeading">Particular</th>
-                                                    <th className="fundTabelHeading">Value</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td className="fundTabelText">Total Amount Contributed by You</td>
-                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="fundTabelText">PF Interest Rate</td>
-                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>8.5%</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="fundTabelText">TDS on Withdrawal</td>
-                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.tdsOnWithdrawal) || "-"}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                        (   
+                            <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
+                                <div className="card shadow-sm mx-auto py-3 my-3">
+                                    <div className="text-center">
+                                        <p className="fundDistribution">Fund ROI</p>
                                     </div>
 
-                                    {/* Right Side - Chevron Icon */}
-                                    <div className="me-1 me-lg-3">
-                                        <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="text-muted" onClick={FundRoiDetails} />
+                                    <div className="d-flex align-items-center">
+                                        <div className="w-100 px-2 px-lg-4">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th className="fundTabelHeading">Particular</th>
+                                                        <th className="fundTabelHeading">Value</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td className="fundTabelText">Total Amount Contributed by You</td>
+                                                        <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="fundTabelText">PF Interest Rate</td>
+                                                        <td className="fundTabelText" style={{minWidth: '5rem'}}>8.5%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td className="fundTabelText">TDS on Withdrawal</td>
+                                                        <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.tdsOnWithdrawal) || "-"}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        {/* Right Side - Chevron Icon */}
+                                        <div className="me-1 me-lg-3">
+                                            <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="text-muted" onClick={FundRoiDetails} />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -380,40 +382,42 @@ function FundDetails() {
                     }
 
                     {pension ? (
-                        <div className="card shadow-sm py-3 my-3">
-                            <div className="text-center">
-                                <p className="fundDistribution">Pension</p>
-                            </div>
-
-                            <div className="d-flex align-items-center">
-                                <div className="w-100 px-2 px-lg-4">
-                                    <table className="table">
-                                        <thead>
-                                            <tr>
-                                                <th className="fundTabelHeading">Particular</th>
-                                                <th className="fundTabelHeading">Value</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td className="fundTabelText">Total Pension Balance</td>
-                                                <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalPensionShare) || "-"}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="fundTabelText">Lump sum Pension Withdrawal limit</td>
-                                                <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.withdrawableAmount) || "-"}</td>
-                                            </tr>
-                                            <tr>
-                                                <td className="fundTabelText">Monthly Pension Amount at Retirement</td>
-                                                {summaryData?.reportData?.pensionWithdrability?.message === "" && <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.pensionAmountPerMonth) || "-"}</td>}
-                                                {summaryData?.reportData?.pensionWithdrability?.message !== "" && <td className="fundTabelText" style={{minWidth: '5rem'}}>{summaryData?.reportData?.pensionWithdrability?.message}</td>}
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                        <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
+                            <div className="card shadow-sm py-3 my-3">
+                                <div className="text-center">
+                                    <p className="fundDistribution">Pension</p>
                                 </div>
 
-                                <div className="me-lg-3 me-1">
-                                    <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="text-muted" onClick={pensionDetails} />
+                                <div className="d-flex align-items-center">
+                                    <div className="w-100 px-2 px-lg-4">
+                                        <table className="table">
+                                            <thead>
+                                                <tr>
+                                                    <th className="fundTabelHeading">Particular</th>
+                                                    <th className="fundTabelHeading">Value</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td className="fundTabelText">Total Pension Balance</td>
+                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalPensionShare) || "-"}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="fundTabelText">Lump sum Pension Withdrawal limit</td>
+                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.withdrawableAmount) || "-"}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="fundTabelText">Monthly Pension Amount at Retirement</td>
+                                                    {summaryData?.reportData?.pensionWithdrability?.message === "" && <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.pensionAmountPerMonth) || "-"}</td>}
+                                                    {summaryData?.reportData?.pensionWithdrability?.message !== "" && <td className="fundTabelText" style={{minWidth: '5rem'}}>{summaryData?.reportData?.pensionWithdrability?.message}</td>}
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div className="me-lg-3 me-1">
+                                        <FaChevronRight style={{ cursor: 'pointer' }} size={20} className="text-muted" onClick={pensionDetails} />
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -41,7 +41,7 @@ const ModalComponent = ({ profileData, isOpen, onClose }) => {
             setLoading(false);
             if (response.status === 401) {
                 setLoading(false);
-                localStorage.removeItem('user_uan');
+                localStorage.clear()
                 setMessage({ type: "error", content: response.message });
                 setTimeout(() => setMessage({ type: "", content: "" }), 5000);
                 navigate('/doc-scan');
@@ -126,15 +126,15 @@ const ModalComponent = ({ profileData, isOpen, onClose }) => {
             setLoading(false);
             setOtpLoader(false);
             if (response.status === 401) {
-                localStorage.removeItem('user_uan')
+                localStorage.clear()
                 navigate('/doc-scan');
             } else if (response.status === 400) {
                 setMessage({ type: "error", content: response.message });
             } else {
                 setShowOtpModel(false);
                 setReportScreen(true);
-                ZohoAPiCall();
-                localStorage.setItem('finright-reg-verified-' + localStorage.getItem('user_uan'), encryptData('true'))
+                // ZohoAPiCall();
+                await post('/auth/update-status', {whatsAppPhoneNumber: formData?.phoneNumber});                
             }
         } catch (error) {
             if (error.status >= 500) {

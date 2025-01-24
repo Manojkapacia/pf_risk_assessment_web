@@ -105,7 +105,7 @@ function LoginComponent() {
                     setTimeout(() => {
                         if (result.message === "User Successfully Verified") {
                             localStorage.setItem("user_uan", formData.uan);
-                            localStorage.setItem('data-cred-' + formData.uan, encryptData(formData.password))
+                            localStorage.setItem('data_cred_' + formData.uan, encryptData(formData.password))
                             navigate("/service-history");
                         } else {
                             const regMobileNumber = ExtractMobile(result.message)

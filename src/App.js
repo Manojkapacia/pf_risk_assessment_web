@@ -55,7 +55,7 @@ function App() {
             <Route path="/report-otp" element={<AuthGuard><ReportOtp /></AuthGuard>} />
             <Route path="/report-submit" element={<AuthGuard><ReportSubmit /></AuthGuard>} />
             <Route path="/account-summary" element={<AuthGuard><AccountSummary /></AuthGuard>} />
-            <Route path='/full-summary' element={<TotalSummary />} />
+            <Route path='/full-summary' element={<AuthGuard><TotalSummary /></AuthGuard>} />
             <Route path='/account-details' element={<AuthGuard><AccountDetails /></AuthGuard>} />
             <Route path='/fund-details' element={<AuthGuard><FundDetails /></AuthGuard>} />
             <Route path="*" element={<PageNotFound />} />

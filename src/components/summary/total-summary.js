@@ -7,7 +7,6 @@ import NextStep from './next-step';
 import SummaryCard from './summary-card';
 import ClaimRejection from './claim-rejection';
 import { decryptData } from '../common/encryption-decryption';
-import { getClosingBalance, getLastContribution } from '../../helper/data-transform';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ConsultationModal from '../report/consultation-modal';
 import ModalComponent from '../report/registration-modal';
@@ -22,12 +21,15 @@ function TotalSummary() {
 
     const [reportModalOpen, setReportModal] = useState(false);
     const [consultationModal, setConsultationModal] = useState(false);
+    const [paymentModal, setPaymentModal] = useState(false);
+    const [isBlurred, setIsBlurred] = useState(true);
     const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
     const [summaryData, setSummaryData] = useState(null)
     const [categoryDetailsFromReport, setCategoryDetailsFromReport] = useState([])
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
-    const [isBlurred, setIsBlurred] = useState(true);
+
+    const { profileData } = location.state || {};
 
     const handleReportModal = (value) => {
         setIsBlurred(value);
@@ -35,46 +37,25 @@ function TotalSummary() {
 
     const handleModalOpen = () => {
         setIsBlurred(true);
+        setPaymentModal(true);
     };
 
     const closeReportModal = () => {
         setReportModal(false);
+        fetchData();
     };
 
     const consultationModalClose = () => {
         setConsultationModal(false);
     }
 
-    const { profileData } = location.state || {};
+    const paymentModalClose = (isSuccess) => {
+        setPaymentModal(false);
+        isSuccess ? setIsBlurred(false) : setIsBlurred(true)
+    }
 
     const screenRef = useRef(null);
 
-    // const handleDownloadPdf = async () => {
-    //     const element = screenRef.current;
-
-    //     const elementHeight = element.scrollHeight;
-    //     const elementWidth = element.offsetWidth;
-    //     const canvas = await html2canvas(element, {
-    //         scale: 2,
-    //         width: elementWidth,
-    //         height: elementHeight,
-    //         scrollX: 0,
-    //         scrollY: 0,
-    //         useCORS: true,
-    //     });
-
-    //     const imageData = canvas.toDataURL('image/png');
-
-    //     const pdf = new jsPDF({
-    //         orientation: 'portrait',
-    //         unit: 'px',
-    //         format: [elementWidth, elementHeight],
-    //     });
-
-    //     pdf.addImage(imageData, 'PNG', 0, 0, elementWidth, elementHeight);
-
-    //     pdf.save('scrollable-page.pdf');
-    // };
     // call the api to fetch the user report
     const fetchData = async () => {
         try {
@@ -85,11 +66,20 @@ function TotalSummary() {
             if (result.status === 400) {
                 setMessage({ type: "error", content: result.message });
             } else if (result.status === 401) {
-                localStorage.removeItem('user_uan')
+                localStorage.clear()
                 navigate('/');
             } else {
+                // set data
                 setSummaryData(result.data)
-                processReportData()
+
+                // process data
+                processReportData()               
+        
+                // check if user had registerd self with Finright & payment done or not
+                const isUserReg = result?.data?.userProfile?.isFinrightRegisterd
+                const isPaymentDone = result?.data?.userProfile?.isPaymentDone
+                if (!isUserReg) setReportModal(true);
+                if (isPaymentDone) setIsBlurred(false);
             }
         } catch (error) {
             setLoading(false);
@@ -98,15 +88,6 @@ function TotalSummary() {
     }
 
     useEffect(() => {
-        // check if user had registerd self with Finright 
-        const isUserVerified = decryptData(localStorage.getItem('finright-reg-verified-' + localStorage.getItem('user_uan')))
-        if (!(Boolean(isUserVerified))) setReportModal(true);
-
-        // set the current page route
-        let dynamicKey = "current_page_" + localStorage.getItem('user_uan');
-        let value = "full-summary";
-        localStorage.setItem(dynamicKey, value);
-
         // call the function to get report and raw data by UAN
         fetchData()
     }, [])
@@ -142,7 +123,7 @@ function TotalSummary() {
                 totalErrorCount: sub.critical + sub.medium,
                 consolidatedErrorMessage: sub?.errorMessages?.filter((msg) => msg)
                     ?.map((msg, index) => (
-                        <div
+                        <span
                             key={index}
                             style={{
                                 display: 'flex',
@@ -151,7 +132,7 @@ function TotalSummary() {
                         >
                             <span style={{ marginRight: '0.5rem' }}>{index + 1}.</span>
                             <span style={{ textAlign: 'left', flex: 1 }}>{msg}.</span>
-                        </div>
+                        </span>
                     ))
             }));
         }).flat(); // Flattening to avoid nested arrays
@@ -174,7 +155,7 @@ function TotalSummary() {
                 ?.flatMap((sub) => sub.errorMessages)
                 ?.filter((msg) => msg)
                 ?.map((msg, index) => (
-                    <div
+                    <span
                         key={index}
                         style={{
                             display: 'flex',
@@ -184,7 +165,7 @@ function TotalSummary() {
                     >
                         <span style={{ marginRight: '0.5rem' }}>{index + 1}.</span>
                         <span style={{ textAlign: 'left', flex: 1 }}>{msg}.</span>
-                    </div>
+                    </span>
                 ))
         }
     }
@@ -195,6 +176,7 @@ function TotalSummary() {
             return `XXXXXXXX${lastFourDigits}`;
         }
     };
+
     const maskPanNumber = (number) => {
         if (number) {
             const lastFourDigits = number.slice(-4);
@@ -204,7 +186,6 @@ function TotalSummary() {
 
     const getSelectedSubCategoryData = (subCategory) => {
         return categoryDetailsFromReport && categoryDetailsFromReport.find((item) => item.subCategory.toUpperCase() === subCategory.toUpperCase())
-
     }
 
     return (
@@ -224,7 +205,7 @@ function TotalSummary() {
                     </div> */}
                     <div className='col-lg-5 col-md-6 mt-3'>
                     
-                        <SummaryCard summaryData={summaryData} screenRef={screenRef}></SummaryCard>
+                        <SummaryCard summaryData={summaryData} screenRef={screenRef} setBlurEffect={isBlurred}></SummaryCard>
                         <ClaimRejection reportData={summaryData}></ClaimRejection>
                         <PfBalanceAnalysis summaryData={summaryData} setBlurEffect={isBlurred}></PfBalanceAnalysis>
 
@@ -433,7 +414,7 @@ function TotalSummary() {
                                         data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
                                 </div>
                             )}
-                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
+                            <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
                         </div>
 
                         {/* Employee History Check Section  */}
@@ -569,7 +550,6 @@ function TotalSummary() {
                                         </p>
                                     </div>
                                 }
-
                             </div>
                             {/* {isBlurred && (
                                 <div className="center-button">
@@ -577,7 +557,7 @@ function TotalSummary() {
                                         data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report Just ₹99/-</button>
                                 </div>
                             )} */}
-                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
+                            <ReportPaymentModal  isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
                         </div>
 
                         {/* Contribution Check Section */}
@@ -695,7 +675,7 @@ function TotalSummary() {
                                         data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report <br></br>Just ₹99/-</button>
                                 </div>
                             )}
-                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
+                            <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
                         </div>
 
                         {/* Pension Check Section */}
@@ -757,7 +737,7 @@ function TotalSummary() {
                                     </div>
                                 }
                             </div>
-                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
+                            <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
                         </div>
 
                         <div className="card shadow-sm mt-3 px-4 py-3">
@@ -849,7 +829,7 @@ function TotalSummary() {
                                         data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
                                 </div>
                             )}
-                            <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
+                            <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
                         </div>
                         <NextStep setBlurEffect={isBlurred}></NextStep>
 
