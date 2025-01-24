@@ -3,7 +3,7 @@ import './../../css/summary/summary-card.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { formatCurrency } from "../../helper/data-transform";
 
-function SummaryCard({summaryData}) {
+function SummaryCard({summaryData, setBlurEffect}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -13,11 +13,11 @@ function SummaryCard({summaryData}) {
     const fullSummaryCard = fullSummaryCardButton.includes(location.pathname);
 
     const fundDetails = () => {
-        navigate('/fund-details', {state: {summaryData}})
+        navigate('/fund-details', {state: {summaryData, setBlurEffect}})
     }
 
     const accountSummary = () => {
-        navigate('/account-details', {state: {summaryData}});
+        navigate('/account-details', {state: {summaryData, setBlurEffect}});
     }
 
     const getfullSummary = () => {

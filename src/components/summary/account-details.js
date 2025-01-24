@@ -10,7 +10,7 @@ function AccountDetails() {
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [lastContribution, setLastContribution] = useState(0)
 
-    const { summaryData } = location.state || {};
+    const { summaryData, setBlurEffect } = location.state || {};
     const ServiceHistoryData = summaryData?.rawData?.data?.serviceHistory;
     const profileData = summaryData?.rawData?.data?.profile;
 
@@ -56,7 +56,7 @@ function AccountDetails() {
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
                 <div className='col-lg-5 col-md-6 my-4'>
-                    <SummaryCard summaryData={summaryData}></SummaryCard>
+                    <SummaryCard summaryData={summaryData} setBlurEffect={setBlurEffect}></SummaryCard>
                     <div className="card shadow-sm py-3 px-lg-3 mt-3">
                         <p className="text-center employmentHistory">Employment History</p>
                         <div

@@ -28,6 +28,8 @@ function TotalSummary() {
     const [categoryDetailsFromReport, setCategoryDetailsFromReport] = useState([])
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
 
+    const { profileData } = location.state || {};
+
     const handleReportModal = (value) => {
         setIsBlurred(value);
     };
@@ -46,12 +48,10 @@ function TotalSummary() {
         setConsultationModal(false);
     }
 
-    const paymentModalClose = () => {
+    const paymentModalClose = (isSuccess) => {
         setPaymentModal(false);
-        setIsBlurred(false)
+        isSuccess ? setIsBlurred(false) : setIsBlurred(true)
     }
-
-    const { profileData } = location.state || {};
 
     // call the api to fetch the user report
     const fetchData = async () => {
@@ -120,7 +120,7 @@ function TotalSummary() {
                 totalErrorCount: sub.critical + sub.medium,
                 consolidatedErrorMessage: sub?.errorMessages?.filter((msg) => msg)
                     ?.map((msg, index) => (
-                        <div
+                        <span
                             key={index}
                             style={{
                                 display: 'flex',
@@ -129,7 +129,7 @@ function TotalSummary() {
                         >
                             <span style={{ marginRight: '0.5rem' }}>{index + 1}.</span>
                             <span style={{ textAlign: 'left', flex: 1 }}>{msg}.</span>
-                        </div>
+                        </span>
                     ))
             }));
         }).flat(); // Flattening to avoid nested arrays
@@ -152,7 +152,7 @@ function TotalSummary() {
                 ?.flatMap((sub) => sub.errorMessages)
                 ?.filter((msg) => msg)
                 ?.map((msg, index) => (
-                    <div
+                    <span
                         key={index}
                         style={{
                             display: 'flex',
@@ -162,7 +162,7 @@ function TotalSummary() {
                     >
                         <span style={{ marginRight: '0.5rem' }}>{index + 1}.</span>
                         <span style={{ textAlign: 'left', flex: 1 }}>{msg}.</span>
-                    </div>
+                    </span>
                 ))
         }
     }
@@ -198,7 +198,7 @@ function TotalSummary() {
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
                 <div className="row d-flex justify-content-center align-items-center">
                     <div className='col-lg-5 col-md-6 mt-4'>
-                        <SummaryCard summaryData={summaryData}></SummaryCard>
+                        <SummaryCard summaryData={summaryData} setBlurEffect={isBlurred}></SummaryCard>
                         <ClaimRejection reportData={summaryData}></ClaimRejection>
                         <PfBalanceAnalysis summaryData={summaryData} setBlurEffect={isBlurred}></PfBalanceAnalysis>
 
@@ -543,7 +543,6 @@ function TotalSummary() {
                                         </p>
                                     </div>
                                 }
-
                             </div>
                             {/* {isBlurred && (
                                 <div className="center-button">

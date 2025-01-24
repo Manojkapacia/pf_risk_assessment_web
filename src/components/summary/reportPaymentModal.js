@@ -9,8 +9,8 @@ import { io } from 'socket.io-client';
 import ToastMessage from '../common/toast-message';
 
 const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber }) => {
-
-    const socket = io('http://localhost:3001'); // Backend URL
+    const closeButtonRef = useRef(null); // Create a ref for the close button
+    const socket = io('https://uat.finright.in'); // Backend URL
 
     const navigate = useNavigate()
 
@@ -56,7 +56,7 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                 }
                 // navigate the user to phone pay page url 
                 window.open(payUrl, '_blank', 'noopener,noreferrer');
-                setLoaderText('Kindly proceed with your payment to continue...')
+                setLoaderText('Kindly complete the payment...')
 
                 // Listen for payment status updates
                 socket.on('paymentStatus', (data) => {
@@ -65,15 +65,21 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                         setLoaderText('Congratulations...Payment Successful!! You can access the Full Report now')
                         setTimeout(() => {
                             setLoading(false);
-                            onClose();
+                            onClose(true);
                             removeBlurEffect(false); 
+                            if (closeButtonRef.current) {
+                                closeButtonRef.current.click();
+                            }
                         }, 3000)
                     }
                     if(data.code === "PAYMENT_ERROR") {
                         setLoaderText('Oops...Payment Failed!! Please try again later.')
                         setTimeout(() => {
                             setLoading(false);
-                            onClose();
+                            onClose(false);
+                            if (closeButtonRef.current) {
+                                closeButtonRef.current.click();
+                            }
                         }, 3000)
                         // call refund api if or through scheduler
                     }                    
@@ -120,6 +126,7 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                                 className="btn-close"
                                 data-bs-dismiss="modal"
                                 aria-label="Close"
+                                ref={closeButtonRef}
                             ></button>
                         </div>
                         <div className="modal-body">
