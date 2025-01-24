@@ -133,13 +133,13 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
                             </div>
                         </div>
                         {summaryData?.reportData?.totalAmountStuck > 0 &&
-                            <span className="text-danger pfAnalysisText mt-3">
+                            <span className="text-danger d-flex justify-content-lg-center px-2 px-xl-0 mt-3" style={{fontSize: '1.20rem',fontWeight:'500'}}>
                                 <i className="bi bi-exclamation-circle-fill me-2"></i>
                                 {blockedAmountPercentage} of your total PF Corpus is stuck due to Issues
                             </span>
                         }
                         {summaryData?.reportData?.totalAmountStuck === 0 &&
-                            <span className="text-success pfAnalysisText mt-3">
+                            <span className="text-success px-4 pfAnalysisText mt-3">
                                 <i className="bi bi-check-circle-fill me-2"></i>
                                 No PF Corups is blocked
                             </span>

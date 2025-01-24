@@ -11,7 +11,7 @@ const Logo = () => {
     "/operation/login","/otpAssessment","/epfo-down"
   ];
   const loginPage= ['/']
-  const backToAssessmentButton = ["/activate-uan","/otpAssessment", "/donot-know-uan", "/forgot-password","/epfo-down"];
+  const backToAssessmentButton = ["/activate-uan","/otpAssessment", "/donot-know-uan", "/forgot-password"];
   const HideLogoutButtons = logoutButton.includes(location.pathname);
   const backToAssessment = backToAssessmentButton.includes(location.pathname);
   const hideLoginHeader = loginPage.includes(location.pathname);

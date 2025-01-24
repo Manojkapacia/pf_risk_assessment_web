@@ -50,10 +50,12 @@ const ReportPaymentModal = ({ removeBlurEffect }) => {
                                 <span>Free 30 min consultation with PF Expert</span>
                             </li>
                         </ul>
-                        <h2 className="fw-bold text-center mb-0 ms-5">₹99/-</h2>
-                        <p className="text-muted text-center mb-0 ps-5 ms-5" style={{ fontSize: '0.6rem' }}>
+                        <h2 className="fw-bold d-flex align-items-center justify-content-center">
+                           <span className='me-2' style={{textDecoration: 'line-through',color:"gray", fontSize:'1rem'}}>₹499</span> ₹99/- 
+                        </h2>
+                        {/* <p className="text-muted text-center mb-0 ps-5 ms-5" style={{ fontSize: '0.6rem' }}>
                             Including Taxes
-                        </p>
+                        </p> */}
                         <div className='d-flex justify-content-center '>
                             <button
                                 className="btn px-4 py-2"

@@ -85,6 +85,11 @@ function Withdrawability({ jsonData, onBack }) {
                                 <div>
                                     Success: {sub?.success} | Critical: {sub?.critical} | Medium: {sub?.medium}
                                 </div>
+                                {item?.category?.toLowerCase() === 'epf pension records' && item?.isEpsMember &&  
+                                    <div>
+                                        EPS Member ({item?.isEpsMember}): {item?.isEpsMember?.toUpperCase() === "Y" ? <span className="text-success">Yes</span> : <span className="text-danger">No</span>}
+                                    </div>
+                                }
                                 {sub?.errorMessages?.length > 0 && (
                                     <div className="text-danger">
                                         Errors:

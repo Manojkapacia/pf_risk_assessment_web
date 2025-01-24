@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef} from "react";
 import './../../css/summary/summary-card.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { formatCurrency } from "../../helper/data-transform";
-
-function SummaryCard({summaryData}) {
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+function SummaryCard({ summaryData ,screenRef}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -12,12 +13,41 @@ function SummaryCard({summaryData}) {
     const fullSummaryCardButton = ["/full-summary"];
     const fullSummaryCard = fullSummaryCardButton.includes(location.pathname);
 
+    // const screenRef = useRef(null);
+    
+        const handleDownloadPdf = async () => {
+            const element = screenRef.current;
+    
+            const elementHeight = element.scrollHeight;
+            const elementWidth = element.offsetWidth;
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                width: elementWidth,
+                height: elementHeight,
+                scrollX: 0,
+                scrollY: 0,
+                useCORS: true,
+            });
+    
+            const imageData = canvas.toDataURL('image/png');
+    
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'px',
+                format: [elementWidth, elementHeight],
+            });
+    
+            pdf.addImage(imageData, 'PNG', 0, 0, elementWidth, elementHeight);
+    
+            pdf.save(`Report-${summaryData?.rawData?.data?.profile?.fullName}.pdf`);
+        };
+
     const fundDetails = () => {
-        navigate('/fund-details', {state: {summaryData}})
+        navigate('/fund-details', { state: { summaryData } })
     }
 
     const accountSummary = () => {
-        navigate('/account-details', {state: {summaryData}});
+        navigate('/account-details', { state: { summaryData } });
     }
 
     const getfullSummary = () => {
@@ -25,13 +55,13 @@ function SummaryCard({summaryData}) {
     }
 
     function formatDuration(duration) {
-        if(duration){
-        const parts = duration?.split(" ");
-        const years = parts[0] !== "0" ? `${parts[0]} Yrs` : "";
-        const months = parts[2] !== "0" ? `${parts[2]} M` : "";
-        return [years, months].filter(Boolean).join(" ");
+        if (duration) {
+            const parts = duration?.split(" ");
+            const years = parts[0] !== "0" ? `${parts[0]} Yrs` : "";
+            const months = parts[2] !== "0" ? `${parts[2]} M` : "";
+            return [years, months].filter(Boolean).join(" ");
         }
-      }
+    }
 
     useEffect(() => {
         if (summaryData?.rawData) {
@@ -73,30 +103,31 @@ function SummaryCard({summaryData}) {
                 </div>
             </div>
 
-            <div className="d-flex mt-2 border-top">
+            <div className="d-flex justify-content-around align-items-center mt-2 border-top">
                 {fullSummaryCard ? (
                     <>
-                        <button
-                            className="btn text-white cardButtonText w-50"
-                            onClick={accountSummary}
-                            style={{
-                                borderRight: "1px solid white",
-                            }} >
-                            Account Summary
+                        <button className="btn cardButtonText text-white" onClick={accountSummary} >
+                            Summary
                         </button>
-                        <button onClick={fundDetails}
-                            className="btn cardButtonText text-white w-50" >
-                            Provident Fund Details
+                        <div className="border-start" style={{ height: '2rem' }}></div>
+                        <button className="btn cardButtonText text-white border-0" onClick={fundDetails}>
+                            Fund Details
+                        </button>
+                        <div className="border-start" style={{ height: '2rem' }}></div>
+                        <button className="btn cardButtonText text-white border-0" onClick={handleDownloadPdf}>
+                            <i className="bi bi-download me-2"></i> Report
                         </button>
                     </>
                 ) : (
                     <button
-                        className="btn cardButtonText text-white w-100" onClick={getfullSummary}>
+                        className="btn cardButtonText border-0 text-white w-100"
+                        onClick={getfullSummary}
+                    >
                         Back
                     </button>
-                )
-                }
+                )}
             </div>
+
         </div>
     );
 }

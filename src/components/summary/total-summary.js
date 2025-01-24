@@ -13,7 +13,8 @@ import ConsultationModal from '../report/consultation-modal';
 import ModalComponent from '../report/registration-modal';
 import { get } from '../common/api';
 import ToastMessage from '../common/toast-message';
-import ReportPaymentModal from './reportPaymentModal'
+import ReportPaymentModal from './reportPaymentModal';
+
 
 function TotalSummary() {
     const location = useLocation();
@@ -30,14 +31,12 @@ function TotalSummary() {
 
     const handleReportModal = (value) => {
         setIsBlurred(value);
-        console.log('Modal Closed:', value);
     };
 
     const handleModalOpen = () => {
         setIsBlurred(true);
     };
 
-    // Function to close the modal
     const closeReportModal = () => {
         setReportModal(false);
     };
@@ -48,6 +47,34 @@ function TotalSummary() {
 
     const { profileData } = location.state || {};
 
+    const screenRef = useRef(null);
+
+    // const handleDownloadPdf = async () => {
+    //     const element = screenRef.current;
+
+    //     const elementHeight = element.scrollHeight;
+    //     const elementWidth = element.offsetWidth;
+    //     const canvas = await html2canvas(element, {
+    //         scale: 2,
+    //         width: elementWidth,
+    //         height: elementHeight,
+    //         scrollX: 0,
+    //         scrollY: 0,
+    //         useCORS: true,
+    //     });
+
+    //     const imageData = canvas.toDataURL('image/png');
+
+    //     const pdf = new jsPDF({
+    //         orientation: 'portrait',
+    //         unit: 'px',
+    //         format: [elementWidth, elementHeight],
+    //     });
+
+    //     pdf.addImage(imageData, 'PNG', 0, 0, elementWidth, elementHeight);
+
+    //     pdf.save('scrollable-page.pdf');
+    // };
     // call the api to fetch the user report
     const fetchData = async () => {
         try {
@@ -191,9 +218,13 @@ function TotalSummary() {
             )}
             <div className="container">
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
-                <div className="row d-flex justify-content-center align-items-center">
-                    <div className='col-lg-5 col-md-6 mt-4'>
-                        <SummaryCard summaryData={summaryData}></SummaryCard>
+                <div className="row d-flex justify-content-center align-items-center" ref={screenRef}>
+                    {/* <div className='col-12 text-center mt-3'>
+                    <button className='btn downloadReport py-2 py-lg-3 px-5' onClick={handleDownloadPdf}>Download Report <i class="bi bi-download ms-2"></i></button>
+                    </div> */}
+                    <div className='col-lg-5 col-md-6 mt-3'>
+                    
+                        <SummaryCard summaryData={summaryData} screenRef={screenRef}></SummaryCard>
                         <ClaimRejection reportData={summaryData}></ClaimRejection>
                         <PfBalanceAnalysis summaryData={summaryData} setBlurEffect={isBlurred}></PfBalanceAnalysis>
 
@@ -213,8 +244,8 @@ function TotalSummary() {
                                 </div>
                                 <div className='col-lg-4 mt-2 mt-lg-0 d-flex align-items-center justify-content-center justify-content-lg-start'>
                                     <div className="mb-0">
-                                        <p className="" style={{ fontSize: '1.5rem', fontWeight: '700' }}>{summaryData?.reportData?.estimatedResolutionTime}</p>
-                                        <p className='resolveButton py-1 mt-1 mb-0'>Resolve My Issues</p>
+                                        <p className="text-center text-lg-start" style={{ fontSize: '1.5rem', fontWeight: '700' }}>{summaryData?.reportData?.estimatedResolutionTime}</p>
+                                        {/* <p className='resolveButton py-1 mt-1 mb-0' style={{ cursor: 'pointer' }} >Resolve My Issues</p> */}
                                     </div>
                                 </div>
                             </div>
@@ -555,108 +586,108 @@ function TotalSummary() {
                                 <p className="KycHeading mb-0">PF Contributions</p>
                             </div>
                             <div className={`${isBlurred ? 'blur-content' : ''}`}>
-                            <table className="table mt-2">
-                                <thead>
-                                    <tr>
-                                        <th className='kycDetailsCheck' scope="col">Check</th>
-                                        <th className='kycDetailsCheck' scope="col">Result</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className='kycSubText'>Amount Consolidation</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount} critical issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount === 0 && getSelectedSubCategoryData('Amount_Consolidation')?.mediumCount > 0) &&
-                                                    <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
-                                                        <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Amount_Consolidation')?.mediumCount} medium issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount === 0 && getSelectedSubCategoryData('Amount_Consolidation')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='kycSubText'>Contribution Anomalies - DOE</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount} critical issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.mediumCount > 0) &&
-                                                    <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
-                                                        <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.mediumCount} medium issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='kycSubText'>Contribution Anomalies - DOJ</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount} critical issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.mediumCount > 0) &&
-                                                    <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
-                                                        <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.mediumCount} medium issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            {(getSelectedCategoryData('PF Contributions')?.totalCritical > 0 || getSelectedCategoryData('PF Contributions')?.totalMedium > 0) &&
-                                <div
-                                    className={getSelectedCategoryData('PF Contributions')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
-                                    <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
-                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                        <b>{getSelectedCategoryData('PF Contributions')?.totalCritical + getSelectedCategoryData('PF Contributions')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('PF Contributions')?.consolidatedErrorMessage}
-                                    </p>
-                                </div>
-                            }
-                            {(getSelectedCategoryData('PF Contributions')?.totalCritical === 0 && getSelectedCategoryData('PF Contributions')?.totalMedium === 0) &&
-                                <div className="text-success">
-                                    <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
-                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                        <b>No Issue Found, </b> All Good! 1 less thing to worry about.
-                                    </p>
-                                </div>
-                            }
+                                <table className="table mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th className='kycDetailsCheck' scope="col">Check</th>
+                                            <th className='kycDetailsCheck' scope="col">Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className='kycSubText'>Amount Consolidation</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount} critical issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount === 0 && getSelectedSubCategoryData('Amount_Consolidation')?.mediumCount > 0) &&
+                                                        <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
+                                                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Amount_Consolidation')?.mediumCount} medium issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Amount_Consolidation')?.criticalCount === 0 && getSelectedSubCategoryData('Amount_Consolidation')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className='kycSubText'>Contribution Anomalies - DOE</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount} critical issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.mediumCount > 0) &&
+                                                        <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
+                                                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.mediumCount} medium issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOE_Anomalies')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className='kycSubText'>Contribution Anomalies - DOJ</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount} critical issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.mediumCount > 0) &&
+                                                        <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
+                                                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.mediumCount} medium issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.criticalCount === 0 && getSelectedSubCategoryData('Contribution_DOJ_Anomalies')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                {(getSelectedCategoryData('PF Contributions')?.totalCritical > 0 || getSelectedCategoryData('PF Contributions')?.totalMedium > 0) &&
+                                    <div
+                                        className={getSelectedCategoryData('PF Contributions')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
+                                        <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
+                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                            <b>{getSelectedCategoryData('PF Contributions')?.totalCritical + getSelectedCategoryData('PF Contributions')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('PF Contributions')?.consolidatedErrorMessage}
+                                        </p>
+                                    </div>
+                                }
+                                {(getSelectedCategoryData('PF Contributions')?.totalCritical === 0 && getSelectedCategoryData('PF Contributions')?.totalMedium === 0) &&
+                                    <div className="text-success">
+                                        <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
+                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                            <b>No Issue Found, </b> All Good! 1 less thing to worry about.
+                                        </p>
+                                    </div>
+                                }
                             </div>
                             {isBlurred && (
                                 <div className="center-button">
@@ -673,58 +704,58 @@ function TotalSummary() {
                                 <p className="KycHeading mb-0">EPS Pension Records</p>
                             </div>
                             <div className={`${isBlurred ? 'blur-content' : ''}`}>
-                            <table className="table mt-2">
-                                <thead>
-                                    <tr>
-                                        <th className='kycDetailsCheck' scope="col">Check</th>
-                                        <th className='kycDetailsCheck' scope="col">Result</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className='kycSubText'>Is EPS Member?</td>
-                                        <td>
-                                            <span className={getSelectedCategoryData('EPF Pension Records')?.isEpsMember === "N" ? "text-danger kycDetailsCheck" : "text-success kycDetailsCheck"}>{getSelectedCategoryData('EPF Pension Records')?.isEpsMember === "N" ? "Not a Member" : "Yes"}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='kycSubText'>EPS Contribution Anomalies</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Pension')?.criticalCount > 0 || getSelectedSubCategoryData('Pension')?.mediumCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        Critical Issue Found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Pension')?.criticalCount === 0 && getSelectedSubCategoryData('Pension')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            {(getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 || getSelectedCategoryData('EPF Pension Records')?.totalMedium > 0) &&
-                                <div
-                                    className={getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
-                                    <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
-                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                        <b>{getSelectedCategoryData('EPF Pension Records')?.totalCritical + getSelectedCategoryData('EPF Pension Records')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('EPF Pension Records')?.consolidatedErrorMessage}
-                                    </p>
-                                </div>
-                            }
-                            {(getSelectedCategoryData('EPF Pension Records')?.totalCritical === 0 && getSelectedCategoryData('EPF Pension Records')?.totalMedium === 0) &&
-                                <div className="text-success">
-                                    <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
-                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                        <b>No Issue Found, </b> All Good! 1 less thing to worry about.
-                                    </p>
-                                </div>
-                            }
+                                <table className="table mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th className='kycDetailsCheck' scope="col">Check</th>
+                                            <th className='kycDetailsCheck' scope="col">Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className='kycSubText'>Is EPS Member?</td>
+                                            <td>
+                                                <span className={getSelectedCategoryData('EPF Pension Records')?.isEpsMember === "N" ? "text-danger kycDetailsCheck" : "text-success kycDetailsCheck"}>{getSelectedCategoryData('EPF Pension Records')?.isEpsMember === "N" ? "Not a Member" : "Yes"}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className='kycSubText'>EPS Contribution Anomalies</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Pension')?.criticalCount > 0 || getSelectedSubCategoryData('Pension')?.mediumCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            Critical Issue Found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Pension')?.criticalCount === 0 && getSelectedSubCategoryData('Pension')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                {(getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 || getSelectedCategoryData('EPF Pension Records')?.totalMedium > 0) &&
+                                    <div
+                                        className={getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
+                                        <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
+                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                            <b>{getSelectedCategoryData('EPF Pension Records')?.totalCritical + getSelectedCategoryData('EPF Pension Records')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('EPF Pension Records')?.consolidatedErrorMessage}
+                                        </p>
+                                    </div>
+                                }
+                                {(getSelectedCategoryData('EPF Pension Records')?.totalCritical === 0 && getSelectedCategoryData('EPF Pension Records')?.totalMedium === 0) &&
+                                    <div className="text-success">
+                                        <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
+                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                            <b>No Issue Found, </b> All Good! 1 less thing to worry about.
+                                        </p>
+                                    </div>
+                                }
                             </div>
                             <ReportPaymentModal removeBlurEffect={handleReportModal}></ReportPaymentModal>
                         </div>
@@ -734,83 +765,83 @@ function TotalSummary() {
                                 <p className="KycHeading mb-0">Transfer Records</p>
                             </div>
                             <div className={`${isBlurred ? 'blur-content' : ''}`}>
-                            <table className="table mt-2">
-                                <thead>
-                                    <tr>
-                                        <th className='kycDetailsCheck' scope="col">Check</th>
-                                        <th className='kycDetailsCheck' scope="col">Result</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className='kycSubText'>Transfer Out Missing</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Transfer_Out')?.criticalCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Transfer_Out')?.criticalCount} critical issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Transfer_Out')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_Out')?.mediumCount > 0) &&
-                                                    <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
-                                                        <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Transfer_Out')?.mediumCount} medium issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Transfer_Out')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_Out')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className='kycSubText'>Transfer In Missing</td>
-                                        <td>
-                                            <>
-                                                {(getSelectedSubCategoryData('Transfer_In')?.criticalCount > 0) &&
-                                                    <span className="text-danger kycDetailsCheck">
-                                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Transfer_In')?.criticalCount} critical issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Transfer_In')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_In')?.mediumCount > 0) &&
-                                                    <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
-                                                        <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                                                        {getSelectedSubCategoryData('Transfer_In')?.mediumCount} medium issue found
-                                                    </span>
-                                                }
-                                                {(getSelectedSubCategoryData('Transfer_In')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_In')?.mediumCount === 0) &&
-                                                    <span className="text-success kycDetailsCheck">
-                                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                                        No Issue Found
-                                                    </span>
-                                                }
-                                            </>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            {(getSelectedCategoryData('Passbook Records')?.totalCritical > 0 || getSelectedCategoryData('Passbook Records')?.totalMedium > 0) &&
-                                <div
-                                    className={getSelectedCategoryData('Passbook Records')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
-                                    <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
-                                        <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                        <b>{getSelectedCategoryData('Passbook Records')?.totalCritical + getSelectedCategoryData('Passbook Records')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Passbook Records')?.consolidatedErrorMessage}
-                                    </p>
-                                </div>
-                            }
-                            {(getSelectedCategoryData('Passbook Records')?.totalCritical === 0 && getSelectedCategoryData('Passbook Records')?.totalMedium === 0) &&
-                                <div className="text-success">
-                                    <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
-                                        <i className="bi bi-check-circle-fill me-2"></i>
-                                        <b>No Issue Found, </b> All Good! 1 less thing to worry about.
-                                    </p>
-                                </div>
-                            }
+                                <table className="table mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th className='kycDetailsCheck' scope="col">Check</th>
+                                            <th className='kycDetailsCheck' scope="col">Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td className='kycSubText'>Transfer Out Missing</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Transfer_Out')?.criticalCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Transfer_Out')?.criticalCount} critical issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Transfer_Out')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_Out')?.mediumCount > 0) &&
+                                                        <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
+                                                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Transfer_Out')?.mediumCount} medium issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Transfer_Out')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_Out')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className='kycSubText'>Transfer In Missing</td>
+                                            <td>
+                                                <>
+                                                    {(getSelectedSubCategoryData('Transfer_In')?.criticalCount > 0) &&
+                                                        <span className="text-danger kycDetailsCheck">
+                                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Transfer_In')?.criticalCount} critical issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Transfer_In')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_In')?.mediumCount > 0) &&
+                                                        <span className="kycDetailsCheck" style={{ color: '#F56905' }}>
+                                                            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+                                                            {getSelectedSubCategoryData('Transfer_In')?.mediumCount} medium issue found
+                                                        </span>
+                                                    }
+                                                    {(getSelectedSubCategoryData('Transfer_In')?.criticalCount === 0 && getSelectedSubCategoryData('Transfer_In')?.mediumCount === 0) &&
+                                                        <span className="text-success kycDetailsCheck">
+                                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                                            No Issue Found
+                                                        </span>
+                                                    }
+                                                </>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                {(getSelectedCategoryData('Passbook Records')?.totalCritical > 0 || getSelectedCategoryData('Passbook Records')?.totalMedium > 0) &&
+                                    <div
+                                        className={getSelectedCategoryData('Passbook Records')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
+                                        <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
+                                            <i className="bi bi-exclamation-circle-fill me-2"></i>
+                                            <b>{getSelectedCategoryData('Passbook Records')?.totalCritical + getSelectedCategoryData('Passbook Records')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Passbook Records')?.consolidatedErrorMessage}
+                                        </p>
+                                    </div>
+                                }
+                                {(getSelectedCategoryData('Passbook Records')?.totalCritical === 0 && getSelectedCategoryData('Passbook Records')?.totalMedium === 0) &&
+                                    <div className="text-success">
+                                        <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
+                                            <i className="bi bi-check-circle-fill me-2"></i>
+                                            <b>No Issue Found, </b> All Good! 1 less thing to worry about.
+                                        </p>
+                                    </div>
+                                }
                             </div>
                             {isBlurred && (
                                 <div className="center-button">

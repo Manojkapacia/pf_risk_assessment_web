@@ -30,8 +30,8 @@
 .form-check-input.custom-radio {
     border: 2px solid black;
     /* border-radius: 50%;  */
-    height: 0.8rem;
-    width: 0.8rem;    
+    height: 1.2rem;
+    width: 1.2rem;    
   }
 
 .iconSubHeading{
@@ -92,12 +92,12 @@
 .oppsHeading{
     font-size: 2rem;
     font-weight: 400;
-    font-family: Roboto;
+    /* font-family: Roboto; */
 }
 .oppsText{
     font-size: 1.25rem;
     font-weight: 400;
-    font-family: Roboto;
+    /* font-family: Roboto; */
 }
 .oppsTryAgainBtn{
     background-color: #00124F !important;
@@ -113,6 +113,7 @@
     border: 1px solid #00124F !important;
     font-size: 1rem !important;
     font-weight: 600 !important;
+    width: 100%;
 }
 .oppsInputField{
     border-radius: 0.3rem;
@@ -120,9 +121,23 @@
     border: 1px solid #ddd;
     height: 3.3rem;                                
 }
+.oppsRedioButton{
+    font-size: 1.25rem;
+    font-weight: 300;
+}
 
 @media (max-width: 700px) {
     .responsive-padding {
       padding-bottom: 1rem !important;
+    }
+  }
+
+  .btn-responsive {
+    width: 100%;
+  }
+  
+  @media (min-width: 768px) {
+    .oppsReqCallBtn {
+      width: 50%;
     }
   }

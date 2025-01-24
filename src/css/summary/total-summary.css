@@ -31,3 +31,8 @@
     font-size: 0.87rem;
     font-weight: 600;
 }
+.downloadReport{
+    background-color: #122A7B !important;
+    color: #ffffff !important;
+    border-radius: 2rem !important;
+}
