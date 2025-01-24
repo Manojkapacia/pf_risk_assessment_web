@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import HighRisk from './../../assets/images/highRiskImage.svg';
 import Moderate from './../../assets/images/moderateImage.svg';
 import LowRisk from './../../assets/images/lowRiskImage.svg';
@@ -44,8 +44,8 @@ function ClaimRejection(reportData) {
                                 src={LowRisk}
                                 alt="Low Risk"
                                 style={{
-                                    width: '16rem',
-                                    height: '8rem',
+                                    width: '14rem',
+                                    height: '7rem',
                                 }}
                             />
                         ) : (
@@ -54,8 +54,8 @@ function ClaimRejection(reportData) {
                                 src={NoRisk}
                                 alt="No Risk"
                                 style={{
-                                    width: '16rem',
-                                    height: '8rem',
+                                    width: '14rem',
+                                    height: '7rem',
                                 }}
                             />
                         )}
@@ -64,10 +64,14 @@ function ClaimRejection(reportData) {
                 <div className="col-xl-5 mt-2 mb-2 mt-lg-0 d-flex align-items-center justify-content-center justify-content-xl-start">
                     <div className="text-center text-xl-start">
                         <p className="mb-0" style={{ fontSize: '1.5rem', fontWeight: '700' }}>
-                            {formatCurrency(reportData?.reportData?.reportData?.totalAmountStuck)}
+                            {
+                                reportData?.reportData?.reportData?.totalAmountStuck > 0
+                                    ? formatCurrency(reportData?.reportData?.reportData?.totalAmountStuck)
+                                    : formatCurrency(reportData?.reportData?.reportData?.amountWithdrawableWithin30Days)
+                            }
                         </p>
                         <p className="mb-0" style={{ fontSize: '1rem', fontWeight: '600', lineHeight: '1.1' }}>
-                            Stuck due to identified Issues
+                            {reportData?.reportData?.reportData?.totalAmountStuck > 0 ? 'Stuck due to identified Issues' : 'Amount Withdrawable within 30 Days'}
                         </p>
                         {/* <button className="resolveButton mt-2 py-1" >Resolve My Issues</button> */}
                     </div>

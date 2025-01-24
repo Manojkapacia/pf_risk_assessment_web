@@ -10,7 +10,7 @@ import { formatCurrency, getClosingBalance } from '../../helper/data-transform';
 // Register required elements
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
+function PfBalanceAnalysis({ summaryData, setBlurEffect}) {
     const [activeCard, setActiveCard] = useState("main");
     const [withdrawalChartWidth, setWithdrawalChartWidth] = useState("");
     const [blockedChartWidth, setBlockedChartWidth] = useState("");
@@ -87,7 +87,6 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
         const withdrawableAmount = Number(Number((summaryData?.reportData?.amountWithdrawableWithin30Days * 100) / summaryData?.reportData?.totalPfBalance).toFixed(0))
         const withdrawableAmountWidth = (withdrawableAmount * 0.60).toFixed(0); // 60% of the calculated width
         setAmountWithdrawable30Days(withdrawableAmountWidth + '%')
-
         // set original blocked amount width
         setBlockedAmountPercentage(blockedWidth  + "%")
     }
@@ -98,7 +97,7 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
                 <div className="card pf-card shadow-sm setCardHeight py-3 mt-3">
                     <p className='pfAnalysisText'>PF Balance Analysis</p>
                     <div 
-                    // className={`${setBlurEffect ? 'blur-content' : ''}`}
+                    className={`${setBlurEffect ? 'blur-content' : ''}`}
                     >
                         <div className="d-flex align-items-center bg-light position-relative mt-4 border-top border-bottom">
                             <div className="totalCorpusChart"></div>
@@ -153,12 +152,12 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect }) {
                             </span>
                         }
                     </div>
-                    {/* {setBlurEffect && (
+                    {setBlurEffect && (
                             <div className="center-button">
                                 <button className="btn" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
                             </div>
-                        )} */}
+                        )}
                 </div>
             )}
 

@@ -28,7 +28,7 @@ function TotalSummary() {
     const [summaryData, setSummaryData] = useState(null)
     const [categoryDetailsFromReport, setCategoryDetailsFromReport] = useState([])
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
-    let amountStuck= summaryData?.reportData?.totalAmountStuck
+    let amountStuck= summaryData?.reportData?.totalAmountStuck;
     const { profileData } = location.state || {};
 
     const handleReportModal = (value) => {
@@ -207,15 +207,14 @@ function TotalSummary() {
                     
                         <SummaryCard summaryData={summaryData} screenRef={screenRef} setBlurEffect={isBlurred}></SummaryCard>
                         <ClaimRejection reportData={summaryData}></ClaimRejection>
-                        <PfBalanceAnalysis summaryData={summaryData} setBlurEffect={isBlurred}></PfBalanceAnalysis>
+                        <PfBalanceAnalysis summaryData={summaryData} setBlurEffect={isBlurred} ></PfBalanceAnalysis>
 
                         {/* Resolution Time Section  */}
                         <div className="card resolution-card text-white px-4 py-3 my-3">
                             <div className='row'>
                                 <div className='col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-start'>
                                     <div className="">
-                                        <p style={{ fontSize: '1.2rem', fontWeight: '600', lineHeight: '1.1' }}>Estimated Resolution Time</p>
-
+                                        <p style={{ fontSize: '1.2rem', fontWeight: '600', lineHeight: '1.1' }}>{summaryData?.reportData?.totalAmountStuck > 0 ? 'Estimated Resolution Time': 'Estimated Withdrawal time'} </p>
                                     </div>
                                 </div>
                                 <div className='col-lg-4 d-flex align-items-center justify-content-center'>
