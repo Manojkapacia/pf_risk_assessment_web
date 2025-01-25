@@ -3,6 +3,9 @@
     font-weight: 600;
     text-align: center;
 }
+.custom-shadow {
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1) !important;
+  }
 .totalCorpusChart{
     background-color: #00124F;
     height: 3rem;

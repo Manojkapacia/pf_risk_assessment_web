@@ -410,7 +410,7 @@ function TotalSummary() {
                             {isBlurred && (
                                 <div className="center-button">
                                     <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
-                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
+                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report<br></br> Just ₹99/-</button>
                                 </div>
                             )}
                             <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
@@ -550,12 +550,12 @@ function TotalSummary() {
                                     </div>
                                 }
                             </div>
-                            {/* {isBlurred && (
+                            {isBlurred && (
                                 <div className="center-button">
                                     <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
-                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report Just ₹99/-</button>
+                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report <br></br>Just ₹99/-</button>
                                 </div>
-                            )} */}
+                            )}
                             <ReportPaymentModal  isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
                         </div>
 
@@ -671,7 +671,7 @@ function TotalSummary() {
                             {isBlurred && (
                                 <div className="center-button">
                                     <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
-                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report <br></br>Just ₹99/-</button>
+                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report <br></br>Just ₹99/-</button>
                                 </div>
                             )}
                             <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
@@ -825,7 +825,7 @@ function TotalSummary() {
                             {isBlurred && (
                                 <div className="center-button">
                                     <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
-                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
+                                        data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report<br></br> Just ₹99/-</button>
                                 </div>
                             )}
                             <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>

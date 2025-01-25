@@ -142,19 +142,19 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                         </div>
                         <div className="modal-body">
                             <ul className="list-unstyled mb-4 ms-lg-5">
-                                <li className=" mb-2">
+                                <li className="d-flex align-items-start mb-2">
                                     <span className="me-2" style={{ color: '#00124F' }}>
                                         <i className="bi bi-check-circle-fill"></i>
                                     </span>
                                     <span>Uncover hidden issues in your PF account</span>
                                 </li>
-                                <li className=" mb-2">
+                                <li className="d-flex align-items-start mb-2">
                                     <span className="me-2" style={{ color: '#00124F' }}>
                                         <i className="bi bi-check-circle-fill"></i>
                                     </span>
                                     <span>Get Physical Report on your WhatsApp Number</span>
                                 </li>
-                                <li className=" mb-4">
+                                <li className="d-flex align-items-start mb-4">
                                     <span className="me-2" style={{ color: '#00124F' }}>
                                         <i className="bi bi-check-circle-fill"></i>
                                     </span>
