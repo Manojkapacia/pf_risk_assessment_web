@@ -61,7 +61,7 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                 // Listen for payment status updates
                 socket.on('paymentStatus', (data) => {
                     setPaymentStatusData(data); // Update your UI accordingly
-                    if (data.code === "PAYMENT_SUCCESS") {
+                    if (data.status.toUpperCase() === "SUCCESS") {
                         setLoaderText('Congratulations...Payment Successful!! You can access the Full Report now')
                         setTimeout(() => {
                             setLoading(false);
@@ -70,9 +70,9 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                             if (closeButtonRef.current) {
                                 closeButtonRef.current.click();
                             }
-                        }, 4000)
+                        }, 5000)
                     }
-                    if (data.code === "PAYMENT_ERROR") {
+                    if (data.status.toUpperCase() === "FAILED") {
                         setLoaderText('Oops...Payment Failed!! Please try again later.')
                         setTimeout(() => {
                             setLoading(false);
@@ -80,11 +80,11 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                             if (closeButtonRef.current) {
                                 closeButtonRef.current.click();
                             }
-                        }, 4000)
+                        }, 5000)
                         // call refund api if or through scheduler
                     }
-                    if (data.code === "PAYMENT_PENDING") {
-                        // setLoaderText('Your request is in pending state. Please try again later.')
+                    if (data.status.toUpperCase() === "PENDING") {
+                        setLoaderText('Request goes in Pending State. Don\'t worry, your amount is safe with us, if deducted.')
                         setTimeout(() => {
                             // call refund api if or through scheduler
                             setLoading(false);
@@ -92,7 +92,7 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                             if (closeButtonRef.current) {
                                 closeButtonRef.current.click();
                             }
-                        }, 4000)
+                        }, 5000)
                     }
                 });
 
@@ -112,7 +112,7 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                 <div className="loader-overlay-pay-modal">
                     <div className="loader-container-pay-modal">
                         <img className='loader-img-pay-modal' src={loaderGif} alt="Loading..." />
-                        <p className="loader-text-pay-modal">{loaderText}</p>
+                        <p className="loader-text-pay-modal"><strong>{loaderText}</strong></p>
                     </div>
                 </div>
             )}
