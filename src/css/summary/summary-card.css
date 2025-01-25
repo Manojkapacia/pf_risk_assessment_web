@@ -33,6 +33,15 @@
     font-size: 1rem !important;
     font-weight: 300;
 }
+.summaryCardBtn{
+    color: #002366 !important;
+    background-color: #fff !important;
+    border-radius: 1rem !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    padding: 0 0.75rem !important;
+    border: none !important;
+}
 @media only screen and (max-width: 500px) {
     .cardSubdetails{
         font-size: 0.80rem;
@@ -41,5 +50,9 @@
     .cardButtonText{
         font-size: 0.80rem !important;
         font-weight: 300;
+    }
+    .summaryCardBtn{
+        font-size: 0.80rem !important;
+        font-weight: 400 !important;
     }
 }

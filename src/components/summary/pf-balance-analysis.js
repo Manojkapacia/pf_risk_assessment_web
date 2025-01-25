@@ -154,8 +154,8 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect}) {
                     </div>
                     {setBlurEffect && (
                             <div className="center-button">
-                                <button className="btn" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: '#00124F' }}>Access Full Report<br></br> Just ₹99/-</button>
+                                <button className="btn custom-shadow" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report<br></br> Just ₹99/-</button>
                             </div>
                         )}
                 </div>

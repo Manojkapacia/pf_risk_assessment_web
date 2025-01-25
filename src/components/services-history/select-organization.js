@@ -22,6 +22,11 @@ function SelectOrganization() {
         setSelectedIndex(id === selectedIndex ? null : id);
     };
 
+    const setSelectIndexData = ()=>{
+        setlistOrganization(false);
+        setSelectedIndex(null)
+    }
+
     const generateReportClick = () => {
         const selectedOrg = selectedIndex !== null ? updatedListItems[selectedIndex] : null;
         navigate("/kyc-details", { state: { listItems, selectedOrg, uan, type, reportUpdatedAtVar, profileData, home } });
@@ -47,7 +52,7 @@ function SelectOrganization() {
                                     </div>
                                     <div className='row mb-3'>
                                         <div className='col-md-6 col-sm-6'>
-                                            <button className='btn NoButton w-100 py-2 py-md-3' onClick={() => setlistOrganization(false)}>No</button>
+                                            <button className='btn NoButton w-100 py-2 py-md-3' onClick={setSelectIndexData}>No</button>
                                         </div>
                                         <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
                                             <button className='btn yesButton w-100 py-2 py-md-3' onClick={generateReportClick}>Yes</button>

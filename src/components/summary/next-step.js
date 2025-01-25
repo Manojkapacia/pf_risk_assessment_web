@@ -11,6 +11,7 @@ const NextStep = ({ setBlurEffect,amountStuck }) => {
     {
       number: 2,
       label: "Consult with Expert",
+      status: "secondStep",
       actions: [
         { label: "Schedule call" },
         { label: "Call now" },
@@ -38,6 +39,7 @@ const NextStep = ({ setBlurEffect,amountStuck }) => {
     {
       number: 2,
       label: "Initiate withdrawal request",
+      status: "secondStep",
     },
     {
       number: 3,
@@ -92,7 +94,7 @@ const NextStep = ({ setBlurEffect,amountStuck }) => {
                 <p
                   className="mb-1 ms-lg-3 ms-2"
                   style={{
-                    fontWeight: step.status === "completed" ? "bold" : "normal",
+                    fontWeight: step.status === "completed" || step.status === "secondStep" ? "bold" : "normal",
                     fontSize: "1rem",
                   }}
                 >
@@ -100,6 +102,11 @@ const NextStep = ({ setBlurEffect,amountStuck }) => {
                   {step.status === "completed" && (
                     <span className="text-success" style={{ fontSize: "0.85rem" }}>
                       Completed
+                    </span>
+                  )}
+                  {step.status === "secondStep" && (
+                    <span className="fw-bold d-block d-lg-inline" style={{ fontSize: "0.85rem",color:'orange'}}>
+                      Expect call within 48 hours
                     </span>
                   )}
                 </p>

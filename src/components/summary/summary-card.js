@@ -103,21 +103,21 @@ function SummaryCard({ summaryData ,screenRef,setBlurEffect}) {
                 </div>
             </div>
 
-            <div className="d-flex justify-content-around align-items-center mt-2 border-top">
+            <div className="d-flex justify-content-around align-items-center mt-2 border-top py-2">
                 {fullSummaryCard ? (
                     <>
-                        <button className="btn cardButtonText text-white" onClick={accountSummary} >
+                        <button className="btn summaryCardBtn" onClick={accountSummary} >
                             Summary
                         </button>
-                        <div className="border-start" style={{ height: '2rem' }}></div>
-                        <button className="btn cardButtonText text-white border-0" onClick={fundDetails}>
+                        {/* <div className="border-start" style={{ height: '2rem' }}></div> */}
+                        <button className="btn summaryCardBtn" onClick={fundDetails}>
                             Fund Details
                         </button>
-                        <div className="border-start" style={{ height: '2rem' }}></div>
+                        {/* <div className="border-start" style={{ height: '2rem' }}></div> */}
                         <button 
-                            className="btn cardButtonText text-white border-0" 
+                            className="btn summaryCardBtn" 
                             onClick={handleDownloadPdf}
-                            style={{ filter: setBlurEffect ? "blur(1px)" : "none" }}
+                            style={{ filter: setBlurEffect ? "blur(1px)" : "none"}}
                             disabled={setBlurEffect}
                         >
                             <i className="bi bi-download me-2"></i> Report
