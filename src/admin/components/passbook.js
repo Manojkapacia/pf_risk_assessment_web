@@ -55,11 +55,11 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                                             >
                                                                 Year: {year}
                                                             </h5>
+                                                            {yearData!== null ? 
                                                             <div
                                                                 id={`details-${memberId}-${year}`}
                                                                 className="collapse"
-                                                                style={{ marginLeft: "1rem" }}
-                                                            >
+                                                                style={{ marginLeft: "1rem" }}>
                                                                 <div className="mt-3">
                                                                     <div className="mb-4">
                                                                         <h4>Opening Balance</h4>
@@ -74,10 +74,10 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                                                             </thead>
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td>{yearData.openingBalance.particulars}</td>
-                                                                                    <td>{yearData.openingBalance.employeeShare}</td>
-                                                                                    <td>{yearData.openingBalance.employerShare}</td>
-                                                                                    <td>{yearData.openingBalance.pensionShare}</td>
+                                                                                    <td>{yearData?.openingBalance?.particulars}</td>
+                                                                                    <td>{yearData?.openingBalance?.employeeShare}</td>
+                                                                                    <td>{yearData?.openingBalance?.employerShare}</td>
+                                                                                    <td>{yearData?.openingBalance?.pensionShare}</td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -100,17 +100,17 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    {yearData.transactions.map((txn, index) => (
+                                                                                    {yearData?.transactions?.map((txn, index) => (
                                                                                         <tr key={index}>
-                                                                                            <td>{txn.wageMonth}</td>
-                                                                                            <td>{txn.transactionDate}</td>
-                                                                                            <td>{txn.transactionType}</td>
-                                                                                            <td>{txn.particulars}</td>
-                                                                                            <td>{txn.epfWages}</td>
-                                                                                            <td>{txn.epsWages}</td>
-                                                                                            <td>{txn.employeeShare}</td>
-                                                                                            <td>{txn.employerShare}</td>
-                                                                                            <td>{txn.pensionShare}</td>
+                                                                                            <td>{txn?.wageMonth}</td>
+                                                                                            <td>{txn?.transactionDate}</td>
+                                                                                            <td>{txn?.transactionType}</td>
+                                                                                            <td>{txn?.particulars}</td>
+                                                                                            <td>{txn?.epfWages}</td>
+                                                                                            <td>{txn?.epsWages}</td>
+                                                                                            <td>{txn?.employeeShare}</td>
+                                                                                            <td>{txn?.employerShare}</td>
+                                                                                            <td>{txn?.pensionShare}</td>
                                                                                         </tr>
                                                                                     ))}
                                                                                 </tbody>
@@ -129,12 +129,12 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
-                                                                                {Object.entries(yearData.totals).map(([key, total], index) => (
+                                                                                {Object.entries(yearData?.totals).map(([key, total], index) => (
                                                                                     <tr key={index}>
                                                                                         <td>{key}</td>
-                                                                                        <td>{total.employeeShare}</td>
-                                                                                        <td>{total.employerShare}</td>
-                                                                                        <td>{total.pensionShare}</td>
+                                                                                        <td>{total?.employeeShare}</td>
+                                                                                        <td>{total?.employerShare}</td>
+                                                                                        <td>{total?.pensionShare}</td>
                                                                                     </tr>
                                                                                 ))}
                                                                             </tbody>
@@ -153,10 +153,10 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                                                             </thead>
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td>{yearData.closingBalance.particulars}</td>
-                                                                                    <td>{yearData.closingBalance.employeeShare}</td>
-                                                                                    <td>{yearData.closingBalance.employerShare}</td>
-                                                                                    <td>{yearData.closingBalance.pensionShare}</td>
+                                                                                    <td>{yearData?.closingBalance?.particulars}</td>
+                                                                                    <td>{yearData?.closingBalance?.employeeShare}</td>
+                                                                                    <td>{yearData?.closingBalance?.employerShare}</td>
+                                                                                    <td>{yearData?.closingBalance?.pensionShare}</td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -174,16 +174,24 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                                                             </thead>
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td>{yearData.interestDetails.particulars}</td>
-                                                                                    <td>{yearData.interestDetails.employeeShare}</td>
-                                                                                    <td>{yearData.interestDetails.employerShare}</td>
-                                                                                    <td>{yearData.interestDetails.pensionShare}</td>
+                                                                                    <td>{yearData?.interestDetails?.particulars}</td>
+                                                                                    <td>{yearData?.interestDetails?.employeeShare}</td>
+                                                                                    <td>{yearData?.interestDetails?.employerShare}</td>
+                                                                                    <td>{yearData?.interestDetails?.pensionShare}</td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
                                                                     </div>
                                                                 </div>
+                                                            </div>:
+                                                            <div
+                                                            id={`details-${memberId}-${year}`}
+                                                            className="collapse"
+                                                            style={{ marginLeft: "1rem" }}>
+                                                                <h4>Sorry, We have no record found</h4>
                                                             </div>
+                                                             }
+                                                            
                                                         </div>
                                                     ))
                                                 )}

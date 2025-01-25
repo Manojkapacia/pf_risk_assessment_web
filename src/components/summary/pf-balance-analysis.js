@@ -10,7 +10,7 @@ import { formatCurrency, getClosingBalance } from '../../helper/data-transform';
 // Register required elements
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function PfBalanceAnalysis({ summaryData, setBlurEffect}) {
+function PfBalanceAnalysis({ summaryData, setBlurEffect, isRegModalOpen}) {
     const [activeCard, setActiveCard] = useState("main");
     const [withdrawalChartWidth, setWithdrawalChartWidth] = useState("");
     const [blockedChartWidth, setBlockedChartWidth] = useState("");
@@ -152,7 +152,7 @@ function PfBalanceAnalysis({ summaryData, setBlurEffect}) {
                             </span>
                         }
                     </div>
-                    {setBlurEffect && (
+                    {setBlurEffect && !isRegModalOpen &&(
                             <div className="center-button">
                                 <button className="btn custom-shadow" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report<br></br> Just ₹99/-</button>
