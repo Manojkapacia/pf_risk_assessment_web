@@ -220,9 +220,8 @@ function LoginComponent() {
                                                 onChange={handleInputChange}
                                                 required
                                             />
-                                            <ValidationError message={errors.password} />
                                             <span
-                                                className="position-absolute top-50 end-0 translate-middle-y me-3"
+                                                className="position-absolute top-50 end-0  translate-middle-y me-3"
                                                 style={{ cursor: 'pointer', zIndex: 1 }}
                                                 onClick={togglePasswordVisibility}
                                                 aria-label="Toggle password visibility"
@@ -230,6 +229,7 @@ function LoginComponent() {
                                                 {showPassword ? <FaEye /> : <FaEyeSlash />}
                                             </span>
                                         </div>
+                                        <ValidationError message={errors.password} />
                                         <div className="text-end labelSubHeading mt-2" >
                                             <span style={{ cursor: 'pointer' }}
                                                 onClick={() => navigate("/forgot-password")}>Forgot Password?
