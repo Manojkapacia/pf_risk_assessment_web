@@ -207,7 +207,7 @@ function TotalSummary() {
                     
                         <SummaryCard summaryData={summaryData} screenRef={screenRef} setBlurEffect={isBlurred}></SummaryCard>
                         <ClaimRejection reportData={summaryData}></ClaimRejection>
-                        <PfBalanceAnalysis summaryData={summaryData} setBlurEffect={isBlurred} ></PfBalanceAnalysis>
+                        <PfBalanceAnalysis summaryData={summaryData} setBlurEffect={isBlurred} isRegModalOpen={reportModalOpen} ></PfBalanceAnalysis>
 
                         {/* Resolution Time Section  */}
                         <div className="card resolution-card text-white px-4 py-3 my-3">
@@ -407,13 +407,13 @@ function TotalSummary() {
                                     }
                                 </div>
                             </div>
-                            {isBlurred && (
+                            {isBlurred && !reportModalOpen && (
                                 <div className="center-button">
                                     <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
                                         data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report<br></br> Just ₹99/-</button>
                                 </div>
                             )}
-                            <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
+                             <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
                         </div>
 
                         {/* Employee History Check Section  */}
@@ -550,7 +550,8 @@ function TotalSummary() {
                                     </div>
                                 }
                             </div>
-                            {isBlurred && (
+
+                            {isBlurred && !reportModalOpen &&  (
                                 <div className="center-button">
                                     <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
                                         data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report <br></br>Just ₹99/-</button>
@@ -668,13 +669,13 @@ function TotalSummary() {
                                     </div>
                                 }
                             </div>
-                            {isBlurred && (
+                            {isBlurred && !reportModalOpen && (
                                 <div className="center-button">
                                     <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
                                         data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report <br></br>Just ₹99/-</button>
                                 </div>
                             )}
-                            <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
+                           <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
                         </div>
 
                         {/* Pension Check Section */}
@@ -736,7 +737,7 @@ function TotalSummary() {
                                     </div>
                                 }
                             </div>
-                            <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
+                            {!reportModalOpen &&    <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>}
                         </div>
 
                         <div className="card shadow-sm mt-3 px-4 py-3">
@@ -822,13 +823,13 @@ function TotalSummary() {
                                     </div>
                                 }
                             </div>
-                            {isBlurred && (
+                            {isBlurred && !reportModalOpen &&  (
                                 <div className="center-button">
                                     <button className="btn" data-bs-toggle="modal" onClick={handleModalOpen}
                                         data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report<br></br> Just ₹99/-</button>
                                 </div>
                             )}
-                            <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal>
+                           <ReportPaymentModal isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></ReportPaymentModal> 
                         </div>
                         <NextStep setBlurEffect={isBlurred} amountStuck={amountStuck}></NextStep>
 

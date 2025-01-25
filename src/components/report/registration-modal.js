@@ -134,7 +134,7 @@ const ModalComponent = ({ profileData, isOpen, onClose }) => {
                 setShowOtpModel(false);
                 setReportScreen(true);
                 // ZohoAPiCall();
-                await post('/auth/update-status', {whatsAppPhoneNumber: formData?.phoneNumber});                
+                await post('/auth/update-status', { whatsAppPhoneNumber: formData?.phoneNumber });
             }
         } catch (error) {
             if (error.status >= 500) {
@@ -189,141 +189,145 @@ const ModalComponent = ({ profileData, isOpen, onClose }) => {
         alignItems: 'center',
     };
     return (
-        <div style={overlayStyle}>
-            <div className="modal modal-overlay fade show" style={{ display: 'block' }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <p className="modal-title" style={{ fontSize: '1.5rem', fontWeight: '600' }} >{!showReportScreen ? 'Your report genration is in progress' : 'Congratulations, your report is now ready '}</p>
-                            {/* <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModel}></button> */}
-                        </div>
-                        <div className="modal-body">
+        <>
+            {loading && (
+                <div className="loader-overlay-pay-modal">
+                    <div className="loader-container-pay-modal">
+                    {otploader ?
                             <>
-                                {loading && (
-                                    <div className="loader-overlay">
-                                        <div className="loader-container">
-                                            {otploader ?
-                                                <div className="loader">
-                                                    <img className='loader-img' src={otpLoaderGif} alt="Loading..." />
-                                                    <p className="loader-text">Verifying Your OTP</p>
+                                <img className='loader-img-pay-modal' src={loaderGif} alt="Loading..." />
+                                <p className="loader-text-pay-modal"><strong>Verifying Your OTP</strong></p>
+                            </>
+                            :
+                            <>
+                            <img className='loader-img-pay-modal' src={loaderGif} alt="Loading..." />
+                            <p className="loader-text-pay-modal"><strong>Verifying Mobile Number</strong></p>
+                            </>
+                            
+                        }
+                    </div>
+                </div>
+            )}
+            <div style={overlayStyle}>
+                <div className="modal modal-overlay fade show" style={{ display: 'block' }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <p className="modal-title" style={{ fontSize: '1.5rem', fontWeight: '600' }} >{!showReportScreen ? 'Your report genration is in progress' : 'Congratulations, your report is now ready '}</p>
+                                {/* <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={closeModel}></button> */}
+                            </div>
+                            <div className="modal-body">
+                                <>
+                                    <div className="container">
+                                        {message.type && <ToastMessage message={message.content} type={message.type} />}
+                                        <div className="row d-flex justify-content-center align-items-center">
+
+                                            {!showReportScreen ?
+                                                <div className="col-lg-12 mt-3 mt-lg-0">
+
+                                                    {!showOtpModel ?
+                                                        <>
+                                                            <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Share your WhatsApp number to get your personalised report sent to you</p>
+                                                            <form onSubmit={handleSubmit(onSubmit)}>
+                                                                <div className="input-group mt-5">
+                                                                    <input
+                                                                        type="text" style={{ border: "2px solid gray" }}
+                                                                        className="form-control"
+                                                                        placeholder="Enter your WhatsApp number"
+                                                                        autoComplete='off' maxLength={10} inputMode="numeric"
+                                                                        {...register("phoneNumber", {
+                                                                            required: "Whatsapp Number is required",
+                                                                            pattern: {
+                                                                                value: /^\d{10}$/,
+                                                                                message: "Number must be exactly 10 digits",
+                                                                            }
+                                                                        })}
+                                                                        onInput={(e) => {
+                                                                            e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                                                                        }}
+                                                                    />
+                                                                    <span className="input-group-text bg-white" style={{ border: '2px solid gray' }}>
+                                                                        <Whatsapp className="text-success" />
+                                                                    </span>
+                                                                </div>
+                                                                {errors.phoneNumber && <span className="text-danger">{errors.phoneNumber.message}</span>}
+                                                                <div className='text-center mb-3 mt-5'>
+                                                                    <button className="pfRiskButtons py-2 px-5" type='submit'>
+                                                                        Verify Number
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Please enter your OTP</p>
+
+                                                            <form onSubmit={handleSubmitOtp}>
+                                                                <div className="d-flex">
+                                                                    {Array.from({ length: otpLength }).map((_, index) => (
+                                                                        <input
+                                                                            key={index}
+                                                                            id={`otp-input-${index}`}
+                                                                            type="number"
+                                                                            maxLength="1"
+                                                                            autoComplete='off'
+                                                                            name='otp'
+                                                                            className="otpInput form-control text-center mx-1 mt-2"
+                                                                            value={otpValues[index]}
+                                                                            onChange={(e) => handleOtpChange(e.target.value, index)}
+                                                                            onKeyDown={(e) => handleBackspace(e, index)}
+                                                                            aria-label={`OTP input ${index + 1}`}
+                                                                        />
+                                                                    ))}
+                                                                </div>
+
+                                                                <div className='text-center mt-3 mt-lg-5'>
+                                                                    <div className="text-center" style={{ fontWeight: "400", fontSize: "1rem" }}>
+                                                                        <p className='mt-2'>Waiting for OTP ? Resend in :{timer > 1 ? <span className='otpText'> {" "}{timer}</span>
+                                                                            : <a
+                                                                                className="text-decoration-none otpText" style={{ cursor: 'pointer' }}
+                                                                                onClick={handleRendOtpClick}>{" "}
+                                                                                Resend OTP
+                                                                            </a>}
+                                                                        </p>
+                                                                    </div>
+                                                                    <button className="pfRiskButtons py-2 px-5" disabled={!isBtnAssessmentEnabled || timer < 1}>
+                                                                        Get Report
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </>
+
+                                                    }
                                                 </div>
                                                 :
-                                                <div className="loader">
-                                                    <img className='loader-img' src={loaderGif} alt="Loading..." />
-                                                    <p className="loader-text">Verifying Mobile Number</p>
+                                                <div className="col-lg-12 mt-3 mt-lg-0">
+                                                    <div className='text-center'>
+                                                        <img src={sucessImage} alt="Dynamic Description" height={"150rem"} width={"150rem"} />
+                                                    </div>
+                                                    <div className='row'>
+                                                        <div className='col-md-8 offset-md-2 text-center'>
+                                                            {/* <p style={{ fontSize: '1.5rem', fontWeight: '300', lineHeight: '1.3' }}>All Set!<br></br>
+                                                            You will get your report sent to you {reportMessage}</p> */}
+                                                        </div>
+                                                    </div>
+                                                    <div className='text-center mt-3'>
+                                                        <button className="pfRiskButtons py-2" onClick={closeModel} style={{ paddingLeft: "5rem", paddingRight: "5rem" }}>
+                                                            View Report
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             }
                                         </div>
                                     </div>
-                                )}
-                                <div className="container">
-                                    {message.type && <ToastMessage message={message.content} type={message.type} />}
-                                    <div className="row d-flex justify-content-center align-items-center">
-
-                                        {!showReportScreen ?
-                                            <div className="col-lg-12 mt-3 mt-lg-0">
-
-                                                {!showOtpModel ?
-                                                    <>
-                                                        <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Share your WhatsApp number to get your personalised report sent to you</p>
-                                                        <form onSubmit={handleSubmit(onSubmit)}>
-                                                            <div className="input-group mt-5">
-                                                                <input
-                                                                    type="text" style={{ border: "2px solid gray" }}
-                                                                    className="form-control"
-                                                                    placeholder="Enter your WhatsApp number"
-                                                                    autoComplete='off' maxLength={10} inputMode="numeric"
-                                                                    {...register("phoneNumber", {
-                                                                        required: "Whatsapp Number is required",
-                                                                        pattern: {
-                                                                            value: /^\d{10}$/,
-                                                                            message: "Number must be exactly 10 digits",
-                                                                        }
-                                                                    })}
-                                                                    onInput={(e) => {
-                                                                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                                                                    }}
-                                                                />
-                                                                <span className="input-group-text bg-white" style={{ border: '2px solid gray' }}>
-                                                                    <Whatsapp className="text-success" />
-                                                                </span>
-                                                            </div>
-                                                            {errors.phoneNumber && <span className="text-danger">{errors.phoneNumber.message}</span>}
-                                                            <div className='text-center mb-3 mt-5'>
-                                                                <button className="pfRiskButtons py-2 px-5" type='submit'>
-                                                                    Verify Number
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <p style={{ fontSize: '1.2rem', fontWeight: '300', lineHeight: '1.3' }}>Please enter your OTP</p>
-
-                                                        <form onSubmit={handleSubmitOtp}>
-                                                            <div className="d-flex">
-                                                                {Array.from({ length: otpLength }).map((_, index) => (
-                                                                    <input
-                                                                        key={index}
-                                                                        id={`otp-input-${index}`}
-                                                                        type="number"
-                                                                        maxLength="1"
-                                                                        autoComplete='off'
-                                                                        name='otp'
-                                                                        className="otpInput form-control text-center mx-1 mt-2"
-                                                                        value={otpValues[index]}
-                                                                        onChange={(e) => handleOtpChange(e.target.value, index)}
-                                                                        onKeyDown={(e) => handleBackspace(e, index)}
-                                                                        aria-label={`OTP input ${index + 1}`}
-                                                                    />
-                                                                ))}
-                                                            </div>
-
-                                                            <div className='text-center mt-3 mt-lg-5'>
-                                                                <div className="text-center" style={{ fontWeight: "400", fontSize: "1rem" }}>
-                                                                        <p className='mt-2'>Waiting for OTP ? Resend in :{timer > 1 ? <span className='otpText'> {" "}{timer}</span>
-                                                                        : <a
-                                                                            className="text-decoration-none otpText" style={{ cursor: 'pointer' }}
-                                                                            onClick={handleRendOtpClick}>{" "}
-                                                                            Resend OTP
-                                                                        </a>}
-                                                                    </p>
-                                                                </div>
-                                                                <button className="pfRiskButtons py-2 px-5" disabled={!isBtnAssessmentEnabled || timer < 1}>
-                                                                    Get Report
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </>
-
-                                                }
-                                            </div>
-                                            :
-                                            <div className="col-lg-12 mt-3 mt-lg-0">
-                                                <div className='text-center'>
-                                                    <img src={sucessImage} alt="Dynamic Description" height={"150rem"} width={"150rem"} />
-                                                </div>
-                                                <div className='row'>
-                                                    <div className='col-md-8 offset-md-2 text-center'>
-                                                        {/* <p style={{ fontSize: '1.5rem', fontWeight: '300', lineHeight: '1.3' }}>All Set!<br></br>
-                                                            You will get your report sent to you {reportMessage}</p> */}
-                                                    </div>
-                                                </div>
-                                                <div className='text-center mt-3'>
-                                                    <button className="pfRiskButtons py-2" onClick={closeModel} style={{ paddingLeft: "5rem", paddingRight: "5rem" }}>
-                                                        View Report
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </>
+                                </>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
+
     );
 };
 
