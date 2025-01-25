@@ -70,7 +70,7 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                             if (closeButtonRef.current) {
                                 closeButtonRef.current.click();
                             }
-                        }, 3000)
+                        }, 4000)
                     }
                     if (data.code === "PAYMENT_ERROR") {
                         setLoaderText('Oops...Payment Failed!! Please try again later.')
@@ -80,8 +80,19 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                             if (closeButtonRef.current) {
                                 closeButtonRef.current.click();
                             }
-                        }, 3000)
+                        }, 4000)
                         // call refund api if or through scheduler
+                    }
+                    if (data.code === "PAYMENT_PENDING") {
+                        // setLoaderText('Your request is in pending state. Please try again later.')
+                        setTimeout(() => {
+                            // call refund api if or through scheduler
+                            setLoading(false);
+                            onClose(false);
+                            if (closeButtonRef.current) {
+                                closeButtonRef.current.click();
+                            }
+                        }, 4000)
                     }
                 });
 
