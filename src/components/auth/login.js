@@ -329,36 +329,62 @@ function LoginComponent() {
                     <footer className="gradient-footer text-white pt-4 mt-4">
                         <div className="container mb-3">
                             <div className="mb-3 border-bottom pb-4">
-                                <div className='mx-4 d-flex justify-content-between align-items-center'>
-                                <p className="mb-0">Get connected with us on social networks:</p>
-                                <div>
-                                    <a href="https://www.facebook.com/people/Finright/61550330213881/?mibextid=ZbWKwL" target="_blank" className="text-white me-3">
-                                        <i className="bi bi-facebook"></i>
-                                    </a>
-                                    <a href="https://www.linkedin.com/company/finright-technologies/" target="_blank" className="text-white me-3">
-                                        <i className="bi bi-linkedin"></i>
-                                    </a>
-                                    <a href="https://www.instagram.com/askfinright/?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D#" target="_blank" className="text-white me-3">
-                                        <i className="bi bi-instagram"></i>
-                                    </a>
-                                    <a href="https://www.youtube.com/@FinRight" target="_blank" className="text-white me-3">
-                                        <i className="bi bi-youtube"></i>
-                                    </a>
-                                    <a href="https://x.com/FinRight" target="_blank" className="text-white">
-                                        <i className="bi bi-twitter"></i>
-                                    </a>
+                                <div className="mx-4 d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start">
+                                    <p className="mb-2 mb-md-0">
+                                        Get connected with us on social networks:
+                                    </p>
+                                    <div>
+                                        <a
+                                            href="https://www.facebook.com/people/Finright/61550330213881/?mibextid=ZbWKwL"
+                                            target="_blank"
+                                            className="text-white me-3"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <i className="bi bi-facebook"></i>
+                                        </a>
+                                        <a
+                                            href="https://www.linkedin.com/company/finright-technologies/"
+                                            target="_blank"
+                                            className="text-white me-3"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <i className="bi bi-linkedin"></i>
+                                        </a>
+                                        <a
+                                            href="https://www.instagram.com/askfinright/?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D#"
+                                            target="_blank"
+                                            className="text-white me-3"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <i className="bi bi-instagram"></i>
+                                        </a>
+                                        <a
+                                            href="https://www.youtube.com/@FinRight"
+                                            target="_blank"
+                                            className="text-white me-3"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <i className="bi bi-youtube"></i>
+                                        </a>
+                                        <a
+                                            href="https://x.com/FinRight"
+                                            target="_blank"
+                                            className="text-white"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <i className="bi bi-twitter"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                                </div>
-                            </div>
 
-                            {/* <hr  style={{borderWidth: '0.2rem', color: '#ffffff' }}/> */}
+                            </div>
 
                             <div className="row d-flex justify-content-center">
                                 <div className="col-md-3 mb-3">
                                     <h5>FINRIGHT TECHNOLOGIES PVT LTD.</h5>
                                     <p>One-stop destination for all your financial queries and troubles</p>
                                     <p>CIN: U62099MH2024PTC418141</p>
-                                    <img  className='rounded mb-2' src={footerImage} />
+                                    <img className='rounded mb-2' src={footerImage} />
                                     <p>Certificate No: DIPP167516</p>
                                 </div>
                                 <div className="col-md-2 mb-3">
@@ -373,7 +399,7 @@ function LoginComponent() {
                                 <div className="col-md-2 mb-3">
                                     <h5>USEFUL LINKS</h5>
                                     <ul className="list-unstyled">
-                                    <li>
+                                        <li>
                                             <a href="http://finright.in" target="_blank" className="text-white" style={{ textDecoration: 'none' }}>
                                                 Home
                                             </a>

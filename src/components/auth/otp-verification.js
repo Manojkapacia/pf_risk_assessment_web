@@ -162,6 +162,11 @@ function OtpComponent() {
                 setIsVerifyingOtp(true)
                 setLoading(true);
                 const result = await post(endpoint, { otp: otp.join('') });
+                if (result?.status === 400) {
+                    setLoading(false)
+                    setMessage({ type: "error", content: result.message });
+                    return;
+                }
                 // setMessage({ type: "success", content: MESSAGES.success.otpVerified });
                 setOtpVerified(true)
                 localStorage.setItem("user_uan", UAN);

@@ -54,8 +54,9 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                     setMessage({ type: "error", content: MESSAGES.error.paymentUrlNotFound });
                     return;
                 }
-                // navigate the user to phone pay page url 
-                window.open(payUrl, '_blank', 'noopener,noreferrer');
+                // navigate the user to phone pay page url
+                // window.location.href = payUrl; 
+                window.open(payUrl);
                 setLoaderText('Kindly complete the payment...')
 
                 // Listen for payment status updates
