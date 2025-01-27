@@ -19,6 +19,7 @@ import { encryptData } from '../common/encryption-decryption';
 import { AiOutlineFileProtect } from "react-icons/ai";
 import finRightLogo from './../../assets/images/finRight.png';
 import backgroundImage from './../../assets/images/backgroundLogin.svg';
+import footerImage from '../../assets/images/footerImage.jpg'
 import thumbPrimary from './../../assets/images/thumbPrimary.svg';
 
 function LoginComponent() {
@@ -36,7 +37,7 @@ function LoginComponent() {
         setIsVisible(!isVisible);
     };
     const navigate = useNavigate();
-
+    const currentYear = new Date().getFullYear();
     useEffect(() => {
         setIsFormValid(Object.values(errors).every((err) => !err) && formData.uan && formData.password);
     }, [errors, formData]);
@@ -141,19 +142,6 @@ function LoginComponent() {
                         <p className="loader-text">Verifying UAN Number and Password</p>
                     </div>
                 </div>
-            //     <div className="loader-overlay">
-            //     <div className="loader-container">
-            //         <div className="loader">
-            //             <img
-            //                 src={thumbPrimary} // Replace with your image URL
-            //                 alt="Loader Icon"
-            //                 className="loader-image"
-            //             />
-            //             <div className="progress-ring"></div>
-            //         </div>
-            //         <p className="loader-text">Verifying UAN Number and Password</p>
-            //     </div>
-            // </div>
             )}
             <div className="container-fluid"
                 style={{
@@ -165,7 +153,7 @@ function LoginComponent() {
                 }}
             >
                 {message.type && <ToastMessage message={message.content} type={message.type} />}
-                <div className="row d-flex justify-content-center align-items-center h-100">
+                <div className="row d-flex justify-content-center align-items-center h-100" style={{ marginTop: '5rem' }}>
                     <div className="col-lg-5 col-md-8">
                         {/* <div className="loader-container">
                             <div className="loader">
@@ -176,7 +164,7 @@ function LoginComponent() {
                                 />
                             </div>
                         </div> */}
-                        
+
                         <div className='card shadow-sm position-relative'>
                             <img
                                 src={finRightLogo}
@@ -310,6 +298,134 @@ function LoginComponent() {
                             </div>
                         </div>
                     )}
+
+                    {/* <footer className="gradient-footer text-white">
+                        <div className="row d-flex justify-content-between align-items-center">
+                            <div className="col-6">
+                                <p>Get connected with us on social networks:</p>
+                            </div>
+                            <div className="col-6 text-end">
+                                <a href="https://www.facebook.com" target="_blank" className="text-dark">
+                                    <i className="bi bi-facebook" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
+                                </a>
+                                <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="mx-3">
+                                    <i className="bi bi-twitter fs-1" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
+                                </a>
+                                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="mx-3">
+                                    <i className="bi bi-instagram fs-1" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
+                                </a>
+                                <a href="https://www.youtube.com" target="_blank" className="text-danger mx-3">
+                                    <i className="bi bi-youtube" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
+                                </a>
+                                <a href="https://www.linkedin.com" target="_blank" className="text-primary mx-3">
+                                    <i className="bi bi-linkedin" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
+                                </a>
+                            </div>
+                        </div>
+                        <hr></hr>
+                        
+                    </footer> */}
+
+                    <footer className="gradient-footer text-white pt-4 mt-4">
+                        <div className="container mb-3">
+                            <div className="mb-3 border-bottom pb-4">
+                                <div className='mx-4 d-flex justify-content-between align-items-center'>
+                                <p className="mb-0">Get connected with us on social networks:</p>
+                                <div>
+                                    <a href="https://www.facebook.com/people/Finright/61550330213881/?mibextid=ZbWKwL" target="_blank" className="text-white me-3">
+                                        <i className="bi bi-facebook"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/company/finright-technologies/" target="_blank" className="text-white me-3">
+                                        <i className="bi bi-linkedin"></i>
+                                    </a>
+                                    <a href="https://www.instagram.com/askfinright/?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D#" target="_blank" className="text-white me-3">
+                                        <i className="bi bi-instagram"></i>
+                                    </a>
+                                    <a href="https://www.youtube.com/@FinRight" target="_blank" className="text-white me-3">
+                                        <i className="bi bi-youtube"></i>
+                                    </a>
+                                    <a href="https://x.com/FinRight" target="_blank" className="text-white">
+                                        <i className="bi bi-twitter"></i>
+                                    </a>
+                                </div>
+                                </div>
+                            </div>
+
+                            {/* <hr  style={{borderWidth: '0.2rem', color: '#ffffff' }}/> */}
+
+                            <div className="row d-flex justify-content-center">
+                                <div className="col-md-3 mb-3">
+                                    <h5>FINRIGHT TECHNOLOGIES PVT LTD.</h5>
+                                    <p>One-stop destination for all your financial queries and troubles</p>
+                                    <p>CIN: U62099MH2024PTC418141</p>
+                                    <img  className='rounded mb-2' src={footerImage} />
+                                    <p>Certificate No: DIPP167516</p>
+                                </div>
+                                <div className="col-md-2 mb-3">
+                                    <h5>SERVICES</h5>
+                                    <ul className="list-unstyled">
+                                        <li>Provident Fund</li>
+                                        <li>Health Insurance</li>
+                                        <li>Term Insurance</li>
+                                        <li>Taxation</li>
+                                    </ul>
+                                </div>
+                                <div className="col-md-2 mb-3">
+                                    <h5>USEFUL LINKS</h5>
+                                    <ul className="list-unstyled">
+                                    <li>
+                                            <a href="http://finright.in" target="_blank" className="text-white" style={{ textDecoration: 'none' }}>
+                                                Home
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" className="text-white" style={{ textDecoration: 'none' }}>
+                                                About Us
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" className="text-white" style={{ textDecoration: 'none' }}>
+                                                Terms & Conditions
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" className="text-white" style={{ textDecoration: 'none' }}>
+                                                Privacy Policy
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" className="text-white" style={{ textDecoration: 'none' }}>
+                                                Refund Policy
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div className="col-md-3 mb-3">
+                                    <h5>CONTACT</h5>
+                                    <p className="d-flex align-items-start">
+                                        <i className="bi bi-geo-alt-fill me-2"></i>
+                                        <span>201, Ehsan House, Above ICICI Bank, Off Chandavarkar Road, R C Patel Road, Borivali (West), Mumbai 400092</span>
+                                    </p>
+                                    <p className="d-flex align-items-start">
+                                        <i className="bi bi-envelope-fill me-2"></i>
+                                        <span>support@finright.in</span>
+                                    </p>
+                                    <p className="d-flex align-items-start">
+                                        <i className="bi bi-telephone-fill me-2"></i>
+                                        <span>+91 95134 46193</span>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div className="d-flex justify-content-center align-items-center mt-4">
+                                <p className="mb-0">
+                                    &copy; {currentYear} Copyright: FINRIGHT TECHNOLOGIES PVT LTD.
+                                </p>
+                            </div>
+                        </div>
+                    </footer>
+
                 </div>
             </div>
 
