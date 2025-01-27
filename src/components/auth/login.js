@@ -390,10 +390,24 @@ function LoginComponent() {
                                 <div className="col-md-2 mb-3">
                                     <h5>SERVICES</h5>
                                     <ul className="list-unstyled">
-                                        <li>Provident Fund</li>
-                                        <li>Health Insurance</li>
-                                        <li>Term Insurance</li>
-                                        <li>Taxation</li>
+                                        <li>
+                                            <a href="https://finright.in/service" target="_blank" className="text-white" style={{ textDecoration: 'none' }}>
+                                                Provident Fund
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://finright.in/service" target="_blank" className="text-white" style={{ textDecoration: 'none' }}>
+                                                Health Insurance
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://finright.in/service" target="_blank" className="text-white" style={{ textDecoration: 'none' }}>
+                                                Term Insurance
+                                            </a></li>
+                                        <li>
+                                            <a href="https://finright.in/service" target="_blank" className="text-white" style={{ textDecoration: 'none' }}>
+                                                Taxation
+                                            </a></li>
                                     </ul>
                                 </div>
                                 <div className="col-md-2 mb-3">
@@ -405,22 +419,22 @@ function LoginComponent() {
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" className="text-white" style={{ textDecoration: 'none' }}>
+                                            <a href="https://finright.in/about-us" target="_blank" className="text-white" style={{ textDecoration: 'none' }}>
                                                 About Us
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" className="text-white" style={{ textDecoration: 'none' }}>
+                                            <a href="https://finright.in/terms-conditions" className="text-white" target="_blank" style={{ textDecoration: 'none' }}>
                                                 Terms & Conditions
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" className="text-white" style={{ textDecoration: 'none' }}>
+                                            <a href="https://finright.in/privacy-policy" className="text-white" target="_blank" style={{ textDecoration: 'none' }}>
                                                 Privacy Policy
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" className="text-white" style={{ textDecoration: 'none' }}>
+                                            <a href="https://finright.in/refund-policy" className="text-white" target="_blank" style={{ textDecoration: 'none' }}>
                                                 Refund Policy
                                             </a>
                                         </li>
