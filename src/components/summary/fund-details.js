@@ -5,6 +5,7 @@ import { Doughnut } from "react-chartjs-2";
 import { BsCircleFill } from "react-icons/bs";
 import ClaimRejection from "./claim-rejection";
 import './../../css/summary/fund-details.css';
+import ReportPaymentModal from "./reportPaymentModal";
 import {
     Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale,
     LinearScale,
@@ -23,7 +24,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,
 
 function FundDetails() {
     const location = useLocation()
-    const { summaryData, setBlurEffect } = location.state || {};
+    const { summaryData, setBlurEffect ,isRegModalOpen} = location.state || {};
 
     const [fundRoi, setFundRoi] = useState(true);
     const [pension, setPension] = useState(true);
@@ -317,13 +318,12 @@ function FundDetails() {
                     </div>
 
                     {fundRoi ?
-                        (   
-                            <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
-                                <div className="card shadow-sm mx-auto py-3 my-3">
-                                    <div className="text-center">
-                                        <p className="fundDistribution">Fund ROI</p>
-                                    </div>
-
+                        (
+                            <div className="card shadow-sm mx-auto py-3 my-3">
+                                <div className="text-center">
+                                    <p className="fundDistribution">Fund ROI</p>
+                                </div>
+                                <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
                                     <div className="d-flex align-items-center">
                                         <div className="w-100 px-2 px-lg-4">
                                             <table className="table">
@@ -336,15 +336,15 @@ function FundDetails() {
                                                 <tbody>
                                                     <tr>
                                                         <td className="fundTabelText">Total Amount Contributed by You</td>
-                                                        <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}</td>
+                                                        <td className="fundTabelText" style={{ minWidth: '5rem' }}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}</td>
                                                     </tr>
                                                     <tr>
                                                         <td className="fundTabelText">PF Interest Rate</td>
-                                                        <td className="fundTabelText" style={{minWidth: '5rem'}}>8.5%</td>
+                                                        <td className="fundTabelText" style={{ minWidth: '5rem' }}>8.5%</td>
                                                     </tr>
                                                     <tr>
                                                         <td className="fundTabelText">TDS on Withdrawal</td>
-                                                        <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.tdsOnWithdrawal) || "-"}</td>
+                                                        <td className="fundTabelText" style={{ minWidth: '5rem' }}>{formatCurrency(summaryData?.reportData?.tdsOnWithdrawal) || "-"}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -356,7 +356,15 @@ function FundDetails() {
                                         </div>
                                     </div>
                                 </div>
+                                {setBlurEffect && (
+                                    <div className="center-button">
+                                        <button className="btn" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report <br></br>Just ₹99/-</button>
+                                    </div>
+                                )}
+                                <ReportPaymentModal ></ReportPaymentModal>
                             </div>
+
                         ) : (
                             <div className="card shadow-sm mx-auto py-3 my-3">
                                 <div className="text-center">
@@ -382,12 +390,12 @@ function FundDetails() {
                     }
 
                     {pension ? (
-                        <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
-                            <div className="card shadow-sm py-3 my-3">
-                                <div className="text-center">
-                                    <p className="fundDistribution">Pension</p>
-                                </div>
 
+                        <div className="card shadow-sm py-3 my-3">
+                            <div className="text-center">
+                                <p className="fundDistribution">Pension</p>
+                            </div>
+                            <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
                                 <div className="d-flex align-items-center">
                                     <div className="w-100 px-2 px-lg-4">
                                         <table className="table">
@@ -400,16 +408,16 @@ function FundDetails() {
                                             <tbody>
                                                 <tr>
                                                     <td className="fundTabelText">Total Pension Balance</td>
-                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalPensionShare) || "-"}</td>
+                                                    <td className="fundTabelText" style={{ minWidth: '5rem' }}>{formatCurrency(summaryData?.reportData?.amountContributed?.totalPensionShare) || "-"}</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="fundTabelText">Lump sum Pension Withdrawal limit</td>
-                                                    <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.withdrawableAmount) || "-"}</td>
+                                                    <td className="fundTabelText" style={{ minWidth: '5rem' }}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.withdrawableAmount) || "-"}</td>
                                                 </tr>
                                                 <tr>
                                                     <td className="fundTabelText">Monthly Pension Amount at Retirement</td>
-                                                    {summaryData?.reportData?.pensionWithdrability?.message === "" && <td className="fundTabelText" style={{minWidth: '5rem'}}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.pensionAmountPerMonth) || "-"}</td>}
-                                                    {summaryData?.reportData?.pensionWithdrability?.message !== "" && <td className="fundTabelText" style={{minWidth: '5rem'}}>{summaryData?.reportData?.pensionWithdrability?.message}</td>}
+                                                    {summaryData?.reportData?.pensionWithdrability?.message === "" && <td className="fundTabelText" style={{ minWidth: '5rem' }}>{formatCurrency(summaryData?.reportData?.pensionWithdrability?.pensionAmountPerMonth) || "-"}</td>}
+                                                    {summaryData?.reportData?.pensionWithdrability?.message !== "" && <td className="fundTabelText" style={{ minWidth: '5rem' }}>{summaryData?.reportData?.pensionWithdrability?.message}</td>}
                                                 </tr>
                                             </tbody>
                                         </table>
