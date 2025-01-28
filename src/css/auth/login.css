@@ -69,7 +69,7 @@ input.form-control::placeholder {
   z-index: 9999; 
 } */
 
-.loader-container {
+/* .loader-container {
   text-align: center;
 }
 
@@ -95,7 +95,7 @@ input.form-control::placeholder {
   border-top: 5px solid #304DFF;
   border-radius: 50%;
   animation: spin 5s linear infinite;
-}
+} */
 
 @keyframes spin {
   from {
