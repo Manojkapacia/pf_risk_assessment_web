@@ -21,6 +21,10 @@ import finRightLogo from './../../assets/images/finRight.png';
 import backgroundImage from './../../assets/images/backgroundLogin.svg';
 import footerImage from '../../assets/images/footerImage.jpg'
 import thumbPrimary from './../../assets/images/thumbPrimary.svg';
+import thumbSuccess from './../../assets/images/thumbSuccess.svg'
+import thumbError from './../../assets/images/thumbError.svg'
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 function LoginComponent() {
     const [formData, setFormData] = useState({ uan: "", password: "" });
@@ -32,6 +36,10 @@ function LoginComponent() {
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
     const [isVisible, setIsVisible] = useState(false);
     const [showIframe, setShowIframe] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const intervalRef = useRef(null);
+    const [color, setColor] = useState("#004B9A");
+    const [imageSrc, setImageSrc] = useState(thumbPrimary);
 
     const toggleText = () => {
         setIsVisible(!isVisible);
@@ -96,13 +104,20 @@ function LoginComponent() {
         if (Object.values(newErrors).every((err) => !err)) {
             try {
                 setLoading(true);
+                startProgress();
                 const result = await login(formData.uan, formData.password.trim());
-
                 if (result.status === 400) {
-                    setLoading(false);
+                    setColor('#FF0000');
+                    setImageSrc(thumbError);
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 3000);
                     setMessage({ type: "error", content: result.message });
                 } else {
+
                     if (result.message === "User Successfully Verified") setMessage({ type: "success", content: result.message });
+                    setColor('green');
+                    setImageSrc(thumbSuccess);
                     setTimeout(() => {
                         if (result.message === "User Successfully Verified") {
                             localStorage.setItem("user_uan", formData.uan);
@@ -116,13 +131,16 @@ function LoginComponent() {
                     }, 3000);
                 }
             } catch (error) {
-                if (error.status === 401) {
+                setColor('#FF0000');
+                setImageSrc(thumbError);
+                setTimeout(() => {
                     setLoading(false);
+                }, 3000);
+                if (error.status === 401) {
                     setMessage({ type: "error", content: MESSAGES.error.invalidEpfoCredentials });
                 } else if (error.status >= 500) {
                     navigate("/epfo-down")
                 } else {
-                    setLoading(false);
                     setMessage({ type: "error", content: error.message });
                     // navigate("/epfo-down");
                 }
@@ -132,14 +150,70 @@ function LoginComponent() {
 
     const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
+    const startProgress = () => {
+        setProgress(0); // Reset progress
+        setImageSrc(thumbPrimary);
+        setColor("#004B9A");
+        if (intervalRef.current) return;
+
+        intervalRef.current = setInterval(() => {
+            setProgress((prev) => {
+                if (prev >= 100) {
+                    //   clearInterval(intervalRef.current);
+                    //   intervalRef.current = null;
+                    return 0;
+                }
+                return prev + 1;
+            });
+        }, 100);
+    };
 
     return (
         <>
             {loading && (
+                // <div className="loader-overlay">
+                //     <div className="loader-container">
+                //         <img className='loader-img' src={loaderGif} alt="Loading..." />
+                //         <p className="loader-text">Verifying UAN Number and Password</p>
+                //     </div>
+                // </div>
                 <div className="loader-overlay">
                     <div className="loader-container">
-                        <img className='loader-img' src={loaderGif} alt="Loading..." />
-                        <p className="loader-text">Verifying UAN Number and Password</p>
+                        <div style={{ position: "relative", width: "9rem", height: "9rem" }}>
+                            <CircularProgressbar
+                                value={progress}
+                                strokeWidth={5}
+                                styles={buildStyles({
+                                    pathColor: color,
+                                    trailColor: "#d6d6d6",
+                                    strokeLinecap: "round",
+                                })}
+                            />
+                            <img
+                                className="loader-img"
+                                src={imageSrc}
+                                alt="Loading..."
+                                style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: "50%",
+                                    transform: "translate(-50%, -50%)",
+                                    width: "6rem",
+                                    height: "6rem",
+                                }}
+                            />
+                        </div>
+                        <p className="loader-text">
+                            {imageSrc === thumbPrimary &&
+                                <span>Verifying Credentials, Please Wait...</span>
+                            }
+                            {imageSrc === thumbSuccess &&
+                                <span>Success!</span>
+                            }
+                            {imageSrc === thumbError &&
+                                <span>Login Failed</span>
+                            }
+                        </p>
                     </div>
                 </div>
             )}
@@ -298,33 +372,6 @@ function LoginComponent() {
                             </div>
                         </div>
                     )}
-
-                    {/* <footer className="gradient-footer text-white">
-                        <div className="row d-flex justify-content-between align-items-center">
-                            <div className="col-6">
-                                <p>Get connected with us on social networks:</p>
-                            </div>
-                            <div className="col-6 text-end">
-                                <a href="https://www.facebook.com" target="_blank" className="text-dark">
-                                    <i className="bi bi-facebook" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
-                                </a>
-                                <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer" className="mx-3">
-                                    <i className="bi bi-twitter fs-1" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
-                                </a>
-                                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="mx-3">
-                                    <i className="bi bi-instagram fs-1" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
-                                </a>
-                                <a href="https://www.youtube.com" target="_blank" className="text-danger mx-3">
-                                    <i className="bi bi-youtube" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
-                                </a>
-                                <a href="https://www.linkedin.com" target="_blank" className="text-primary mx-3">
-                                    <i className="bi bi-linkedin" style={{ fontSize: '2rem', color: '#ffffff' }}></i>
-                                </a>
-                            </div>
-                        </div>
-                        <hr></hr>
-                        
-                    </footer> */}
 
                     <footer className="gradient-footer text-white pt-4 mt-4">
                         <div className="container mb-3">

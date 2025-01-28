@@ -224,7 +224,8 @@ function TotalSummary() {
                     </div> */}
                     <div className='col-lg-5 col-md-6 mt-3'>
                     
-                        <SummaryCard summaryData={summaryData} screenRef={screenRef} setBlurEffect={isBlurred}></SummaryCard>
+                        <SummaryCard summaryData={summaryData} screenRef={screenRef} setBlurEffect={isBlurred} isRegModalOpen={reportModalOpen} 
+                        isOpen={paymentModal} onClose={paymentModalClose} removeBlurEffect={handleReportModal} mobileNumber={summaryData?.userProfile?.whatsAppPhoneNumber}></SummaryCard>
                         <ClaimRejection reportData={summaryData}></ClaimRejection>
                         <PfBalanceAnalysis summaryData={summaryData} setBlurEffect={isBlurred} isRegModalOpen={reportModalOpen} ></PfBalanceAnalysis>
 
