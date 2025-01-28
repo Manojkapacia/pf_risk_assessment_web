@@ -10,7 +10,7 @@ import ToastMessage from '../common/toast-message';
 
 const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber }) => {
     const closeButtonRef = useRef(null); // Create a ref for the close button
-    const socket = io('https://uat.finright.in'); // Backend URL
+    // const socket = io('http://localhost:3001'); // Backend URL
 
     const navigate = useNavigate()
 
@@ -37,7 +37,7 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
         setLoading(true);
 
         const result = await post('/payment/initiate-payment', { amount: 99, mobileNumber, uan: localStorage.getItem('user_uan') });
-        console.log(result)
+
         try {
             if (result.status === 400) {
                 setLoading(false)
@@ -55,47 +55,53 @@ const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber })
                     return;
                 }
                 // navigate the user to phone pay page url
-                // window.location.href = payUrl; 
-                window.open(payUrl);
+                window.location.href = payUrl; 
+                // window.open(payUrl);
                 setLoaderText('Kindly complete the payment...')
 
+                // close the payment modal 
+                setLoading(false);
+                if (closeButtonRef.current) {
+                    closeButtonRef.current.click();
+                }
+
                 // Listen for payment status updates
-                socket.on('paymentStatus', (data) => {
-                    setPaymentStatusData(data); // Update your UI accordingly
-                    if (data.status.toUpperCase() === "SUCCESS") {
-                        setLoaderText('Congratulations...Payment Successful!! You can access the Full Report now')
-                        setTimeout(() => {
-                            setLoading(false);
-                            onClose(true);
-                            removeBlurEffect(false);
-                            if (closeButtonRef.current) {
-                                closeButtonRef.current.click();
-                            }
-                        }, 5000)
-                    }
-                    if (data.status.toUpperCase() === "FAILED") {
-                        setLoaderText('Oops...Payment Failed!! Please try again later.')
-                        setTimeout(() => {
-                            setLoading(false);
-                            onClose(false);
-                            if (closeButtonRef.current) {
-                                closeButtonRef.current.click();
-                            }
-                        }, 5000)
-                        // call refund api if or through scheduler
-                    }
-                    if (data.status.toUpperCase() === "PENDING") {
-                        setLoaderText('Request goes in Pending State. Don\'t worry, your amount is safe with us, if deducted.')
-                        setTimeout(() => {
-                            // call refund api if or through scheduler
-                            setLoading(false);
-                            onClose(false);
-                            if (closeButtonRef.current) {
-                                closeButtonRef.current.click();
-                            }
-                        }, 5000)
-                    }
-                });
+                // socket.on('paymentStatus', (data) => {
+                //     setPaymentStatusData(data); // Update your UI accordingly
+                //     if (data.status.toUpperCase() === "SUCCESS") {
+                //         setLoaderText('Congratulations...Payment Successful!! You can access the Full Report now')
+                //         setTimeout(() => {
+                //             setLoading(false);
+                //             onClose(true);
+                //             removeBlurEffect(false);
+                //             if (closeButtonRef.current) {
+                //                 closeButtonRef.current.click();
+                //             }
+                //         }, 5000)
+                //     }
+                //     if (data.status.toUpperCase() === "FAILED") {
+                //         setLoaderText('Oops...Payment Failed!! Please try again later.')
+                //         setTimeout(() => {
+                //             setLoading(false);
+                //             onClose(false);
+                //             if (closeButtonRef.current) {
+                //                 closeButtonRef.current.click();
+                //             }
+                //         }, 5000)
+                //         // call refund api if or through scheduler
+                //     }
+                //     if (data.status.toUpperCase() === "PENDING") {
+                //         setLoaderText('Request goes in Pending State. Don\'t worry, your amount is safe with us, if deducted.')
+                //         setTimeout(() => {
+                //             // call refund api if or through scheduler
+                //             setLoading(false);
+                //             onClose(false);
+                //             if (closeButtonRef.current) {
+                //                 closeButtonRef.current.click();
+                //             }
+                //         }, 5000)
+                //     }
+                // });
 
                 // return () => {
                 //     socket.disconnect();
