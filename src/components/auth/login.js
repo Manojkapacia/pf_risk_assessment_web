@@ -177,7 +177,7 @@ function LoginComponent() {
                 //         <p className="loader-text">Verifying UAN Number and Password</p>
                 //     </div>
                 // </div>
-                <div className="loader-overlay">
+                <div className="loader-overlay vh-100">
                     <div className="loader-container">
                         <div style={{ position: "relative", width: "9rem", height: "9rem" }}>
                             <CircularProgressbar
