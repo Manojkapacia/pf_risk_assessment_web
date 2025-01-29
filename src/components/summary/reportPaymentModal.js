@@ -8,7 +8,7 @@ import MESSAGES from '../constants/messages';
 import { io } from 'socket.io-client';
 import ToastMessage from '../common/toast-message';
 
-const ReportPaymentModal = ({ removeBlurEffect, isOpen, onClose, mobileNumber }) => {
+const ReportPaymentModal = ({ onClose, mobileNumber }) => {
     const closeButtonRef = useRef(null); // Create a ref for the close button
     // const socket = io('http://localhost:3001'); // Backend URL
 

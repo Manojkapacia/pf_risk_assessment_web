@@ -4,8 +4,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { formatCurrency } from "../../helper/data-transform";
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-function SummaryCard({ summaryData ,screenRef,setBlurEffect,isRegModalOpen,
-    isOpen,onClose,removeBlurEffect,mobileNumber}) {
+
+function SummaryCard({ summaryData, screenRef, setBlurEffect, mobileNumber}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -14,37 +14,36 @@ function SummaryCard({ summaryData ,screenRef,setBlurEffect,isRegModalOpen,
     const fullSummaryCardButton = ["/full-summary"];
     const fullSummaryCard = fullSummaryCardButton.includes(location.pathname);
 
-    // const screenRef = useRef(null);
-    
-        const handleDownloadPdf = async () => {
-            const element = screenRef.current;
-    
-            const elementHeight = element.scrollHeight;
-            const elementWidth = element.offsetWidth;
-            const canvas = await html2canvas(element, {
-                scale: 1,
-                width: elementWidth,
-                height: elementHeight,
-                scrollX: 0,
-                scrollY: 0,
-                useCORS: true,
-            });
-    
-            const imageData = canvas.toDataURL('image/png');
-    
-            const pdf = new jsPDF({
-                orientation: 'portrait',
-                unit: 'px',
-                format: [elementWidth, elementHeight],
-            });
-    
-            pdf.addImage(imageData, 'PNG', 0, 0, elementWidth, elementHeight);
-    
-            pdf.save(`Report-${summaryData?.rawData?.data?.profile?.fullName}.pdf`);
-        };
+    // const screenRef = useRef(null);    
+    const handleDownloadPdf = async () => {
+        const element = screenRef.current;
+
+        const elementHeight = element.scrollHeight;
+        const elementWidth = element.offsetWidth;
+        const canvas = await html2canvas(element, {
+            scale: 1,
+            width: elementWidth,
+            height: elementHeight,
+            scrollX: 0,
+            scrollY: 0,
+            useCORS: true,
+        });
+
+        const imageData = canvas.toDataURL('image/png');
+
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'px',
+            format: [elementWidth, elementHeight],
+        });
+
+        pdf.addImage(imageData, 'PNG', 0, 0, elementWidth, elementHeight);
+
+        pdf.save(`Report-${summaryData?.rawData?.data?.profile?.fullName}.pdf`);
+    };
 
     const fundDetails = () => {
-        navigate('/fund-details', {state: {summaryData, setBlurEffect,isRegModalOpen}})
+        navigate('/fund-details', {state: {summaryData, mobileNumber}})
     }
 
     const accountSummary = () => {

@@ -16,6 +16,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { useLocation } from "react-router-dom";
 import { formatCurrency, getClosingBalance } from "../../helper/data-transform";
+import { get } from "../common/api";
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,
     LinearScale,
     PointElement,
@@ -24,12 +25,13 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,
 
 function FundDetails() {
     const location = useLocation()
-    const { summaryData, setBlurEffect ,isRegModalOpen} = location.state || {};
+    const { summaryData, mobileNumber} = location.state || {};
 
     const [fundRoi, setFundRoi] = useState(true);
     const [pension, setPension] = useState(true);
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [fundYears, setFundYears] = useState(null)
+    const [isBlurred, setIsBlurred] = useState(true)
 
     const FundRoiDetails = () => {
         if (fundRoi) {
@@ -179,6 +181,19 @@ function FundDetails() {
         return { labels, datasets };
     };
 
+    // call the api to fetch the user report
+    const fetchData = async () => {
+        try {
+            const result = await get('/data/report/fetchByUan');
+            // check if payment done or not
+            if (result?.data) {
+                const isPaymentDone = result?.data?.userProfile?.isPaymentDone
+                if (isPaymentDone) setIsBlurred(false);
+            }
+        } catch (error) {
+        }
+    }
+    
     useEffect(() => {
         if (summaryData?.rawData) {
             const parseCurrency = (value) => Number(value.replace(/[₹,]/g, ""));
@@ -188,7 +203,7 @@ function FundDetails() {
 
             // set fund distribution chart data
             const { employeeShare, employerShare, pensionShare, interestShare } = balances;
-            console.log(balances)
+
             setFundDistributionChartData((prevData) => ({
                 ...prevData,
                 datasets: [
@@ -210,15 +225,27 @@ function FundDetails() {
 
             // set FY years from Fund Values 
             setFundYears(Object.keys(summaryData?.reportData?.fundValues));
-            console.log(Object.keys(summaryData?.reportData?.fundValues))
         }
     }, [summaryData])
+
+    useEffect(() => {        
+        // fetch payment status
+        fetchData()
+    }, [])
+    
+    const paymentModalClose = (isSuccess) => {
+        isSuccess ? setIsBlurred(false) : setIsBlurred(true)
+    }
 
     return (
         <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
                 <div className='col-md-7 col-lg-5 my-4'>
-                    <SummaryCard summaryData={summaryData} setBlurEffect={setBlurEffect}></SummaryCard>
+                    <SummaryCard
+                        summaryData={summaryData} 
+                        setBlurEffect={isBlurred}
+                        mobileNumber={mobileNumber}
+                    ></SummaryCard>
 
                     {/* Fund Distribution Chart  */}
                     <div className="card shadow-sm px-2 px-lg-4 py-3 my-3 d-flex flex-column">
@@ -323,7 +350,7 @@ function FundDetails() {
                                 <div className="text-center">
                                     <p className="fundDistribution">Fund ROI</p>
                                 </div>
-                                <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
+                                <div className={`${isBlurred ? 'blur-content' : ''}`}>
                                     <div className="d-flex align-items-center">
                                         <div className="w-100 px-2 px-lg-4">
                                             <table className="table">
@@ -356,13 +383,13 @@ function FundDetails() {
                                         </div>
                                     </div>
                                 </div>
-                                {setBlurEffect && (
+                                {isBlurred && (
                                     <div className="center-button">
                                         <button className="btn" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal" style={{ color: '#ffffff', backgroundColor: 'green' }}>Access Full Report <br></br>Just ₹99/-</button>
                                     </div>
                                 )}
-                                <ReportPaymentModal ></ReportPaymentModal>
+                                <ReportPaymentModal onClose={paymentModalClose} mobileNumber={mobileNumber}></ReportPaymentModal>
                             </div>
 
                         ) : (
@@ -395,7 +422,7 @@ function FundDetails() {
                             <div className="text-center">
                                 <p className="fundDistribution">Pension</p>
                             </div>
-                            <div className={`${setBlurEffect ? 'blur-content' : ''}`}>
+                            <div className={`${isBlurred ? 'blur-content' : ''}`}>
                                 <div className="d-flex align-items-center">
                                     <div className="w-100 px-2 px-lg-4">
                                         <table className="table">
