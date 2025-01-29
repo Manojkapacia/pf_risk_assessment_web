@@ -10,9 +10,9 @@ import { ExtractMobile } from '../common/extract-mobile';
 import { encryptData } from '../common/encryption-decryption';
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import otpPrimary from './../../assets/images/otpPrimary.png';
-import otpSuccess from './../../assets/images/otpSuccess.png';
-import otpError from './../../assets/images/otpError.png';
+import otpPrimary from './../../assets/images/otpPrimary.svg';
+import otpSuccess from './../../assets/images/otpSuccess.svg';
+import otpError from './../../assets/images/otpError.svg';
 
 function OtpComponent() {
     const location = useLocation();
