@@ -177,7 +177,7 @@ function LoginComponent() {
                 //         <p className="loader-text">Verifying UAN Number and Password</p>
                 //     </div>
                 // </div>
-                <div className="loader-overlay">
+                <div className="loader-overlay vh-100">
                     <div className="loader-container">
                         <div style={{ position: "relative", width: "9rem", height: "9rem" }}>
                             <CircularProgressbar
@@ -373,7 +373,7 @@ function LoginComponent() {
                         </div>
                     )}
 
-                    <footer className="gradient-footer text-white pt-4 mt-4">
+{!loading && <footer className="gradient-footer text-white pt-4 mt-4">
                         <div className="container mb-3">
                             <div className="mb-3 border-bottom pb-4">
                                 <div className="mx-4 d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start">
@@ -511,7 +511,8 @@ function LoginComponent() {
                                 </p>
                             </div>
                         </div>
-                    </footer>
+                    </footer>} 
+                    
 
                 </div>
             </div>
