@@ -6,13 +6,13 @@ import PfBalanceAnalysis from './pf-balance-analysis';
 import NextStep from './next-step';
 import SummaryCard from './summary-card';
 import ClaimRejection from './claim-rejection';
-import { decryptData } from '../common/encryption-decryption';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ConsultationModal from '../report/consultation-modal';
 import ModalComponent from '../report/registration-modal';
 import { get } from '../common/api';
 import ToastMessage from '../common/toast-message';
 import ReportPaymentModal from './reportPaymentModal';
+import MESSAGES from '../constants/messages';
 
 
 function TotalSummary() {
@@ -88,6 +88,25 @@ function TotalSummary() {
     }
 
     useEffect(() => {
+        // check if returned from phone pay screen 
+        const queryParams = new URLSearchParams(window.location.search);
+        const payParam = queryParams.get('pay'); // Get the `pay` query parameter
+
+        if (payParam) {
+          const decodedPay = atob(payParam); // Decode the Base64 value
+          if (decodedPay === 'true') {
+            setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
+          }
+          if (decodedPay === 'false') {
+            setMessage({ type: "error", content: MESSAGES.error.paymentFailed });
+          }
+          setTimeout(() => {
+            queryParams.delete('pay'); // Remove the `pay` parameter
+            const newUrl = `${window.location.pathname}`; // Rebuild the URL
+            window.history.replaceState(null, '', newUrl); // Update the URL without reloading the page
+          }, 5000);
+        }
+
         // call the function to get report and raw data by UAN
         fetchData()
     }, [])
