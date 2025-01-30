@@ -16,7 +16,7 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
 
     const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
-    const [loaderText, setLoaderText] = useState('Please wait...Redirecting to Payment Gateway');
+    const [loaderText, setLoaderText] = useState('Please wait...');
     const [paymentStatsData, setPaymentStatusData] = useState(null);
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
 
@@ -48,22 +48,25 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
                 navigate('/');
             } else {
                 // fetch the payment url
-                const payUrl = result?.data?.data?.instrumentResponse?.redirectInfo?.url
-                if (!payUrl) {
-                    setLoading(false);
-                    setMessage({ type: "error", content: MESSAGES.error.paymentUrlNotFound });
-                    return;
-                }
+                // const payUrl = result?.data?.data?.instrumentResponse?.redirectInfo?.url
+                // if (!payUrl) {
+                //     setLoading(false);
+                //     setMessage({ type: "error", content: MESSAGES.error.paymentUrlNotFound });
+                //     return;
+                // }
                 // navigate the user to phone pay page url
-                window.location.href = payUrl; 
+                // window.location.href = payUrl; 
                 // window.open(payUrl);
-                setLoaderText('Kindly complete the payment...')
+                // setLoaderText('Kindly complete the payment...')
 
                 // close the payment modal 
-                setLoading(false);
-                if (closeButtonRef.current) {
-                    closeButtonRef.current.click();
-                }
+                setTimeout(() => {
+                    setLoading(false);
+                    onClose(true);
+                    if (closeButtonRef.current) {
+                        closeButtonRef.current.click();
+                    }
+                }, 3000)
 
                 // Listen for payment status updates
                 // socket.on('paymentStatus', (data) => {

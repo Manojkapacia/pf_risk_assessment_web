@@ -28,6 +28,7 @@ function TotalSummary() {
     const [summaryData, setSummaryData] = useState(null)
     const [categoryDetailsFromReport, setCategoryDetailsFromReport] = useState([])
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
+    
     let amountStuck= summaryData?.reportData?.totalAmountStuck;
     const { profileData } = location.state || {};
 
@@ -51,7 +52,12 @@ function TotalSummary() {
 
     const paymentModalClose = (isSuccess) => {
         setPaymentModal(false);
-        isSuccess ? setIsBlurred(false) : setIsBlurred(true)
+        if(isSuccess) {
+            setIsBlurred(false)
+            setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
+        }else {
+            setIsBlurred(true)
+        }
     }
 
     const screenRef = useRef(null);
