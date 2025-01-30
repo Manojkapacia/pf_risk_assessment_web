@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SummaryCard from "./summary-card";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { Doughnut } from "react-chartjs-2";
@@ -17,6 +17,8 @@ import { Line } from "react-chartjs-2";
 import { useLocation } from "react-router-dom";
 import { formatCurrency, getClosingBalance } from "../../helper/data-transform";
 import { get } from "../common/api";
+import MESSAGES from "../constants/messages";
+import ToastMessage from "../common/toast-message";
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale,
     LinearScale,
     PointElement,
@@ -32,6 +34,20 @@ function FundDetails() {
     const [balanceDetails, setBalanceDetails] = useState(null)
     const [fundYears, setFundYears] = useState(null)
     const [isBlurred, setIsBlurred] = useState(true)
+    const [message, setMessage] = useState({ type: "", content: "" });
+    const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
+
+    // Toast Message Auto Clear
+    useEffect(() => {
+        if (message.type) {
+            isMessageActive.current = true; // Set active state when a message is displayed
+            const timer = setTimeout(() => {
+                setMessage({ type: "", content: "" });
+                isMessageActive.current = false; // Reset active state
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
 
     const FundRoiDetails = () => {
         if (fundRoi) {
@@ -229,16 +245,21 @@ function FundDetails() {
     }, [summaryData])
 
     useEffect(() => {        
-        // fetch payment status
         fetchData()
     }, [])
     
     const paymentModalClose = (isSuccess) => {
-        isSuccess ? setIsBlurred(false) : setIsBlurred(true)
+        if(isSuccess) {
+            setIsBlurred(false)
+            setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
+        }else {
+            setIsBlurred(true)
+        }
     }
 
     return (
         <div className="container">
+            {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="row d-flex justify-content-center align-items-center">
                 <div className='col-md-7 col-lg-5 my-4'>
                     <SummaryCard
