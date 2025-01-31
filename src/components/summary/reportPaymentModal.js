@@ -4,20 +4,19 @@ import { decryptData } from '../common/encryption-decryption';
 import { useNavigate } from 'react-router-dom';
 import loaderGif from '../../assets/images/Mobile-Payment.gif'
 import '../../css/summary/report-modal.css'
-import MESSAGES from '../constants/messages';
-import { io } from 'socket.io-client';
 import ToastMessage from '../common/toast-message';
+import { load } from "@cashfreepayments/cashfree-js";
 
 const ReportPaymentModal = ({ onClose, mobileNumber }) => {
+    const cashfreeRef = useRef(null); // Use ref to store cashfree instance
     const closeButtonRef = useRef(null); // Create a ref for the close button
-    // const socket = io('http://localhost:3001'); // Backend URL
 
     const navigate = useNavigate()
 
     const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
     const [loaderText, setLoaderText] = useState('Please wait...');
-    const [paymentStatsData, setPaymentStatusData] = useState(null);
+    const [paymentOrder, setPaymentOrderData] = useState(null);
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
 
     // Toast Message Auto Clear
@@ -32,11 +31,25 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
         }
     }, [message]);
 
+    useEffect(() => {
+        const initializeSDK = async () => {
+            cashfreeRef.current = await load({
+                mode: "sandbox"
+            });
+            console.log("Cashfree SDK Loaded:", cashfreeRef.current);
+        };
+        initializeSDK();
+    }, []); // Empty dependency array ensures this runs only once
+
 
     const handlePayment = async () => {
+        if (!cashfreeRef.current) {
+            console.error("Cashfree SDK is not initialized yet.");
+            return;
+        }        
         setLoading(true);
 
-        const result = await post('/payment/initiate-payment', { amount: 99, mobileNumber, uan: localStorage.getItem('user_uan') });
+        const result = await post('/payment/create-payment', { amount: 99, mobileNumber });
 
         try {
             if (result.status === 400) {
@@ -47,68 +60,19 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
                 localStorage.clear()
                 navigate('/');
             } else {
-                // fetch the payment url
-                // const payUrl = result?.data?.data?.instrumentResponse?.redirectInfo?.url
-                // if (!payUrl) {
-                //     setLoading(false);
-                //     setMessage({ type: "error", content: MESSAGES.error.paymentUrlNotFound });
-                //     return;
-                // }
-                // navigate the user to phone pay page url
-                // window.location.href = payUrl; 
-                // window.open(payUrl);
-                // setLoaderText('Kindly complete the payment...')
-
+                setLoaderText('Kindly complete the payment...')
+                setPaymentOrderData(result.data)
+                let checkoutOptions = {
+                    paymentSessionId: result.data.payment_session_id,
+                    redirectTarget: "_self",
+                };
+                cashfreeRef.current.checkout(checkoutOptions);
                 // close the payment modal 
-                setTimeout(() => {
-                    setLoading(false);
-                    onClose(true);
-                    if (closeButtonRef.current) {
-                        closeButtonRef.current.click();
-                    }
-                }, 3000)
-
-                // Listen for payment status updates
-                // socket.on('paymentStatus', (data) => {
-                //     setPaymentStatusData(data); // Update your UI accordingly
-                //     if (data.status.toUpperCase() === "SUCCESS") {
-                //         setLoaderText('Congratulations...Payment Successful!! You can access the Full Report now')
-                //         setTimeout(() => {
-                //             setLoading(false);
-                //             onClose(true);
-                //             removeBlurEffect(false);
-                //             if (closeButtonRef.current) {
-                //                 closeButtonRef.current.click();
-                //             }
-                //         }, 5000)
-                //     }
-                //     if (data.status.toUpperCase() === "FAILED") {
-                //         setLoaderText('Oops...Payment Failed!! Please try again later.')
-                //         setTimeout(() => {
-                //             setLoading(false);
-                //             onClose(false);
-                //             if (closeButtonRef.current) {
-                //                 closeButtonRef.current.click();
-                //             }
-                //         }, 5000)
-                //         // call refund api if or through scheduler
-                //     }
-                //     if (data.status.toUpperCase() === "PENDING") {
-                //         setLoaderText('Request goes in Pending State. Don\'t worry, your amount is safe with us, if deducted.')
-                //         setTimeout(() => {
-                //             // call refund api if or through scheduler
-                //             setLoading(false);
-                //             onClose(false);
-                //             if (closeButtonRef.current) {
-                //                 closeButtonRef.current.click();
-                //             }
-                //         }, 5000)
-                //     }
-                // });
-
-                // return () => {
-                //     socket.disconnect();
-                // }                
+                setLoading(false);
+                onClose(true);
+                if (closeButtonRef.current) {
+                    closeButtonRef.current.click();
+                }         
             }
         } catch (error) {
             setLoading(false);

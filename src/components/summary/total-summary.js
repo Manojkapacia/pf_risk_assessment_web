@@ -13,9 +13,10 @@ import { get } from '../common/api';
 import ToastMessage from '../common/toast-message';
 import ReportPaymentModal from './reportPaymentModal';
 import MESSAGES from '../constants/messages';
-
+import loaderGif from '../../assets/images/Mobile-Payment.gif'
 
 function TotalSummary() {
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -25,16 +26,14 @@ function TotalSummary() {
     const [isBlurred, setIsBlurred] = useState(true);
     const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
+    const [loaderText, setLoaderText] = useState("Fetching Report, Please wait...");
     const [summaryData, setSummaryData] = useState(null)
     const [categoryDetailsFromReport, setCategoryDetailsFromReport] = useState([])
+    const [paymentStatusData, setPaymentStatusData] = useState(null)
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
     
     let amountStuck= summaryData?.reportData?.totalAmountStuck;
     const { profileData } = location.state || {};
-
-    const handleReportModal = (value) => {
-        setIsBlurred(value);
-    };
 
     const handleModalOpen = () => {
         setIsBlurred(true);
@@ -93,24 +92,51 @@ function TotalSummary() {
         }
     }
 
-    useEffect(() => {
-        // check if returned from phone pay screen 
-        const queryParams = new URLSearchParams(window.location.search);
-        const payParam = queryParams.get('pay'); // Get the `pay` query parameter
+    // call the api to fetch the user report
+    const fetchPaymentStatus = async (orderId) => {
+        setLoaderText('Please Wait...checking your payment status')
+        setLoading(true)
+        try {          
+            const result = await get(`/payment/check-payment-status/${orderId}`);
+            setPaymentStatusData(result.data)
+            
+            setTimeout(() => {
+                setLoading(false);
+                setLoaderText('Fetching Report, Please wait...')
+                
+                if (result.status === 400) {
+                    setMessage({ type: "error", content: result.message });
+                } else if (result.status === 401) {
+                    localStorage.clear()
+                    navigate('/');
+                } else {
+                    if (result.data.payment_status.toUpperCase() === "SUCCESS") {
+                        setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
+                    } else if (result.data.payment_status.toUpperCase() === "FAILURE") {
+                        setMessage({ type: "error", content: MESSAGES.error.paymentFailed });
+                    } else {
+                        setMessage({ type: "error", content: MESSAGES.error.paymentProcessingIssue });
+                    }
+                    setTimeout(() => {
+                        const queryParams = new URLSearchParams(window.location.search);
+                        queryParams.delete('order_id'); // Remove the `pay` parameter
+                        const newUrl = `${window.location.pathname}`; // Rebuild the URL
+                        window.history.replaceState(null, '', newUrl); // Update the URL without reloading the page
+                    }, 5000);
+                }
+            }, 3000)
+        } catch (error) {
+            setLoading(false);
+            setMessage({ type: "error", content: MESSAGES.error.paymentProcessingIssue });
+        }
+    }
 
-        if (payParam) {
-          const decodedPay = atob(payParam); // Decode the Base64 value
-          if (decodedPay === 'true') {
-            setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
-          }
-          if (decodedPay === 'false') {
-            setMessage({ type: "error", content: MESSAGES.error.paymentFailed });
-          }
-          setTimeout(() => {
-            queryParams.delete('pay'); // Remove the `pay` parameter
-            const newUrl = `${window.location.pathname}`; // Rebuild the URL
-            window.history.replaceState(null, '', newUrl); // Update the URL without reloading the page
-          }, 5000);
+    useEffect(() => {
+        // fetch payment status basis on order Id
+        const queryParams = new URLSearchParams(window.location.search);
+        const orderId = queryParams.get('order_id'); // Get the `pay` query parameter        
+        if (orderId) {
+            fetchPaymentStatus(orderId)
         }
 
         // call the function to get report and raw data by UAN
@@ -218,7 +244,8 @@ function TotalSummary() {
             {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">
-                        <p className="loader-text">Fetching Report, Please wait...</p>
+                        <img className='loader-img-pay-modal' src={loaderGif} alt="Loading..." />
+                        <p className="loader-text">{loaderText}</p>
                     </div>
                 </div>
             )}
