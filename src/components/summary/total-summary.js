@@ -53,7 +53,6 @@ function TotalSummary() {
         setPaymentModal(false);
         if(isSuccess) {
             setIsBlurred(false)
-            setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
         }else {
             setIsBlurred(true)
         }
