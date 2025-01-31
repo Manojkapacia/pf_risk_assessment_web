@@ -69,7 +69,6 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
                 cashfreeRef.current.checkout(checkoutOptions);
                 // close the payment modal 
                 setLoading(false);
-                onClose(true);
                 if (closeButtonRef.current) {
                     closeButtonRef.current.click();
                 }         
