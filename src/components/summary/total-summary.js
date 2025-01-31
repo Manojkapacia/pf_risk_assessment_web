@@ -94,8 +94,8 @@ function TotalSummary() {
 
     // call the api to fetch the user report
     const fetchPaymentStatus = async (orderId) => {
-        setLoaderText('Please Wait...checking your payment status')
         setLoading(true)
+        setLoaderText('Please Wait...checking your payment status')
         try {          
             const result = await get(`/payment/check-payment-status/${orderId}`);
             setPaymentStatusData(result.data)
@@ -132,15 +132,17 @@ function TotalSummary() {
     }
 
     useEffect(() => {
+        // call the function to get report and raw data by UAN
+        fetchData()
+        
         // fetch payment status basis on order Id
         const queryParams = new URLSearchParams(window.location.search);
         const orderId = queryParams.get('order_id'); // Get the `pay` query parameter        
         if (orderId) {
-            fetchPaymentStatus(orderId)
+            setTimeout(() => {
+                fetchPaymentStatus(orderId)
+            }, 2000)
         }
-
-        // call the function to get report and raw data by UAN
-        fetchData()
     }, [])
 
     // Toast Message Auto Clear
