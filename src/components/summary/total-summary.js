@@ -111,9 +111,12 @@ function TotalSummary() {
                 } else {
                     if (result.data.payment_status.toUpperCase() === "SUCCESS") {
                         setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
+                        paymentModalClose(true)
                     } else if (result.data.payment_status.toUpperCase() === "FAILURE") {
+                        paymentModalClose(false)
                         setMessage({ type: "error", content: MESSAGES.error.paymentFailed });
                     } else {
+                        paymentModalClose(false)
                         setMessage({ type: "error", content: MESSAGES.error.paymentProcessingIssue });
                     }
                     setTimeout(() => {
