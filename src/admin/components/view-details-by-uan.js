@@ -22,6 +22,7 @@ function ViewDetailsByUan() {
     const [currentView, setCurrentView] = useState("parent");
     const [typingTimeout, setTypingTimeout] = useState(null);
     const [uanData, setUanData] = useState(null)
+    const [profileData, setUserProfileData] = useState(null)
     const [loading, setLoading] = useState(false);
     const [uanList, setUanList] = useState([]);
     const [searchList, setSearchList] = useState([]);
@@ -102,7 +103,8 @@ function ViewDetailsByUan() {
                         setShowUanDetails(false);
                         navigate('/operation/login');
                     } else {
-                        setUanData(response);
+                        setUanData(response.rawData);
+                        setUserProfileData(response.profileData)
                     }
                 } catch (error) {
                     console.error("Error fetching data:", error);
@@ -324,7 +326,7 @@ function ViewDetailsByUan() {
                             </div>
                         </div>
                     ) : currentView === "profile" ? (
-                        <Profile jsonData={uanData} onBack={() => setCurrentView("parent")} />
+                        <Profile jsonData={uanData} profileData={profileData} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "serviceHistory" ? (
                         <ServiceHistory jsonData={uanData} onBack={() => setCurrentView("parent")} />
                     ) : currentView === "pfpassbook" ? (
