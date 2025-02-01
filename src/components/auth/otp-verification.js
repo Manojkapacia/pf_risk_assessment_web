@@ -311,7 +311,7 @@ function OtpComponent() {
 
                                 )}
                             {imageSrc === otpSuccess && (
-                                <span style={{ color: "green" }}>Success!!</span>
+                                <span style={{ color: "green" }}>OTP Verified Successfully!!</span>
                             )}
                             {imageSrc === otpError && (
                                 <span style={{ color: "red" }}>Incorrect OTP.....</span>

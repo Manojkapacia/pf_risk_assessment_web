@@ -4,7 +4,7 @@ const MESSAGES = {
         otpSent: "OTP has been sent successfully.",
         otpVerified: "OTP has been verified successfully.",
         loginSuccess: "Logged in successfully",
-        paymentSuccess: "Congratulations...Payment Successful!! You can access the Full Report now"
+        paymentSuccess: "🥳 Woohoo, Payment Successful! You can access the FULL report now."
     },
     error: {
         invalidEpfoCredentials: "Invalid UAN or password. Try resetting password with the mobile number registred with finright or EPFO",
@@ -25,7 +25,8 @@ const MESSAGES = {
         ZOHOError: "Provide new details",
         generic: "Server Error, Please try again later",
         paymentUrlNotFound: "We encountered an issue while processing your payment. Please try again later.",
-        paymentFailed: "Oops!! There is some issue processing your payment currently. Please try again later."
+        paymentProcessingIssue: "Oops!! There is some issue processing your payment currently. Please try again later.",
+        paymentFailed: "Oops, Payment Failed!! Please try again later"
     },
     labels: {
         otp: "Enter OTP",

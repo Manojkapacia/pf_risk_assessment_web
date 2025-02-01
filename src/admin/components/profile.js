@@ -1,7 +1,9 @@
+import moment from "moment";
 import React from "react";
 import { ArrowLeft } from 'react-bootstrap-icons';
+import { BsCheck2Circle, BsXLg } from "react-icons/bs";
 
-function Profile({ jsonData, onBack }) {
+function Profile({ jsonData, profileData, onBack }) {
     return (
         <div className="container">
             <div className="row">
@@ -20,10 +22,22 @@ function Profile({ jsonData, onBack }) {
                             <div style={{ width: '3.1rem' }}></div>
                         </div>
                         <div className="card-body">
-                            <p><strong>UAN:</strong> {jsonData.data.profile.UAN}</p>
-                            <p><strong>Full Name:</strong> {jsonData.data.profile.fullName}</p>
-                            <p><strong>Phone:</strong> {jsonData.data.profile.phone}</p>
-                            <p><strong>Email:</strong> {jsonData.data.profile.email}</p>
+                            <p><strong>UAN:</strong> {jsonData?.data?.profile?.UAN}</p>
+                            <p><strong>Full Name:</strong> {jsonData?.data?.profile?.fullName}</p>
+                            <p><strong>Phone:</strong> {jsonData?.data?.profile?.phone}</p>
+                            <p><strong>Email:</strong> {jsonData?.data?.profile?.email}</p>
+                            <p>
+                                <strong>Payment Status:</strong> {profileData?.isPaymentDone ? (
+                                <span style={{ color: "green" }}>
+                                    <BsCheck2Circle /> Done
+                                </span>
+                                ) : (
+                                    <span style={{ color: "red" }}>
+                                    <BsXLg /> Pending
+                                    </span>
+                                )}
+                            </p>
+                            <p><strong>Payment Processed At:</strong> {profileData?.paymentProcessedAt ? moment(profileData?.paymentProcessedAt).format("DD-MM-YYYY HH:MM:SS") : 'Not Initiated Yet!!'}</p>
 
                             <div className="accordion" id="accordionExample">
                                 {/* Accordion Item 1 */}

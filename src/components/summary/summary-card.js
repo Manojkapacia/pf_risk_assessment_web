@@ -5,10 +5,8 @@ import { formatCurrency } from "../../helper/data-transform";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-import ReportDownloadTemplate from './report-download-template';
 
-function SummaryCard({ summaryData, screenRef, setBlurEffect, isRegModalOpen,
-    isOpen, onClose, removeBlurEffect, mobileNumber }) {
+function SummaryCard({ summaryData, screenRef, setBlurEffect, mobileNumber}) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -17,14 +15,7 @@ function SummaryCard({ summaryData, screenRef, setBlurEffect, isRegModalOpen,
     const fullSummaryCardButton = ["/full-summary"];
     const fullSummaryCard = fullSummaryCardButton.includes(location.pathname);
 
-    const userData = [
-        { name: "John Doe", email: "john@example.com", address: "123 Street, NY" },
-        { name: "Jane Smith", email: "jane@example.com", address: "456 Avenue, CA" },
-        { name: "Alice Brown", email: "alice@example.com", address: "789 Blvd, TX" },
-    ];
-
-    // const screenRef = useRef(null);
-
+    // const screenRef = useRef(null);    
     const handleDownloadPdf = async () => {
         const element = screenRef.current;
 
@@ -53,7 +44,7 @@ function SummaryCard({ summaryData, screenRef, setBlurEffect, isRegModalOpen,
     };
 
     const fundDetails = () => {
-        navigate('/fund-details', { state: { summaryData, setBlurEffect, isRegModalOpen } })
+        navigate('/fund-details', {state: {summaryData, mobileNumber, setBlurEffect, isRegModalOpen }})
     }
 
     const accountSummary = () => {
