@@ -29,6 +29,7 @@ import AccountSummary from './components/report/summary';
 import TotalSummary from './components/summary/total-summary';
 import AccountDetails from './components/summary/account-details';
 import FundDetails from './components/summary/fund-details';
+import ReportDownloadTemplate from './components/summary/report-download-template';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
             <Route path='/full-summary' element={<AuthGuard><TotalSummary /></AuthGuard>} />
             <Route path='/account-details' element={<AuthGuard><AccountDetails /></AuthGuard>} />
             <Route path='/fund-details' element={<AuthGuard><FundDetails /></AuthGuard>} />
+            <Route path='/report-download' element={<ReportDownloadTemplate />} />
             <Route path="*" element={<PageNotFound />} />
 
           </Routes>

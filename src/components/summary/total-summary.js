@@ -168,6 +168,7 @@ function TotalSummary() {
         const categoryData = summaryData?.reportData?.withdrawabilityCheckupReport.find((item) => item.category.toUpperCase() === category.toUpperCase())
 
         return {
+            isEpsMember: categoryData?.isEpsMember,
             totalCritical: categoryData?.totalCritical,
             totalMedium: categoryData?.totalMedium,
             consolidatedErrorMessage: categoryData?.subCategory
@@ -557,7 +558,7 @@ function TotalSummary() {
                                         className={getSelectedCategoryData('Employment History')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
                                         <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
                                             <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                            <b>{getSelectedCategoryData('Employment History')?.totalCritical + getSelectedCategoryData('Employment History')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Employment History')?.consolidatedErrorMessage}
+                                            <b>{getSelectedCategoryData('Employment History')?.totalCritical} Issue Found:</b> {getSelectedCategoryData('Employment History')?.consolidatedErrorMessage}
                                         </p>
                                     </div>
                                 }

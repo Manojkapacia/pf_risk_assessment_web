@@ -1,11 +1,14 @@
-import React, { useEffect, useState ,useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import './../../css/summary/summary-card.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { formatCurrency } from "../../helper/data-transform";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
-function SummaryCard({ summaryData ,screenRef,setBlurEffect,isRegModalOpen,
-    isOpen,onClose,removeBlurEffect,mobileNumber}) {
+import ReportDownloadTemplate from './report-download-template';
+
+function SummaryCard({ summaryData, screenRef, setBlurEffect, isRegModalOpen,
+    isOpen, onClose, removeBlurEffect, mobileNumber }) {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -14,41 +17,47 @@ function SummaryCard({ summaryData ,screenRef,setBlurEffect,isRegModalOpen,
     const fullSummaryCardButton = ["/full-summary"];
     const fullSummaryCard = fullSummaryCardButton.includes(location.pathname);
 
+    const userData = [
+        { name: "John Doe", email: "john@example.com", address: "123 Street, NY" },
+        { name: "Jane Smith", email: "jane@example.com", address: "456 Avenue, CA" },
+        { name: "Alice Brown", email: "alice@example.com", address: "789 Blvd, TX" },
+    ];
+
     // const screenRef = useRef(null);
-    
-        const handleDownloadPdf = async () => {
-            const element = screenRef.current;
-    
-            const elementHeight = element.scrollHeight;
-            const elementWidth = element.offsetWidth;
-            const canvas = await html2canvas(element, {
-                scale: 1,
-                width: elementWidth,
-                height: elementHeight,
-                scrollX: 0,
-                scrollY: 0,
-                useCORS: true,
-            });
-    
-            const imageData = canvas.toDataURL('image/png');
-    
-            const pdf = new jsPDF({
-                orientation: 'portrait',
-                unit: 'px',
-                format: [elementWidth, elementHeight],
-            });
-    
-            pdf.addImage(imageData, 'PNG', 0, 0, elementWidth, elementHeight);
-    
-            pdf.save(`Report-${summaryData?.rawData?.data?.profile?.fullName}.pdf`);
-        };
+
+    const handleDownloadPdf = async () => {
+        const element = screenRef.current;
+
+        const elementHeight = element.scrollHeight;
+        const elementWidth = element.offsetWidth;
+        const canvas = await html2canvas(element, {
+            scale: 1,
+            width: elementWidth,
+            height: elementHeight,
+            scrollX: 0,
+            scrollY: 0,
+            useCORS: true,
+        });
+
+        const imageData = canvas.toDataURL('image/png');
+
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'px',
+            format: [elementWidth, elementHeight],
+        });
+
+        pdf.addImage(imageData, 'PNG', 0, 0, elementWidth, elementHeight);
+
+        pdf.save(`Report-${summaryData?.rawData?.data?.profile?.fullName}.pdf`);
+    };
 
     const fundDetails = () => {
-        navigate('/fund-details', {state: {summaryData, setBlurEffect,isRegModalOpen}})
+        navigate('/fund-details', { state: { summaryData, setBlurEffect, isRegModalOpen } })
     }
 
     const accountSummary = () => {
-        navigate('/account-details', {state: {summaryData, setBlurEffect}});
+        navigate('/account-details', { state: { summaryData, setBlurEffect } });
     }
 
     const getfullSummary = () => {
@@ -76,6 +85,7 @@ function SummaryCard({ summaryData ,screenRef,setBlurEffect,isRegModalOpen,
             setTotalBalance(formatCurrency(totalBalance))
         }
     }, [])
+    
 
     return (
         <div className="card text-white totalSummaryCard">
@@ -115,14 +125,33 @@ function SummaryCard({ summaryData ,screenRef,setBlurEffect,isRegModalOpen,
                             Fund Details
                         </button>
                         {/* <div className="border-start" style={{ height: '2rem' }}></div> */}
-                        <button 
+                        {/* <button 
                             className="btn summaryCardBtn" 
                             onClick={handleDownloadPdf}
                             style={{ filter: setBlurEffect ? "blur(1px)" : "none"}}
                             disabled={setBlurEffect}
                         >
                             <i className="bi bi-download me-2"></i> Report
-                        </button>
+                        </button> */}
+                        <PDFDownloadLink
+                            document={<ReportDownloadTemplate summaryData={summaryData} />}
+                            fileName="report.pdf"
+                            style={{
+                                pointerEvents: setBlurEffect ? "none" : "auto",
+                                cursor: setBlurEffect ? "not-allowed" : "pointer",
+                            }}
+                        >
+                            <button
+                                className="btn summaryCardBtn"
+                                style={{
+                                    filter: setBlurEffect ? "blur(1px)" : "none",
+                                    opacity: setBlurEffect ? 0.6 : 1,          
+                                }}
+                                disabled={setBlurEffect}
+                            >
+                                <i className="bi bi-download me-2"></i> Report
+                            </button>
+                        </PDFDownloadLink>
                     </>
                 ) : (
                     <button
