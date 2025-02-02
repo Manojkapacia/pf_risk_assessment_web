@@ -1,7 +1,8 @@
-import React, { useEffect, useState ,useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import './../../css/summary/summary-card.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { formatCurrency } from "../../helper/data-transform";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 
@@ -43,11 +44,11 @@ function SummaryCard({ summaryData, screenRef, setBlurEffect, mobileNumber}) {
     };
 
     const fundDetails = () => {
-        navigate('/fund-details', {state: {summaryData, mobileNumber}})
+        navigate('/fund-details', {state: {summaryData, mobileNumber, setBlurEffect, isRegModalOpen }})
     }
 
     const accountSummary = () => {
-        navigate('/account-details', {state: {summaryData, setBlurEffect}});
+        navigate('/account-details', { state: { summaryData, setBlurEffect } });
     }
 
     const getfullSummary = () => {
@@ -75,6 +76,7 @@ function SummaryCard({ summaryData, screenRef, setBlurEffect, mobileNumber}) {
             setTotalBalance(formatCurrency(totalBalance))
         }
     }, [])
+    
 
     return (
         <div className="card text-white totalSummaryCard">
@@ -114,14 +116,33 @@ function SummaryCard({ summaryData, screenRef, setBlurEffect, mobileNumber}) {
                             Fund Details
                         </button>
                         {/* <div className="border-start" style={{ height: '2rem' }}></div> */}
-                        <button 
+                        {/* <button 
                             className="btn summaryCardBtn" 
                             onClick={handleDownloadPdf}
                             style={{ filter: setBlurEffect ? "blur(1px)" : "none"}}
                             disabled={setBlurEffect}
                         >
                             <i className="bi bi-download me-2"></i> Report
-                        </button>
+                        </button> */}
+                        <PDFDownloadLink
+                            document={<ReportDownloadTemplate summaryData={summaryData} />}
+                            fileName="report.pdf"
+                            style={{
+                                pointerEvents: setBlurEffect ? "none" : "auto",
+                                cursor: setBlurEffect ? "not-allowed" : "pointer",
+                            }}
+                        >
+                            <button
+                                className="btn summaryCardBtn"
+                                style={{
+                                    filter: setBlurEffect ? "blur(1px)" : "none",
+                                    opacity: setBlurEffect ? 0.6 : 1,          
+                                }}
+                                disabled={setBlurEffect}
+                            >
+                                <i className="bi bi-download me-2"></i> Report
+                            </button>
+                        </PDFDownloadLink>
                     </>
                 ) : (
                     <button
