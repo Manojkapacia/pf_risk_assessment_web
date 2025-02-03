@@ -33,6 +33,7 @@ import ScrollToTop from "./components/common/ScrollToTop";
 
 function App() {
   return (
+    <div className='flex-grow-1 overflow-auto setBackGround'>
     <Router>
       <ScrollToTop /> 
       <Layout>
@@ -63,6 +64,7 @@ function App() {
         </Routes>
       </Layout>
     </Router>
+    </div>
   );
 }
 

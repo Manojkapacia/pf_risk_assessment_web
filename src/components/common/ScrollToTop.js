@@ -5,10 +5,13 @@ export default function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth" 
-    });
+    const scrollableDiv = document.querySelector('.setBackGround'); 
+    if (scrollableDiv) {
+      scrollableDiv.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
   }, [pathname]);
 
   return null;
