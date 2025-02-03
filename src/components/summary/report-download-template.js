@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Image ,Font } from "@react-pdf/renderer";
 import FinRightlogo from './../../assets/images/FinRightlogo.png';
 import HighRisk from './../../assets/images/highRiskMeter.png';
 import ModerateRisk from './../../assets/images/moderateRiskMeter.png';
@@ -9,9 +9,15 @@ import { formatCurrency, getClosingBalance, getLastContribution } from './../../
 import checkIcon from './../../assets/images/correct.png';
 import crossIcon from './../../assets/images/incorrect.png';
 import warning from './../../assets/images/warning.png';
+Font.register({
+    family: "Roboto",
+    src: "/fonts/Roboto-Regular.ttf",
+    fontWeight: "normal",
+  });
 
 // Define PDF styles
 const styles = StyleSheet.create({
+    price: { fontFamily: "Roboto", fontSize: 14, fontWeight: "bold" },
     // page: {
     //     position: "relative",
     //     width: "100%",
@@ -32,6 +38,7 @@ const styles = StyleSheet.create({
     //     opacity: 0.2,
     //   },
     page: {
+        fontFamily: "Roboto",
         position: "relative",
         width: "100%",
         height: "100%",
@@ -302,8 +309,8 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             <Text style={{ ...styles.text, marginBottom: 0 }}>
                                 Thank you for trusting FinRight.
                             </Text>
-                            <Text style={{ ...styles.text, marginTop: 10 }}>
-                                After serving more than 5000 customers and settling more than Rs. 20 Crore PF claims, our research helped us create the PF withdrawability check, which checks if there are any issues in your provident fund balance.
+                            <Text style={{ ...styles.price,...styles.text, marginTop: 10 }}>
+                                After serving more than 5000 customers and settling more than ₹ 20 Crore PF claims, our research helped us create the PF withdrawability check, which checks if there are any issues in your provident fund balance.
                             </Text>
                             <Text style={{ ...styles.text, marginTop: 20 }}>
                                 On average, 40% of your entire net worth is in provident fund that you sacrifice as part of your salary. This is your hard-earned money that secures your retirement or provides a cushion in times of emergency. You should have access to it at all times, and having even a single rupee blocked should be unacceptable.
@@ -354,7 +361,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             <View style={styles.tableRow}>
                                 <Text style={styles.tableCell}>Issues Identified</Text>
                                 <Text style={[styles.tableCell, styles.boldText]}>{summaryData?.reportData?.totalIssuesFound?.critical > 0 ? (summaryData?.reportData?.totalIssuesFound?.critical + " " + "Critical") : " "}
-                                    {summaryData?.reportData?.totalIssuesFound?.medium > 0 ? " & " +summaryData?.reportData?.totalIssuesFound?.medium + " " + 'Medium' : ''}
+                                    {summaryData?.reportData?.totalIssuesFound?.medium > 0 ? +summaryData?.reportData?.totalIssuesFound?.medium + " " + 'Medium' : ''}
                                     {(summaryData?.reportData?.totalIssuesFound?.critical === 0 && summaryData?.reportData?.totalIssuesFound?.medium === 0) ? "No Issues" : ''}</Text>
                             </View>
                             <View style={styles.tableRow}>
@@ -363,19 +370,19 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             </View>
                             <View style={styles.tableRow}>
                                 <Text style={styles.tableCell}>Total Corpus</Text>
-                                <Text style={[styles.tableCell, styles.boldText]}>Rs. {removeCurrencySymbol(summaryData?.reportData?.totalPfBalance)}</Text>
+                                <Text style={[styles.tableCell,styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.totalPfBalance)}</Text>
                             </View>
                             <View style={styles.tableRow}>
                                 <Text style={styles.tableCell}>Amount Blocked</Text>
-                                <Text style={[styles.tableCell, styles.boldText]}>Rs. {removeCurrencySymbol(summaryData?.reportData?.totalAmountStuck)}</Text>
+                                <Text style={[styles.tableCell,styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.totalAmountStuck)}</Text>
                             </View>
                             <View style={styles.tableRow}>
                                 <Text style={styles.tableCell}>Maximum Withdrawal Limit</Text>
-                                <Text style={[styles.tableCell, styles.boldText]}>Rs. {removeCurrencySymbol(summaryData?.reportData?.maxWithdrawableLimit)}</Text>
+                                <Text style={[styles.tableCell,styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.maxWithdrawableLimit)}</Text>
                             </View>
                             <View style={styles.tableRow}>
                                 <Text style={styles.tableCell}>Amount Withdrawable in 30 Days</Text>
-                                <Text style={[styles.tableCell, styles.boldText]}>Rs. {removeCurrencySymbol(summaryData?.reportData?.amountWithdrawableWithin30Days)}</Text>
+                                <Text style={[styles.tableCell,styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.amountWithdrawableWithin30Days)}</Text>
                             </View>
 
                         </View>
@@ -454,11 +461,11 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             </View>
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>Last Contribution</Text>
-                                <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>Rs. {removeCurrencySymbol(lastContribution)}</Text>
+                                <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5,...styles.price }}>₹ {removeCurrencySymbol(lastContribution)}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>{balanceDetails?.year}  Interest</Text>
-                                <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>Rs. {removeCurrencySymbol(balanceDetails?.currentYearInterestShare)}</Text>
+                                <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5,...styles.price }}>₹ {removeCurrencySymbol(balanceDetails?.currentYearInterestShare)}</Text>
                             </View>
                         </View>
                         <View style={{ borderTop: 1, marginBottom: 30 }} />
@@ -480,7 +487,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                                 <View style={{ flexDirection: 'row', borderTop: 1 }} key={index}>
                                     <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>{row?.company}</Text>
                                     <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5, marginLeft: 10 }}>{row?.period}</Text>
-                                    <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5, marginLeft: 10 }}>Rs. {removeCurrencySymbol(getMemberWiseBalance(row?.details?.['Member Id']))}</Text>
+                                    <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5, marginLeft: 10,...styles.price}}>₹ {removeCurrencySymbol(getMemberWiseBalance(row?.details?.['Member Id']))}</Text>
                                     <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>{formatDuration(row?.details?.['Total Service'])}</Text>
                                 </View>
                             ))}
@@ -1239,8 +1246,8 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1 }}>Amount contributed by you</Text>
                                 <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5, marginBottom: 5 }}>
-                                    <Text>
-                                        {"Rs." + " " + removeCurrencySymbol(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}
+                                    <Text style={styles.price }>
+                                        {"₹" + " " + removeCurrencySymbol(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}
                                     </Text>
                                 </View>
                             </View>
@@ -1255,8 +1262,8 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1 }}>TDS on Withdrawal</Text>
                                 <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5, marginBottom: 5 }}>
-                                    <Text>
-                                        {"Rs." + " " + removeCurrencySymbol(summaryData?.reportData?.tdsOnWithdrawal) || "-"}
+                                    <Text style={styles.price}>
+                                        {"₹" + " " + removeCurrencySymbol(summaryData?.reportData?.tdsOnWithdrawal) || "-"}
                                     </Text>
                                 </View>
                             </View>
@@ -1294,16 +1301,16 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1, }}>Total Pension Balance</Text>
                                 <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5, marginBottom: 5 }}>
-                                    <Text>
-                                        {"Rs" + " " + removeCurrencySymbol(summaryData?.reportData?.amountContributed?.totalPensionShare) || "-"}
+                                    <Text style={styles.price}>
+                                        {"₹" + " " + removeCurrencySymbol(summaryData?.reportData?.amountContributed?.totalPensionShare) || "-"}
                                     </Text>
                                 </View>
                             </View>
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1 }}>Lump sum Pension Withdrawal</Text>
                                 <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5, marginBottom: 5 }}>
-                                    <Text>
-                                        {"Rs" + " " + removeCurrencySymbol(summaryData?.reportData?.pensionWithdrability?.withdrawableAmount) || "-"}
+                                    <Text style={styles.price}>
+                                        {"₹" + " " + removeCurrencySymbol(summaryData?.reportData?.pensionWithdrability?.withdrawableAmount) || "-"}
                                     </Text>
                                 </View>
                             </View>
@@ -1311,8 +1318,8 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                                 <Text style={{ flex: 1 }}>Monthly Pension</Text>
                                 <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5, marginBottom: 5 }}>
                                     {summaryData?.reportData?.pensionWithdrability?.message === "" &&
-                                        <Text>
-                                            {"Rs" + " " + removeCurrencySymbol(summaryData?.reportData?.pensionWithdrability?.pensionAmountPerMonth) || "-"}
+                                        <Text style={styles.price}>
+                                            {"₹" + " " + removeCurrencySymbol(summaryData?.reportData?.pensionWithdrability?.pensionAmountPerMonth) || "-"}
                                         </Text>
                                     }
                                     {summaryData?.reportData?.pensionWithdrability?.message !== "" &&

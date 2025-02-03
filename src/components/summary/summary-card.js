@@ -5,8 +5,10 @@ import { formatCurrency } from "../../helper/data-transform";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import ReportDownloadTemplate from "./report-download-template";
 
 function SummaryCard({ summaryData, screenRef, setBlurEffect, mobileNumber}) {
+    
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -44,7 +46,7 @@ function SummaryCard({ summaryData, screenRef, setBlurEffect, mobileNumber}) {
     };
 
     const fundDetails = () => {
-        navigate('/fund-details', {state: {summaryData, mobileNumber, setBlurEffect, isRegModalOpen }})
+        navigate('/fund-details', {state: {summaryData, mobileNumber }})
     }
 
     const accountSummary = () => {
@@ -126,7 +128,7 @@ function SummaryCard({ summaryData, screenRef, setBlurEffect, mobileNumber}) {
                         </button> */}
                         <PDFDownloadLink
                             document={<ReportDownloadTemplate summaryData={summaryData} />}
-                            fileName="report.pdf"
+                            fileName={`${summaryData?.rawData?.data?.profile?.basicDetails?.fullName}_report.pdf`}
                             style={{
                                 pointerEvents: setBlurEffect ? "none" : "auto",
                                 cursor: setBlurEffect ? "not-allowed" : "pointer",

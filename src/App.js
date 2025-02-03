@@ -1,4 +1,5 @@
 import './App.css';
+import 'typeface-roboto';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginComponent from './components/auth/login';
 import OtpComponent from './components/auth/otp-verification';
