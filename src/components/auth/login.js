@@ -485,6 +485,11 @@ function LoginComponent() {
                                                 Refund Policy
                                             </a>
                                         </li>
+                                        <li>
+                                            <a onClick={() => navigate("/pricing")} target="_blank" className="text-white" style={{ textDecoration: 'none',cursor:'pointer' }}>
+                                                 Pricing 
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div className="col-md-3 mb-3">
