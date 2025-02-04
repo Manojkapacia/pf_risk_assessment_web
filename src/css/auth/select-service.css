@@ -1,0 +1,62 @@
+.epf-card {
+    /* width: 260px; */
+    border: 1px solid #f0f0f0;
+    border-radius: 1rem !important;
+    overflow: hidden;
+    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+}
+
+/* .epf-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+} */
+
+.epf-header {
+    background-color: #ff6600;
+    height: 5px;
+    border-radius: 1rem 1rem 0 0 !important;
+}
+
+/* .icon-placeholder {
+    font-size: 30px;
+    margin-bottom: 10px;
+} */
+
+.pricing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-weight: 500;
+}
+
+.new-price {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #002d72;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #001a4d;
+}
+.setMarginTopBtm{
+    margin-top: 2rem !important;
+    margin-bottom: 8rem !important;
+}
+
+@media only screen and (max-width: 500px) {
+    .setMarginTopBtm{
+        /* margin-top: 2rem !important; */
+        margin-bottom: 3rem !important;
+    }
+}
