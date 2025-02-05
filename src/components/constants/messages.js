@@ -4,8 +4,8 @@ const MESSAGES = {
         otpSent: "OTP has been sent successfully.",
         otpVerified: "OTP has been verified successfully.",
         loginSuccess: "Logged in successfully",
-        // paymentSuccess: "🥳 Woohoo, Payment Successful! You can access the FULL report now."
-        paymentSuccess: "🥳 Woohoo! As a valued beta user, this report is absolutely FREE for you! 🎁"
+        paymentSuccess: "🥳 Woohoo, Payment Successful! You can access the FULL report now."
+        // paymentSuccess: "🥳 Woohoo! As a valued beta user, this report is absolutely FREE for you! 🎁"
     },
     error: {
         invalidEpfoCredentials: "Invalid UAN or password. Try resetting password with the mobile number registred with finright or EPFO",
