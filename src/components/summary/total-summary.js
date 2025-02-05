@@ -49,25 +49,15 @@ function TotalSummary() {
         setConsultationModal(false);
     }
 
-    // const paymentModalClose = (isSuccess) => {
-    //     setPaymentModal(false);
-    //     if(isSuccess) {
-    //         setIsBlurred(false)
-    //     }else {
-    //         setIsBlurred(true)
-    //     }
-    // }
-
     const paymentModalClose = (isSuccess) => {
         setPaymentModal(false);
         if(isSuccess) {
             setIsBlurred(false)
-            setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
         }else {
             setIsBlurred(true)
         }
     }
-    
+
     const screenRef = useRef(null);
 
     // call the api to fetch the user report
