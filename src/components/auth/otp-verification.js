@@ -22,6 +22,7 @@ function OtpComponent() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: "", content: "" });
     const [timer, setTimer] = useState(45);
+    const [otpTimer, setOtpTimer]= useState(120);
     const [triggerApiCall, setTriggerApiCall] = useState(false);
     const [mobileNumber, setMobileNumber] = useState("");
     const [otpVerified, setOtpVerified] = useState(false)
@@ -73,6 +74,8 @@ function OtpComponent() {
         }
     }, [message]);
 
+
+
     //Refresh OTP
     const refreshOtp = async () => {
         setOtp(Array(6).fill(""));
@@ -106,27 +109,44 @@ function OtpComponent() {
 
     //Resend OTP
     const resendOtp = async (event) => {
+        setColor("#004B9A");
+        setImageSrc(otpPrimary);
+        startProgress();
         setOtp(Array(6).fill(""));
         event.preventDefault();
         if (UAN && Pws) {
             try {
+                
                 setLoading(true);
                 const result = await login(UAN, Pws.trim());
-                setLoading(false);
 
                 if (result.status === 400) {
+                    setColor("#FF0000");
+                    setImageSrc(otpError);
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 3000);
                     setMessage({ type: "error", content: result.message });
                 } else {
+                    setColor("green");
+                    setImageSrc(otpSuccess);
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 3000);
                     setMessage({ type: "success", content: result.message });
                     setTimer(45);
                     setTriggerApiCall(false);
                     setMobileNumber(ExtractMobile(result.message))
                 }
             } catch (error) {
+                setColor("#FF0000");
+                setImageSrc(otpError);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 3000);
                 if (error.status >= 500) {
                     navigate("/epfo-down")
                 } else {
-                    setLoading(false);
                     setMessage({ type: "error", content: error.message });
                 }
             }
@@ -224,7 +244,7 @@ function OtpComponent() {
         setProgress(0);
         setImageSrc(otpPrimary);
         setColor("#004B9A");
-        setTimer(30)
+        setOtpTimer(120)
         if (intervalRef.current) return;
 
         intervalRef.current = setInterval(() => {
@@ -237,6 +257,16 @@ function OtpComponent() {
                 return prev + 1;
             });
         }, 200);
+
+        let interval;
+        if (otpTimer > 0) {
+            interval = setInterval(() => {
+                setOtpTimer((prevTimer) => prevTimer - 1);
+            }, 1000);
+        } else {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
     };
 
     return (
@@ -277,7 +307,7 @@ function OtpComponent() {
                         </div>
                         <p className="loader-text">
                             {imageSrc === otpPrimary &&
-                                (<span>Verifying OTP, Please Wait... <span style={{ color: '#304DFF' }}>{timer} sec</span></span>
+                                (<span>Verifying OTP, Please Wait... <span style={{ color: '#304DFF' }}>{otpTimer} sec</span></span>
 
                                 )}
                             {imageSrc === otpSuccess && (

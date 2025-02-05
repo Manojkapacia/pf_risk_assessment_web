@@ -6,7 +6,8 @@ import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
 import { get } from '../common/api';
 import { ConvertPeriod } from '../common/date-convertor';
 import { encryptData } from '../common/encryption-decryption';
-import { logout } from './../common/api'
+import { logout } from './../common/api';
+import loaderGif from './../../assets/images/Mobile-Payment.gif'
 
 function ServiceHistory() {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,15 +18,19 @@ function ServiceHistory() {
     const [profileData, setProfileData] = useState({});
     const [home, setHome] = useState({});
     const [reportUpdatedAtVar, setreportUpdatedAt] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [loaderText, setLoaderText] = useState("Fetching Data, Please wait...");
 
     const navigate = useNavigate();
 
     // Function to fetch data
     const fetchData = async () => {
+        setLoading(true);
         try {
             const response = await get('auth/data');
             if (response.status === 401) {
-                localStorage.clear()
+                localStorage.clear();
+                setLoading(false);
                 navigate('/');
             } else {
                 setreportUpdatedAt(response?.rawData?.meta?.createdTime);
@@ -34,10 +39,13 @@ function ServiceHistory() {
                 setProfileData(response?.rawData?.data?.profile);
                 setHome(response?.rawData?.data?.home);
                 setErrorKey(response?.rawData?.data?.error);
+                setLoading(false);
             }
         } catch (error) {
+            setLoading(false);
             console.error("Error fetching data:", error);
         } finally {
+            setLoading(false);
         }
     };
 
@@ -112,7 +120,16 @@ function ServiceHistory() {
     };
 
     return (
-        <div className="container">
+        <>
+        {loading && (
+                <div className="loader-overlay">
+                    <div className="loader-container">
+                        <img className='loader-img-pay-modal' src={loaderGif} alt="Loading..." />
+                        <p className="loader-text">{loaderText}</p>
+                    </div>
+                </div>
+            )}
+            <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-lg-6 col-md-8">
                     <div className='row'>
@@ -194,6 +211,8 @@ function ServiceHistory() {
                 </div>
             </div>
         </div>
+        </>
+        
     )
 }
 

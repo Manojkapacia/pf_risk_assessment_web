@@ -5,7 +5,7 @@ import { Link, ChatSquareDots, Key, PersonCheck, Clipboard, CreditCard } from "r
 
 const ForgotPassword = () => {
     const goToEpfoPortal = () => {
-        window.open("https://passbook.epfindia.gov.in/MemberPassBook/login", "_blank");
+        window.open("https://unifiedportal-mem.epfindia.gov.in/memberinterface", "_blank");
     }
 
     return (

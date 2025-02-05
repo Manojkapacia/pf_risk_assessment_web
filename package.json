@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cashfreepayments/cashfree-js": "^1.0.5",
     "@lottiefiles/dotlottie-react": "^0.11.1",
+    "@react-pdf/renderer": "^4.1.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -29,6 +31,7 @@
     "react-spinners": "^0.14.1",
     "react-toastify": "^10.0.6",
     "socket.io-client": "^4.8.1",
+    "typeface-roboto": "^1.1.13",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },

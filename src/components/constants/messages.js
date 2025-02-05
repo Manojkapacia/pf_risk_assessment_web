@@ -4,6 +4,7 @@ const MESSAGES = {
         otpSent: "OTP has been sent successfully.",
         otpVerified: "OTP has been verified successfully.",
         loginSuccess: "Logged in successfully",
+        // paymentSuccess: "🥳 Woohoo, Payment Successful! You can access the FULL report now."
         paymentSuccess: "🥳 Woohoo! As a valued beta user, this report is absolutely FREE for you! 🎁"
     },
     error: {
@@ -25,7 +26,8 @@ const MESSAGES = {
         ZOHOError: "Provide new details",
         generic: "Server Error, Please try again later",
         paymentUrlNotFound: "We encountered an issue while processing your payment. Please try again later.",
-        paymentFailed: "Oops!! There is some issue processing your payment currently. Please try again later."
+        paymentProcessingIssue: "Oops!! There is some issue processing your payment currently. Please try again later.",
+        paymentFailed: "Oops, Payment Failed!! Please try again later"
     },
     labels: {
         otp: "Enter OTP",

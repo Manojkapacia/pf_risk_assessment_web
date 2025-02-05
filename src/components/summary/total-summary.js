@@ -13,9 +13,10 @@ import { get } from '../common/api';
 import ToastMessage from '../common/toast-message';
 import ReportPaymentModal from './reportPaymentModal';
 import MESSAGES from '../constants/messages';
-
+import loaderGif from '../../assets/images/Mobile-Payment.gif'
 
 function TotalSummary() {
+
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -25,16 +26,14 @@ function TotalSummary() {
     const [isBlurred, setIsBlurred] = useState(true);
     const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
+    const [loaderText, setLoaderText] = useState("Fetching Report, Please wait...");
     const [summaryData, setSummaryData] = useState(null)
     const [categoryDetailsFromReport, setCategoryDetailsFromReport] = useState([])
+    const [paymentStatusData, setPaymentStatusData] = useState(null)
     const isMessageActive = useRef(false); // Prevents multiple messages from being displayed at the same time.
     
     let amountStuck= summaryData?.reportData?.totalAmountStuck;
     const { profileData } = location.state || {};
-
-    const handleReportModal = (value) => {
-        setIsBlurred(value);
-    };
 
     const handleModalOpen = () => {
         setIsBlurred(true);
@@ -50,6 +49,15 @@ function TotalSummary() {
         setConsultationModal(false);
     }
 
+    // const paymentModalClose = (isSuccess) => {
+    //     setPaymentModal(false);
+    //     if(isSuccess) {
+    //         setIsBlurred(false)
+    //     }else {
+    //         setIsBlurred(true)
+    //     }
+    // }
+
     const paymentModalClose = (isSuccess) => {
         setPaymentModal(false);
         if(isSuccess) {
@@ -59,7 +67,7 @@ function TotalSummary() {
             setIsBlurred(true)
         }
     }
-
+    
     const screenRef = useRef(null);
 
     // call the api to fetch the user report
@@ -93,28 +101,60 @@ function TotalSummary() {
         }
     }
 
-    useEffect(() => {
-        // check if returned from phone pay screen 
-        const queryParams = new URLSearchParams(window.location.search);
-        const payParam = queryParams.get('pay'); // Get the `pay` query parameter
-
-        if (payParam) {
-          const decodedPay = atob(payParam); // Decode the Base64 value
-          if (decodedPay === 'true') {
-            setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
-          }
-          if (decodedPay === 'false') {
-            setMessage({ type: "error", content: MESSAGES.error.paymentFailed });
-          }
-          setTimeout(() => {
-            queryParams.delete('pay'); // Remove the `pay` parameter
-            const newUrl = `${window.location.pathname}`; // Rebuild the URL
-            window.history.replaceState(null, '', newUrl); // Update the URL without reloading the page
-          }, 5000);
+    // call the api to fetch the user report
+    const fetchPaymentStatus = async (orderId) => {
+        setLoading(true)
+        setLoaderText('Please Wait...checking your payment status')
+        try {          
+            const result = await get(`/payment/check-payment-status/${orderId}`);
+            setPaymentStatusData(result.data)
+            
+            setTimeout(() => {
+                setLoading(false);
+                setLoaderText('Fetching Report, Please wait...')
+                
+                if (result.status === 400) {
+                    setMessage({ type: "error", content: result.message });
+                } else if (result.status === 401) {
+                    localStorage.clear()
+                    navigate('/');
+                } else {
+                    if (result.data.payment_status.toUpperCase() === "SUCCESS") {
+                        setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
+                        paymentModalClose(true)
+                    } else if (result.data.payment_status.toUpperCase() === "FAILURE") {
+                        paymentModalClose(false)
+                        setMessage({ type: "error", content: MESSAGES.error.paymentFailed });
+                    } else {
+                        paymentModalClose(false)
+                        setMessage({ type: "error", content: MESSAGES.error.paymentProcessingIssue });
+                    }
+                    setTimeout(() => {
+                        const queryParams = new URLSearchParams(window.location.search);
+                        queryParams.delete('order_id'); // Remove the `pay` parameter
+                        const newUrl = `${window.location.pathname}`; // Rebuild the URL
+                        window.history.replaceState(null, '', newUrl); // Update the URL without reloading the page
+                    }, 5000);
+                }
+            }, 3000)
+        } catch (error) {
+            setLoading(false);
+            setMessage({ type: "error", content: MESSAGES.error.paymentProcessingIssue });
         }
+    }
 
+    useEffect(() => {
         // call the function to get report and raw data by UAN
         fetchData()
+        
+        // fetch payment status basis on order Id
+        const queryParams = new URLSearchParams(window.location.search);
+        const orderId = queryParams.get('order_id'); // Get the `pay` query parameter        
+        if (orderId) {
+            setTimeout(() => {
+                fetchPaymentStatus(orderId)
+            }, 2000)
+        }
     }, [])
 
     // Toast Message Auto Clear
@@ -174,6 +214,7 @@ function TotalSummary() {
         const categoryData = summaryData?.reportData?.withdrawabilityCheckupReport.find((item) => item.category.toUpperCase() === category.toUpperCase())
 
         return {
+            isEpsMember: categoryData?.isEpsMember,
             totalCritical: categoryData?.totalCritical,
             totalMedium: categoryData?.totalMedium,
             consolidatedErrorMessage: categoryData?.subCategory
@@ -218,7 +259,8 @@ function TotalSummary() {
             {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">
-                        <p className="loader-text">Fetching Report, Please wait...</p>
+                        <img className='loader-img-pay-modal' src={loaderGif} alt="Loading..." />
+                        <p className="loader-text">{loaderText}</p>
                     </div>
                 </div>
             )}
@@ -567,7 +609,7 @@ function TotalSummary() {
                                         className={getSelectedCategoryData('Employment History')?.totalCritical > 0 ? "text-danger" : "text-warning-custom"}>
                                         <p className='mb-0 kycSubText' style={{ fontWeight: '400' }}>
                                             <i className="bi bi-exclamation-circle-fill me-2"></i>
-                                            <b>{getSelectedCategoryData('Employment History')?.totalCritical + getSelectedCategoryData('Employment History')?.totalMedium} Issue Found:</b> {getSelectedCategoryData('Employment History')?.consolidatedErrorMessage}
+                                            <b>{getSelectedCategoryData('Employment History')?.totalCritical} Issue Found:</b> {getSelectedCategoryData('Employment History')?.consolidatedErrorMessage}
                                         </p>
                                     </div>
                                 }

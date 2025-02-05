@@ -1,3 +1,6 @@
+html, body {
+  font-family: "Roboto" !important;
+}
 .pfRiskButtons{
   color: #ffffff !important;
   background-color: #00124F!important;
@@ -11,7 +14,7 @@
 }
 
 .pfRiskheading{
-  /* font-family :Roboto; */
+  /* font-family :"Roboto"; */
   color: #000000;
   font-size: 1.5rem;
   font-weight: 700;
