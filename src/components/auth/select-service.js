@@ -116,7 +116,7 @@ function SelectService() {
                             <div className="text-center mb-2">
                                 <FaHandshake size={50} color="gray" />
                             </div>
-                            <h5 className="card-title text-primary fw-bold">PF Withdrawal <br></br> Assistance</h5>
+                            <h5 className="card-title text-primary fw-bold">EPF Issue Resolution <br></br> (KYC, Transfer, etc.)</h5>
                             <p className="card-text text-muted small">
                             Our expert team is committed to hand hold you through the complexities of PF issues. Relax while our expert resolves your PF withdrawal issues end to end.
                             </p>
