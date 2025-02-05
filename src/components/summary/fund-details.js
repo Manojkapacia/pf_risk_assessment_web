@@ -248,9 +248,18 @@ function FundDetails() {
         fetchData()
     }, [])
     
+    // const paymentModalClose = (isSuccess) => {
+    //     if(isSuccess) {
+    //         setIsBlurred(false)
+    //     }else {
+    //         setIsBlurred(true)
+    //     }
+    // }
+
     const paymentModalClose = (isSuccess) => {
         if(isSuccess) {
             setIsBlurred(false)
+            setMessage({ type: "success", content: MESSAGES.success.paymentSuccess });
         }else {
             setIsBlurred(true)
         }

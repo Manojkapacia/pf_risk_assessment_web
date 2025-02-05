@@ -4,36 +4,24 @@ import { useNavigate } from 'react-router-dom';
 import { FaHandshake } from 'react-icons/fa';
 import { FaUsers } from 'react-icons/fa';
 import { FaBuilding } from 'react-icons/fa';  
+import MESSAGES from "../constants/messages";
 
 
 function SelectService() {
     const [isClickedFirst, setIsClickedFirst] = useState(false);
-    const [isClickedSecond, setIsClickedSecond] = useState(false);
-    const [isClickedThird, setIsClickedThird] = useState(false);
-    const [isClickedForth, setIsClickedForth] = useState(false);
+    
     const navigate = useNavigate();
+
     const handleClickFirst = () => {
+        console.log(isClickedFirst)
         if(!isClickedFirst){
             setIsClickedFirst(true);
-            window.open('https://epf.finright.in/', '_blank'); 
+            window.open(MESSAGES.api.baseUrl, '_blank'); 
+        } else {
+            navigate('/')
         }
     };
-    const handleClickSecond= () => {
-        if(!isClickedSecond){
-            setIsClickedSecond(true);
 
-        }
-    }
-    const handleClickThird = () =>{
-        if(!isClickedThird){
-            setIsClickedThird(true);
-        }
-    }
-    const handleClickForth = ()=>{
-        if(!isClickedForth){
-            setIsClickedForth(true);
-        }
-    }
     return (
         <div className="container text-center my-5">
             <h2 className="fw-bold text-primary ">Select a Service based on your EPF issue</h2>
@@ -59,13 +47,13 @@ function SelectService() {
                             {/* <button className="btn w-75 mt-lg-5 mt-3" style={{backgroundColor: "#001a6d", color:"#ffffff"}}>Check Now</button> */}
                             <button
                                 className="btn w-75 mt-lg-5 mt-3"
-                                onClick={handleClickFirst} 
+                                onClick={() => {navigate('/')}} 
                                 style={{
                                     backgroundColor: isClickedFirst ? '#28a745' : '#001a6d',
                                     color: '#ffffff',
                                 }}
                             >
-                                {isClickedFirst ? 'Connect Now' : 'Check Now'}
+                                Check Now
                             </button>
                         </div>
                     </div>

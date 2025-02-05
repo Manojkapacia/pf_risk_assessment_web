@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { post } from '../common/api';
-import { decryptData } from '../common/encryption-decryption';
 import { useNavigate } from 'react-router-dom';
 import loaderGif from '../../assets/images/Mobile-Payment.gif'
 import '../../css/summary/report-modal.css'
@@ -48,35 +47,41 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
             return;
         }        
         setLoading(true);
-
-        const result = await post('/payment/create-payment', { amount: 99, mobileNumber });
-
-        try {
-            if (result.status === 400) {
-                setLoading(false)
-                setMessage({ type: "error", content: result.message });
-            } else if (result.status === 401) {
-                onClose();
-                localStorage.clear()
-                navigate('/');
-            } else {
-                setLoaderText('Kindly complete the payment...')
-                setPaymentOrderData(result.data)
-                let checkoutOptions = {
-                    paymentSessionId: result.data.payment_session_id,
-                    redirectTarget: "_self",
-                };
-                cashfreeRef.current.checkout(checkoutOptions);
-                // close the payment modal 
-                setLoading(false);
-                if (closeButtonRef.current) {
-                    closeButtonRef.current.click();
-                }         
-            }
-        } catch (error) {
+        setTimeout(() => {
             setLoading(false);
-            setMessage({ type: "error", content: error.message });
-        }
+            onClose(true);
+            if (closeButtonRef.current) {
+                closeButtonRef.current.click();
+            }
+        }, 3000)
+        // const result = await post('/payment/create-payment', { amount: 99, mobileNumber });
+
+        // try {
+        //     if (result.status === 400) {
+        //         setLoading(false)
+        //         setMessage({ type: "error", content: result.message });
+        //     } else if (result.status === 401) {
+        //         onClose();
+        //         localStorage.clear()
+        //         navigate('/');
+        //     } else {                
+        //         setLoaderText('Kindly complete the payment...')
+        //         setPaymentOrderData(result.data)
+        //         let checkoutOptions = {
+        //             paymentSessionId: result.data.payment_session_id,
+        //             redirectTarget: "_self",
+        //         };
+        //         cashfreeRef.current.checkout(checkoutOptions);
+        //         // close the payment modal 
+        //         setLoading(false);
+        //         if (closeButtonRef.current) {
+        //             closeButtonRef.current.click();
+        //         }         
+        //     }
+        // } catch (error) {
+        //     setLoading(false);
+        //     setMessage({ type: "error", content: error.message });
+        // }
     };
 
     return (
