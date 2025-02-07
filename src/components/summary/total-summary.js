@@ -14,6 +14,7 @@ import ToastMessage from '../common/toast-message';
 import ReportPaymentModal from './reportPaymentModal';
 import MESSAGES from '../constants/messages';
 import loaderGif from '../../assets/images/Mobile-Payment.gif'
+import paymentGif from '../../assets/images/payment-progress.gif'
 
 function TotalSummary() {
 
@@ -27,6 +28,7 @@ function TotalSummary() {
     const [message, setMessage] = useState({ type: "", content: "" });
     const [loading, setLoading] = useState(false);
     const [loaderText, setLoaderText] = useState("Fetching Report, Please wait...");
+    const [loaderImage, setLoaderImage] = useState(paymentGif);
     const [summaryData, setSummaryData] = useState(null)
     const [categoryDetailsFromReport, setCategoryDetailsFromReport] = useState([])
     const [paymentStatusData, setPaymentStatusData] = useState(null)
@@ -93,16 +95,19 @@ function TotalSummary() {
 
     // call the api to fetch the user report
     const fetchPaymentStatus = async (orderId) => {
-        setLoading(true)
-        setLoaderText('Please Wait...checking your payment status')
         try {          
+            setLoading(true)
+            setLoaderText('Please Wait...checking your payment status')
+            setLoaderImage(paymentGif)
+
             const result = await get(`/payment/check-payment-status/${orderId}`);
             setPaymentStatusData(result.data)
             
             setTimeout(() => {
                 setLoading(false);
                 setLoaderText('Fetching Report, Please wait...')
-                
+                setLoaderImage(paymentGif)
+
                 if (result.status === 400) {
                     setMessage({ type: "error", content: result.message });
                 } else if (result.status === 401) {
@@ -143,7 +148,7 @@ function TotalSummary() {
         if (orderId) {
             setTimeout(() => {
                 fetchPaymentStatus(orderId)
-            }, 2000)
+            }, 500)
         }
     }, [])
 
@@ -249,7 +254,7 @@ function TotalSummary() {
             {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">
-                        <img className='loader-img-pay-modal' src={loaderGif} alt="Loading..." />
+                        <img className='loader-img-pay-modal' src={loaderImage} alt="Payment Progress Loader" />
                         <p className="loader-text">{loaderText}</p>
                     </div>
                 </div>

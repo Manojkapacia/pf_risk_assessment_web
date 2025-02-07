@@ -49,7 +49,7 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
         }        
         setLoading(true);
 
-        const result = await post('/payment/create-payment', { amount: 99, mobileNumber });
+        const result = await post('/payment/create-payment', { amount: 2, mobileNumber });
 
         try {
             if (result.status === 400) {
