@@ -34,9 +34,8 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
     useEffect(() => {
         const initializeSDK = async () => {
             cashfreeRef.current = await load({
-                mode: "sandbox"
+                mode: "production"
             });
-            console.log("Cashfree SDK Loaded:", cashfreeRef.current);
         };
         initializeSDK();
     }, []); // Empty dependency array ensures this runs only once
@@ -49,7 +48,7 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
         }        
         setLoading(true);
 
-        const result = await post('/payment/create-payment', { amount: 2, mobileNumber });
+        const result = await post('/payment/create-payment', { amount: 99, mobileNumber });
 
         try {
             if (result.status === 400) {
