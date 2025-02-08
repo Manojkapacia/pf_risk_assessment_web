@@ -8,7 +8,7 @@ const PFPassbook = ({ jsonData, onBack }) => {
 
     const handleCompanyChange = (event) => {
         setSelectedCompany(event.target.value);
-        setSelectedYear(null); 
+        setSelectedYear(null);
     };
 
     const handleYearChange = (event) => {
@@ -112,6 +112,65 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                                         <td>{txn?.pensionShare}</td>
                                                     </tr>
                                                 ))}
+                                            </tbody>
+                                        </table>
+                                        <h4>Totals</h4>
+                                        <table className="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Particulars</th>
+                                                    <th>Employee Share</th>
+                                                    <th>Employer Share</th>
+                                                    <th>Pension Share</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {Object.entries(data.passbooks[selectedCompany][selectedYear]?.totals).map(([key, total], index) => (
+                                                    <tr key={index}>
+                                                        <td>{key}</td>
+                                                        <td>{total?.employeeShare}</td>
+                                                        <td>{total?.employerShare}</td>
+                                                        <td>{total?.pensionShare}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                        <h4>Interest Details</h4>
+                                        <table className="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Particulars</th>
+                                                    <th>Employee Share</th>
+                                                    <th>Employer Share</th>
+                                                    <th>Pension Share</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interest?.particulars}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interest?.employeeShare}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interest?.employerShare}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interest?.pensionShare}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <h4>Closing Balance</h4>
+                                        <table className="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Particulars</th>
+                                                    <th>Employee Share</th>
+                                                    <th>Employer Share</th>
+                                                    <th>Pension Share</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.closingBalance?.particulars}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.closingBalance?.employeeShare}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.closingBalance?.employerShare}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.closingBalance?.pensionShare}</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>

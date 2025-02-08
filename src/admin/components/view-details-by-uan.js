@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Claims from "./claims";
 import MESSAGES from "./../../components/constants/messages"
 import Withdrawability from "./withdrawability";
-import { getUanNumber, login,post } from "../../components/common/api"
+import { getUanNumber, login, post } from "../../components/common/api"
 import Transfer from "./transfers";
 import { useForm } from "react-hook-form";
 import debounce from "lodash.debounce";
@@ -97,6 +97,7 @@ function ViewDetailsByUan() {
                 setLoading(true);
                 try {
                     const response = await get(`/admin/data/${uanNuber}`)
+                    
                     if (response.status === 401) {
                         setLoading(false);
                         localStorage.clear()
@@ -119,9 +120,9 @@ function ViewDetailsByUan() {
 
     useEffect(() => {
         const fetchUanList = async () => {
-            const search=''
+            const search = ''
             try {
-                const result = await getUanNumber(currentPage, itemsPerPage,search);
+                const result = await getUanNumber(currentPage, itemsPerPage, search);
                 if (result.status === 401) {
                     localStorage.clear()
                     navigate('/operation/login');
@@ -167,26 +168,34 @@ function ViewDetailsByUan() {
             setUanList(searchList);
         } else {
             try {
+                const response = await get(`/admin/data/${input}`);
+                console.log("response", response.data);
+                
+                if (response.data.error === "Please change the password" && response.data.error !== null && response.data.error.trim() !== "") {
+                    setUanList([{ uan: input, error: response.data.error }]);
+                    return; // Stop further execution
+                }
                 const result = await getUanNumber(currentPage, itemsPerPage, input);
+
                 if (result.status === 401) {
-                    localStorage.clear()
+                    localStorage.clear();
                     navigate('/operation/login');
-                } else {
+                }
+                else {
                     setUanList(result?.data?.data);
                     setSearchList(result?.data?.data);
-                    setTotalItems(result?.data?.totalCount)
+                    setTotalItems(result?.data?.totalCount);
                 }
             } catch (err) {
                 console.error("Error fetching data:", err);
-                setUanList([null])
-            } finally {
+                setUanList([null]);
             }
         }
-    }
+    };
 
     const debouncedFetch = useMemo(() => debounce(fetchSearchResults, 1000), []);
 
-    const handleSearch = async(e) => {
+    const handleSearch = async (e) => {
         const input = e.target.value.trim();
         setSearchUAN(input);
         debouncedFetch(input);
@@ -217,23 +226,23 @@ function ViewDetailsByUan() {
             setTimer(59);
         }
     };
-    const otpSubmit= async (e) => {
-    
-            if (otpValues.every((digit) => digit)) {
-                try {
-                    const endpoint ="auth/submit-otp"
-                    setLoading(true);
-                    await post(endpoint, { otp: otpValues.join('') });
-                    setLoading(false);
-    
-                    setMessage({ type: "success", content: MESSAGES.success.otpVerified });
-                } catch (error) {
-                    setMessage({ type: "error", content: error.message || MESSAGES.error.generic });
-                }
-            } else {
-                setMessage({ type: "error", content: MESSAGES.error.invalidOtp });
+    const otpSubmit = async (e) => {
+
+        if (otpValues.every((digit) => digit)) {
+            try {
+                const endpoint = "auth/submit-otp"
+                setLoading(true);
+                await post(endpoint, { otp: otpValues.join('') });
+                setLoading(false);
+
+                setMessage({ type: "success", content: MESSAGES.success.otpVerified });
+            } catch (error) {
+                setMessage({ type: "error", content: error.message || MESSAGES.error.generic });
             }
-        
+        } else {
+            setMessage({ type: "error", content: MESSAGES.error.invalidOtp });
+        }
+
     }
     const onSubmit = async (data) => {
         try {
@@ -362,31 +371,39 @@ function ViewDetailsByUan() {
                                         <div className="card-body">
                                             <div className="row">
                                                 <div className="col-md-5">
-                                                    <p><strong>Name:</strong> {item?.fullName}</p>
+                                                    <p><strong>UAN Number :</strong> {item?.uan}</p>
                                                 </div>
-                                                <div className="col-md-5">
-                                                    <p><strong>UAN Number :</strong>{item?.uan}</p>
-                                                </div>
-                                                <div className="col-md-2 d-flex align-item-center">
-                                                    <Eye size={20} onClick={() => handleChange(item?.uan)}
-                                                        className="me-md-3 me-2 cursor-pointer" />
-                                                </div>
-                                                <div className="col-md-5">
-                                                    <p><strong>Total Balance :</strong>{item?.totalBalance}</p>
-                                                </div>
-                                                <div className="col-md-5">
-                                                    <p><strong>Date :</strong>{new Date(item?.date).toLocaleDateString()}</p>
-                                                </div>
+                                                {item?.error ? (
+                                                    <div className="col-md-12">
+                                                        <p className="text-danger"><strong>Error:</strong> {item?.error}</p>
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <div className="col-md-5">
+                                                            <p><strong>Name:</strong> {item?.fullName}</p>
+                                                        </div>
+                                                        <div className="col-md-2 d-flex align-item-center">
+                                                            <Eye size={20} onClick={() => handleChange(item?.uan)}
+                                                                className="me-md-3 me-2 cursor-pointer" />
+                                                        </div>
+                                                        <div className="col-md-5">
+                                                            <p><strong>Total Balance :</strong> {item?.totalBalance}</p>
+                                                        </div>
+                                                        <div className="col-md-5">
+                                                            <p><strong>Date :</strong> {new Date(item?.date).toLocaleDateString()}</p>
+                                                        </div>
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
                                 ))
-                            ) : 
-                            <table className="table table-hover">
-                                 <tbody><tr><td className="text-center">No Data Found!!</td></tr></tbody>
-                            </table>
+                            ) :
+                                <table className="table table-hover">
+                                    <tbody><tr><td className="text-center">No Data Found!!</td></tr></tbody>
+                                </table>
                             }
-                            {uanList?.length > 9 ?<nav aria-label="Page navigation example">
+                            {uanList?.length > 9 ? <nav aria-label="Page navigation example">
                                 <ul className="pagination justify-content-end">
                                     <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
                                         <button
@@ -424,8 +441,8 @@ function ViewDetailsByUan() {
                                         </button>
                                     </li>
                                 </ul>
-                            </nav>:"" }
-                            
+                            </nav> : ""}
+
                         </div>
                     </div>
                 )}
