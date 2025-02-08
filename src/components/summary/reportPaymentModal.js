@@ -34,7 +34,7 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
     useEffect(() => {
         const initializeSDK = async () => {
             cashfreeRef.current = await load({
-                mode: "production"
+                mode: "sandbox"
             });
         };
         initializeSDK();
