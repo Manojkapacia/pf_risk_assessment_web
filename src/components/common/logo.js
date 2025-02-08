@@ -38,7 +38,7 @@ const Logo = () => {
     <div>
       {message.type && <ToastMessage message={message.content} type={message.type} />}
       {!hideLoginHeader ? 
-        <nav className="d-flex justify-content-between align-items-center p-2 p-md-3" style={{ backgroundColor: "#ffffff" }}>
+        <nav className="d-flex justify-content-between align-items-center p-2 p-md-3 fixed-top" style={{ backgroundColor: "#ffffff" }}>
         <img src={FinRightlogo} alt="Logo" className="logo" />
         <div className="d-flex align-items-center">
           {!HideLogoutButtons && (
