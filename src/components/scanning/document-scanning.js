@@ -161,7 +161,7 @@ const DocumentScanning = () => {
 
     return (
         <>
-            {loading && (
+            {/* {loading && (
                 <Loader
                     type="dots"
                     size="large"
@@ -169,7 +169,7 @@ const DocumentScanning = () => {
                     message="Scanning Documents, please wait..."
                     overlay={true}
                 />
-            )}
+            )} */}
             {message.type && <ToastMessage message={message.content} type={message.type} />}
             <div className="container">
                 <div className="row mx-sm-2 d-flex justify-content-center align-items-center">
