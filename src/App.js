@@ -32,6 +32,7 @@ import AccountDetails from './components/summary/account-details';
 import FundDetails from './components/summary/fund-details';
 import ScrollToTop from "./components/common/ScrollToTop";
 import UserMobileRegistation from './components/summary/user-mobile-registation';
+import SelectService from './components/auth/select-service';
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
           <Route path='/account-details' element={<AuthGuard><AccountDetails /></AuthGuard>} />
           <Route path='/fund-details' element={<AuthGuard><FundDetails /></AuthGuard>} />
           <Route path='/user-registation' element={<UserMobileRegistation/>} />
+          <Route path='/pricing' element={<SelectService/>} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Layout>
