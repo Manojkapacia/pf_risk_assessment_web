@@ -11,10 +11,12 @@ import { useNavigate } from "react-router-dom";
 import Claims from "./claims";
 import MESSAGES from "./../../components/constants/messages"
 import Withdrawability from "./withdrawability";
-import { getUanNumber, login,post } from "../../components/common/api"
+import { getUanNumber, login, post } from "../../components/common/api"
 import Transfer from "./transfers";
 import { useForm } from "react-hook-form";
 import debounce from "lodash.debounce";
+import { ExtractMobile } from "../../components/common/extract-mobile";
+import { encryptData } from "../../components/common/encryption-decryption";
 
 function ViewDetailsByUan() {
     const otpLength = 6;
@@ -37,12 +39,16 @@ function ViewDetailsByUan() {
     const [isFirstModalOpen, setIsFirstModalOpen] = useState(false);
     const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
     const [formData, setFormData] = useState(null);
+    const [showMessage, setShowMessage] = useState('');
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors, isValid },
     } = useForm({
         mode: "onChange",
+        defaultValues: { uan: "", password: "" },
+        shouldUnregister: true,
     });
 
     const navigate = useNavigate();
@@ -119,9 +125,9 @@ function ViewDetailsByUan() {
 
     useEffect(() => {
         const fetchUanList = async () => {
-            const search=''
+            const search = ''
             try {
-                const result = await getUanNumber(currentPage, itemsPerPage,search);
+                const result = await getUanNumber(currentPage, itemsPerPage, search);
                 if (result.status === 401) {
                     localStorage.clear()
                     navigate('/operation/login');
@@ -186,7 +192,7 @@ function ViewDetailsByUan() {
 
     const debouncedFetch = useMemo(() => debounce(fetchSearchResults, 1000), []);
 
-    const handleSearch = async(e) => {
+    const handleSearch = async (e) => {
         const input = e.target.value.trim();
         setSearchUAN(input);
         debouncedFetch(input);
@@ -200,8 +206,18 @@ function ViewDetailsByUan() {
     }, [debouncedFetch]);
 
     const handleOpenFirstModal = () => {
-        setIsFirstModalOpen(true);
+        setIsFirstModalOpen(true);  // Open modal first
+        setTimeout(() => {
+            reset({ uan: "", password: "" });  // Reset fields after a short delay
+            setShowMessage('');
+        }, 0);
     };
+    useEffect(() => {
+        if (!isFirstModalOpen) {  // Only reset when modal closes
+            reset({ uan: "", password: "" });
+            setShowMessage("");
+        }
+    }, [isFirstModalOpen, reset]);
 
     const handleCloseFirstModal = () => {
         setIsFirstModalOpen(false);
@@ -217,23 +233,23 @@ function ViewDetailsByUan() {
             setTimer(59);
         }
     };
-    const otpSubmit= async (e) => {
-    
-            if (otpValues.every((digit) => digit)) {
-                try {
-                    const endpoint ="auth/submit-otp"
-                    setLoading(true);
-                    await post(endpoint, { otp: otpValues.join('') });
-                    setLoading(false);
-    
-                    setMessage({ type: "success", content: MESSAGES.success.otpVerified });
-                } catch (error) {
-                    setMessage({ type: "error", content: error.message || MESSAGES.error.generic });
-                }
-            } else {
-                setMessage({ type: "error", content: MESSAGES.error.invalidOtp });
+    const otpSubmit = async (e) => {
+
+        if (otpValues.every((digit) => digit)) {
+            try {
+                const endpoint = "auth/submit-otp"
+                setLoading(true);
+                await post(endpoint, { otp: otpValues.join('') });
+                setLoading(false);
+
+                setMessage({ type: "success", content: MESSAGES.success.otpVerified });
+            } catch (error) {
+                setMessage({ type: "error", content: error.message || MESSAGES.error.generic });
             }
-        
+        } else {
+            setMessage({ type: "error", content: MESSAGES.error.invalidOtp });
+        }
+
     }
     const onSubmit = async (data) => {
         try {
@@ -242,25 +258,32 @@ function ViewDetailsByUan() {
             setLoading(false);
             if (result.status === 400) {
                 setMessage({ type: "error", content: result.message });
+                setShowMessage(result.message)
                 setTimeout(() => setMessage({ type: "", content: "" }), 2500);
             } else {
-                setMessage({ type: "success", content: result.message });
-                setMessage({ type: "", content: "" });
-                setIsFirstModalOpen(false);
-                setIsSecondModalOpen(true);
+                if (result.message === "User Successfully Verified") {
+                    setShowMessage('User Successfully Verified');
+                } else {
+                    const regMobileNumber = ExtractMobile(result.message);
+                    setIsFirstModalOpen(false);
+                    setIsSecondModalOpen(true);
+                }
+                setLoading(false);
+                // setMessage({ type: "success", content: result.message });
+                // setMessage({ type: "", content: "" });
+                // setIsFirstModalOpen(false);
+                // setIsSecondModalOpen(true);
                 setFormData(data);
             }
         } catch (error) {
             if (error.status === 401) {
                 setLoading(false);
-                setMessage({ type: "error", content: MESSAGES.error.invalidEpfoCredentials });
-                setTimeout(() => setMessage({ type: "", content: "" }), 3000);
+                setShowMessage(MESSAGES.error.invalidEpfoCredentials);
             } if (error.status >= 500) {
                 navigate("/epfo-down")
             } else {
                 setLoading(false);
-                setMessage({ type: "error", content: error.message });
-                setTimeout(() => setMessage({ type: "", content: "" }), 3000);
+                setShowMessage(error.message);
             }
         }
 
@@ -381,12 +404,12 @@ function ViewDetailsByUan() {
                                         </div>
                                     </div>
                                 ))
-                            ) : 
-                            <table className="table table-hover">
-                                 <tbody><tr><td className="text-center">No Data Found!!</td></tr></tbody>
-                            </table>
+                            ) :
+                                <table className="table table-hover">
+                                    <tbody><tr><td className="text-center">No Data Found!!</td></tr></tbody>
+                                </table>
                             }
-                            {uanList?.length > 9 ?<nav aria-label="Page navigation example">
+                            {uanList?.length > 9 ? <nav aria-label="Page navigation example">
                                 <ul className="pagination justify-content-end">
                                     <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
                                         <button
@@ -424,8 +447,8 @@ function ViewDetailsByUan() {
                                         </button>
                                     </li>
                                 </ul>
-                            </nav>:"" }
-                            
+                            </nav> : ""}
+
                         </div>
                     </div>
                 )}
@@ -503,6 +526,10 @@ function ViewDetailsByUan() {
                                                 <button className="pfRiskButtons py-2 px-5" disabled={!isValid} type="submit">Continue</button>
                                             </div>
                                         </form>
+
+                                        <h5 className="text-center mt-3">
+                                            {showMessage === 'User Successfully Verified' ? 'This User Already Exist' : showMessage}
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
