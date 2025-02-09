@@ -39,8 +39,8 @@ const MESSAGES = {
     },
     api: {
         // baseUrl: 'https://uat.finright.in/'
-        // baseUrl: 'https://epf.finright.in/'
-        baseUrl: 'http://localhost:3001'
+        baseUrl: 'https://epf.finright.in/'
+        // baseUrl: 'http://localhost:3001'
     }
 };
 
