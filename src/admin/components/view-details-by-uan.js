@@ -169,30 +169,32 @@ function ViewDetailsByUan() {
         } else {
             try {
                 const response = await get(`/admin/data/${input}`);
-                console.log("response", response.data);
-                
-                if (response.data.error === "Please change the password" && response.data.error !== null && response.data.error.trim() !== "") {
-                    setUanList([{ uan: input, error: response.data.error }]);
-                    return; // Stop further execution
+                const response_error = response?.rawData?.data;  
+                if (response_error?.error && response_error.error.trim() !== "") { 
+                    if (response_error.error === "Please change the password") {
+                        setUanList([{ uan: input, error: response_error.error }]); 
+                        return; // Stop further execution
+                    }
                 }
+    
+                // Fetch UAN number data
                 const result = await getUanNumber(currentPage, itemsPerPage, input);
-
+    
                 if (result.status === 401) {
                     localStorage.clear();
                     navigate('/operation/login');
-                }
-                else {
+                } else {
                     setUanList(result?.data?.data);
                     setSearchList(result?.data?.data);
                     setTotalItems(result?.data?.totalCount);
                 }
             } catch (err) {
                 console.error("Error fetching data:", err);
-                setUanList([null]);
+                setUanList([{ uan: input, error: "Data found, but unable to retrieve details due to a server issue." }]);
             }
         }
     };
-
+    
     const debouncedFetch = useMemo(() => debounce(fetchSearchResults, 1000), []);
 
     const handleSearch = async (e) => {

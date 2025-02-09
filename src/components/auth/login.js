@@ -313,35 +313,11 @@ function LoginComponent() {
                                             </span>
                                         </div>
                                         <div className="d-flex justify-content-center mt-3 mb-4">
-                                            <span className='securityText py-2 px-3 d-flex align-items-center' onClick={toggleText} style={{ cursor: "pointer" }}>
+                                            <span className='securityText py-2 px-3 d-flex align-items-center' onClick={toggleText} style={{ cursor: "pointer"}}>
                                                 <AiOutlineFileProtect style={{ fontSize: "1.2rem", marginRight: "0.4rem" }} />
-                                                Your data is 100% safe and secure
+                                                Your Data is SHA256 Protected
                                             </span>
                                         </div>
-
-                                        {isVisible &&
-                                            <div className="d-flex justify-content-center my-3">
-                                                <div className='d-flex flex-column  align-items-center text-center'>
-                                                    <img src={multiFactor} alt="Risk Assessment" className='iconImage ' />
-                                                    <span className="iconText">
-                                                        Two-Factor Auth
-                                                    </span>
-                                                </div>
-                                                <div className='d-flex flex-column align-items-center text-center mx-5'>
-                                                    <img src={Encryption} alt="Risk Assessment" className='iconImage' />
-                                                    <span className="iconText">
-                                                        End-to-End Encryption
-                                                    </span>
-                                                </div>
-                                                <div className='d-flex flex-column align-items-center text-center'>
-                                                    <img src={IPData} alt="Risk Assessment" className='iconImage' />
-                                                    <span className="iconText">
-                                                        Masking of PI data
-                                                    </span>
-                                                </div>
-
-                                            </div>
-                                        }
                                     </div>
 
                                 </div>
