@@ -97,7 +97,6 @@ function ViewDetailsByUan() {
                 setLoading(true);
                 try {
                     const response = await get(`/admin/data/${uanNuber}`)
-                    console.log("res",response);
                     
                     if (response.status === 401) {
                         setLoading(false);
@@ -165,36 +164,37 @@ function ViewDetailsByUan() {
     };
 
     const fetchSearchResults = async (input) => {
-    if (input === "") {
-        setUanList(searchList);
-    } else {
-        try {
-            const response = await get(`/admin/data/${input}`)
-            console.log("responseee",response.rawData.data);
-            const response_error = response.rawData.data
-              if (response_error.error === "Please change the password" && response_error.error !== null && response_error.error.trim() !== "") { 
-                setUanList([{ uan: input, error: response.data.error }]); 
-                return; // Stop further execution 
-               }
-          
-            // Fetch UAN number data
-            const result = await getUanNumber(currentPage, itemsPerPage, input);
-
-            if (result.status === 401) {
-                localStorage.clear();
-                navigate('/operation/login');
-            } else {
-                setUanList(result?.data?.data);
-                setSearchList(result?.data?.data);
-                setTotalItems(result?.data?.totalCount);
+        if (input === "") {
+            setUanList(searchList);
+        } else {
+            try {
+                const response = await get(`/admin/data/${input}`);
+                const response_error = response?.rawData?.data;  
+                if (response_error?.error && response_error.error.trim() !== "") { 
+                    if (response_error.error === "Please change the password") {
+                        setUanList([{ uan: input, error: response_error.error }]); 
+                        return; // Stop further execution
+                    }
+                }
+    
+                // Fetch UAN number data
+                const result = await getUanNumber(currentPage, itemsPerPage, input);
+    
+                if (result.status === 401) {
+                    localStorage.clear();
+                    navigate('/operation/login');
+                } else {
+                    setUanList(result?.data?.data);
+                    setSearchList(result?.data?.data);
+                    setTotalItems(result?.data?.totalCount);
+                }
+            } catch (err) {
+                console.error("Error fetching data:", err);
+                setUanList([{ uan: input, error: "Data found, but unable to retrieve details due to a server issue." }]);
             }
-        } catch (err) {
-            console.error("Error fetching data:", err);
-            setUanList([{ uan: input, error: "Data found, but unable to retrieve details due to a server issue." }]);
         }
-    }
-};
-
+    };
+    
     const debouncedFetch = useMemo(() => debounce(fetchSearchResults, 1000), []);
 
     const handleSearch = async (e) => {
