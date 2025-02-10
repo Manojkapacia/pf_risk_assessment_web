@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Document, Page, Text, View, StyleSheet, Image ,Font } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Image, Font } from "@react-pdf/renderer";
 import FinRightlogo from './../../assets/images/FinRightlogo.png';
+import FinRight_Background_logo from './../../assets/images/finright logo transparent.png'
 import HighRisk from './../../assets/images/highRiskMeter.png';
 import ModerateRisk from './../../assets/images/moderateRiskMeter.png';
 import LowRisk from './../../assets/images/lowRiskMeter.png';
@@ -13,7 +14,7 @@ Font.register({
     family: "Roboto",
     src: "/fonts/Roboto-Regular.ttf",
     fontWeight: "normal",
-  });
+});
 
 // Define PDF styles
 const styles = StyleSheet.create({
@@ -56,8 +57,8 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         position: "absolute",
-        width: 220,
-        height: 90,
+        width: 250,
+        height: 250,
         top: "50%",
         left: "35%",
         transform: "translate(-50%, -50%)",
@@ -141,8 +142,11 @@ const styles = StyleSheet.create({
         color: "green",
     },
     warningText: {
-        color: '#F56905'
-    }
+        color: '#F56905',
+    },
+    content: {
+        marginBottom:0
+    },
 });
 
 // PDF Component
@@ -229,11 +233,11 @@ const ReportDownloadTemplate = ({ summaryData }) => {
 
         setCategoryDetailsFromReport(processedData);
     };
-    
+
     const getSelectedCategoryData = (category) => {
         if (!summaryData?.reportData?.withdrawabilityCheckupReport) return;
         const categoryData = summaryData?.reportData?.withdrawabilityCheckupReport.find((item) => item.category.toUpperCase() === category.toUpperCase())
-       
+
         return {
             isEpsMember: categoryData?.isEpsMember,
             totalCritical: categoryData?.totalCritical,
@@ -255,7 +259,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                     // </span>
                 ))
         }
-        
+
 
     }
 
@@ -297,7 +301,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
         <Document>
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={{ ...styles.firstPageLogoContainer, marginRight: -33, marginTop: -7 }}>
@@ -309,7 +313,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             <Text style={{ ...styles.text, marginBottom: 0 }}>
                                 Thank you for trusting FinRight.
                             </Text>
-                            <Text style={{ ...styles.price,...styles.text, marginTop: 10 }}>
+                            <Text style={{ ...styles.price, ...styles.text, marginTop: 10 }}>
                                 After serving more than 5000 customers and settling more than ₹ 20 Crore PF claims, our research helped us create the PF withdrawability check, which checks if there are any issues in your provident fund balance.
                             </Text>
                             <Text style={{ ...styles.text, marginTop: 20 }}>
@@ -329,7 +333,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 2 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -370,19 +374,19 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             </View>
                             <View style={styles.tableRow}>
                                 <Text style={styles.tableCell}>Total Corpus</Text>
-                                <Text style={[styles.tableCell,styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.totalPfBalance)}</Text>
+                                <Text style={[styles.tableCell, styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.totalPfBalance)}</Text>
                             </View>
                             <View style={styles.tableRow}>
                                 <Text style={styles.tableCell}>Amount Blocked</Text>
-                                <Text style={[styles.tableCell,styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.totalAmountStuck)}</Text>
+                                <Text style={[styles.tableCell, styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.totalAmountStuck)}</Text>
                             </View>
                             <View style={styles.tableRow}>
                                 <Text style={styles.tableCell}>Maximum Withdrawal Limit</Text>
-                                <Text style={[styles.tableCell,styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.maxWithdrawableLimit)}</Text>
+                                <Text style={[styles.tableCell, styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.maxWithdrawableLimit)}</Text>
                             </View>
                             <View style={styles.tableRow}>
                                 <Text style={styles.tableCell}>Amount Withdrawable in 30 Days</Text>
-                                <Text style={[styles.tableCell,styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.amountWithdrawableWithin30Days)}</Text>
+                                <Text style={[styles.tableCell, styles.price, styles.boldText]}>₹ {removeCurrencySymbol(summaryData?.reportData?.amountWithdrawableWithin30Days)}</Text>
                             </View>
 
                         </View>
@@ -398,17 +402,24 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                         <View style={{ borderTop: 1, marginTop: 10, marginBottom: 10 }} />
                         <View style={styles.section}>
                             <Text>
-                                For employees who are still working, Minimum Withdrawal Limit is calculated as follows:
+                                # For employees who are still working, Maximum Withdrawal Limit is calculated as lowest of the following:
                             </Text>
                             <View style={{ marginLeft: 20, marginBottom: 5 }}>
-                                <Text style={{ marginRight: 10 }}>• Task 1: Review the report</Text>
-                                <Text style={{ marginRight: 10 }}>• Task 2: Finalize presentation</Text>
-                                <Text style={{ marginRight: 10 }}>• Task 3: Send email updates</Text>
-                                <Text style={{ marginRight: 10 }}>• Task 4: Attend the meeting</Text>
+                                <Text style={{ marginRight: 10 }}>• Total Fund Balance
+                                </Text>
+                                <Text style={{ marginRight: 10 }}>• Total Employee share + 36 times Last EPF wages drawn
+                                </Text>
+                                <Text style={{ marginRight: 10 }}>• Total Employee share + 80% of Total employer share
+                                </Text>
                             </View>
-                            <Text>If you are retired or current not working then you can withdraw your entire fund
-                                * Blocked amount is total of employer and pension share of companies where issues are found, but if there is an issue in your KYC then your entire Fund balance gets blocked
-                                ** Amount Withdrawable within 30 days is 6 times the average of your last 6 months EPF wages
+                            <Text style={styles.content}>
+                                If you are retired or currently not working, then you can withdraw your entire fund
+                            </Text>
+                            <Text style={styles.content}>
+                                * Blocked amount is the total of employer and pension share of companies where issues are found, but if there is an issue in your KYC, then your entire fund balance gets blocked
+                            </Text>
+                            <Text style={styles.content}>
+                                ** Amount withdrawable within 30 days is 6 times the average of your last 6 months EPF wages.
                             </Text>
                         </View>
                         <View style={{ borderTop: 1 }} />
@@ -419,7 +430,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 3 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -461,11 +472,11 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             </View>
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>Last Contribution</Text>
-                                <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5,...styles.price }}>₹ {removeCurrencySymbol(lastContribution)}</Text>
+                                <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5, ...styles.price }}>₹ {removeCurrencySymbol(lastContribution)}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>{balanceDetails?.year}  Interest</Text>
-                                <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5,...styles.price }}>₹ {removeCurrencySymbol(balanceDetails?.currentYearInterestShare)}</Text>
+                                <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5, ...styles.price }}>₹ {removeCurrencySymbol(balanceDetails?.currentYearInterestShare)}</Text>
                             </View>
                         </View>
                         <View style={{ borderTop: 1, marginBottom: 30 }} />
@@ -487,7 +498,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                                 <View style={{ flexDirection: 'row', borderTop: 1 }} key={index}>
                                     <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>{row?.company}</Text>
                                     <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5, marginLeft: 10 }}>{row?.period}</Text>
-                                    <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5, marginLeft: 10,...styles.price}}>₹ {removeCurrencySymbol(getMemberWiseBalance(row?.details?.['Member Id']))}</Text>
+                                    <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5, marginLeft: 10, ...styles.price }}>₹ {removeCurrencySymbol(getMemberWiseBalance(row?.details?.['Member Id']))}</Text>
                                     <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5 }}>{formatDuration(row?.details?.['Total Service'])}</Text>
                                 </View>
                             ))}
@@ -501,7 +512,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 4 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -666,7 +677,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             </View>
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1, fontSize: 13, marginTop: 5, marginBottom: 5, marginLeft: 8 }}>
-                                    Adhaar Number:{"\n"}
+                                    Aadhaar Number:{"\n"}
                                     <Text style={{ fontWeight: "bold" }}>{maskAdharNumber(summaryData?.rawData?.data?.profile?.kycDetails?.aadhaar)}</Text>
                                 </Text>
                                 {isInvalid(('Aadhaar Number')) &&
@@ -761,7 +772,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 5 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -900,7 +911,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                         {(getSelectedCategoryData('Employment History')?.totalCritical > 0) &&
                             <View style={{ borderTop: 1 }}>
                                 <Text style={[{ marginBottom: 5, marginTop: 5 }, styles.redText]}>
-                                <Image src={crossIcon} style={{ height: 15, width: 15, marginRight: 5 }} />
+                                    <Image src={crossIcon} style={{ height: 15, width: 15, marginRight: 5 }} />
                                     <Text style={{ fontWeight: 'bold' }}>{getSelectedCategoryData('Employment History')?.totalCritical} Issue Found:{"\n"} </Text>
                                     {getSelectedCategoryData('Employment History')?.consolidatedErrorMessage}
                                 </Text>
@@ -1012,10 +1023,10 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                         </View>
                         {(getSelectedCategoryData('PF Contributions')?.totalCritical > 0 || getSelectedCategoryData('PF Contributions')?.totalMedium > 0) &&
                             <View style={{ borderTop: 1 }}>
-                                
-                                <Text style={[ { marginBottom: 5, marginTop: 5 }, getSelectedCategoryData('PF Contributions')?.totalCritical > 0
-                                        ? styles.redText
-                                        : styles.warningText ]
+
+                                <Text style={[{ marginBottom: 5, marginTop: 5 }, getSelectedCategoryData('PF Contributions')?.totalCritical > 0
+                                    ? styles.redText
+                                    : styles.warningText]
                                 }>
                                     <Image src={crossIcon} style={{ height: 15, width: 15, marginRight: 5 }} />
                                     <Text style={{ fontWeight: "bold" }}>{getSelectedCategoryData('PF Contributions')?.totalCritical + getSelectedCategoryData('PF Contributions')?.totalMedium} Issue Found:{"\n"}</Text>
@@ -1040,7 +1051,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 6 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -1070,7 +1081,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                                 <Text style={{ flex: 1 }}>IS EPS Member</Text>
                                 <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5, marginBottom: 5 }}>
                                     <Text
-                                     style={getSelectedCategoryData("EPF Pension Records")?.isEpsMember === "N"
+                                        style={getSelectedCategoryData("EPF Pension Records")?.isEpsMember === "N"
                                             ? styles.redText
                                             : styles.greenText}
                                     >
@@ -1101,10 +1112,10 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                         <View style={{ borderTop: 1 }}>
                             {(getSelectedCategoryData('EPF Pension Records')?.totalCritical > 0 || getSelectedCategoryData('EPF Pension Records')?.totalMedium > 0) &&
                                 <Text style={
-                                    
-                                        getSelectedCategoryData("EPF Pension Records")?.totalCritical > 0
-                                            ? styles.redText
-                                            : styles.warningText
+
+                                    getSelectedCategoryData("EPF Pension Records")?.totalCritical > 0
+                                        ? styles.redText
+                                        : styles.warningText
                                 }>
                                     <Image src={crossIcon} style={{ height: 15, width: 15, marginRight: 5 }} />
                                     <Text style={{ fontWeight: 'bold' }}>{getSelectedCategoryData('EPF Pension Records')?.totalCritical + getSelectedCategoryData('EPF Pension Records')?.totalMedium} Issue Found:{"\n"}</Text>
@@ -1217,7 +1228,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 7 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -1246,7 +1257,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                             <View style={{ flexDirection: 'row', borderTop: 1 }}>
                                 <Text style={{ flex: 1 }}>Amount contributed by you</Text>
                                 <View style={{ flex: 1, flexDirection: "row", alignItems: "center", marginTop: 5, marginBottom: 5 }}>
-                                    <Text style={styles.price }>
+                                    <Text style={styles.price}>
                                         {"₹" + " " + removeCurrencySymbol(summaryData?.reportData?.amountContributed?.totalEmployeeShare) || "-"}
                                     </Text>
                                 </View>
@@ -1271,7 +1282,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                         <View style={{ borderTop: 1 }}>
                             <View style={{ marginLeft: 20, marginBottom: 5 }}>
                                 <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-                                    <Text style={{ fontSize: 12 ,marginRight: 10 }}>•</Text>
+                                    <Text style={{ fontSize: 12, marginRight: 10 }}>•</Text>
                                     <Text style={{ fontSize: 12, flex: 1 }}>
                                         If the user is employed for more than 5 years throughout all the employments under this UAN,
                                         then TDS will not be deducted.
@@ -1279,7 +1290,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                                 </View>
 
                                 <View style={{ flexDirection: "row", alignItems: "flex-start", marginTop: 5 }}>
-                                    <Text style={{ fontSize: 12 ,marginRight: 10 }}>•</Text>
+                                    <Text style={{ fontSize: 12, marginRight: 10 }}>•</Text>
                                     <Text style={{ fontSize: 12, flex: 1 }}>
                                         If employment is less than 5 years, then TDS is applicable at the rate of 10% on total PF balance.
                                     </Text>

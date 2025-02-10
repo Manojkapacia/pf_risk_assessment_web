@@ -124,7 +124,7 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
                                     <span className="me-2" style={{ color: '#00124F' }}>
                                         <i className="bi bi-check-circle-fill"></i>
                                     </span>
-                                    <span>Get Physical Report on your WhatsApp Number</span>
+                                    <span>Get drill down analysis of your corpus</span>
                                 </li>
                                 <li className="d-flex align-items-start mb-4">
                                     <span className="me-2" style={{ color: '#00124F' }}>
@@ -149,7 +149,7 @@ const ReportPaymentModal = ({ onClose, mobileNumber }) => {
                                         borderRadius: '2rem',
                                     }}
                                 >
-                                    Access Data
+                                    Access Report
                                 </button>
                             </div>
                         </div>

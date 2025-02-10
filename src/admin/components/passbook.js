@@ -147,10 +147,10 @@ const PFPassbook = ({ jsonData, onBack }) => {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interest?.particulars}</td>
-                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interest?.employeeShare}</td>
-                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interest?.employerShare}</td>
-                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interest?.pensionShare}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interestDetails?.particulars}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interestDetails?.employeeShare}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interestDetails?.employerShare}</td>
+                                                    <td>{data.passbooks[selectedCompany][selectedYear]?.interestDetails?.pensionShare}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
