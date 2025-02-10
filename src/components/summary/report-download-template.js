@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         position: "absolute",
-        width: 220,
-        height: 90,
+        width: 250,
+        height: 250,
         top: "50%",
         left: "35%",
         transform: "translate(-50%, -50%)",
@@ -142,8 +142,11 @@ const styles = StyleSheet.create({
         color: "green",
     },
     warningText: {
-        color: '#F56905'
-    }
+        color: '#F56905',
+    },
+    content: {
+        marginBottom:0
+    },
 });
 
 // PDF Component
@@ -298,7 +301,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
         <Document>
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={{ ...styles.firstPageLogoContainer, marginRight: -33, marginTop: -7 }}>
@@ -330,7 +333,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 2 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -399,7 +402,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                         <View style={{ borderTop: 1, marginTop: 10, marginBottom: 10 }} />
                         <View style={styles.section}>
                             <Text>
-                                For employees who are still working, Maximum Withdrawal Limit is calculated as lowest of the following:
+                                # For employees who are still working, Maximum Withdrawal Limit is calculated as lowest of the following:
                             </Text>
                             <View style={{ marginLeft: 20, marginBottom: 5 }}>
                                 <Text style={{ marginRight: 10 }}>• Total Fund Balance
@@ -409,9 +412,14 @@ const ReportDownloadTemplate = ({ summaryData }) => {
                                 <Text style={{ marginRight: 10 }}>• Total Employee share + 80% of Total employer share
                                 </Text>
                             </View>
-                            <Text>f you are retired or current not working then you can withdraw your entire fund
-                                * Blocked amount is total of employer and pension share of companies where issues are found, but if there is an issue in your KYC then your entire Fund balance gets blocked
-                                ** Amount Withdrawable within 30 days is 6 times the average of your last 6 months EPF wages
+                            <Text style={styles.content}>
+                                If you are retired or currently not working, then you can withdraw your entire fund
+                            </Text>
+                            <Text style={styles.content}>
+                                * Blocked amount is the total of employer and pension share of companies where issues are found, but if there is an issue in your KYC, then your entire fund balance gets blocked
+                            </Text>
+                            <Text style={styles.content}>
+                                ** Amount withdrawable within 30 days is 6 times the average of your last 6 months EPF wages.
                             </Text>
                         </View>
                         <View style={{ borderTop: 1 }} />
@@ -422,7 +430,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 3 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -504,7 +512,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 4 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -764,7 +772,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 5 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -1043,7 +1051,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 6 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
@@ -1220,7 +1228,7 @@ const ReportDownloadTemplate = ({ summaryData }) => {
             {/* Page 7 */}
             <Page size="A4" style={styles.page}>
                 <View style={styles.backgroundContainer}>
-                    <Image src={FinRightlogo} style={styles.backgroundImage} />
+                    <Image src={FinRight_Background_logo} style={styles.backgroundImage} />
 
                     <View style={styles.content}>
                         <View style={styles.headerRow}>
