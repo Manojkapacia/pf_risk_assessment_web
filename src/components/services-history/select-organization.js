@@ -52,7 +52,7 @@ function SelectOrganization() {
                                     </div>
                                     <div className='row mb-3'>
                                         <div className='col-md-6 col-sm-6'>
-                                            <button className='btn NoButton w-100 py-2 py-md-3' onClick={setSelectIndexData}>No</button>
+                                            <button className='btn  incorrectButton w-100 py-2 py-md-3' onClick={setSelectIndexData}>No</button>
                                         </div>
                                         <div className='col-md-6 col-sm-6 mt-3 mt-sm-0'>
                                             <button className='btn yesButton w-100 py-2 py-md-3' onClick={generateReportClick}>Yes</button>

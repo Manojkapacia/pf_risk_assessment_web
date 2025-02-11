@@ -168,7 +168,7 @@ function ServiceHistory() {
                                     </div>
                                     :
                                     <>
-                                        <p className='confirmHistory'>Please Confirm Employement History</p>
+                                        <p className='confirmHistory'>Please Confirm Employment History</p>
                                         <div className='col-md-12'>
                                             <p className='capturedCorrect'>Verify if the below captured details are correct</p>
                                             <div className="card shadow-sm py-3 px-lg-5 mt-3">

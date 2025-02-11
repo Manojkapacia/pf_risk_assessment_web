@@ -1,11 +1,19 @@
 import React from "react";
 import Logo from "./logo";
+import { useLocation } from "react-router-dom";
 
 const Layout = ({ children }) => {
+     
+    const location = useLocation();
+    const isLoginPage = location.pathname === "/"; 
+
     return (
         <div style={layoutStyle}>
             <Logo />
-            <div style={contentStyle}>{children}</div>
+            <div style={{ 
+                ...contentStyle, 
+                marginTop: isLoginPage ? "0" : "4.5rem"
+            }}>{children}</div>
         </div>
     );
 };
@@ -23,7 +31,7 @@ const contentStyle = {
     alignItems: "center",
     flexGrow: 1,
     // padding: "20px",
-    marginTop: "4.5rem"
+    // marginTop: "4.5rem"
 };
 
 export default Layout;
