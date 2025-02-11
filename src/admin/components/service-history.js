@@ -1,5 +1,5 @@
 import React, { useState ,useStateReact} from "react";
-import { Eye, ArrowLeft } from "react-bootstrap-icons";
+import { Eye,EyeSlash, ArrowLeft } from "react-bootstrap-icons";
 
 function ServiceHistory({ jsonData, onBack }) {
     // const data = getData.data.serviceHistory.history;
@@ -124,12 +124,19 @@ function ServiceHistory({ jsonData, onBack }) {
                                             {item.company}
                                         </td>
                                         <td className="text-center">
-                                            <Eye size={20} 
-                                            // data-bs-toggle="modal"
-                                                // data-bs-target="#exampleModal"
-                                                style={{ cursor: 'pointer' }}
-                                                
-                                                onClick={() => toggleRow(index)} />
+                                        {expandedRows.includes(index) ? (
+                                           <Eye 
+                                           size={20} 
+                                           style={{ cursor: 'pointer' }} 
+                                           onClick={() => toggleRow(index)} 
+                                       />
+                                        ) : (
+                                            <EyeSlash
+                                            size={20} 
+                                            style={{ cursor: 'pointer' }} 
+                                            onClick={() => toggleRow(index)} 
+                                        />
+                            )}
                                         </td>
                                     </tr>
                                 </React.Fragment>

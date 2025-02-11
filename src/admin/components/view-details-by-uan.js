@@ -142,7 +142,7 @@ function ViewDetailsByUan() {
     }, [currentPage]);
 
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-
+    
     const getVisiblePages = () => {
         if (totalPages <= 3) {
             return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -158,8 +158,11 @@ function ViewDetailsByUan() {
     };
 
     const visiblePages = getVisiblePages();
+    
 
     const handlePageChange = (page) => {
+        console.log("Changing to page:", page);
+        console.log(currentPage,totalPages)
         setCurrentPage(page);
     };
 
@@ -405,7 +408,7 @@ function ViewDetailsByUan() {
                                     <tbody><tr><td className="text-center">No Data Found!!</td></tr></tbody>
                                 </table>
                             }
-                            {uanList?.length > 9 ? <nav aria-label="Page navigation example">
+                            {uanList?.length > 2 ? <nav aria-label="Page navigation example">
                                 <ul className="pagination justify-content-end">
                                     <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
                                         <button
@@ -436,6 +439,7 @@ function ViewDetailsByUan() {
                                             }`}
                                     >
                                         <button
+                                            
                                             className="page-link"
                                             onClick={() => handlePageChange(currentPage + 1)}
                                             disabled={currentPage === totalPages}>

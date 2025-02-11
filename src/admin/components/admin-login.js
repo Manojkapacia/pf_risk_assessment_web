@@ -56,8 +56,9 @@ function AdminLogin() {
                 const result = await adminLogin('/admin/login', formData);
                 setLoading(false);
 
-                if (result.status === 400) {
+                if (result.status === 400 || result.status === 401) {
                     setMessage({ type: "error", content: result.message });
+                
                     setTimeout(() => setMessage({ type: "", content: "" }), 2500);
                 } else {
                     setMessage({ type: "success", content: result.message });
@@ -68,7 +69,18 @@ function AdminLogin() {
                 }
             } catch (error) {
                 setLoading(false);
-                setMessage({ type: "error", content: error.message });
+                let errorMessage = "Invalid username or password. Please try again.";
+
+            if (!error.response) {
+                errorMessage = "Network error. Please check your internet connection and try again.";
+            } else if (error.response.status >= 500) {
+                errorMessage = "Server error. Please try again later.";
+            } else if (error.response.status === 404) {
+                errorMessage = "Server not found. Please contact support.";
+            }
+
+            setMessage({ type: "error", content: errorMessage });
+
                 setTimeout(() => setMessage({ type: "", content: "" }), 3000);
             }
         }

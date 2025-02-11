@@ -187,6 +187,7 @@ const ModalComponent = ({ profileData, isOpen, onClose }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        zIndex: 1055
     };
     return (
         <>
@@ -210,7 +211,7 @@ const ModalComponent = ({ profileData, isOpen, onClose }) => {
             )}
             <div style={overlayStyle}>
                 <div className="modal modal-overlay fade show" style={{ display: 'block' }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog">
+                    <div className="modal-dialog ">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <p className="modal-title" style={{ fontSize: '1.5rem', fontWeight: '600' }} >{!showReportScreen ? 'Your report genration is in progress' : 'Congratulations, your report is now ready '}</p>

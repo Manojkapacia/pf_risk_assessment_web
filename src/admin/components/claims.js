@@ -92,27 +92,33 @@ const Claims = ({ jsonData, onBack }) => {
                         <div className="btn-group mb-3">
                             <button className="btn btn-primary" onClick={() => setSelectedTab("Pending Claims")}>
                                 Pending Claims
+                                <span className="ms-2">
                                 {
                                     Array.isArray(claimsData?.details?.["Pending Claims"])
                                         ? claimsData.details["Pending Claims"].filter(claim => claim.claimId).length
                                         : 0
                                 }
+                                </span>
                             </button>
                             <button className="btn btn-success" onClick={() => setSelectedTab("Settled Claims")}>
                                 Settled Claims 
+                                <span className="ms-2">
                                 {
                                     Array.isArray(claimsData?.details?.["Settled Claims"])
                                         ? claimsData.details["Settled Claims"].filter(claim => claim.claimId).length
                                         : 0
                                 }
+                                </span>
                             </button>
                             <button className="btn btn-danger" onClick={() => setSelectedTab("Rejected Claims")}>
-                                Rejected Claims 
+                                Rejected Claims
+                                <span className="ms-2"> 
                                 {
                                     Array.isArray(claimsData?.details?.["Rejected Claims"])
                                         ? claimsData.details["Rejected Claims"].filter(claim => claim.claimId).length
                                         : 0
                                 }
+                                </span> 
                             </button>
                         </div>
 

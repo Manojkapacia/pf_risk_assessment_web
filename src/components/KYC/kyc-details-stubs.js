@@ -90,7 +90,7 @@ function KycDetailsBank() {
                         <div className='col-md-10 offset-md-1'>
                             <div className="card  shadow-sm mx-lg-5">
                                 <div className="card-body">
-                                    <div className='row py-4 px-3 my-4'>
+                                    <div className='row py-4 px-2 my-4'>
                                         <div className='col-md-6'>
                                             <label className='kycLabel mt-3'>Bank A/C number</label>
 
