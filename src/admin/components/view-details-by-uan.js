@@ -179,8 +179,10 @@ function ViewDetailsByUan() {
     };
 
     const fetchSearchResults = async (input) => {
+        setLoading(true);
         const result = await getUanNumber(currentPage, itemsPerPage, input);
         if (input === "") {
+            setLoading(false);
             setUanList(result?.data?.data);
         } else {
             try {
@@ -197,15 +199,18 @@ function ViewDetailsByUan() {
 
 
                 if (result.status === 401) {
+                    setLoading(false);
                     localStorage.clear();
                     navigate('/operation/login');
                 }
                 else {
+                    setLoading(false);
                     setUanList(result?.data?.data);
                     setSearchList(result?.data?.data);
                     setTotalItems(result?.data?.totalCount);
                 }
             } catch (err) {
+                setLoading(false);
                 console.error("Error fetching data:", err);
                 setUanList([{ uan: input, error: "Data found, but unable to retrieve details due to a server issue." }]);
             }
@@ -273,13 +278,13 @@ function ViewDetailsByUan() {
                     setShowMessage(result.message);
                     setOtpValues(Array(6).fill(""));
                     sethideOtpExpireTimer(false);
-                    setTimeout(() => {
-                        setIsSecondModalOpen(false);
-                        setShowBlur(false);
-                    }, 5000);
+                    // setTimeout(() => {
+                    //     setIsSecondModalOpen(false);
+                    //     setShowBlur(false);
+                    // }, 5000);
                 } else {
                     setLoading(false);
-                    setShowMessage(MESSAGES.success.otpVerified);
+                    setShowMessage(result.message)
                     setOtpValues(Array(6).fill(""));
                     sethideOtpExpireTimer(false);
                     setTimeout(() => {
@@ -293,19 +298,19 @@ function ViewDetailsByUan() {
                 setShowMessage(error.message || MESSAGES.error.generic);
                 setOtpValues(Array(6).fill(""));
                 sethideOtpExpireTimer(false);
-                setTimeout(() => {
-                    setIsSecondModalOpen(false);
-                    setShowBlur(false);
-                }, 5000);
+                // setTimeout(() => {
+                //     setIsSecondModalOpen(false);
+                //     setShowBlur(false);
+                // }, 5000);
             }
         } else {
             setShowMessage(MESSAGES.error.invalidOtp);
             setOtpValues(Array(6).fill(""));
             sethideOtpExpireTimer(false);
-            setTimeout(() => {
-                setIsSecondModalOpen(false);
-                setShowBlur(false);
-            }, 5000);
+            // setTimeout(() => {
+            //     setIsSecondModalOpen(false);
+            //     setShowBlur(false);
+            // }, 5000);
         }
 
     }
@@ -320,20 +325,20 @@ function ViewDetailsByUan() {
                 setLoading(false);
                 setShowMessage(result.message);
                 sethideOtpExpireTimer(false);
-                setTimeout(() => {
-                    setIsFirstModalOpen(false);
-                    setIsSecondModalOpen(false);
-                    setShowBlur(false);
-                }, 5000);
+                // setTimeout(() => {
+                //     setIsFirstModalOpen(false);
+                //     setIsSecondModalOpen(false);
+                //     setShowBlur(false);
+                // }, 5000);
             } else {
                 if (result.message === "User Successfully Verified") {
                     setLoading(false);
                     setShowMessage('User Successfully Verified');
-                    setTimeout(() => {
-                        setIsFirstModalOpen(false);
-                        setIsSecondModalOpen(false);
-                        setShowBlur(false);
-                    }, 5000);
+                    // setTimeout(() => {
+                    //     setIsFirstModalOpen(false);
+                    //     setIsSecondModalOpen(false);
+                    //     setShowBlur(false);
+                    // }, 5000);
                 } else {
                     const regMobileNumber = ExtractMobile(result.message);
                     setLoading(false);
@@ -343,6 +348,7 @@ function ViewDetailsByUan() {
                     setTimer(45);
                     setOtpValues(Array(6).fill(""));
                     sethideOtpExpireTimer(true);
+                    setShowMessage('');
                 }
                 setFormData(data);
             }
@@ -350,11 +356,11 @@ function ViewDetailsByUan() {
             if (error.status === 401) {
                 setLoading(false);
                 setShowMessage(MESSAGES.error.invalidEpfoCredentials);
-                setTimeout(() => {
-                    setIsFirstModalOpen(false);
-                    setIsSecondModalOpen(false);
-                    setShowBlur(false);
-                }, 5000);
+                // setTimeout(() => {
+                //     setIsFirstModalOpen(false);
+                //     setIsSecondModalOpen(false);
+                //     setShowBlur(false);
+                // }, 5000);
                 sethideOtpExpireTimer(false);
             } if (error.status >= 500) {
                 navigate("/epfo-down");
@@ -363,11 +369,11 @@ function ViewDetailsByUan() {
                 setShowBlur(false);
             } else {
                 setLoading(false);
-                setTimeout(() => {
-                    setIsFirstModalOpen(false);
-                    setIsSecondModalOpen(false);
-                    setShowBlur(false)
-                }, 5000);
+                // setTimeout(() => {
+                //     setIsFirstModalOpen(false);
+                //     setIsSecondModalOpen(false);
+                //     setShowBlur(false)
+                // }, 5000);
                 setShowMessage(error.message);
                 sethideOtpExpireTimer(false)
             }
@@ -784,14 +790,15 @@ function ViewDetailsByUan() {
 
                                     <div className='text-center mt-5'>
                                         <button className="pfRiskButtons py-2 px-5"
-                                        // disabled={!isBtnAssessmentEnabled || timer < 1}
+                                        disabled={!isBtnAssessmentEnabled || timer < 1}
                                         >
                                             Verify Number
                                         </button>
                                     </div>
                                 </form>
                                 <p className="text-center mt-3">
-                                    {showMessage === 'User Successfully Verified' ? 'This User Already Exist' : showMessage}
+                                    {showMessage === 'OTP verified successfully, and user profile updated.' ? <span className="text-success">User has been verified successfully.</span> : 
+                                    <span className="text-danger">{showMessage}</span>}
                                 </p>
                             </div>
                         </div>
