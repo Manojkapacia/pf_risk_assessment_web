@@ -23,6 +23,7 @@ const contentStyle = {
     alignItems: "center",
     flexGrow: 1,
     // padding: "20px",
+    marginTop: "4.5rem"
 };
 
 export default Layout;

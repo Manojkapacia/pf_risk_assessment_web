@@ -254,7 +254,7 @@ function TotalSummary() {
             {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">
-                        <img className='loader-img-pay-modal' src={loaderImage} alt="Payment Progress Loader" />
+                    <div className='loader'></div>
                         <p className="loader-text">{loaderText}</p>
                     </div>
                 </div>

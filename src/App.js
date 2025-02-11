@@ -33,6 +33,7 @@ import FundDetails from './components/summary/fund-details';
 import ScrollToTop from "./components/common/ScrollToTop";
 import UserMobileRegistation from './components/summary/user-mobile-registation';
 import SelectService from './components/auth/select-service';
+import DataNotFound from './components/static/data-not-found';
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
           <Route path='/user-registation' element={<UserMobileRegistation/>} />
           <Route path='/pricing' element={<SelectService/>} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path='/data-not-found' element={<DataNotFound/>}/>
         </Routes>
       </Layout>
     </Router>

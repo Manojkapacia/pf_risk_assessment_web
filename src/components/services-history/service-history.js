@@ -1,7 +1,7 @@
 import '../../App.css';
 import '../../css/service-history/service-history.css';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { BsChevronCompactDown, BsChevronCompactUp } from "react-icons/bs";
 import { get } from '../common/api';
 import { ConvertPeriod } from '../common/date-convertor';
@@ -20,7 +20,7 @@ function ServiceHistory() {
     const [reportUpdatedAtVar, setreportUpdatedAt] = useState("");
     const [loading, setLoading] = useState(false);
     const [loaderText, setLoaderText] = useState("Fetching Data, Please wait...");
-
+     const location = useLocation();
     const navigate = useNavigate();
 
     // Function to fetch data
@@ -28,10 +28,12 @@ function ServiceHistory() {
         setLoading(true);
         try {
             const response = await get('auth/data');
+            console.log(response);
             if (response.status === 401) {
                 localStorage.clear();
                 setLoading(false);
-                navigate('/');
+                navigate("/data-not-found", { state: { apiEndpoint: "auth/data", previousPath: location.pathname } });
+
             } else {
                 setreportUpdatedAt(response?.rawData?.meta?.createdTime);
                 localStorage.setItem('data_raw_' + localStorage.getItem('user_uan'), encryptData(JSON.stringify(response?.rawData?.data)))
@@ -43,6 +45,8 @@ function ServiceHistory() {
             }
         } catch (error) {
             setLoading(false);
+            console.log("navigate")
+            navigate("/data-not-found", { state: { fetchFunction: 'auth/data' } });
             console.error("Error fetching data:", error);
         } finally {
             setLoading(false);
@@ -124,10 +128,11 @@ function ServiceHistory() {
         {loading && (
                 <div className="loader-overlay">
                     <div className="loader-container">
-                        <img className='loader-img-pay-modal' src={loaderGif} alt="Loading..." />
+                         <div className='loader'></div>
                         <p className="loader-text">{loaderText}</p>
                     </div>
                 </div>
+                // <div className='loader'></div>
             )}
             <div className="container">
             <div className="row d-flex justify-content-center align-items-center">
